@@ -4,48 +4,28 @@ import { createStateSlice, PropertiesState, ConnectState } from "zkwasm-miniroll
 export interface PlayerInfo {
   nonce: number;
   data: {
-    counter: number;
-    positions: {
-      [key: string]: { // key is asset id
-        balance: number;
-        lock_balance: number;
-      };
-    };
+    balance: number;
+    inventory_size: number;
+    inventory: number[];
   };
 }
 
 export interface GlobalState {
+  total: number;
   counter: number;
-  total_fee: number;
-  market_id_counter: number;
-  order_id_counter: number;
-  trade_id_counter: number;
-  event_id_counter: number;
-  orders: Order[];
-  trades: Trade[];
 }
 
-export interface Order {
+export interface Bid {
+  bidprice: number;
+}
+
+export interface Nugget {
   id: number;
-  type_: number;
-  status: number;
-  pid: number[];
-  market_id: number;
-  flag: number;
-  lock_balance: number;
-  lock_fee: number;
-  price: number;
-  b_token_amount: number;
-  a_token_amount: number;
-  already_deal_amount: number;
-}
-
-export interface Trade {
-  trade_id: number;
-  a_order_id: number;
-  b_order_id: number;
-  a_actual_amount: number;
-  b_actual_amount: number;
+  attributes: number[];
+  cycle: number;
+  sysprice: number;
+  askprice: number;
+  bid: Bid | null;
 }
 
 const initialState: PropertiesState<PlayerInfo, GlobalState, any> = {

@@ -1,21 +1,37 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {RequestError, rpc} from 'zkwasm-minirollup-browser';
-import {LeHexBN, query} from 'zkwasm-minirollup-rpc';
-import {RootState} from '../app/store';
+import { RequestError, rpc } from 'zkwasm-minirollup-browser';
+import { LeHexBN, query } from 'zkwasm-minirollup-rpc';
+import { RootState } from '../app/store';
+import { Nugget } from './state';
 
-async function queryHistoryI(prikey: string) {
+async function queryNuggetsI(page: number) {
   try {
-    const pubkey = new LeHexBN(query(prikey).pkx).toU64Array();
-    console.log(pubkey);
-    const data: any = await rpc.queryData(`history/${pubkey[1]}/${pubkey[2]}`)
-    return data.data.map((x:any) => {
-      const data = x.data.split(",");
-      return {
-        round: x.object_index,
-        bet: data[0],
-        checkout: data[1],
+    const data: any = await rpc.queryData(`nuggets`)
+    return data.data;
+  } catch (error: any) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      if (error.response.status === 500) {
+        throw "QueryStateError";
+      } else {
+        throw "UnknownError";
       }
-    });
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      throw "No response was received from the server, please check your network connection.";
+    } else {
+      throw "UnknownError";
+    }
+  }
+}
+
+async function queryNuggetI(nuggetId: number) {
+  try {
+    const data: any = await rpc.queryData(`nugget/${nuggetId}`)
+    return data.data;
   } catch (error: any) {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -38,11 +54,11 @@ async function queryHistoryI(prikey: string) {
 
 
 
-export const getHistory= createAsyncThunk(
-  'client/getHistory',
-  async (prikey: string, { rejectWithValue }) => {
+export const getNuggets = createAsyncThunk(
+  'client/getNuggets',
+  async (page: number, { rejectWithValue }) => {
     try {
-      const res: any = await queryHistoryI(prikey);
+      const res: any = await queryNuggetsI(page);
       return res;
     } catch (err: any) {
       return rejectWithValue(err);
@@ -50,19 +66,21 @@ export const getHistory= createAsyncThunk(
   }
 )
 
-/*
-export interface RequestError {
-  errorInfo: string,
-  payload: any,
-}
-*/
+export const getNugget = createAsyncThunk(
+  'client/getNugget',
+  async (params: {index: number, nuggetId: number}, { rejectWithValue }) => {
+    try {
+      const res: any = await queryNuggetI(params.nuggetId);
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err);
+    }
+  }
+)
 
 export enum ModalIndicator {
   WITHDRAW,
   DEPOSIT,
-  HISTORY,
-  OVERVIEW,
-  CHAT,
   RESPONSE,
 }
 
@@ -70,21 +88,30 @@ interface UIState {
   modal: null | ModalIndicator;
 }
 
-interface HistoryState {
-  round: number,
-  bet: number,
-  checkout: number,
+export interface FocusNugget {
+  nugget: Nugget,
+  index: number | null
+}
+
+interface NuggetsState {
+  nuggets: Nugget[]
+  inventory: Nugget[]
+  focus: FocusNugget | null
 }
 
 export interface PropertiesState {
-    history: HistoryState[];
+    nuggets: NuggetsState;
     uiState: UIState;
     lastError: RequestError | null,
     lastResponse: string | null,
 }
 
 const initialState: PropertiesState = {
-  history: [],
+  nuggets: {
+    nuggets: [],
+    inventory: [], 
+    focus: null,
+  },
   lastError: null,
   lastResponse: null,
   uiState: {
@@ -102,15 +129,27 @@ const uiSlice = createSlice({
     setUIResponse: (state, d: PayloadAction<string>) => {
       state.lastResponse = d.payload;
     },
-
+    setFocus: (state, d: PayloadAction<FocusNugget | null>) => {
+      state.nuggets.focus = d.payload;
+    }
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(getHistory.fulfilled, (state, action) => {
-        state.history = action.payload;
+      .addCase(getNuggets.fulfilled, (state, action) => {
+        state.nuggets.nuggets = action.payload;
       })
-      .addCase(getHistory.rejected, (state, action) => {
+      .addCase(getNuggets.rejected, (state, action) => {
+        state.lastError = {
+          errorInfo:`send transaction rejected: ${action.payload}`,
+          payload: action.payload,
+        }
+      })
+      .addCase(getNugget.fulfilled, (state, action) => {
+        const nugget = action.payload[0];
+        state.nuggets.inventory[action.meta.arg.index] = nugget;
+      })
+      .addCase(getNugget.rejected, (state, action) => {
         state.lastError = {
           errorInfo:`send transaction rejected: ${action.payload}`,
           payload: action.payload,
@@ -119,8 +158,8 @@ const uiSlice = createSlice({
   }
 });
 
-export const selectHistory = (state: RootState) => state.extra.history;
+export const selectNuggets = (state: RootState) => state.extra.nuggets;
 export const selectUIState = (state: RootState) => state.extra.uiState;
 export const selectUIResponse = (state: RootState) => state.extra.lastResponse;
-export const { setUIState, setUIResponse } = uiSlice.actions;
+export const { setUIState, setUIResponse, setFocus } = uiSlice.actions;
 export default uiSlice.reducer;

@@ -37,8 +37,8 @@ const initialState: PropertiesState<PlayerInfo, GlobalState, any> = {
 
 export const propertiesSlice = createStateSlice(initialState);
 
-export const selectConnectState = (state: RootState) => state.exchange.connectState;
-export const selectUserState = (state: RootState) => state.exchange.userState;
+export const selectConnectState = (state: RootState) => state.state.connectState;
+export const selectUserState = (state: RootState) => state.state.userState;
 
 export const { setConnectState } = propertiesSlice.actions;
 export default propertiesSlice.reducer;

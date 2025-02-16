@@ -8,11 +8,13 @@ import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
 import { queryInitialState, queryState, sendTransaction } from "../request";
 import { createCommand } from "zkwasm-minirollup-rpc";
+import { getNuggets }  from "../data/ui";
 import { MarketPage } from "../components/MarketPage";
 import Footer from "../components/Foot";
 import Nav from "../components/Nav";
+import NuggetModal from "../components/NuggetModal";
 
-const REGISTER_PLAYER = 4n;
+const REGISTER_PLAYER = 1n;
 
 export function Main() {
   const connectState = useAppSelector(selectConnectState);
@@ -36,14 +38,16 @@ export function Main() {
     } else {
       dispatch(queryInitialState("1"));
     }
+    dispatch(getNuggets(0))
   }, [l2account]);
 
+  /*
   useEffect(() => {
     setTimeout(() => {
       updateState();
     }, 3000);
   }, [inc]);
-
+  */
 
   useEffect(() => {
     if (connectState == ConnectState.InstallPlayer) {
@@ -61,6 +65,10 @@ export function Main() {
       {userState?.player &&
       <MarketPage />
       }
+      {userState?.player &&
+      <NuggetModal/>
+      }
+      
       <Footer />
     </>
   );

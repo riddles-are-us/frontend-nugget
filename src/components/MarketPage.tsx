@@ -6,6 +6,7 @@ import { sendTransaction } from "../request";
 import { getNugget, selectNuggets, setFocus } from '../data/ui';
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { NuggetCard } from "../components/NuggetCard";
 import "./style.scss";
 
 const EXPLORE_NUGGET = 4n;
@@ -71,23 +72,7 @@ export const MarketPage = () => {
               const nugget = nuggetsState.inventory[index];
               return (
                 <MDBCol md="3" className="mt-3" key={nuggetId}>
-                  <MDBCard>
-                    <MDBCardHeader>
-                      <div className="d-flex">
-                        <h5>NuggetID :
-                         {nuggetId}
-                        </h5>
-                      </div>
-                    </MDBCardHeader>
-                    <MDBCardBody>
-                      <p>Recycle Price: {nugget.sysprice}</p>
-                      <p>Attributes: {nugget.attributes}</p>
-                      <p>cycle: {nugget.cycle}</p>
-                      <p>Bid: {nugget.bid ? nugget.bid?.bidprice : "NA"}</p>
-                      <MDBBtn onClick={()=>setFocusNugget(nugget, index)}>more</MDBBtn>
-                    </MDBCardBody>
-
-                  </MDBCard>
+                  <NuggetCard nugget={nugget} index={index}/>
                 </MDBCol>
               );
             } else {
@@ -103,22 +88,7 @@ export const MarketPage = () => {
           nuggetsState.nuggets.map((nugget:Nugget) => {
             return (
               <MDBCol md="3" className="mt-4" key={nugget.id}>
-                <MDBCard>
-                  <MDBCardHeader>
-                    <div className="d-flex">
-                      <h5> NuggetID:
-                       {nugget.id}
-                      </h5>
-                    </div>
-                  </MDBCardHeader>
-                  <MDBCardBody>
-                      <p>Recycle Price: {nugget.sysprice}</p>
-                      <p>Attributes: {nugget.attributes}</p>
-                      <p>cycle: {nugget.cycle}</p>
-                      <p>Bid: {nugget.bid ? nugget.bid?.bidprice : "NA"}</p>
-                      <MDBBtn onClick={()=>setFocusNugget(nugget)}>more</MDBBtn>
-                  </MDBCardBody>
-                </MDBCard>
+                  <NuggetCard nugget={nugget}/>
               </MDBCol>
             );
           })

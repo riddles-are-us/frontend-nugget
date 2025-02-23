@@ -4,14 +4,12 @@ import { LeHexBN, query } from 'zkwasm-minirollup-rpc';
 import { RootState } from '../app/store';
 import { Nugget } from './state';
 
-async function queryNuggetsI(page: number) {
+async function queryData(url: string) {
   try {
-    const data: any = await rpc.queryData(`nuggets`)
+    const data: any = await rpc.queryData(url)
     return data.data;
   } catch (error: any) {
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
       if (error.response.status === 500) {
         throw "QueryStateError";
       } else {
@@ -28,29 +26,30 @@ async function queryNuggetsI(page: number) {
   }
 }
 
+async function queryBidsI(key: string) {
+  const pubkey = new LeHexBN(query(key).pkx).toU64Array();
+  return await queryData(`bid/${pubkey[1]}/${pubkey[2]}`);
+}
+
+async function queryNuggetsI(page: number) {
+  return await queryData(`nuggets`);
+}
+
 async function queryNuggetI(nuggetId: number) {
-  try {
-    const data: any = await rpc.queryData(`nugget/${nuggetId}`)
-    return data.data;
-  } catch (error: any) {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      if (error.response.status === 500) {
-        throw "QueryStateError";
-      } else {
-        throw "UnknownError";
-      }
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      throw "No response was received from the server, please check your network connection.";
-    } else {
-      throw "UnknownError";
+  return await queryData(`nugget/${nuggetId}`);
+}
+
+export const getBids = createAsyncThunk(
+  'client/getBids',
+  async (key: string, { rejectWithValue }) => {
+    try {
+      const res: any = await queryBidsI(key);
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err);
     }
   }
-}
+)
 
 
 
@@ -96,6 +95,7 @@ export interface FocusNugget {
 interface NuggetsState {
   nuggets: Nugget[]
   inventory: Nugget[]
+  bids: Nugget[]
   focus: FocusNugget | null
 }
 
@@ -110,6 +110,7 @@ const initialState: PropertiesState = {
   nuggets: {
     nuggets: [],
     inventory: [], 
+    bids:[],
     focus: null,
   },
   lastError: null,
@@ -155,6 +156,16 @@ const uiSlice = createSlice({
           payload: action.payload,
         }
       })
+      .addCase(getBids.fulfilled, (state, action) => {
+        state.nuggets.bids = action.payload;
+      })
+      .addCase(getBids.rejected, (state, action) => {
+        state.lastError = {
+          errorInfo:`send transaction rejected: ${action.payload}`,
+          payload: action.payload,
+        }
+      })
+
   }
 });
 

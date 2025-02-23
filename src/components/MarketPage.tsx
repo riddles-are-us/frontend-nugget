@@ -3,7 +3,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardHeader, MDBT
 import { selectUserState, Nugget } from '../data/state';
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { sendTransaction } from "../request";
-import { getNugget, selectNuggets, setFocus } from '../data/ui';
+import { getNugget, getNuggets, selectNuggets, setFocus, getBids } from '../data/ui';
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { NuggetCard } from "../components/NuggetCard";
@@ -25,6 +25,8 @@ export const MarketPage = () => {
     for (let i = 0; i<userState!.player!.data.inventory.length; i++) {
       dispatch(getNugget({index: i, nuggetId: userState!.player!.data.inventory[i]}));
     }
+    dispatch(getBids(l2account!.getPrivateKey()));
+    dispatch(getNuggets(0));
   }, [userState]);
 
 
@@ -81,6 +83,20 @@ export const MarketPage = () => {
           })
               }
       </MDBRow>
+
+      <h3 className="mt-2"> bids </h3>
+      <MDBRow>
+          {
+          nuggetsState.bids.map((nugget:Nugget) => {
+              return (
+                <MDBCol md="3" className="mt-3" key={nugget.id}>
+                  <NuggetCard nugget={nugget}/>
+                </MDBCol>
+              );
+          })
+              }
+      </MDBRow>
+
 
       <h3 className="mt-2"> Market Place </h3>
       <MDBRow>

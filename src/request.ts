@@ -15,7 +15,7 @@ async function queryConfigI() {
     const state = await rpc.queryConfig();
     return state;
   } catch (error) {
-    throw "QueryStateError " + error;
+    throw new Error("QueryStateError " + error);
   }
 }
 
@@ -28,17 +28,17 @@ async function queryStateI(prikey: string) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
       if (error.response.status === 500) {
-        throw "QueryStateError";
+        throw new Error("QueryStateError");
       } else {
-        throw "UnknownError";
+        throw new Error("UnknownError");
       }
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      throw "No response was received from the server, please check your network connection.";
+      throw Error("No response was received from the server, please check your network connection.");
     } else {
-      throw "UnknownError";
+      throw Error("UnknownError");
     }
   }
 }

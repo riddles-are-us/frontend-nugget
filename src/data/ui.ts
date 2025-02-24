@@ -11,17 +11,17 @@ async function queryData(url: string) {
   } catch (error: any) {
     if (error.response) {
       if (error.response.status === 500) {
-        throw "QueryStateError";
+        throw new Error("QueryStateError");
       } else {
-        throw "UnknownError";
+        throw new Error("UnknownError");
       }
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      throw "No response was received from the server, please check your network connection.";
+      throw new Error("No response was received from the server, please check your network connection.");
     } else {
-      throw "UnknownError";
+      throw new Error("UnknownError");
     }
   }
 }
@@ -165,7 +165,6 @@ const uiSlice = createSlice({
           payload: action.payload,
         }
       })
-
   }
 });
 

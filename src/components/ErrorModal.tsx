@@ -33,7 +33,7 @@ const Modal = () => {
             <MDBModalTitle>Error Occurred</MDBModalTitle>
           </MDBModalHeader>
           <MDBModalBody>
-            selectLastError.error
+            {lastError?.errorInfo}
           </MDBModalBody>
         </MDBModalContent>
       </MDBModalDialog>

@@ -1,19 +1,30 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./style.scss";
+import {
+  MDBModal,
+} from 'mdb-react-ui-kit';
 import { selectConnectState, selectUserState, selectLastError } from "../data/state";
+import { setUIState, ModalIndicator, selectUIState } from "../data/ui";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
 import { queryInitialState, queryState, sendTransaction } from "../request";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { getNuggets }  from "../data/ui";
 import { MarketPage } from "../components/MarketPage";
+import { User } from "../components/User";
 import Footer from "../components/Foot";
 import Nav from "../components/Nav";
 import NuggetModal from "../components/NuggetModal";
 import ErrorModal from "../components/ErrorModal";
+import {WithdrawModal} from "../components/Common";
+import {
+    MDBBtn,
+    MDBContainer,
+} from 'mdb-react-ui-kit';
+
 
 const REGISTER_PLAYER = 1n;
 
@@ -23,6 +34,7 @@ export function Main() {
   const lastError = useAppSelector(selectLastError);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const dispatch = useAppDispatch();
+  const uiState = useAppSelector(selectUIState);
   const [inc, setInc] = useState(0);
 
   function updateState() {
@@ -43,14 +55,6 @@ export function Main() {
     dispatch(getNuggets(0))
   }, [l2account]);
 
-  /*
-  useEffect(() => {
-    setTimeout(() => {
-      updateState();
-    }, 3000);
-  }, [inc]);
-  */
-
   useEffect(() => {
     if (connectState == ConnectState.InstallPlayer) {
       const command = createCommand(0n, REGISTER_PLAYER, []);
@@ -64,16 +68,18 @@ export function Main() {
   return (
     <>
       <Nav />
+      <MDBContainer className="mt-5">
       {userState?.player &&
-      <MarketPage />
+      <User/>
       }
+      <MarketPage />
+      </MDBContainer>
       {userState?.player && lastError == null &&
       <NuggetModal/>
       }
       {lastError &&
       <ErrorModal/>
       }
-      
       <Footer />
     </>
   );

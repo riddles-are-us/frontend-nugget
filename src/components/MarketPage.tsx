@@ -9,10 +9,6 @@ import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { NuggetCard } from "../components/NuggetCard";
 import "./style.scss";
 
-const EXPLORE_NUGGET = 4n;
-const SELL_NUGGET = 5n;
-const BID_NUGGET = 6n;
-const CREATE_NUGGET = 7n;
 
 export const MarketPage = () => {
   const userState = useAppSelector(selectUserState);
@@ -20,84 +16,13 @@ export const MarketPage = () => {
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const dispatch = useAppDispatch();
 
-
   useEffect(() => {
-    for (let i = 0; i<userState!.player!.data.inventory.length; i++) {
-      dispatch(getNugget({index: i, nuggetId: userState!.player!.data.inventory[i]}));
-    }
-    dispatch(getBids(l2account!.getPrivateKey()));
     dispatch(getNuggets(0));
   }, [userState]);
 
 
-  function setFocusNugget(nugget: Nugget, index: number | null = null) {
-    dispatch(setFocus({
-      nugget: nugget,
-      index: index 
-    }));
-  }
-
-  const pickNugget = () => {
-    const command = createCommand(BigInt(userState!.player!.nonce), CREATE_NUGGET, []);
-    dispatch(sendTransaction({
-      cmd: command,
-      prikey: l2account!.getPrivateKey()
-    }));
-  }
-
-
   return (
-    <MDBContainer className="mt-5">
-      <MDBRow>
-        <MDBCol md="12">
-          <MDBCard>
-            <MDBCardHeader>
-              <div className="d-flex">
-                <h5>
-                  Player Avator
-                </h5>
-              </div>
-            </MDBCardHeader>
-            <MDBCardBody>
-                <p>{userState?.player?.data.balance}</p>
-                <MDBBtn onClick={()=>pickNugget()}>Pick Nugget</MDBBtn>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-
-      <h3 className="mt-2"> Inventory </h3>
-      <MDBRow>
-          {
-          userState!.player!.data.inventory.map((nuggetId:number, index: number) => {
-            if (nuggetsState.inventory[index] != null) {
-              const nugget = nuggetsState.inventory[index];
-              return (
-                <MDBCol md="3" className="mt-3" key={nuggetId}>
-                  <NuggetCard nugget={nugget} index={index}/>
-                </MDBCol>
-              );
-            } else {
-              return <></>
-            }
-          })
-              }
-      </MDBRow>
-
-      <h3 className="mt-2"> bids </h3>
-      <MDBRow>
-          {
-          nuggetsState.bids.map((nugget:Nugget) => {
-              return (
-                <MDBCol md="3" className="mt-3" key={nugget.id}>
-                  <NuggetCard nugget={nugget}/>
-                </MDBCol>
-              );
-          })
-              }
-      </MDBRow>
-
-
+    <>
       <h3 className="mt-2"> Market Place </h3>
       <MDBRow>
       {
@@ -110,6 +35,6 @@ export const MarketPage = () => {
           })
       }
       </MDBRow>
-    </MDBContainer>
+    </>
   );
 };

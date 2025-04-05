@@ -1,0 +1,68 @@
+.gameplay-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
+}
+
+.gameplay-top-container {
+  position: relative;
+  height: 30%;
+  width: 100%;
+  background-image: url("../../images/scene/gameplay/top_container/top_bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.gameplay-top-foreground-container {
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  bottom: 0;
+}
+
+.gameplay-top-foreground-extend {
+  position: absolute;
+  width: 100%;
+  height: 16.5%;
+  bottom: 0;
+  background-image: url("../../images/scene/gameplay/top_container/top_foreground_extend.png");
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  background-position: top;
+}
+
+.gameplay-top-foreground-main {
+  position: absolute;
+  aspect-ratio: 1282 / 291;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../images/scene/gameplay/top_container/top_foreground.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.gameplay-main-container {
+  height: 70%;
+  display: flex;
+  width: 100%;
+}
+
+.gameplay-main-left-container {
+  width: 10%;
+  background-color: blue;
+}
+
+.gameplay-main-right-container {
+  width: 10%;
+  background-color: green;
+}
+
+.gameplay-main-middle-container {
+  flex: 1;
+  background-color: black;
+}

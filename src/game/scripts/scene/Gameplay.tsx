@@ -14,10 +14,20 @@ const Gameplay = () => {
   const uIState = useAppSelector(selectUIState);
 
   return (
-    <>
+    <div className="gameplay-container">
       <Popups />
-      <p>Gameplay</p>
-    </>
+      <div className="gameplay-top-container">
+        <div className="gameplay-top-foreground-container">
+          <div className="gameplay-top-foreground-extend" />
+          <div className="gameplay-top-foreground-main" />
+        </div>
+      </div>
+      <div className="gameplay-main-container">
+        <div className="gameplay-main-left-container"></div>
+        <div className="gameplay-main-middle-container"></div>
+        <div className="gameplay-main-right-container"></div>
+      </div>
+    </div>
   );
 };
 

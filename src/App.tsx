@@ -1,13 +1,10 @@
-import React from 'react';
-import { Main } from './layout/Main';
-import './App.css';
+import "./App.css";
+
+import { LoadingController } from "./game/scripts/scene/LoadingController";
+import { Main } from "./layout/Main";
 
 function App() {
-  return (
-    <div className="screen">
-      <Main></Main>
-    </div>
-  );
+  return <LoadingController />;
 }
 
 export default App;

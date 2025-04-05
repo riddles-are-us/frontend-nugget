@@ -1,5 +1,6 @@
 import { ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { LeHexBN, query } from 'zkwasm-minirollup-rpc';
 
 // Get the current URL components
 const currentLocation = window.location;
@@ -125,3 +126,77 @@ export const queryInitialState = createAsyncThunk(
     }
   }
 );
+
+
+async function queryData(url: string) {
+  try {
+    const data: any = await rpc.queryData(url)
+    return data.data;
+  } catch (error: any) {
+    if (error.response) {
+      if (error.response.status === 500) {
+        throw new Error("QueryStateError");
+      } else {
+        throw new Error("UnknownError");
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      throw new Error("No response was received from the server, please check your network connection.");
+    } else {
+      throw new Error("UnknownError");
+    }
+  }
+}
+
+async function queryBidsI(key: string) {
+  const pubkey = new LeHexBN(query(key).pkx).toU64Array();
+  return await queryData(`bid/${pubkey[1]}/${pubkey[2]}`);
+}
+
+async function queryNuggetsI(page: number) {
+  return await queryData(`nuggets`);
+}
+
+async function queryNuggetI(nuggetId: number) {
+  return await queryData(`nugget/${nuggetId}`);
+}
+
+export const getBids = createAsyncThunk(
+  'client/getBids',
+  async (key: string, { rejectWithValue }) => {
+    try {
+      const res: any = await queryBidsI(key);
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err);
+    }
+  }
+)
+
+
+
+export const getNuggets = createAsyncThunk(
+  'client/getNuggets',
+  async (page: number, { rejectWithValue }) => {
+    try {
+      const res: any = await queryNuggetsI(page);
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err);
+    }
+  }
+)
+
+export const getNugget = createAsyncThunk(
+  'client/getNugget',
+  async (params: {index: number, nuggetId: number}, { rejectWithValue }) => {
+    try {
+      const res: any = await queryNuggetI(params.nuggetId);
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err);
+    }
+  }
+)

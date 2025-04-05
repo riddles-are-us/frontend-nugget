@@ -1,0 +1,10 @@
+.text-button {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  user-select: none;
+  outline: none;
+  font-weight: bold;
+  align-items: center;
+}

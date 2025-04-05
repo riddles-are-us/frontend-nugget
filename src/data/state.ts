@@ -1,5 +1,5 @@
-import { RootState } from "../app/store";
 import { createStateSlice, PropertiesState, ConnectState } from "zkwasm-minirollup-browser";
+import {RootState} from '../app/store';
 
 export interface PlayerInfo {
   nonce: number;
@@ -7,41 +7,31 @@ export interface PlayerInfo {
     balance: number;
     inventory_size: number;
     inventory: number[];
-  };
+  }
 }
 
 export interface GlobalState {
+  counter: number,
   total: number;
-  counter: number;
-}
-
-export interface Bid {
-  bidprice: number;
-}
-
-export interface Nugget {
-  id: number;
-  attributes: string;
-  feature: number;
-  cycle: number;
-  sysprice: number;
-  askprice: number;
-  bid: Bid | null;
 }
 
 const initialState: PropertiesState<PlayerInfo, GlobalState, any> = {
-    connectState: ConnectState.Init,
-    isConnected: false,
-    userState: null,
-    lastError: null,
-    config: null,
+		connectState: ConnectState.Init,
+		isConnected: false,
+		userState: null,
+		lastError: null,
+		config: null,
 };
 
-export const propertiesSlice = createStateSlice(initialState);
+
+export const stateSlice = createStateSlice(initialState);
 
 export const selectConnectState = (state: RootState) => state.state.connectState;
-export const selectUserState = (state: RootState) => state.state.userState;
+export const selectNullableUserState = (state: RootState) => state.state.userState;
+export const selectUserState = (state: RootState) => state.state.userState!;
 export const selectLastError = (state: RootState) => state.state.lastError;
+export const selectNullableConfig = (state: RootState) => state.state.config;
+export const selectConfig = (state: RootState) => state.state.config!;
 
-export const { setLastTransactionError, setConnectState } = propertiesSlice.actions;
-export default propertiesSlice.reducer;
+export const { setLastTransactionError, setConnectState } = stateSlice.actions;
+export default stateSlice.reducer;

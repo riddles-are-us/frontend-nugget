@@ -1,0 +1,68 @@
+.loading-page-container {
+    position: absolute;
+    top: 46.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48%;
+    height: 7%;
+}
+
+.loading-page-connecting-background {
+    position: absolute;
+    width: 335px;
+    height: 197px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.loading-page-connecting-frame {
+    position: absolute;
+    width: 255px;
+    height: 17px;
+    top: 138%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.loading-page-connecting-bar {
+    position: absolute;
+    width: 255px;
+    height: 17px;
+    top: 138%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.loading-page-progress-bar-background {
+    position: absolute;
+    width: 335px;
+    height: 197px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.loading-page-progress-bar-frame {
+    position: absolute;
+    width: 255px;
+    height: 17px;
+    top: 138%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.loading-page-progress-bar-bar {
+    position: absolute;
+    width: 255px;
+    height: 17px;
+    top: 138%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}

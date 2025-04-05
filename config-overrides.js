@@ -13,7 +13,6 @@ module.exports = function override(config, env) {
       "assert": require.resolve("assert"),
       "http": require.resolve("stream-http"),
       "https": require.resolve("https-browserify"),
-      "process/browser": require.resolve("process/browser"),
       "os": require.resolve("os-browserify"),
       "vm": false,
       "url": require.resolve("url")
@@ -62,6 +61,12 @@ module.exports = function override(config, env) {
     })
   })
 
+  config.module.rules.push({
+          test: /\.m?js$/,
+          resolve: {
+                  fullySpecified: false,
+          },
+  });
 
   return config
 }

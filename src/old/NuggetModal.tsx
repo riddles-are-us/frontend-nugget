@@ -1,5 +1,5 @@
 import React from "react";
-import { setFocus, selectNuggets } from "../data/p_ui";
+import { setFocus, selectNuggets } from "./p_ui";
 import { selectUserState } from "../data/state";
 import { Nugget } from "../data/model";
 import { useAppSelector, useAppDispatch } from "../app/hooks";

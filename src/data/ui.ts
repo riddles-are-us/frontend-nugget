@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RequestError } from 'zkwasm-minirollup-browser';
 import { RootState } from '../app/store';
 import { Nugget } from './model';
-import { getNuggets, getNugget, getBids } from '../components/request';
+import { getNuggets, getNugget, getBids } from '../old/request';
 
 export enum UIState{
 	Idle,

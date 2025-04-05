@@ -15,12 +15,12 @@ import { selectUserState } from "../data/state";
 import { Nugget } from "../data/model";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { getBids, getNugget, getNuggets, sendTransaction } from "./request";
-import { selectNuggets, setFocus } from "../data/p_ui";
+import { selectNuggets, setFocus } from "./p_ui";
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { NuggetCard } from "../components/NuggetCard";
-import { WithdrawModal } from "../components/Common";
-import { setUIModal, ModalIndicator, selectUIState } from "../data/p_ui";
+import { NuggetCard } from "./NuggetCard";
+import { WithdrawModal } from "./Common";
+import { setUIModal, ModalIndicator, selectUIState } from "./p_ui";
 
 const CREATE_NUGGET = 7n;
 

@@ -8,7 +8,7 @@ import {
   selectUserState,
   selectLastError,
 } from "../data/state";
-import { setUIModal, ModalIndicator, selectUIState } from "../data/p_ui";
+import { setUIModal, ModalIndicator, selectUIState } from "./p_ui";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
 import {
@@ -16,15 +16,15 @@ import {
   queryInitialState,
   queryState,
   sendTransaction,
-} from "../components/request";
+} from "./request";
 import { createCommand } from "zkwasm-minirollup-rpc";
-import { MarketPage } from "../components/MarketPage";
-import { User } from "../components/User";
-import Footer from "../components/Foot";
-import Nav from "../components/Nav";
-import NuggetModal from "../components/NuggetModal";
-import ErrorModal from "../components/ErrorModal";
-import { WithdrawModal } from "../components/Common";
+import { MarketPage } from "./MarketPage";
+import { User } from "./User";
+import Footer from "./Foot";
+import Nav from "./Nav";
+import NuggetModal from "./NuggetModal";
+import ErrorModal from "./ErrorModal";
+import { WithdrawModal } from "./Common";
 import { MDBBtn, MDBContainer } from "mdb-react-ui-kit";
 
 const REGISTER_PLAYER = 1n;

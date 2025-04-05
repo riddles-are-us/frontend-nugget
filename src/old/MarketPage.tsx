@@ -15,10 +15,10 @@ import { selectUserState } from "../data/state";
 import { Nugget } from "../data/model";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { sendTransaction, getNugget, getNuggets, getBids } from "./request";
-import { selectNuggets, setFocus } from "../data/p_ui";
+import { selectNuggets, setFocus } from "./p_ui";
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { NuggetCard } from "../components/NuggetCard";
+import { NuggetCard } from "./NuggetCard";
 
 export const MarketPage = () => {
   const userState = useAppSelector(selectUserState);

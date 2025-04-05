@@ -19,7 +19,7 @@ import {
   selectUIModal,
   setUIResponse,
   setUIModal,
-} from "../data/p_ui";
+} from "./p_ui";
 
 const CMD_WITHDRAW = 8n;
 

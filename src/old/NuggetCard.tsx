@@ -12,7 +12,7 @@ import {
   MDBTableHead,
   MDBBtn,
 } from "mdb-react-ui-kit";
-import { setFocus } from "../data/p_ui";
+import { setFocus } from "./p_ui";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 
 function decodeAttributes(attrStr: string) {

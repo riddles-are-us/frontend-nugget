@@ -22,7 +22,7 @@ interface Props {
   leftDisabledImage: string;
   midDisabledImage: string;
   rightDisabledImage: string;
-  fonrSizeRatio: number;
+  fontSizeRatio?: number;
 }
 
 const AdjustableImageTextButton = ({
@@ -44,14 +44,14 @@ const AdjustableImageTextButton = ({
   leftDisabledImage,
   midDisabledImage,
   rightDisabledImage,
-  fonrSizeRatio,
+  fontSizeRatio = 1,
 }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [fontSize, setFontSize] = useState<number>(0);
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setFontSize((containerRef.current.offsetHeight * fonrSizeRatio) / 2);
+      setFontSize((containerRef.current.offsetHeight * fontSizeRatio) / 2);
     }
   };
 

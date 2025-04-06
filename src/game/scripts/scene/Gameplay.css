@@ -46,6 +46,26 @@
   background-repeat: no-repeat;
 }
 
+.gameplay-top-player-info-conainer {
+  position: absolute;
+  width: auto;
+  height: 63%;
+  aspect-ratio: 580 / 118;
+  left: 50%;
+  top: 37%;
+  transform: translate(-50%, -50%);
+}
+
+.gameplay-top-player-info-avatar-image {
+  position: absolute;
+  width: auto;
+  height: 85%;
+  aspect-ratio: 1;
+  left: 10%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+}
+
 .gameplay-main-container {
   height: 65.6%;
   display: flex;

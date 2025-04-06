@@ -13,6 +13,8 @@ import leftBottomImage from "../../images/scene/gameplay/left_container/left_bot
 import rightTopImage from "../../images/scene/gameplay/right_container/right_top.png";
 import rightMiddleImage from "../../images/scene/gameplay/right_container/right_middle.png";
 import rightBottomImage from "../../images/scene/gameplay/right_container/right_bottom.png";
+import PlayerInfo from "./PlayerInfo";
+import avatarImage from "../../images/avatars/Avatar.png";
 
 const Gameplay = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +27,17 @@ const Gameplay = () => {
       <Popups />
       <div className="gameplay-top-container">
         <div className="gameplay-top-foreground-container">
+          <div className="gameplay-top-player-info-conainer">
+            <img
+              className="gameplay-top-player-info-avatar-image"
+              src={avatarImage}
+            />
+          </div>
           <div className="gameplay-top-foreground-extend" />
           <div className="gameplay-top-foreground-main" />
+          <div className="gameplay-top-player-info-conainer">
+            <PlayerInfo />
+          </div>
         </div>
       </div>
       <div className="gameplay-main-container">

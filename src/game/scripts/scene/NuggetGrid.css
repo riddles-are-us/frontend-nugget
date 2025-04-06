@@ -1,0 +1,8 @@
+.nugget-grid-container {
+  position: absolute;
+  width: 95%;
+  height: 95%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

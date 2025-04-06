@@ -16,6 +16,7 @@ import rightBottomImage from "../../images/scene/gameplay/right_container/right_
 import PlayerInfo from "./PlayerInfo";
 import avatarImage from "../../images/avatars/Avatar.png";
 import TabButtons from "./TabButtons";
+import NuggetGrid from "./NuggetGrid";
 
 const Gameplay = () => {
   const dispatch = useAppDispatch();
@@ -55,7 +56,9 @@ const Gameplay = () => {
           />
           <div className="gameplay-main-left-foreground" />
         </div>
-        <div className="gameplay-main-middle-container"></div>
+        <div className="gameplay-main-middle-container">
+          <NuggetGrid />
+        </div>
         <div className="gameplay-main-right-container">
           <VerticalExtendableImage
             topRatio={1}

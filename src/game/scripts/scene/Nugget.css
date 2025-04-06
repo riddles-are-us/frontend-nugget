@@ -1,0 +1,26 @@
+.nugget-container {
+  position: relative;
+}
+
+.nugget-margin-container {
+  position: absolute;
+  width: 95%;
+  height: calc(95% - 9.5px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../images/scene/gameplay/nugget/nugget_bg.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.nugget-avatar-image {
+  position: absolute;
+  width: auto;
+  height: 48%;
+  aspect-ratio: 88 / 79;
+  left: 13%;
+  top: 32.5%;
+  transform: translate(-50%, -50%);
+}

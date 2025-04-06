@@ -57,9 +57,35 @@
   width: 10%;
 }
 
+.gameplay-main-left-foreground {
+  position: absolute;
+  aspect-ratio: 128 / 323;
+  width: 77.1%;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  background-image: url("../../images/scene/gameplay/left_container/left_foreground.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .gameplay-main-right-container {
   position: relative;
   width: 10%;
+}
+
+.gameplay-main-right-foreground {
+  position: absolute;
+  aspect-ratio: 121 / 674;
+  width: 72.9%;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  background-image: url("../../images/scene/gameplay/right_container/right_foreground.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .gameplay-main-middle-container {

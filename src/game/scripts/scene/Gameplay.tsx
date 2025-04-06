@@ -38,6 +38,7 @@ const Gameplay = () => {
             midImage={leftMiddleImage}
             bottomImage={leftBottomImage}
           />
+          <div className="gameplay-main-left-foreground" />
         </div>
         <div className="gameplay-main-middle-container"></div>
         <div className="gameplay-main-right-container">
@@ -48,6 +49,7 @@ const Gameplay = () => {
             midImage={rightMiddleImage}
             bottomImage={rightBottomImage}
           />
+          <div className="gameplay-main-right-foreground" />
         </div>
       </div>
     </div>

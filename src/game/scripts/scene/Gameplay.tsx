@@ -15,6 +15,7 @@ import rightMiddleImage from "../../images/scene/gameplay/right_container/right_
 import rightBottomImage from "../../images/scene/gameplay/right_container/right_bottom.png";
 import PlayerInfo from "./PlayerInfo";
 import avatarImage from "../../images/avatars/Avatar.png";
+import TabButtons from "./TabButtons";
 
 const Gameplay = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ const Gameplay = () => {
       <Popups />
       <div className="gameplay-top-container">
         <div className="gameplay-top-foreground-container">
-          <div className="gameplay-top-player-info-conainer">
+          <div className="gameplay-top-player-info-container">
             <img
               className="gameplay-top-player-info-avatar-image"
               src={avatarImage}
@@ -35,8 +36,11 @@ const Gameplay = () => {
           </div>
           <div className="gameplay-top-foreground-extend" />
           <div className="gameplay-top-foreground-main" />
-          <div className="gameplay-top-player-info-conainer">
+          <div className="gameplay-top-player-info-container">
             <PlayerInfo />
+          </div>
+          <div className="gameplay-top-tab-buttons-container">
+            <TabButtons />
           </div>
         </div>
       </div>

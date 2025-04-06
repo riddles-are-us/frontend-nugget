@@ -46,7 +46,7 @@
   background-repeat: no-repeat;
 }
 
-.gameplay-top-player-info-conainer {
+.gameplay-top-player-info-container {
   position: absolute;
   width: auto;
   height: 63%;
@@ -64,6 +64,16 @@
   left: 10%;
   top: 48%;
   transform: translate(-50%, -50%);
+}
+
+.gameplay-top-tab-buttons-container {
+  position: absolute;
+  width: auto;
+  height: 15%;
+  aspect-ratio: 21 / 1;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
 }
 
 .gameplay-main-container {

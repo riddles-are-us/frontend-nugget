@@ -53,16 +53,17 @@
 }
 
 .gameplay-main-left-container {
+  position: relative;
   width: 10%;
-  background-color: blue;
 }
 
 .gameplay-main-right-container {
+  position: relative;
   width: 10%;
-  background-color: green;
 }
 
 .gameplay-main-middle-container {
+  position: relative;
   flex: 1;
-  background-color: black;
+  background-color: blue;
 }

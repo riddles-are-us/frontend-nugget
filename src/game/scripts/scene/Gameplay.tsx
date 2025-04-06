@@ -6,6 +6,13 @@ import "./Gameplay.css";
 import { selectUserState } from "../../../data/state";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import { selectUIState, UIState } from "../../../old/p_ui";
+import VerticalExtendableImage from "../common/VerticalExtendableImage";
+import leftTopImage from "../../images/scene/gameplay/left_container/left_top.png";
+import leftMiddleImage from "../../images/scene/gameplay/left_container/left_middle.png";
+import leftBottomImage from "../../images/scene/gameplay/left_container/left_bottom.png";
+import rightTopImage from "../../images/scene/gameplay/right_container/right_top.png";
+import rightMiddleImage from "../../images/scene/gameplay/right_container/right_middle.png";
+import rightBottomImage from "../../images/scene/gameplay/right_container/right_bottom.png";
 
 const Gameplay = () => {
   const dispatch = useAppDispatch();
@@ -23,9 +30,25 @@ const Gameplay = () => {
         </div>
       </div>
       <div className="gameplay-main-container">
-        <div className="gameplay-main-left-container"></div>
+        <div className="gameplay-main-left-container">
+          <VerticalExtendableImage
+            topRatio={1}
+            bottomRatio={1}
+            topImage={leftTopImage}
+            midImage={leftMiddleImage}
+            bottomImage={leftBottomImage}
+          />
+        </div>
         <div className="gameplay-main-middle-container"></div>
-        <div className="gameplay-main-right-container"></div>
+        <div className="gameplay-main-right-container">
+          <VerticalExtendableImage
+            topRatio={1}
+            bottomRatio={1}
+            topImage={rightTopImage}
+            midImage={rightMiddleImage}
+            bottomImage={rightBottomImage}
+          />
+        </div>
       </div>
     </div>
   );

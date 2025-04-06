@@ -1,0 +1,14 @@
+.vertical-extendable-image-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vertical-extendable-image-element-container {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  left: 0;
+}

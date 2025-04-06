@@ -45,6 +45,7 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
       {isLogin ? (
         <div className="welcome-page-panel-play-button">
           <TemplateAdjustableImageTextButton
+            id={1}
             text={"Play"}
             onClick={onClickPlay}
             isDisabled={false}
@@ -53,6 +54,7 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
       ) : (
         <div className="welcome-page-panel-connect-wallet-button">
           <TemplateAdjustableImageTextButton
+            id={2}
             text={"Connect Wallet"}
             onClick={onClickConnectWallet}
             isDisabled={false}

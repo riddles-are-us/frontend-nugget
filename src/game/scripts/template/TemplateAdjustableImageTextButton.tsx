@@ -10,12 +10,14 @@ import rightClickImage from "../../images/buttons/template_adjustable_image_text
 import AdjustableImageTextButton from "../common/AdjustableImageTextButton";
 
 interface Props {
+  id?: number;
   text: string;
   onClick: () => void;
   isDisabled: boolean;
 }
 
-const template_adjustable_image_textAdjustableImageTextButton = ({
+const TemplateAdjustableImageTextButton = ({
+  id = 0,
   text,
   onClick,
   isDisabled,
@@ -25,6 +27,7 @@ const template_adjustable_image_textAdjustableImageTextButton = ({
   const fontSizeRatio = 1;
   return (
     <AdjustableImageTextButton
+      id={id}
       text={text}
       onClick={onClick}
       isDisabled={isDisabled}
@@ -47,4 +50,4 @@ const template_adjustable_image_textAdjustableImageTextButton = ({
   );
 };
 
-export default template_adjustable_image_textAdjustableImageTextButton;
+export default TemplateAdjustableImageTextButton;

@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./AdjustableImageTextButton.css";
 import ElementButton from "./ElementButton";
+import HorizontalExtendableImage from "./HorizontalExtendableImage";
 
 interface Props {
+  id?: number;
   text: string;
   onClick: () => void;
   isDisabled: boolean;
@@ -24,6 +26,7 @@ interface Props {
 }
 
 const AdjustableImageTextButton = ({
+  id = 0,
   text,
   onClick,
   isDisabled,
@@ -44,14 +47,10 @@ const AdjustableImageTextButton = ({
   fonrSizeRatio,
 }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const [containerWidth, setContainerWidth] = useState<number>(0);
-  const [containerHeight, setContainerHeight] = useState<number>(0);
   const [fontSize, setFontSize] = useState<number>(0);
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setContainerWidth(containerRef.current.offsetWidth);
-      setContainerHeight(containerRef.current.offsetHeight);
       setFontSize((containerRef.current.offsetHeight * fonrSizeRatio) / 2);
     }
   };
@@ -63,7 +62,7 @@ const AdjustableImageTextButton = ({
     return () => {
       window.removeEventListener("resize", adjustSize);
     };
-  }, [text]);
+  }, [id]);
 
   const getText = () => {
     return (
@@ -83,31 +82,15 @@ const AdjustableImageTextButton = ({
     midImage: string,
     rightImage: string
   ) => {
-    const eps = 0.05;
-    const leftHeight = containerHeight;
-    const leftWidth = leftHeight * leftRatio;
-    const rightHeight = containerHeight;
-    const rightWidth = rightHeight * rightRatio;
-    const middleHeight = containerHeight;
-    const middleWidth = containerWidth - (leftWidth + rightWidth) * (1 - eps);
-    const middleLeft = leftWidth * (1 - eps);
-
     return (
       <>
-        <img
-          src={midImage}
-          className="adjustable-image-text-button-element-container"
-          style={{ width: middleWidth, height: middleHeight, left: middleLeft }}
-        />
-        <img
-          src={leftImage}
-          className="adjustable-image-text-button-element-container"
-          style={{ width: leftWidth, height: leftHeight, left: 0 }}
-        />
-        <img
-          src={rightImage}
-          className="adjustable-image-text-button-element-container"
-          style={{ width: rightWidth, height: rightHeight, right: 0 }}
+        <HorizontalExtendableImage
+          id={id}
+          leftRatio={leftRatio}
+          rightRatio={rightRatio}
+          leftImage={leftImage}
+          midImage={midImage}
+          rightImage={rightImage}
         />
         {getText()}
       </>

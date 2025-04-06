@@ -52,6 +52,7 @@ const Gameplay = () => {
           <div className="gameplay-main-right-foreground" />
         </div>
       </div>
+      <div className="gameplay-bottom-container" />
     </div>
   );
 };

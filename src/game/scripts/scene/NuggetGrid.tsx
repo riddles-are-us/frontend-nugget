@@ -36,7 +36,9 @@ const NuggetGrid = () => {
         elementHeight={elementHeight}
         columnCount={3}
         rowCount={rowCount}
-        elements={[<Nugget />, <Nugget />, <Nugget />, <Nugget />]}
+        elements={Array.from({ length: rowCount * 3 }).map((_, index) => (
+          <Nugget key={index} id={index} />
+        ))}
       />
     </div>
   );

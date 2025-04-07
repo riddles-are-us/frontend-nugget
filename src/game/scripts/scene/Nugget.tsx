@@ -1,12 +1,87 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Nugget.css";
 import image from "../../images/nuggets/image.png";
+import { getTextShadow } from "../common/Utility";
+import DefaultButton from "../buttons/DefaultButton";
 
-const Nugget = () => {
+interface Props {
+  id: number;
+}
+
+const Nugget = ({ id }: Props) => {
+  const containerRef = useRef<HTMLParagraphElement>(null);
+  const [titleFontSize, setTitleFontSize] = useState<number>(0);
+  const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
+
+  const adjustSize = () => {
+    if (containerRef.current) {
+      setTitleFontSize(containerRef.current.offsetHeight / 8);
+      setDescriptionFontSize(containerRef.current.offsetHeight / 11);
+    }
+  };
+
+  useEffect(() => {
+    adjustSize();
+
+    window.addEventListener("resize", adjustSize);
+    return () => {
+      window.removeEventListener("resize", adjustSize);
+    };
+  }, [id]);
+
+  const onClickMore = () => {
+    // Handle the click event for the "More" button
+  };
+
   return (
-    <div className="nugget-container">
+    <div ref={containerRef} className="nugget-container">
       <img className="nugget-avatar-image" src={image} />
-      <div className="nugget-margin-container"></div>
+      <div className="nugget-margin-container">
+        <p
+          className="nugget-title-text"
+          style={{
+            fontSize: titleFontSize,
+            textShadow: getTextShadow(titleFontSize / 15),
+          }}
+        >
+          {`NuggetId: ${5}`}
+        </p>
+        <p
+          className="nugget-price-text"
+          style={{
+            fontSize: descriptionFontSize,
+            textShadow: getTextShadow(descriptionFontSize / 15),
+          }}
+        >
+          {`Recycle Price: ${5}`}
+        </p>
+        <p
+          className="nugget-cycle-text"
+          style={{
+            fontSize: descriptionFontSize,
+            textShadow: getTextShadow(descriptionFontSize / 15),
+          }}
+        >
+          {`Cycle: ${5}`}
+        </p>
+        <p
+          className="nugget-bid-text"
+          style={{
+            fontSize: descriptionFontSize,
+            textShadow: getTextShadow(descriptionFontSize / 15),
+          }}
+        >
+          {`Bid: ${5}`}
+        </p>
+        <div className="nugget-more-button">
+          <DefaultButton
+            text={"More"}
+            onClick={onClickMore}
+            isDisabled={false}
+            fontSizeRatio={1.2}
+          />
+        </div>
+      </div>
     </div>
   );
 };

@@ -24,3 +24,61 @@
   top: 32.5%;
   transform: translate(-50%, -50%);
 }
+
+.nugget-title-text,
+.nugget-price-text,
+.nugget-cycle-text,
+.nugget-bid-text {
+  margin: 0px;
+  color: white;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.nugget-title-text {
+  font-weight: bold;
+  position: absolute;
+  width: 40%;
+  height: 20%;
+  left: 48%;
+  top: 17%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-price-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 43%;
+  top: 33%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-cycle-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 70%;
+  top: 33%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-bid-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 85%;
+  top: 33%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-more-button {
+  position: absolute;
+  width: 15%;
+  height: 20%;
+  left: 90%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+}

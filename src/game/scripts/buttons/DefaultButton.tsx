@@ -14,12 +14,18 @@ interface Props {
   text: string;
   onClick: () => void;
   isDisabled: boolean;
+  fontSizeRatio?: number;
 }
 
-const DefaultButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
+const DefaultButton = ({
+  id = 0,
+  text,
+  onClick,
+  isDisabled,
+  fontSizeRatio = 0.8,
+}: Props) => {
   const leftRatio = 17 / 42;
   const rightRatio = 16 / 42;
-  const fontSizeRatio = 0.8;
   return (
     <AdjustableImageTextButton
       id={id}

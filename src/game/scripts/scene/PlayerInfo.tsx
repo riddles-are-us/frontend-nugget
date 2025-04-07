@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import DefaultButton from "../buttons/DefaultButton";
 import "./PlayerInfo.css";
+import { getTextShadow } from "../common/Utility";
 
 const PlayerInfo = () => {
-  const playerId = "12345"; // Example player ID
-  const money = 1000; // Example money value
+  const playerId = "12345";
+  const coin = 1000;
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const [fontSize, setFontSize] = useState<number>(0);
+  const [titleFontSize, setTitleFontSize] = useState<number>(0);
+  const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setFontSize(containerRef.current.offsetHeight / 6);
+      setTitleFontSize(containerRef.current.offsetHeight / 6);
+      setMoneyFontSize(containerRef.current.offsetHeight / 8);
     }
   };
 
@@ -24,27 +27,37 @@ const PlayerInfo = () => {
   }, []);
 
   const onClickDeposit = () => {
-    // Handle deposit logic here
+    /**/
   };
   const onClickWithdraw = () => {
-    // Handle withdraw logic here
+    /**/
   };
 
   const onClickPickNugget = () => {
-    // Handle withdraw logic here
+    /**/
   };
 
   return (
     <div ref={containerRef} className="player-info-container">
-      <p className="player-info-player-id-text" style={{ fontSize: fontSize }}>
+      <p
+        className="player-info-player-id-text"
+        style={{
+          fontSize: titleFontSize,
+          textShadow: getTextShadow(titleFontSize / 15),
+        }}
+      >
         Player ID: {playerId}
       </p>
       <p
-        className="player-info-money-text"
-        style={{ fontSize: fontSize * 0.7 }}
+        className="player-info-coin-text"
+        style={{
+          fontSize: moneyFontSize,
+          textShadow: getTextShadow(moneyFontSize / 15),
+        }}
       >
-        Money: ${money}
+        {coin}
       </p>
+      <div className="player-info-coin-image" />
       <div className="player-info-deposit-button">
         <DefaultButton
           text={"Deposit"}

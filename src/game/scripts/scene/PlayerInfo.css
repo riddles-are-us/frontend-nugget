@@ -5,7 +5,7 @@
 }
 
 .player-info-player-id-text,
-.player-info-money-text {
+.player-info-coin-text {
   margin: 0px;
   color: white;
   font-weight: bold;
@@ -24,13 +24,27 @@
   transform: translate(-50%, -50%);
 }
 
-.player-info-money-text {
+.player-info-coin-text {
   position: absolute;
   width: 40%;
   height: 20%;
-  left: 45%;
-  top: 70%;
+  left: 49%;
+  top: 68%;
   transform: translate(-50%, -50%);
+}
+
+.player-info-coin-image {
+  position: absolute;
+  width: auto;
+  height: 15%;
+  aspect-ratio: 1;
+  left: 26%;
+  top: 65%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .player-info-deposit-button,

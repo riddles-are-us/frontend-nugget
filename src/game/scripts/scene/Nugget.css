@@ -82,3 +82,19 @@
   top: 53%;
   transform: translate(-50%, -50%);
 }
+.nugget-levels-container {
+  position: absolute;
+  width: 0;
+  height: 20%;
+  left: 25%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+
+.nugget-level-container {
+  position: relative;
+  width: auto;
+  height: 90%;
+  aspect-ratio: 1;
+}

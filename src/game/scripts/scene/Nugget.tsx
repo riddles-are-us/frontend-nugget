@@ -3,6 +3,7 @@ import "./Nugget.css";
 import image from "../../images/nuggets/image.png";
 import { getTextShadow } from "../common/Utility";
 import DefaultButton from "../buttons/DefaultButton";
+import NuggetLevel from "./NuggetLevel";
 
 interface Props {
   id: number;
@@ -12,6 +13,7 @@ const Nugget = ({ id }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
+  const nuggetLevel = 4;
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -80,6 +82,13 @@ const Nugget = ({ id }: Props) => {
             isDisabled={false}
             fontSizeRatio={1.2}
           />
+        </div>
+        <div className="nugget-levels-container">
+          {Array.from({ length: 7 }).map((_, index) => (
+            <div key={index} className={`nugget-level-container`}>
+              <NuggetLevel key={index} isActive={index < nuggetLevel} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

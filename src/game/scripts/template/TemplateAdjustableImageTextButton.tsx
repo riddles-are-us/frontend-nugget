@@ -25,15 +25,44 @@ const TemplateAdjustableImageTextButton = ({
   const leftRatio = 17 / 42;
   const rightRatio = 16 / 42;
   const fontSizeRatio = 1;
+  const fontFamily = "Allerta";
+  const isBold = false;
+  const color = "white";
+
+  const getText = (fontBaseSize: number) => {
+    const fontSize = fontBaseSize * fontSizeRatio;
+    return (
+      <p
+        className="adjustable-image-text-button-text"
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          width: "90%",
+          height: "auto",
+          transform: "translate(-50%, -50%)",
+          margin: "0px",
+          pointerEvents: "none",
+          userSelect: "none",
+          lineHeight: 1,
+          color: color,
+          fontFamily: fontFamily,
+          fontSize: `${fontSize}px`,
+          ...(isBold ? { fontWeight: "bold" } : {}),
+        }}
+      >
+        {text}
+      </p>
+    );
+  };
+
   return (
     <AdjustableImageTextButton
       id={id}
-      text={text}
       onClick={onClick}
       isDisabled={isDisabled}
       leftRatio={leftRatio}
       rightRatio={rightRatio}
-      fontSizeRatio={fontSizeRatio}
       leftNormalImage={leftNormalImage}
       midNormalImage={midNormalImage}
       rightNormalImage={rightNormalImage}
@@ -46,6 +75,7 @@ const TemplateAdjustableImageTextButton = ({
       leftDisabledImage={leftClickImage}
       midDisabledImage={midClickImage}
       rightDisabledImage={rightClickImage}
+      getText={getText}
     />
   );
 };

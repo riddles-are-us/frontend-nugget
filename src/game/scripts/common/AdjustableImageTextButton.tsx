@@ -5,7 +5,6 @@ import HorizontalExtendableImage from "./HorizontalExtendableImage";
 
 interface Props {
   id?: number;
-  text: string;
   onClick: () => void;
   isDisabled: boolean;
   leftRatio: number;
@@ -22,12 +21,11 @@ interface Props {
   leftDisabledImage: string;
   midDisabledImage: string;
   rightDisabledImage: string;
-  fontSizeRatio?: number;
+  getText: (fontBaseSize: number) => JSX.Element;
 }
 
 const AdjustableImageTextButton = ({
   id = 0,
-  text,
   onClick,
   isDisabled,
   leftRatio,
@@ -44,14 +42,14 @@ const AdjustableImageTextButton = ({
   leftDisabledImage,
   midDisabledImage,
   rightDisabledImage,
-  fontSizeRatio = 1,
+  getText,
 }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const [fontSize, setFontSize] = useState<number>(0);
+  const [baseFontSize, setBaseFontSize] = useState<number>(0);
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setFontSize((containerRef.current.offsetHeight * fontSizeRatio) / 2);
+      setBaseFontSize(containerRef.current.offsetHeight / 2);
     }
   };
 
@@ -63,19 +61,6 @@ const AdjustableImageTextButton = ({
       window.removeEventListener("resize", adjustSize);
     };
   }, [id]);
-
-  const getText = () => {
-    return (
-      <p
-        className="adjustable-image-text-button-text"
-        style={{
-          fontSize: `${fontSize}px`,
-        }}
-      >
-        {text}
-      </p>
-    );
-  };
 
   const getElement = (
     leftImage: string,
@@ -92,7 +77,7 @@ const AdjustableImageTextButton = ({
           midImage={midImage}
           rightImage={rightImage}
         />
-        {getText()}
+        {getText(baseFontSize)}
       </>
     );
   };

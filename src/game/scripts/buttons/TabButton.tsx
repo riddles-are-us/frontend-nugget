@@ -8,6 +8,7 @@ import leftClickImage from "../../images/buttons/tab_button/left_click.png";
 import midClickImage from "../../images/buttons/tab_button/mid_click.png";
 import rightClickImage from "../../images/buttons/tab_button/right_click.png";
 import AdjustableImageTextButton from "../common/AdjustableImageTextButton";
+import { getTextShadowStyle } from "../common/Utility";
 
 interface Props {
   id?: number;
@@ -20,15 +21,45 @@ const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
   const leftRatio = 26 / 45;
   const rightRatio = 26 / 45;
   const fontSizeRatio = 1.2;
+  const fontFamily = "AdobeClean";
+  const isBold = true;
+  const color = "white";
+
+  const getText = (fontBaseSize: number) => {
+    const fontSize = fontBaseSize * fontSizeRatio;
+    return (
+      <p
+        className="adjustable-image-text-button-text"
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          width: "90%",
+          height: "auto",
+          transform: "translate(-50%, -50%)",
+          margin: "0px",
+          pointerEvents: "none",
+          userSelect: "none",
+          lineHeight: 1,
+          color: color,
+          fontFamily: fontFamily,
+          fontSize: `${fontSize}px`,
+          ...(isBold ? { fontWeight: "bold" } : {}),
+          ...getTextShadowStyle(fontSize / 15),
+        }}
+      >
+        {text}
+      </p>
+    );
+  };
+
   return (
     <AdjustableImageTextButton
       id={id}
-      text={text}
       onClick={onClick}
       isDisabled={isDisabled}
       leftRatio={leftRatio}
       rightRatio={rightRatio}
-      fontSizeRatio={fontSizeRatio}
       leftNormalImage={leftNormalImage}
       midNormalImage={midNormalImage}
       rightNormalImage={rightNormalImage}
@@ -41,6 +72,7 @@ const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
       leftDisabledImage={leftClickImage}
       midDisabledImage={midClickImage}
       rightDisabledImage={rightClickImage}
+      getText={getText}
     />
   );
 };

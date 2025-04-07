@@ -12,19 +12,3 @@
   user-select: none;
   top: 0;
 }
-
-.adjustable-image-text-button-text {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 90%;
-  height: auto;
-  transform: translate(-50%, -50%);
-  margin: 0px;
-  color: white;
-  font-weight: bold;
-  font-family: "AdobeClean";
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Nugget.css";
 import image from "../../images/nuggets/image.png";
-import { getTextShadow } from "../common/Utility";
+import { getTextShadowStyle } from "../common/Utility";
 import DefaultButton from "../buttons/DefaultButton";
 import NuggetLevel from "./NuggetLevel";
 
@@ -43,7 +43,7 @@ const Nugget = ({ id }: Props) => {
           className="nugget-title-text"
           style={{
             fontSize: titleFontSize,
-            textShadow: getTextShadow(titleFontSize / 15),
+            ...getTextShadowStyle(titleFontSize / 15),
           }}
         >
           {`NuggetId: ${5}`}
@@ -52,7 +52,7 @@ const Nugget = ({ id }: Props) => {
           className="nugget-price-text"
           style={{
             fontSize: descriptionFontSize,
-            textShadow: getTextShadow(descriptionFontSize / 15),
+            ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
           {`Recycle Price: ${5}`}
@@ -61,7 +61,7 @@ const Nugget = ({ id }: Props) => {
           className="nugget-cycle-text"
           style={{
             fontSize: descriptionFontSize,
-            textShadow: getTextShadow(descriptionFontSize / 15),
+            ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
           {`Cycle: ${5}`}
@@ -70,7 +70,7 @@ const Nugget = ({ id }: Props) => {
           className="nugget-bid-text"
           style={{
             fontSize: descriptionFontSize,
-            textShadow: getTextShadow(descriptionFontSize / 15),
+            ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
           {`Bid: ${5}`}

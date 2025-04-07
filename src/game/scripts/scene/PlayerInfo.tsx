@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import DefaultButton from "../buttons/DefaultButton";
 import "./PlayerInfo.css";
-import { getTextShadow } from "../common/Utility";
+import { getTextShadowStyle } from "../common/Utility";
 
 const PlayerInfo = () => {
   const playerId = "12345";
@@ -43,7 +43,7 @@ const PlayerInfo = () => {
         className="player-info-player-id-text"
         style={{
           fontSize: titleFontSize,
-          textShadow: getTextShadow(titleFontSize / 15),
+          ...getTextShadowStyle(titleFontSize / 15),
         }}
       >
         Player ID: {playerId}
@@ -52,7 +52,7 @@ const PlayerInfo = () => {
         className="player-info-coin-text"
         style={{
           fontSize: moneyFontSize,
-          textShadow: getTextShadow(moneyFontSize / 15),
+          ...getTextShadowStyle(moneyFontSize / 15),
         }}
       >
         {coin}

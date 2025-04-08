@@ -1,5 +1,6 @@
 .tab-buttons-inventory-button,
-.tab-buttons-market-button {
+.tab-buttons-market-button,
+.tab-buttons-bid-button {
   position: absolute;
   width: 18%;
   height: 80%;
@@ -13,4 +14,8 @@
 
 .tab-buttons-market-button {
   left: 32%;
+}
+
+.tab-buttons-bid-button {
+  left: 53%;
 }

@@ -3,11 +3,24 @@ import Grid from "../../common/Grid";
 import "./NuggetGrid.css";
 import Nugget from "./Nugget";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
-import { selectNuggetsData } from "../../../../data/ui";
+import {
+  selectNuggetsData,
+  selectTabState,
+  TabState,
+} from "../../../../data/ui";
 
 const NuggetGrid = () => {
   const dispatch = useAppDispatch();
   const nuggetsData = useAppSelector(selectNuggetsData);
+  const tabState = useAppSelector(selectTabState);
+  const nuggets =
+    tabState == TabState.Inventory
+      ? nuggetsData.inventory
+      : tabState == TabState.Market
+      ? nuggetsData.market
+      : tabState == TabState.Bid
+      ? nuggetsData.bid
+      : [];
 
   const elementRatio = 432 / 132;
   const containerRef = useRef<HTMLParagraphElement>(null);
@@ -41,7 +54,7 @@ const NuggetGrid = () => {
         elementHeight={elementHeight}
         columnCount={3}
         rowCount={rowCount}
-        elements={nuggetsData.nuggets.map((nuggetData, index) => (
+        elements={nuggets.map((nuggetData, index) => (
           <Nugget key={index} nuggetData={nuggetData} />
         ))}
       />

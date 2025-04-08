@@ -1,18 +1,24 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RequestError } from 'zkwasm-minirollup-browser';
-import { RootState } from '../app/store';
-import { NuggetData } from './model';
-import { getNuggets, getNugget, getBids } from '../old/request';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RequestError } from "zkwasm-minirollup-browser";
+import { RootState } from "../app/store";
+import { NuggetData } from "./model";
+import { getNuggets, getNugget, getBids } from "../old/request";
 
-export enum UIState{
-	Idle,
-	WelcomePage,
-	QueryWithdraw,
-	WithdrawPopup,
-	QueryDeposit,
-	DepositPopup,
-	ConfirmPopup,
-	ErrorPopup,
+export enum UIState {
+  Idle,
+  WelcomePage,
+  QueryWithdraw,
+  WithdrawPopup,
+  QueryDeposit,
+  DepositPopup,
+  ConfirmPopup,
+  ErrorPopup,
+}
+
+export enum TabState {
+  Inventory,
+  Market,
+  Bid,
 }
 
 export enum ModalIndicator {
@@ -22,42 +28,47 @@ export enum ModalIndicator {
 }
 
 export interface FocusNugget {
-  nugget: NuggetData,
-  index: number | null
+  nugget: NuggetData;
+  index: number | null;
 }
 
 interface NuggetsData {
-  nuggets: NuggetData[]
-  inventory: NuggetData[]
-  bids: NuggetData[]
-  focus: FocusNugget | null
+  market: NuggetData[];
+  inventory: NuggetData[];
+  bid: NuggetData[];
+  focus: FocusNugget | null;
 }
 
 export interface PropertiesUIState {
-    uiState: UIState;
-    nuggetsData: NuggetsData;
-    uiModal: null | ModalIndicator;
-    lastError: RequestError | null,
-    lastResponse: string | null,
+  uiState: UIState;
+  tabState: TabState;
+  nuggetsData: NuggetsData;
+  uiModal: null | ModalIndicator;
+  lastError: RequestError | null;
+  lastResponse: string | null;
 }
 
 const initialState: PropertiesUIState = {
-	uiState: UIState.WelcomePage,
+  uiState: UIState.WelcomePage,
+  tabState: TabState.Inventory,
   nuggetsData: {
-    nuggets: [],
-    inventory: [], 
-    bids:[],
+    market: [],
+    inventory: [],
+    bid: [],
     focus: null,
   },
   lastError: null,
   lastResponse: null,
   uiModal: null,
-}
+};
 
 const uiSlice = createSlice({
-  name: 'ui',
+  name: "ui",
   initialState,
   reducers: {
+    setTabState: (state, d: PayloadAction<TabState>) => {
+      state.tabState = d.payload;
+    },
     setUIModal: (state, d) => {
       state.uiModal = d.payload.modal;
     },
@@ -66,19 +77,19 @@ const uiSlice = createSlice({
     },
     setFocus: (state, d: PayloadAction<FocusNugget | null>) => {
       state.nuggetsData.focus = d.payload;
-    }
+    },
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(getNuggets.fulfilled, (state, action) => {
-        state.nuggetsData.nuggets = action.payload;
+        state.nuggetsData.market = action.payload;
       })
       .addCase(getNuggets.rejected, (state, action) => {
         state.lastError = {
-          errorInfo:`send transaction rejected: ${action.payload}`,
+          errorInfo: `send transaction rejected: ${action.payload}`,
           payload: action.payload,
-        }
+        };
       })
       .addCase(getNugget.fulfilled, (state, action) => {
         const nugget = action.payload[0];
@@ -86,25 +97,26 @@ const uiSlice = createSlice({
       })
       .addCase(getNugget.rejected, (state, action) => {
         state.lastError = {
-          errorInfo:`send transaction rejected: ${action.payload}`,
+          errorInfo: `send transaction rejected: ${action.payload}`,
           payload: action.payload,
-        }
+        };
       })
       .addCase(getBids.fulfilled, (state, action) => {
-        state.nuggetsData.bids = action.payload;
+        state.nuggetsData.bid = action.payload;
       })
       .addCase(getBids.rejected, (state, action) => {
         state.lastError = {
-          errorInfo:`send transaction rejected: ${action.payload}`,
+          errorInfo: `send transaction rejected: ${action.payload}`,
           payload: action.payload,
-        }
-      })
-  }
+        };
+      });
+  },
 });
 
 export const selectUIState = (state: RootState) => state.ui.uiState;
+export const selectTabState = (state: RootState) => state.ui.tabState;
 export const selectNuggetsData = (state: RootState) => state.ui.nuggetsData;
 export const selectUIModal = (state: RootState) => state.ui.uiModal;
 export const selectUIResponse = (state: RootState) => state.ui.lastResponse;
-export const { setUIModal, setUIResponse, setFocus } = uiSlice.actions;
+export const { setTabState, setUIModal, setUIResponse, setFocus } = uiSlice.actions;
 export default uiSlice.reducer;

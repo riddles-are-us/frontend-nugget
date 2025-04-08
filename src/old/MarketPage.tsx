@@ -34,7 +34,7 @@ export const MarketPage = () => {
     <>
       <h3 className="mt-2"> Market Place </h3>
       <MDBRow>
-        {nuggetsState.nuggets.map((nugget: NuggetData) => {
+        {nuggetsState.market.map((nugget: NuggetData) => {
           return (
             <MDBCol md="3" className="mt-4" key={nugget.id}>
               <NuggetCard nugget={nugget} />

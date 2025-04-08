@@ -122,7 +122,7 @@ export const User = () => {
 
       <h3 className="mt-2"> bids </h3>
       <MDBRow>
-        {nuggetsState.bids.map((nugget: NuggetData) => {
+        {nuggetsState.bid.map((nugget: NuggetData) => {
           return (
             <MDBCol md="3" className="mt-3" key={nugget.id}>
               <NuggetCard nugget={nugget} />

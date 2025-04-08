@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ElementButton.css";
 
 interface Props {
@@ -46,6 +46,13 @@ const ElementButton = ({
       setIsHovered(true);
     }
   };
+
+  useEffect(() => {
+    if (isDisabled) {
+      setIsClicked(false);
+      setIsHovered(false);
+    }
+  }, [isDisabled]);
 
   return (
     <button

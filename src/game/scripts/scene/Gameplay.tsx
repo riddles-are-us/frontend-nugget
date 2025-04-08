@@ -13,10 +13,10 @@ import leftBottomImage from "../../images/scene/gameplay/left_container/left_bot
 import rightTopImage from "../../images/scene/gameplay/right_container/right_top.png";
 import rightMiddleImage from "../../images/scene/gameplay/right_container/right_middle.png";
 import rightBottomImage from "../../images/scene/gameplay/right_container/right_bottom.png";
-import PlayerInfo from "./PlayerInfo";
+import PlayerInfo from "./gameplay/PlayerInfo";
 import avatarImage from "../../images/avatars/Avatar.png";
-import TabButtons from "./TabButtons";
-import NuggetGrid from "./NuggetGrid";
+import TabButtons from "./gameplay/TabButtons";
+import NuggetGrid from "./gameplay/NuggetGrid";
 
 const Gameplay = () => {
   const dispatch = useAppDispatch();

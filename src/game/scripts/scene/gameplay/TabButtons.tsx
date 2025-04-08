@@ -1,4 +1,4 @@
-import TabButton from "../buttons/TabButton";
+import TabButton from "../../buttons/TabButton";
 import "./TabButtons.css";
 
 const TabButtons = () => {

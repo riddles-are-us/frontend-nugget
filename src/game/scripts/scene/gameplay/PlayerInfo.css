@@ -41,7 +41,7 @@
   left: 26%;
   top: 65%;
   transform: translate(-50%, -50%);
-  background-image: url("../../images/scene/gameplay/top_container/coin.png");
+  background-image: url("../../../images/scene/gameplay/top_container/coin.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

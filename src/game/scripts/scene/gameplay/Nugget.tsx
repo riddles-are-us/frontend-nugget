@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Nugget.css";
-import image from "../../images/nuggets/image.png";
-import { getTextShadowStyle } from "../common/Utility";
-import DefaultButton from "../buttons/DefaultButton";
+import image from "../../../images/nuggets/image.png";
+import { getTextShadowStyle } from "../../common/Utility";
+import DefaultButton from "../../buttons/DefaultButton";
 import NuggetLevel from "./NuggetLevel";
 
 interface Props {

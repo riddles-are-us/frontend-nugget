@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Grid from "../common/Grid";
+import Grid from "../../common/Grid";
 import "./NuggetGrid.css";
 import Nugget from "./Nugget";
 

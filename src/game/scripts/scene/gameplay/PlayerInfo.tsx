@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import DefaultButton from "../buttons/DefaultButton";
+import DefaultButton from "../../buttons/DefaultButton";
 import "./PlayerInfo.css";
-import { getTextShadowStyle } from "../common/Utility";
+import { getTextShadowStyle } from "../../common/Utility";
 
 const PlayerInfo = () => {
   const playerId = "12345";

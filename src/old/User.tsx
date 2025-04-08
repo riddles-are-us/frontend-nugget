@@ -12,7 +12,7 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 import { selectUserState } from "../data/state";
-import { Nugget } from "../data/model";
+import { NuggetData } from "../data/model";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { getBids, getNugget, getNuggets, sendTransaction } from "./request";
 import { selectNuggets, setFocus } from "./p_ui";
@@ -41,7 +41,7 @@ export const User = () => {
     dispatch(getBids(l2account!.getPrivateKey()));
   }, [userState]);
 
-  function setFocusNugget(nugget: Nugget, index: number | null = null) {
+  function setFocusNugget(nugget: NuggetData, index: number | null = null) {
     dispatch(
       setFocus({
         nugget: nugget,
@@ -122,7 +122,7 @@ export const User = () => {
 
       <h3 className="mt-2"> bids </h3>
       <MDBRow>
-        {nuggetsState.bids.map((nugget: Nugget) => {
+        {nuggetsState.bids.map((nugget: NuggetData) => {
           return (
             <MDBCol md="3" className="mt-3" key={nugget.id}>
               <NuggetCard nugget={nugget} />

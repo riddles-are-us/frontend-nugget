@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import DefaultButton from "../../buttons/DefaultButton";
 import "./PlayerInfo.css";
-import { getTextShadowStyle } from "../../common/Utility";
+import { addressAbbreviation, getTextShadowStyle } from "../../common/Utility";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { selectUserState } from "../../../../data/state";
 
 const PlayerInfo = () => {
-  const playerId = "12345";
-  const coin = 1000;
+  const dispatch = useAppDispatch();
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const playerId = addressAbbreviation("0x" + l2account!.pubkey, 5);
+  const userState = useAppSelector(selectUserState);
+  const coin = userState.player!.data.balance;
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);

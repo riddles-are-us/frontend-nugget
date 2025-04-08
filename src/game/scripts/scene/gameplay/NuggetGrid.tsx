@@ -2,8 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import Grid from "../../common/Grid";
 import "./NuggetGrid.css";
 import Nugget from "./Nugget";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { selectNuggetsData } from "../../../../data/ui";
 
 const NuggetGrid = () => {
+  const dispatch = useAppDispatch();
+  const nuggetsData = useAppSelector(selectNuggetsData);
+
   const elementRatio = 432 / 132;
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [elementWidth, setElementWidth] = useState<number>(0);
@@ -36,8 +41,8 @@ const NuggetGrid = () => {
         elementHeight={elementHeight}
         columnCount={3}
         rowCount={rowCount}
-        elements={Array.from({ length: rowCount * 3 }).map((_, index) => (
-          <Nugget key={index} id={index} />
+        elements={nuggetsData.nuggets.map((nuggetData, index) => (
+          <Nugget key={index} nuggetData={nuggetData} />
         ))}
       />
     </div>

@@ -1,5 +1,5 @@
 import { selectUserState } from "../data/state";
-import { Nugget } from "../data/model";
+import { NuggetData } from "../data/model";
 import {
   MDBContainer,
   MDBRow,
@@ -54,10 +54,10 @@ function Attributes(params: { attrs: string; nbplus: number }) {
   );
 }
 
-export function NuggetCard(params: { nugget: Nugget; index?: number }) {
+export function NuggetCard(params: { nugget: NuggetData; index?: number }) {
   const dispatch = useAppDispatch();
 
-  function setFocusNugget(nugget: Nugget, index: number | null = null) {
+  function setFocusNugget(nugget: NuggetData, index: number | null = null) {
     dispatch(
       setFocus({
         nugget: nugget,

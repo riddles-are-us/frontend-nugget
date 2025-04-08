@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RequestError } from 'zkwasm-minirollup-browser';
 import { RootState } from '../app/store';
-import { Nugget } from '../data/model';
+import { NuggetData } from '../data/model';
 import { getNuggets, getNugget, getBids } from './request';
 
 export enum UIState{
@@ -22,14 +22,14 @@ export enum ModalIndicator {
 }
 
 export interface FocusNugget {
-  nugget: Nugget,
+  nugget: NuggetData,
   index: number | null
 }
 
 interface NuggetsData {
-  nuggets: Nugget[]
-  inventory: Nugget[]
-  bids: Nugget[]
+  nuggets: NuggetData[]
+  inventory: NuggetData[]
+  bids: NuggetData[]
   focus: FocusNugget | null
 }
 
@@ -103,7 +103,7 @@ const uiSlice = createSlice({
 });
 
 export const selectUIState = (state: RootState) => state.ui.uiState;
-export const selectNuggets = (state: RootState) => state.ui.nuggets;
+export const selectNuggets = (state: RootState) => state.ui.nuggetsData;
 export const selectUIModal = (state: RootState) => state.ui.uiModal;
 export const selectUIResponse = (state: RootState) => state.ui.lastResponse;
 export const { setUIModal, setUIResponse, setFocus } = uiSlice.actions;

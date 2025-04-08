@@ -36,7 +36,7 @@ const VerticalExtendableImage = ({
     return () => {
       window.removeEventListener("resize", adjustSize);
     };
-  }, [id]);
+  }, [containerRef.current, id]);
 
   const eps = 0.05;
   const topWidth = containerWidth;

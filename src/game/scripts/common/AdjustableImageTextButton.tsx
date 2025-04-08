@@ -60,7 +60,7 @@ const AdjustableImageTextButton = ({
     return () => {
       window.removeEventListener("resize", adjustSize);
     };
-  }, [id]);
+  }, [containerRef.current, id]);
 
   const getElement = (
     leftImage: string,

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./WelcomePage.css";
 import background from "../../images/scene/welcome_page/welcome_bg.png";
 import TemplateAdjustableImageTextButton from "../template/TemplateAdjustableImageTextButton";
+import { getNuggets } from "../../../old/request";
 
 interface Props {
   isLogin: boolean;
@@ -36,6 +37,7 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
   };
 
   const onClickPlay = () => {
+    dispatch(getNuggets(0));
     onStartGame();
   };
 

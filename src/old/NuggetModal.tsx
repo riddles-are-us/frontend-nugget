@@ -1,7 +1,7 @@
 import React from "react";
 import { setFocus, selectNuggets } from "./p_ui";
 import { selectUserState } from "../data/state";
-import { Nugget } from "../data/model";
+import { NuggetData } from "../data/model";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { getNugget, sendTransaction } from "./request";
 import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";

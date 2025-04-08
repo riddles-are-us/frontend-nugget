@@ -4,16 +4,21 @@ import image from "../../../images/nuggets/image.png";
 import { getTextShadowStyle } from "../../common/Utility";
 import DefaultButton from "../../buttons/DefaultButton";
 import NuggetLevel from "./NuggetLevel";
+import { NuggetData } from "../../../../data/model";
 
 interface Props {
-  id: number;
+  nuggetData: NuggetData;
 }
 
-const Nugget = ({ id }: Props) => {
+const Nugget = ({ nuggetData }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
-  const nuggetLevel = 4;
+  const nuggetId = nuggetData.id;
+  const nuggetPrice = nuggetData.sysprice;
+  const nuggetCycle = nuggetData.cycle;
+  const nuggetLevel = nuggetData.feature;
+  const nuggetBid = nuggetData.bid?.bidprice ?? 0;
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -29,7 +34,7 @@ const Nugget = ({ id }: Props) => {
     return () => {
       window.removeEventListener("resize", adjustSize);
     };
-  }, [id]);
+  }, [containerRef.current]);
 
   const onClickMore = () => {
     // Handle the click event for the "More" button
@@ -46,7 +51,7 @@ const Nugget = ({ id }: Props) => {
             ...getTextShadowStyle(titleFontSize / 15),
           }}
         >
-          {`NuggetId: ${5}`}
+          {`NuggetId: ${nuggetId}`}
         </p>
         <p
           className="nugget-price-text"
@@ -55,7 +60,7 @@ const Nugget = ({ id }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Recycle Price: ${5}`}
+          {`Recycle Price: ${nuggetPrice}`}
         </p>
         <p
           className="nugget-cycle-text"
@@ -64,7 +69,7 @@ const Nugget = ({ id }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Cycle: ${5}`}
+          {`Cycle: ${nuggetCycle}`}
         </p>
         <p
           className="nugget-bid-text"
@@ -73,7 +78,7 @@ const Nugget = ({ id }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Bid: ${5}`}
+          {`Bid: ${nuggetBid}`}
         </p>
         <div className="nugget-more-button">
           <DefaultButton

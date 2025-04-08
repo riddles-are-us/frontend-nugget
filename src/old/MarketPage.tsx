@@ -12,7 +12,7 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 import { selectUserState } from "../data/state";
-import { Nugget } from "../data/model";
+import { NuggetData } from "../data/model";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { sendTransaction, getNugget, getNuggets, getBids } from "./request";
 import { selectNuggets, setFocus } from "./p_ui";
@@ -34,7 +34,7 @@ export const MarketPage = () => {
     <>
       <h3 className="mt-2"> Market Place </h3>
       <MDBRow>
-        {nuggetsState.nuggets.map((nugget: Nugget) => {
+        {nuggetsState.nuggets.map((nugget: NuggetData) => {
           return (
             <MDBCol md="3" className="mt-4" key={nugget.id}>
               <NuggetCard nugget={nugget} />

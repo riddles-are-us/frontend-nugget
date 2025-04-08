@@ -2,7 +2,7 @@ export interface Bid {
     bidprice: number;
 }
 
-export interface Nugget {
+export interface NuggetData {
     id: number;
     attributes: string;
     feature: number;

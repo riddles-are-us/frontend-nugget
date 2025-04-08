@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RequestError } from 'zkwasm-minirollup-browser';
 import { RootState } from '../app/store';
-import { Nugget } from './model';
+import { NuggetData } from './model';
 import { getNuggets, getNugget, getBids } from '../old/request';
 
 export enum UIState{
@@ -22,20 +22,20 @@ export enum ModalIndicator {
 }
 
 export interface FocusNugget {
-  nugget: Nugget,
+  nugget: NuggetData,
   index: number | null
 }
 
 interface NuggetsData {
-  nuggets: Nugget[]
-  inventory: Nugget[]
-  bids: Nugget[]
+  nuggets: NuggetData[]
+  inventory: NuggetData[]
+  bids: NuggetData[]
   focus: FocusNugget | null
 }
 
 export interface PropertiesUIState {
     uiState: UIState;
-    nuggets: NuggetsData;
+    nuggetsData: NuggetsData;
     uiModal: null | ModalIndicator;
     lastError: RequestError | null,
     lastResponse: string | null,
@@ -43,7 +43,7 @@ export interface PropertiesUIState {
 
 const initialState: PropertiesUIState = {
 	uiState: UIState.WelcomePage,
-  nuggets: {
+  nuggetsData: {
     nuggets: [],
     inventory: [], 
     bids:[],
@@ -65,14 +65,14 @@ const uiSlice = createSlice({
       state.lastResponse = d.payload;
     },
     setFocus: (state, d: PayloadAction<FocusNugget | null>) => {
-      state.nuggets.focus = d.payload;
+      state.nuggetsData.focus = d.payload;
     }
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(getNuggets.fulfilled, (state, action) => {
-        state.nuggets.nuggets = action.payload;
+        state.nuggetsData.nuggets = action.payload;
       })
       .addCase(getNuggets.rejected, (state, action) => {
         state.lastError = {
@@ -82,7 +82,7 @@ const uiSlice = createSlice({
       })
       .addCase(getNugget.fulfilled, (state, action) => {
         const nugget = action.payload[0];
-        state.nuggets.inventory[action.meta.arg.index] = nugget;
+        state.nuggetsData.inventory[action.meta.arg.index] = nugget;
       })
       .addCase(getNugget.rejected, (state, action) => {
         state.lastError = {
@@ -91,7 +91,7 @@ const uiSlice = createSlice({
         }
       })
       .addCase(getBids.fulfilled, (state, action) => {
-        state.nuggets.bids = action.payload;
+        state.nuggetsData.bids = action.payload;
       })
       .addCase(getBids.rejected, (state, action) => {
         state.lastError = {
@@ -103,7 +103,7 @@ const uiSlice = createSlice({
 });
 
 export const selectUIState = (state: RootState) => state.ui.uiState;
-export const selectNuggets = (state: RootState) => state.ui.nuggets;
+export const selectNuggetsData = (state: RootState) => state.ui.nuggetsData;
 export const selectUIModal = (state: RootState) => state.ui.uiModal;
 export const selectUIResponse = (state: RootState) => state.ui.lastResponse;
 export const { setUIModal, setUIResponse, setFocus } = uiSlice.actions;

@@ -19,9 +19,6 @@ import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
 
 const Gameplay = () => {
-  const dispatch = useAppDispatch();
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
-  const userState = useAppSelector(selectUserState);
   const uIState = useAppSelector(selectUIState);
 
   return (

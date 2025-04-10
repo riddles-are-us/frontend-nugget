@@ -6,11 +6,16 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import {
   selectNuggetsData,
   selectTabState,
+  selectUIState,
+  setUIState,
   TabState,
+  UIStateType,
 } from "../../../../data/ui";
+import { NuggetData } from "../../../../data/model";
 
 const NuggetGrid = () => {
   const dispatch = useAppDispatch();
+  const uIState = useAppSelector(selectUIState);
   const nuggetsData = useAppSelector(selectNuggetsData);
   const tabState = useAppSelector(selectTabState);
   const nuggets =
@@ -47,6 +52,12 @@ const NuggetGrid = () => {
     };
   }, []);
 
+  const onClickMore = (nuggetData: NuggetData) => {
+    if (uIState.type == UIStateType.Idle) {
+      dispatch(setUIState({ type: UIStateType.NuggetInfoPopup, nuggetData }));
+    }
+  };
+
   return (
     <div ref={containerRef} className="nugget-grid-container">
       <Grid
@@ -55,7 +66,11 @@ const NuggetGrid = () => {
         columnCount={3}
         rowCount={rowCount}
         elements={nuggets.map((nuggetData, index) => (
-          <Nugget key={index} nuggetData={nuggetData} />
+          <Nugget
+            key={index}
+            nuggetData={nuggetData}
+            onClickMore={() => onClickMore(nuggetData)}
+          />
         ))}
       />
     </div>

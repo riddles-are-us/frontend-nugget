@@ -5,6 +5,7 @@ import { addressAbbreviation, getTextShadowStyle } from "../../common/Utility";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
+import { setUIState, UIStateType } from "../../../../data/ui";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -33,14 +34,14 @@ const PlayerInfo = () => {
   }, []);
 
   const onClickDeposit = () => {
-    /**/
+    dispatch(setUIState({ type: UIStateType.DepositPopup }));
   };
   const onClickWithdraw = () => {
-    /**/
+    dispatch(setUIState({ type: UIStateType.WithdrawPopup }));
   };
 
   const onClickPickNugget = () => {
-    /**/
+    dispatch(setUIState({ type: UIStateType.Idle }));
   };
 
   return (

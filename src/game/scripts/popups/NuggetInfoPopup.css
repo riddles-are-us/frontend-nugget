@@ -1,0 +1,32 @@
+.nugget-info-popup-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+.nugget-info-popup-mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.nugget-info-popup-main-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: 30%;
+  aspect-ratio: 726 / 273;
+}
+
+.nugget-info-popup-main-background {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}

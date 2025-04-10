@@ -1,0 +1,89 @@
+.deposit-popup-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+.deposit-popup-mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.deposit-popup-main-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: 550px;
+  height: 344px;
+}
+
+.deposit-popup-main-background {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+/* .deposit-popup-confirm-button {
+    position: absolute;
+    top: 82%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+}
+
+.deposit-popup-cancel-button {
+    position: absolute;
+    top: 82%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+}
+
+.deposit-popup-amount-text {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    text-align: center;
+    line-height: 18px;
+    margin: 0px;
+    width: 80%;
+    height: 18px;
+    font-family: "Allerta";
+    color: black;
+    user-select: none;
+}
+
+.deposit-popup-amount-input {
+    position: absolute;
+    background: none; 
+    border: none;     
+    outline: none;    
+    color: grey;      
+    text-align: left;
+    font-size: 25px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 25px;
+    user-select: none;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+input[type="number"] {
+  -moz-appearance: textfield;
+} */

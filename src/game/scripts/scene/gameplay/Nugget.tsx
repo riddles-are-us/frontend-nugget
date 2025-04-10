@@ -8,9 +8,10 @@ import { NuggetData } from "../../../../data/model";
 
 interface Props {
   nuggetData: NuggetData;
+  onClickMore: () => void;
 }
 
-const Nugget = ({ nuggetData }: Props) => {
+const Nugget = ({ nuggetData, onClickMore }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -35,10 +36,6 @@ const Nugget = ({ nuggetData }: Props) => {
       window.removeEventListener("resize", adjustSize);
     };
   }, [containerRef.current]);
-
-  const onClickMore = () => {
-    // Handle the click event for the "More" button
-  };
 
   return (
     <div ref={containerRef} className="nugget-container">

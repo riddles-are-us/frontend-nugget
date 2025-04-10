@@ -9,6 +9,7 @@ import Gameplay from "./Gameplay";
 import { queryInitialState } from "zkwasm-minirollup-browser/src/connect";
 import { ConnectState } from "zkwasm-minirollup-browser";
 import { ConnectController } from "./ConnectController";
+import { setUIState, UIStateType } from "../../../data/ui";
 
 export function LoadingController() {
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ export function LoadingController() {
   };
 
   const onStartGameplay = () => {
-    /* */
+    dispatch(setUIState({ type: UIStateType.Idle }));
   };
 
   if (

@@ -1,8 +1,12 @@
 import { useState } from "react";
-import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./DepositPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
+import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
+import leftBackground from "../../images/popups/default/left.png";
+import midBackground from "../../images/popups/default/mid.png";
+import rightBackground from "../../images/popups/default/right.png";
+import PopupCloseButton from "../buttons/PopupCloseButton";
 
 const DepositPopup = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +22,18 @@ const DepositPopup = () => {
     <div className="deposit-popup-container">
       <div onClick={onClickCancel} className="deposit-popup-mask" />
       <div className="deposit-popup-main-container">
-        <img src={background} className="deposit-popup-main-background" />
+        <div className="deposit-popup-main-background">
+          <HorizontalExtendableImage
+            leftRatio={58 / 238}
+            rightRatio={58 / 238}
+            leftImage={leftBackground}
+            midImage={midBackground}
+            rightImage={rightBackground}
+          />
+        </div>
+        <div className="deposit-popup-close-button">
+          <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
+        </div>
         {/* <input
           type="number"
           className="deposit-popup-amount-input"

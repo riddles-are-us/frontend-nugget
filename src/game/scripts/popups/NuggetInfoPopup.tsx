@@ -8,6 +8,7 @@ import { getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
+import PopupCloseButton from "../buttons/PopupCloseButton";
 
 interface Props {
   nuggetData: NuggetData;
@@ -61,6 +62,9 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
       <div ref={containerRef} className="nugget-info-popup-main-container">
         <img src={image} className="nugget-info-popup-avatar-image" />
         <img src={background} className="nugget-info-popup-main-background" />
+        <div className="nugget-info-popup-close-button">
+          <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
+        </div>
         <p
           className="nugget-info-popup-title-text"
           style={{

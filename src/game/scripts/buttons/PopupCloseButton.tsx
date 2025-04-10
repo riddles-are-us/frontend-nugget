@@ -1,6 +1,6 @@
 import normalImage from "../../images/buttons/pop_close_button/x.png";
-import hoverImage from "../../images/buttons/pop_close_button/left_hover.png";
-import clickImage from "../../images/buttons/pop_close_button/left_click.png";
+import hoverImage from "../../images/buttons/pop_close_button/x_hover.png";
+import clickImage from "../../images/buttons/pop_close_button/x_click.png";
 import ImageButton from "../common/ImageButton";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   isDisabled: boolean;
 }
 
-const PopCloseButton = ({ onClick, isDisabled }: Props) => {
+const PopupCloseButton = ({ onClick, isDisabled }: Props) => {
   return (
     <div
       style={{
@@ -16,12 +16,10 @@ const PopCloseButton = ({ onClick, isDisabled }: Props) => {
         left: "50%",
         top: "50%",
         width: "auto",
-        height: "auto",
+        height: "100%",
         aspectRatio: "1 / 1",
         transform: "translate(-50%, -50%)",
         margin: "0px",
-        pointerEvents: "none",
-        userSelect: "none",
       }}
     >
       <ImageButton
@@ -36,4 +34,4 @@ const PopCloseButton = ({ onClick, isDisabled }: Props) => {
   );
 };
 
-export default PopCloseButton;
+export default PopupCloseButton;

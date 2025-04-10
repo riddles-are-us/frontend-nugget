@@ -10,7 +10,18 @@ interface Props {
 
 const TemplateImageButton = ({ onClick }: Props) => {
   return (
-    <div style={{ width: 80, height: 30 }}>
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        width: "auto",
+        height: "100%",
+        aspectRatio: "1 / 1",
+        transform: "translate(-50%, -50%)",
+        margin: "0px",
+      }}
+    >
       <ImageButton
         isDisabled={false}
         defaultImagePath={buttonImage}

@@ -9,6 +9,13 @@ import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
+import {
+  getBidNuggetTransactionCommandArray,
+  getCreateNuggetTransactionCommandArray,
+  sendTransaction,
+} from "../request";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { selectUserState } from "../../../data/state";
 
 interface Props {
   nuggetData: NuggetData;
@@ -24,9 +31,12 @@ const MarketNuggetInfoPopup = ({ nuggetData }: Props) => {
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
@@ -61,7 +71,28 @@ const MarketNuggetInfoPopup = ({ nuggetData }: Props) => {
   };
 
   const onClickBidNugget = () => {
-    // dispatch(setUIState({ type: UIStateType.Idle }));
+    if (!isLoading) {
+      setIsLoading(true);
+      dispatch(
+        sendTransaction({
+          cmd: getBidNuggetTransactionCommandArray(
+            userState!.player!.nonce,
+            nuggetId
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then((action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          // handleResult("Withdraw successed");
+          console.log("bid nugget successed");
+          setIsLoading(false);
+        } else if (sendTransaction.rejected.match(action)) {
+          // setErrorMessage("Withdraw Error: " + action.payload);
+          console.log("bid nugget Error: " + action.payload);
+          setIsLoading(false);
+        }
+      });
+    }
   };
 
   return (

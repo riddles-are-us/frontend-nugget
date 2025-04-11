@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./NuggetInfoPopup.css";
+import "./MarketNuggetInfoPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import { NuggetData } from "../../../data/model";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
@@ -20,7 +20,7 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const NuggetInfoPopup = ({ nuggetData }: Props) => {
+const MarketNuggetInfoPopup = ({ nuggetData }: Props) => {
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
@@ -55,30 +55,32 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
   }, [containerRef.current]);
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.NuggetInfoPopup) {
+    if (uIState.type == UIStateType.MarketNuggetInfoPopup) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
 
-  const onClickExploreNugget = () => {
-    // dispatch(setUIState({ type: UIStateType.Idle }));
-  };
-
-  const onClickSellNugget = () => {
+  const onClickBidNugget = () => {
     // dispatch(setUIState({ type: UIStateType.Idle }));
   };
 
   return (
-    <div className="nugget-info-popup-container">
-      <div onClick={onClickCancel} className="nugget-info-popup-mask" />
-      <div ref={containerRef} className="nugget-info-popup-main-container">
-        <img src={image} className="nugget-info-popup-avatar-image" />
-        <img src={background} className="nugget-info-popup-main-background" />
-        <div className="nugget-info-popup-close-button">
+    <div className="market-nugget-info-popup-container">
+      <div onClick={onClickCancel} className="market-nugget-info-popup-mask" />
+      <div
+        ref={containerRef}
+        className="market-nugget-info-popup-main-container"
+      >
+        <img src={image} className="market-nugget-info-popup-avatar-image" />
+        <img
+          src={background}
+          className="market-nugget-info-popup-main-background"
+        />
+        <div className="market-nugget-info-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="nugget-info-popup-title-text"
+          className="market-nugget-info-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -87,7 +89,7 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
           {`NuggetId: ${nuggetId}`}
         </p>
         <p
-          className="nugget-info-popup-price-text"
+          className="market-nugget-info-popup-price-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -96,7 +98,7 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
           {`Recycle Price: ${nuggetPrice}`}
         </p>
         <p
-          className="nugget-info-popup-cycle-text"
+          className="market-nugget-info-popup-cycle-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -105,7 +107,7 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
           {`Cycle: ${nuggetCycle}`}
         </p>
         <p
-          className="nugget-info-popup-bid-text"
+          className="market-nugget-info-popup-bid-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -113,9 +115,12 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
         >
           {`Bid: ${nuggetBid}`}
         </p>
-        <div className="nugget-info-popup-levels-container">
+        <div className="market-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
-            <div key={index} className={`nugget-info-popup-level-container`}>
+            <div
+              key={index}
+              className={`market-nugget-info-popup-level-container`}
+            >
               <NuggetLevel key={index} isActive={index < nuggetLevel} />
             </div>
           ))}
@@ -123,7 +128,7 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
         <div>
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
-              className="nugget-info-popup-attributes-text"
+              className="market-nugget-info-popup-attributes-text"
               style={{
                 left: `${attributeLefts[index] * 100}%`,
                 fontSize: attributesFontSize,
@@ -134,17 +139,10 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
             </p>
           ))}
         </div>
-        <div className="nugget-info-popup-explore-button">
+        <div className="market-nugget-info-popup-bid-button">
           <DefaultButton
-            text={"Explore Nugget"}
-            onClick={onClickExploreNugget}
-            isDisabled={false}
-          />
-        </div>
-        <div className="nugget-info-popup-sell-button">
-          <DefaultButton
-            text={"Sell Nugget"}
-            onClick={onClickSellNugget}
+            text={"Bid"}
+            onClick={onClickBidNugget}
             isDisabled={false}
           />
         </div>
@@ -153,4 +151,4 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
   );
 };
 
-export default NuggetInfoPopup;
+export default MarketNuggetInfoPopup;

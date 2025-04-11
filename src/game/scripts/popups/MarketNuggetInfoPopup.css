@@ -1,0 +1,139 @@
+.market-nugget-info-popup-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+.market-nugget-info-popup-mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.market-nugget-info-popup-main-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: 30%;
+  aspect-ratio: 726 / 273;
+}
+
+.market-nugget-info-popup-main-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.market-nugget-info-popup-close-button {
+  position: absolute;
+  top: 3%;
+  left: 93%;
+  height: 15%;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+}
+
+.market-nugget-info-popup-avatar-image {
+  position: absolute;
+  width: auto;
+  height: 36%;
+  aspect-ratio: 88 / 79;
+  left: 12.2%;
+  top: 27%;
+  transform: translate(-50%, -50%);
+}
+
+.market-nugget-info-popup-title-text,
+.market-nugget-info-popup-price-text,
+.market-nugget-info-popup-cycle-text,
+.market-nugget-info-popup-bid-text,
+.market-nugget-info-popup-attributes-text {
+  margin: 0px;
+  color: white;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.market-nugget-info-popup-title-text {
+  font-weight: bold;
+  position: absolute;
+  width: 40%;
+  height: 20%;
+  left: 42%;
+  top: 17%;
+  transform: translate(-50%, -50%);
+}
+
+.market-nugget-info-popup-price-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 37%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+}
+
+.market-nugget-info-popup-cycle-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 64%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+}
+
+.market-nugget-info-popup-bid-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 79%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+}
+
+.market-nugget-info-popup-attributes-text {
+  position: absolute;
+  text-align: center;
+  width: 3%;
+  height: 15%;
+  left: 50%;
+  top: 62%;
+  transform: translate(0, -50%);
+}
+
+.market-nugget-info-popup-levels-container {
+  position: absolute;
+  width: 0;
+  height: 12%;
+  left: 21.5%;
+  top: 27%;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+
+.market-nugget-info-popup-level-container {
+  position: relative;
+  width: auto;
+  height: 90%;
+  aspect-ratio: 1;
+}
+
+.market-nugget-info-popup-bid-button {
+  position: absolute;
+  width: 25%;
+  height: 18%;
+  left: 83%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+}

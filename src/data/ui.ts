@@ -8,26 +8,26 @@ export enum UIStateType {
   Idle,
   WelcomePage,
   TemplatePopup,
-  QueryWithdraw,
   WithdrawPopup,
-  QueryDeposit,
   DepositPopup,
   ConfirmPopup,
   ErrorPopup,
-  NuggetInfoPopup,
+  InventoryNuggetInfoPopup,
+  MarketNuggetInfoPopup,
+  BidNuggetInfoPopup,
 }
 
 export type UIState = 
   { type: UIStateType.Idle} |
   { type: UIStateType.WelcomePage} |
   { type: UIStateType.TemplatePopup} |
-  { type: UIStateType.QueryWithdraw} |
   { type: UIStateType.WithdrawPopup} |
-  { type: UIStateType.QueryDeposit} |
   { type: UIStateType.DepositPopup} |
   { type: UIStateType.ConfirmPopup} |
   { type: UIStateType.ErrorPopup} |
-  { type: UIStateType.NuggetInfoPopup; nuggetData: NuggetData };
+  { type: UIStateType.InventoryNuggetInfoPopup; nuggetData: NuggetData } |
+  { type: UIStateType.MarketNuggetInfoPopup; nuggetData: NuggetData } |
+  { type: UIStateType.BidNuggetInfoPopup; nuggetData: NuggetData };
 
 export enum TabState {
   Inventory,

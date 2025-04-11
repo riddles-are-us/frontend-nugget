@@ -55,7 +55,8 @@
 .nugget-info-popup-title-text,
 .nugget-info-popup-price-text,
 .nugget-info-popup-cycle-text,
-.nugget-info-popup-bid-text {
+.nugget-info-popup-bid-text,
+.nugget-info-popup-attributes-text {
   margin: 0px;
   color: white;
   font-family: "AdobeClean";
@@ -99,6 +100,16 @@
   left: 79%;
   top: 42%;
   transform: translate(-50%, -50%);
+}
+
+.nugget-info-popup-attributes-text {
+  position: absolute;
+  text-align: center;
+  width: 3%;
+  height: 15%;
+  left: 50%;
+  top: 62%;
+  transform: translate(0, -50%);
 }
 
 .nugget-info-popup-levels-container {

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./NuggetInfoPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import { NuggetData } from "../../../data/model";
-import { getTextShadowStyle } from "../common/Utility";
+import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
@@ -14,22 +14,34 @@ interface Props {
   nuggetData: NuggetData;
 }
 
+const attributeLefts = [
+  0.008, 0.045, 0.083, 0.123, 0.16, 0.197, 0.236, 0.274, 0.313, 0.351, 0.39,
+  0.428, 0.467, 0.505, 0.543, 0.582, 0.619, 0.658, 0.695, 0.733, 0.769, 0.808,
+  0.845, 0.883, 0.92, 0.957,
+];
+
 const NuggetInfoPopup = ({ nuggetData }: Props) => {
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
+  const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
   const nuggetBid = nuggetData.bid?.bidprice ?? 0;
+  const nuggetAttributeString = getAttributeList(
+    nuggetData.attributes,
+    nuggetData.feature
+  );
 
   const adjustSize = () => {
     if (containerRef.current) {
       setTitleFontSize(containerRef.current.offsetHeight / 10);
       setDescriptionFontSize(containerRef.current.offsetHeight / 13);
+      setAttributesFontSize(containerRef.current.offsetHeight / 10);
     }
   };
 
@@ -106,6 +118,20 @@ const NuggetInfoPopup = ({ nuggetData }: Props) => {
             <div key={index} className={`nugget-info-popup-level-container`}>
               <NuggetLevel key={index} isActive={index < nuggetLevel} />
             </div>
+          ))}
+        </div>
+        <div>
+          {nuggetAttributeString.slice(0, 26).map((s, index) => (
+            <p
+              className="nugget-info-popup-attributes-text"
+              style={{
+                left: `${attributeLefts[index] * 100}%`,
+                fontSize: attributesFontSize,
+                ...getTextShadowStyle(attributesFontSize / 15),
+              }}
+            >
+              {s}
+            </p>
           ))}
         </div>
         <div className="nugget-info-popup-explore-button">

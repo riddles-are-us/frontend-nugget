@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Grid from "../../common/Grid";
 import "./NuggetGrid.css";
-import Nugget from "./Nugget";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import {
   selectNuggetsData,
@@ -12,19 +11,38 @@ import {
   UIStateType,
 } from "../../../../data/ui";
 import { NuggetData } from "../../../../data/model";
+import Nugget from "./Nugget";
 
 const NuggetGrid = () => {
   const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
   const nuggetsData = useAppSelector(selectNuggetsData);
   const tabState = useAppSelector(selectTabState);
-  const nuggets =
+  const elements =
     tabState == TabState.Inventory
-      ? nuggetsData.inventory
+      ? nuggetsData.inventory.map((nuggetData, index) => (
+          <Nugget
+            key={index}
+            nuggetData={nuggetData}
+            onClickMore={() => onClickMore(nuggetData)}
+          />
+        ))
       : tabState == TabState.Market
-      ? nuggetsData.market
+      ? nuggetsData.market.map((nuggetData, index) => (
+          <Nugget
+            key={index}
+            nuggetData={nuggetData}
+            onClickMore={() => onClickMore(nuggetData)}
+          />
+        ))
       : tabState == TabState.Bid
-      ? nuggetsData.bid
+      ? nuggetsData.bid.map((nuggetData, index) => (
+          <Nugget
+            key={index}
+            nuggetData={nuggetData}
+            onClickMore={() => onClickMore(nuggetData)}
+          />
+        ))
       : [];
 
   const elementRatio = 432 / 132;
@@ -65,13 +83,7 @@ const NuggetGrid = () => {
         elementHeight={elementHeight}
         columnCount={3}
         rowCount={rowCount}
-        elements={nuggets.map((nuggetData, index) => (
-          <Nugget
-            key={index}
-            nuggetData={nuggetData}
-            onClickMore={() => onClickMore(nuggetData)}
-          />
-        ))}
+        elements={elements}
       />
     </div>
   );

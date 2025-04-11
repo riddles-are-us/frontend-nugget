@@ -28,7 +28,8 @@
 .nugget-title-text,
 .nugget-price-text,
 .nugget-cycle-text,
-.nugget-bid-text {
+.nugget-bid-text,
+.nugget-attributes-text {
   margin: 0px;
   color: white;
   font-family: "AdobeClean";
@@ -74,6 +75,16 @@
   transform: translate(-50%, -50%);
 }
 
+.nugget-attributes-text {
+  position: absolute;
+  text-align: center;
+  width: 3%;
+  height: 15%;
+  left: 50%;
+  top: 84%;
+  transform: translate(0, -50%);
+}
+
 .nugget-more-button {
   position: absolute;
   width: 15%;
@@ -82,6 +93,7 @@
   top: 53%;
   transform: translate(-50%, -50%);
 }
+
 .nugget-levels-container {
   position: absolute;
   width: 0;

@@ -12,13 +12,21 @@ import rightInputBackground from "../../images/popups/default/right_input.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
+import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { getWithdrawTransactionCommandArray } from "../request";
+import { selectUserState } from "../../../data/state";
 
 const WithdrawPopup = () => {
   const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
+  const userState = useAppSelector(selectUserState);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [amountString, setAmountString] = useState<string>("");
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const l1account = useAppSelector(AccountSlice.selectL1Account);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -36,7 +44,29 @@ const WithdrawPopup = () => {
   }, [containerRef.current]);
 
   const onClickConfirm = () => {
-    /* */
+    if (!isLoading) {
+      setIsLoading(true);
+      dispatch(
+        sendTransaction({
+          cmd: getWithdrawTransactionCommandArray(
+            userState!.player!.nonce,
+            BigInt(amountString),
+            l1account!
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then((action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          // handleResult("Withdraw successed");
+          console.log("Withdraw successed");
+          setIsLoading(false);
+        } else if (sendTransaction.rejected.match(action)) {
+          // setErrorMessage("Withdraw Error: " + action.payload);
+          console.log("Withdraw Error: " + action.payload);
+          setIsLoading(false);
+        }
+      });
+    }
   };
 
   const onClickCancel = () => {

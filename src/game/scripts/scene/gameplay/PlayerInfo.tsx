@@ -6,6 +6,8 @@ import { AccountSlice } from "zkwasm-minirollup-browser";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
+import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
+import { getCreateNuggetTransactionCommandArray } from "../../request";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +18,7 @@ const PlayerInfo = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -41,7 +44,25 @@ const PlayerInfo = () => {
   };
 
   const onClickPickNugget = () => {
-    dispatch(setUIState({ type: UIStateType.Idle }));
+    if (!isLoading) {
+      setIsLoading(true);
+      dispatch(
+        sendTransaction({
+          cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then((action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          // handleResult("Withdraw successed");
+          console.log("pick nugget successed");
+          setIsLoading(false);
+        } else if (sendTransaction.rejected.match(action)) {
+          // setErrorMessage("Withdraw Error: " + action.payload);
+          console.log("pick nugget Error: " + action.payload);
+          setIsLoading(false);
+        }
+      });
+    }
   };
 
   return (

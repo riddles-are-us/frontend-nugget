@@ -67,6 +67,7 @@ export function ConnectController({
     if (connectState == ConnectState.Init) {
       dispatch(setConnectState(ConnectState.OnStart));
     }
+    console.log("l1account", l1account);
   }, [l1account]);
 
   useEffect(() => {

@@ -12,6 +12,7 @@ import rightInputBackground from "../../images/popups/default/right_input.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
+import { AccountSlice } from "zkwasm-minirollup-browser";
 
 const DepositPopup = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,9 @@ const DepositPopup = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [amountString, setAmountString] = useState<string>("");
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const l1account = useAppSelector(AccountSlice.selectL1Account);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -36,7 +40,35 @@ const DepositPopup = () => {
   }, [containerRef.current]);
 
   const onClickConfirm = () => {
-    /* */
+    if (!isLoading) {
+      setIsLoading(true);
+      dispatch(
+        AccountSlice.depositAsync({
+          tokenIndex: 0,
+          amount: Number(BigInt(amountString)),
+          l2account: l2account!,
+          l1account: l1account!,
+        })
+      ).then((action) => {
+        if (AccountSlice.depositAsync.fulfilled.match(action)) {
+          setIsLoading(false);
+          // handleResult("Deposit Success: " + action.payload!.hash);
+          console.log("Deposit Success: " + action.payload!.hash);
+        } else if (AccountSlice.depositAsync.rejected.match(action)) {
+          if (action.error.message == null) {
+            // setErrorMessage("Deposit Failed: Unknown Error");
+            console.log("Deposit Failed: Unknown Error");
+          } else if (action.error.message.startsWith("user rejected action")) {
+            // setErrorMessage("Deposit Failed: User rejected action");
+            console.log("Deposit Failed: User rejected action");
+          } else {
+            // setErrorMessage("Deposit Failed: " + action.error.message);
+            console.log("Deposit Failed: " + action.error.message);
+          }
+          setIsLoading(false);
+        }
+      });
+    }
   };
 
   const onClickCancel = () => {

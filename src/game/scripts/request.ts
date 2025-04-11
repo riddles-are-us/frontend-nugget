@@ -1,6 +1,7 @@
-import { ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
+import { createCommand, createWithdrawCommand, ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { LeHexBN, query } from 'zkwasm-minirollup-rpc';
+import { AccountSlice } from 'zkwasm-minirollup-browser';
 
 // Get the current URL components
 const currentLocation = window.location;
@@ -200,3 +201,73 @@ export const getNugget = createAsyncThunk(
     }
   }
 )
+
+const EXPLORE_NUGGET = 4n;
+const SELL_NUGGET = 5n;
+const BID_NUGGET = 6n;
+const CREATE_NUGGET = 7n;
+const CMD_WITHDRAW = 8n;
+
+export function getExploreNuggetTransactionCommandArray(
+  nonce: number,
+  index: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    EXPLORE_NUGGET,
+    [BigInt(index)]
+  );
+  return command;
+}
+
+export function getSellNuggetTransactionCommandArray(
+  nonce: number,
+  index: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    SELL_NUGGET,
+    [BigInt(index)]
+  );
+  return command;
+}
+
+export function getBidNuggetTransactionCommandArray(
+  nonce: number,
+  index: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    BID_NUGGET,
+    [BigInt(index)]
+  );
+  return command;
+}
+
+export function getCreateNuggetTransactionCommandArray(
+  nonce: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    CREATE_NUGGET,
+    []
+  );
+  return command;
+}
+
+export function getWithdrawTransactionCommandArray(
+  nonce: number,
+  amount: bigint,
+  account: AccountSlice.L1AccountInfo
+): BigUint64Array {
+console.log("address", account)
+const address = account!.address.slice(2);
+  const command = createWithdrawCommand(
+    BigInt(nonce),
+    CMD_WITHDRAW,
+    address,
+    0n,
+    amount
+  );
+  return command;
+}

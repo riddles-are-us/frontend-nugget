@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./DepositPopup.css";
+import "./WithdrawPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
@@ -13,7 +13,7 @@ import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
 
-const DepositPopup = () => {
+const WithdrawPopup = () => {
   const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
   const containerRef = useRef<HTMLParagraphElement>(null);
@@ -40,16 +40,16 @@ const DepositPopup = () => {
   };
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.DepositPopup) {
+    if (uIState.type == UIStateType.WithdrawPopup) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
 
   return (
-    <div className="deposit-popup-container">
-      <div onClick={onClickCancel} className="deposit-popup-mask" />
-      <div ref={containerRef} className="deposit-popup-main-container">
-        <div className="deposit-popup-main-background">
+    <div className="withdraw-popup-container">
+      <div onClick={onClickCancel} className="withdraw-popup-mask" />
+      <div ref={containerRef} className="withdraw-popup-main-container">
+        <div className="withdraw-popup-main-background">
           <HorizontalExtendableImage
             leftRatio={58 / 238}
             rightRatio={58 / 238}
@@ -58,19 +58,19 @@ const DepositPopup = () => {
             rightImage={rightBackground}
           />
         </div>
-        <div className="deposit-popup-close-button">
+        <div className="withdraw-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="deposit-popup-title-text"
+          className="withdraw-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
           }}
         >
-          Deposit
+          Withdraw
         </p>
-        <div className="deposit-popup-amount-input-container">
+        <div className="withdraw-popup-amount-input-container">
           <HorizontalExtendableImage
             leftRatio={16 / 53}
             rightRatio={16 / 53}
@@ -80,7 +80,7 @@ const DepositPopup = () => {
           />
           <input
             type="number"
-            className="deposit-popup-amount-input"
+            className="withdraw-popup-amount-input"
             value={amountString}
             onChange={(e) => setAmountString(e.target.value)}
             placeholder="Enter amount"
@@ -91,7 +91,7 @@ const DepositPopup = () => {
           />
         </div>
 
-        <div className="deposit-popup-confirm-button">
+        <div className="withdraw-popup-confirm-button">
           <DefaultButton
             onClick={onClickConfirm}
             text={"Confirm"}
@@ -103,4 +103,4 @@ const DepositPopup = () => {
   );
 };
 
-export default DepositPopup;
+export default WithdrawPopup;

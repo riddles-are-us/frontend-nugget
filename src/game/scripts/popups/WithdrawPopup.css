@@ -1,4 +1,4 @@
-.deposit-popup-container {
+.withdraw-popup-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -8,14 +8,14 @@
   z-index: 20;
 }
 
-.deposit-popup-mask {
+.withdraw-popup-mask {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   user-select: none;
 }
 
-.deposit-popup-main-container {
+.withdraw-popup-main-container {
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -25,14 +25,14 @@
   aspect-ratio: 5 / 3;
 }
 
-.deposit-popup-main-background {
+.withdraw-popup-main-background {
   position: absolute;
   width: 100%;
   height: 100%;
   user-select: none;
 }
 
-.deposit-popup-close-button {
+.withdraw-popup-close-button {
   position: absolute;
   top: 3%;
   left: 87%;
@@ -42,7 +42,7 @@
   transform: translate(-50%, -50%);
 }
 
-.deposit-popup-confirm-button {
+.withdraw-popup-confirm-button {
   position: absolute;
   top: 82%;
   left: 50%;
@@ -52,7 +52,7 @@
   transform: translate(-50%, -50%);
 }
 
-.deposit-popup-title-text {
+.withdraw-popup-title-text {
   margin: 0px;
   color: white;
   font-family: "AdobeClean";
@@ -69,7 +69,7 @@
   transform: translate(-50%, -50%);
 }
 
-.deposit-popup-amount-input-container {
+.withdraw-popup-amount-input-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -80,7 +80,7 @@
   user-select: none;
 }
 
-.deposit-popup-amount-input {
+.withdraw-popup-amount-input {
   position: absolute;
   background: none;
   border: none;
@@ -95,7 +95,7 @@
   user-select: none;
 }
 
-.deposit-popup-amount-input::placeholder {
+.withdraw-popup-amount-input::placeholder {
   color: white;
   opacity: 1;
 }

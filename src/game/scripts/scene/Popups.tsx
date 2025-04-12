@@ -15,13 +15,13 @@ const Popups = () => {
       {uIState.type == UIStateType.DepositPopup && <DepositPopup />}
       {uIState.type == UIStateType.WithdrawPopup && <WithdrawPopup />}
       {uIState.type == UIStateType.InventoryNuggetInfoPopup && (
-        <InventoryNuggetInfoPopup nuggetData={uIState.nuggetData} />
+        <InventoryNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
       )}
       {uIState.type == UIStateType.MarketNuggetInfoPopup && (
-        <MarketNuggetInfoPopup nuggetData={uIState.nuggetData} />
+        <MarketNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
       )}
       {uIState.type == UIStateType.BidNuggetInfoPopup && (
-        <BidNuggetInfoPopup nuggetData={uIState.nuggetData} />
+        <BidNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
       )}
     </>
   );

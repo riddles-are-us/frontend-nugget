@@ -11,14 +11,16 @@ import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import {
   getExploreNuggetTransactionCommandArray,
+  getNugget,
   getSellNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
+import { selectInventoryNuggetsData } from "../../../data/nuggets";
 
 interface Props {
-  nuggetData: NuggetData;
+  nuggetIndex: number;
 }
 
 const attributeLefts = [
@@ -27,8 +29,10 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const InventoryNuggetInfoPopup = ({ nuggetData }: Props) => {
+const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
+  const inventoryNuggetsData = useAppSelector(selectInventoryNuggetsData);
+  const nuggetData = inventoryNuggetsData[nuggetIndex];
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
@@ -83,11 +87,22 @@ const InventoryNuggetInfoPopup = ({ nuggetData }: Props) => {
         })
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          // handleResult("Withdraw successed");
           console.log("explore nugget successed");
-          setIsLoading(false);
+          dispatch(
+            getNugget({
+              index: nuggetIndex,
+              nuggetId,
+            })
+          ).then((action) => {
+            if (sendTransaction.fulfilled.match(action)) {
+              console.log("explore nugget update successed");
+              setIsLoading(false);
+            } else if (sendTransaction.rejected.match(action)) {
+              console.log("explore nugget update Error: " + action.payload);
+              setIsLoading(false);
+            }
+          });
         } else if (sendTransaction.rejected.match(action)) {
-          // setErrorMessage("Withdraw Error: " + action.payload);
           console.log("explore nugget Error: " + action.payload);
           setIsLoading(false);
         }
@@ -110,6 +125,7 @@ const InventoryNuggetInfoPopup = ({ nuggetData }: Props) => {
         if (sendTransaction.fulfilled.match(action)) {
           // handleResult("Withdraw successed");
           console.log("sell nugget successed");
+          dispatch(setUIState({ type: UIStateType.Idle }));
           setIsLoading(false);
         } else if (sendTransaction.rejected.match(action)) {
           // setErrorMessage("Withdraw Error: " + action.payload);
@@ -187,6 +203,7 @@ const InventoryNuggetInfoPopup = ({ nuggetData }: Props) => {
         <div>
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
+              key={index}
               className="inventory-nugget-info-popup-attributes-text"
               style={{
                 left: `${attributeLefts[index] * 100}%`,

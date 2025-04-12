@@ -16,9 +16,10 @@ import {
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
+import { selectMarketNuggetsData } from "../../../data/nuggets";
 
 interface Props {
-  nuggetData: NuggetData;
+  nuggetIndex: number;
 }
 
 const attributeLefts = [
@@ -27,8 +28,10 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const MarketNuggetInfoPopup = ({ nuggetData }: Props) => {
+const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
+  const marketNuggetsData = useAppSelector(selectMarketNuggetsData);
+  const nuggetData = marketNuggetsData[nuggetIndex];
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
@@ -159,6 +162,7 @@ const MarketNuggetInfoPopup = ({ nuggetData }: Props) => {
         <div>
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
+              key={index}
               className="market-nugget-info-popup-attributes-text"
               style={{
                 left: `${attributeLefts[index] * 100}%`,

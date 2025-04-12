@@ -3,7 +3,6 @@ import Grid from "../../common/Grid";
 import "./NuggetGrid.css";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import {
-  selectNuggetsData,
   selectTabState,
   selectUIState,
   setUIState,
@@ -12,41 +11,43 @@ import {
 } from "../../../../data/ui";
 import { NuggetData } from "../../../../data/model";
 import Nugget from "./Nugget";
+import {
+  selectBidNuggetsData,
+  selectInventoryNuggetsData,
+  selectMarketNuggetsData,
+} from "../../../../data/nuggets";
 
 const NuggetGrid = () => {
   const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
-  const nuggetsData = useAppSelector(selectNuggetsData);
+  const inventoryNuggetsData = useAppSelector(selectInventoryNuggetsData);
+  const marketNuggetsData = useAppSelector(selectMarketNuggetsData);
+  const bidNuggetsData = useAppSelector(selectBidNuggetsData);
+
   const tabState = useAppSelector(selectTabState);
   const elements =
     tabState == TabState.Inventory
-      ? nuggetsData.inventory.map((nuggetData, index) => (
+      ? inventoryNuggetsData.map((nuggetData, index) => (
           <Nugget
             key={index}
             nuggetData={nuggetData}
-            onClickMore={() =>
-              onClickMore(nuggetData, UIStateType.InventoryNuggetInfoPopup)
-            }
+            onClickMore={() => onClickInventoryMore(index)}
           />
         ))
       : tabState == TabState.Market
-      ? nuggetsData.market.map((nuggetData, index) => (
+      ? marketNuggetsData.map((nuggetData, index) => (
           <Nugget
             key={index}
             nuggetData={nuggetData}
-            onClickMore={() =>
-              onClickMore(nuggetData, UIStateType.MarketNuggetInfoPopup)
-            }
+            onClickMore={() => onClickMarketMore(index)}
           />
         ))
       : tabState == TabState.Bid
-      ? nuggetsData.bid.map((nuggetData, index) => (
+      ? bidNuggetsData.map((nuggetData, index) => (
           <Nugget
             key={index}
             nuggetData={nuggetData}
-            onClickMore={() =>
-              onClickMore(nuggetData, UIStateType.BidNuggetInfoPopup)
-            }
+            onClickMore={() => onClickBidMore(index)}
           />
         ))
       : [];
@@ -76,9 +77,30 @@ const NuggetGrid = () => {
     };
   }, []);
 
-  const onClickMore = (nuggetData: NuggetData, uIStateType: UIStateType) => {
+  const onClickInventoryMore = (nuggetIndex: number) => {
     if (uIState.type == UIStateType.Idle) {
-      dispatch(setUIState({ type: uIStateType, nuggetData }));
+      dispatch(
+        setUIState({
+          type: UIStateType.InventoryNuggetInfoPopup,
+          nuggetIndex,
+        })
+      );
+    }
+  };
+
+  const onClickMarketMore = (nuggetIndex: number) => {
+    if (uIState.type == UIStateType.Idle) {
+      dispatch(
+        setUIState({ type: UIStateType.MarketNuggetInfoPopup, nuggetIndex })
+      );
+    }
+  };
+
+  const onClickBidMore = (nuggetIndex: number) => {
+    if (uIState.type == UIStateType.Idle) {
+      dispatch(
+        setUIState({ type: UIStateType.BidNuggetInfoPopup, nuggetIndex })
+      );
     }
   };
 

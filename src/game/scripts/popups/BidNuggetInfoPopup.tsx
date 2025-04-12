@@ -9,9 +9,10 @@ import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
+import { selectBidNuggetsData } from "../../../data/nuggets";
 
 interface Props {
-  nuggetData: NuggetData;
+  nuggetIndex: number;
 }
 
 const attributeLefts = [
@@ -20,8 +21,10 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const BidNuggetInfoPopup = ({ nuggetData }: Props) => {
+const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
+  const bidNuggetsData = useAppSelector(selectBidNuggetsData);
+  const nuggetData = bidNuggetsData[nuggetIndex];
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
@@ -121,6 +124,7 @@ const BidNuggetInfoPopup = ({ nuggetData }: Props) => {
         <div>
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
+              key={index}
               className="bid-nugget-info-popup-attributes-text"
               style={{
                 left: `${attributeLefts[index] * 100}%`,

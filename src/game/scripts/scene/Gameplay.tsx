@@ -3,7 +3,7 @@ import Popups from "./Popups";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import "./Gameplay.css";
-import { selectUserState } from "../../../data/state";
+import { selectNullableUserState, selectUserState } from "../../../data/state";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import VerticalExtendableImage from "../common/VerticalExtendableImage";
 import leftTopImage from "../../images/scene/gameplay/left_container/left_top.png";
@@ -17,9 +17,28 @@ import avatarImage from "../../images/avatars/Avatar.png";
 import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
 import { selectUIState } from "../../../data/ui";
+import { getBids, getNugget, getNuggets } from "../request";
 
 const Gameplay = () => {
+  const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const userState = useAppSelector(selectNullableUserState);
+
+  useEffect(() => {
+    if (userState) {
+      dispatch(getNuggets(0));
+      dispatch(getBids(l2account!.getPrivateKey()));
+      for (let i = 0; i < userState!.player!.data.inventory.length; i++) {
+        dispatch(
+          getNugget({
+            index: i,
+            nuggetId: userState!.player!.data.inventory[i],
+          })
+        );
+      }
+    }
+  }, [userState]);
 
   return (
     <div className="gameplay-container">

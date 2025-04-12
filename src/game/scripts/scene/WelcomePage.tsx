@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./WelcomePage.css";
 import background from "../../images/scene/welcome_page/welcome_bg.png";
 import TemplateAdjustableImageTextButton from "../template/TemplateAdjustableImageTextButton";
-import { getNuggets } from "../request";
 
 interface Props {
   isLogin: boolean;
@@ -12,7 +10,6 @@ interface Props {
 }
 
 const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
-  const dispatch = useAppDispatch();
   const textRef = useRef<HTMLParagraphElement>(null);
   const [fontSize, setFontSize] = useState<number>(0);
 
@@ -37,7 +34,6 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
   };
 
   const onClickPlay = () => {
-    dispatch(getNuggets(0));
     onStartGame();
   };
 

@@ -7,7 +7,10 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
-import { getCreateNuggetTransactionCommandArray } from "../../request";
+import {
+  getCreateNuggetTransactionCommandArray,
+  getNuggets,
+} from "../../request";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -55,7 +58,17 @@ const PlayerInfo = () => {
         if (sendTransaction.fulfilled.match(action)) {
           // handleResult("Withdraw successed");
           console.log("pick nugget successed");
-          setIsLoading(false);
+          dispatch(getNuggets(0)).then((action) => {
+            if (getNuggets.fulfilled.match(action)) {
+              // handleResult("Withdraw successed");
+              console.log("getNuggets successed");
+              setIsLoading(false);
+            } else if (getNuggets.rejected.match(action)) {
+              // setErrorMessage("Withdraw Error: " + action.payload);
+              console.log("getNuggets Error: " + action.payload);
+              setIsLoading(false);
+            }
+          });
         } else if (sendTransaction.rejected.match(action)) {
           // setErrorMessage("Withdraw Error: " + action.payload);
           console.log("pick nugget Error: " + action.payload);

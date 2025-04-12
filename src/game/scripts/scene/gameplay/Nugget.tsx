@@ -93,6 +93,7 @@ const Nugget = ({ nuggetData, onClickMore }: Props) => {
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
               className="nugget-attributes-text"
+              key={index}
               style={{
                 left: `${attributeLefts[index] * 100}%`,
                 fontSize: attributesFontSize,

@@ -28,8 +28,9 @@ const nuggetsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(queryState.fulfilled, (state, action) => {
-        // console.log("queryState", action.payload.player.data.inventory);
-        state.inventory = action.payload.player.data.inventory;
+        if (action.payload.player){
+          state.inventory = action.payload.player.data.inventory;
+        }
       })
       .addCase(getNuggets.fulfilled, (state, action) => {
         state.nuggets = action.payload.reduce((acc: any, nugget: any) => {

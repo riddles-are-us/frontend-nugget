@@ -39,7 +39,7 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
 
   return (
     <div className="welcome-page-container">
-      <img className="welcome-page-background" src={background} />
+      <div className="welcome-page-background" />
       {isLogin ? (
         <div className="welcome-page-panel-play-button">
           <TemplateAdjustableImageTextButton

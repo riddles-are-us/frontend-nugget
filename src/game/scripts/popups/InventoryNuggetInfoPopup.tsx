@@ -81,7 +81,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetId
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -117,7 +117,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         sendTransaction({
           cmd: getSellNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetId
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })

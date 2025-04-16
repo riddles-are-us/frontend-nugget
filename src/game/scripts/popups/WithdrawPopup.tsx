@@ -60,6 +60,7 @@ const WithdrawPopup = () => {
           // handleResult("Withdraw successed");
           console.log("Withdraw successed");
           setIsLoading(false);
+          dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
           // setErrorMessage("Withdraw Error: " + action.payload);
           console.log("Withdraw Error: " + action.payload);

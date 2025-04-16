@@ -4,6 +4,8 @@ import {
   getConfig,
   sendTransaction,
   queryState,
+  getRpcUrl,
+  setRpcUrl
 } from "zkwasm-minirollup-browser/src/connect";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
@@ -13,6 +15,7 @@ import WelcomePage from "./WelcomePage";
 
 const CREATE_PLAYER = 1n;
 
+setRpcUrl("https://rpc.space-nugget.zkwasm.ai");
 interface Props {
   imageUrls: string[];
   onStart: () => Promise<void>;

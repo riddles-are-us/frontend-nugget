@@ -27,7 +27,7 @@
     "stream-http": "^3.2.0",
     "url": "^0.11.4",
     "web3subscriber": "git+https://github.com/DelphinusLab/delphinus-web3subscriber.git",
-    "zkwasm-minirollup-browser": "github:DelphinusLab/zkWasm-minirollup-browser#5f982cfd9363c6425d34ef10263d7ed097442a50",
+    "zkwasm-minirollup-browser": "github:DelphinusLab/zkWasm-minirollup-browser#c2c8db811ec4c5150b71c1bb6e1ef614511d53f3",
     "zkwasm-minirollup-rpc": "github:DelphinusLab/zkWasm-minirollup-rpc#52bd36c3d6f31c152175016a1d5e3a910738a1ae",
     "zkwasm-service-helper": "github:DelphinusLab/zkWasm-service-helper"
   },

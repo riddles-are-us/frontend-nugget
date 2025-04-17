@@ -18,6 +18,7 @@ import {
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { selectInventoryNuggetsData } from "../../../data/nuggets";
+import { pushError } from "../../../data/errors";
 
 interface Props {
   nuggetIndex: number;
@@ -81,7 +82,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetId
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -98,12 +99,16 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
               console.log("explore nugget update successed");
               setIsLoading(false);
             } else if (sendTransaction.rejected.match(action)) {
-              console.log("explore nugget update Error: " + action.payload);
+              const message = "explore nugget update Error: " + action.payload;
+              dispatch(pushError(message));
+              console.error(message);
               setIsLoading(false);
             }
           });
         } else if (sendTransaction.rejected.match(action)) {
-          console.log("explore nugget Error: " + action.payload);
+          const message = "explore nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
           setIsLoading(false);
         }
       });
@@ -117,19 +122,19 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         sendTransaction({
           cmd: getSellNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetId
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          // handleResult("Withdraw successed");
           console.log("sell nugget successed");
           dispatch(setUIState({ type: UIStateType.Idle }));
           setIsLoading(false);
         } else if (sendTransaction.rejected.match(action)) {
-          // setErrorMessage("Withdraw Error: " + action.payload);
-          console.log("sell nugget Error: " + action.payload);
+          const message = "sell nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
           setIsLoading(false);
         }
       });

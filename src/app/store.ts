@@ -3,12 +3,13 @@ import { AccountSliceReducer } from 'zkwasm-minirollup-browser';
 import stateReducer from "../data/state";
 import uiReducer from "../data/ui";
 import nuggetsReducer from "../data/nuggets";
+import errorsReducer from "../data/errors";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['acccount/deriveL2Account/fulfilled'],
+        ignoredActions: ['acccount/deriveL2Account/fulfilled', 'acccount/deposit/pending', 'acccount/deposit/rejected'],
         ignoredActionPaths: ['payload.web3', 'payload.seed', 'payload.injector', 'meta.arg.cmd'],
         ignoredPaths: [
           "acccount/fetchAccount/fulfilled",
@@ -16,6 +17,7 @@ export const store = configureStore({
           "endpoint.zkWasmServiceHelper",
           "status.config.latest_server_checksum",
           "account.l2account",
+          "ui.player.data.action",
         ],
       },
     }),
@@ -23,7 +25,8 @@ export const store = configureStore({
     account: AccountSliceReducer,
     state: stateReducer,
     ui: uiReducer,
-nuggets: nuggetsReducer,
+    nuggets: nuggetsReducer,
+    errors: errorsReducer,
   },
 });
 

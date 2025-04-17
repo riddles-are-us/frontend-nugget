@@ -13,6 +13,7 @@ import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
 import { AccountSlice } from "zkwasm-minirollup-browser";
+import { pushError } from "../../../data/errors";
 
 const DepositPopup = () => {
   const dispatch = useAppDispatch();
@@ -52,18 +53,21 @@ const DepositPopup = () => {
       ).then((action) => {
         if (AccountSlice.depositAsync.fulfilled.match(action)) {
           setIsLoading(false);
-          // handleResult("Deposit Success: " + action.payload!.hash);
           console.log("Deposit Success: " + action.payload!.hash);
+          dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (AccountSlice.depositAsync.rejected.match(action)) {
           if (action.error.message == null) {
-            // setErrorMessage("Deposit Failed: Unknown Error");
-            console.log("Deposit Failed: Unknown Error");
+            const message = "Deposit Failed: Unknown Error";
+            dispatch(pushError(message));
+            console.error(message);
           } else if (action.error.message.startsWith("user rejected action")) {
-            // setErrorMessage("Deposit Failed: User rejected action");
-            console.log("Deposit Failed: User rejected action");
+            const message = "Deposit Failed: User rejected action";
+            dispatch(pushError(message));
+            console.error(message);
           } else {
-            // setErrorMessage("Deposit Failed: " + action.error.message);
-            console.log("Deposit Failed: " + action.error.message);
+            const message = "Deposit Failed: " + action.error.message;
+            dispatch(pushError(message));
+            console.error(message);
           }
           setIsLoading(false);
         }

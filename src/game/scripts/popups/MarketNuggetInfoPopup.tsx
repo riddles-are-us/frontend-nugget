@@ -17,6 +17,7 @@ import {
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { selectMarketNuggetsData } from "../../../data/nuggets";
+import { pushError } from "../../../data/errors";
 
 interface Props {
   nuggetIndex: number;
@@ -86,12 +87,12 @@ const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         })
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          // handleResult("Withdraw successed");
           console.log("bid nugget successed");
           setIsLoading(false);
         } else if (sendTransaction.rejected.match(action)) {
-          // setErrorMessage("Withdraw Error: " + action.payload);
-          console.log("bid nugget Error: " + action.payload);
+          const message = "bid nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
           setIsLoading(false);
         }
       });

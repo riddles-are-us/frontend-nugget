@@ -3,6 +3,7 @@ import { AccountSliceReducer } from 'zkwasm-minirollup-browser';
 import stateReducer from "../data/state";
 import uiReducer from "../data/ui";
 import nuggetsReducer from "../data/nuggets";
+import errorsReducer from "../data/errors";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -25,6 +26,7 @@ export const store = configureStore({
     state: stateReducer,
     ui: uiReducer,
     nuggets: nuggetsReducer,
+    errors: errorsReducer,
   },
 });
 

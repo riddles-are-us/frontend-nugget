@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectConnectState, setConnectState } from "../../../data/state";
 import LoadingPage from "./LoadingPage";
 import WelcomePage from "./WelcomePage";
+import { pushError } from "../../../data/errors";
 
 const CREATE_PLAYER = 1n;
 
@@ -55,7 +56,9 @@ export function ConnectController({
       await preloadImages(imageUrls);
       console.log(`${imageUrls.length} images loaded`);
     } catch (error) {
-      console.error("Error loading images:", error);
+      const message = "Error loading images: " + error;
+      dispatch(pushError(message));
+      console.error(message);
     }
   };
 

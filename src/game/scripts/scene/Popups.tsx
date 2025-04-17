@@ -6,9 +6,12 @@ import InventoryNuggetInfoPopup from "../popups/InventoryNuggetInfoPopup";
 import WithdrawPopup from "../popups/WithdrawPopup";
 import BidNuggetInfoPopup from "../popups/BidNuggetInfoPopup";
 import MarketNuggetInfoPopup from "../popups/MarketNuggetInfoPopup";
+import ErrorPopup from "../popups/ErrorPopup";
+import { selectError } from "../../../data/errors";
 
 const Popups = () => {
   const uIState = useAppSelector(selectUIState);
+  const error = useAppSelector(selectError);
 
   return (
     <>
@@ -23,6 +26,7 @@ const Popups = () => {
       {uIState.type == UIStateType.BidNuggetInfoPopup && (
         <BidNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
       )}
+      {error && <ErrorPopup message={error} />}
     </>
   );
 };

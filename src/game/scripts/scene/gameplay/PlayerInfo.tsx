@@ -11,6 +11,7 @@ import {
   getCreateNuggetTransactionCommandArray,
   getNuggets,
 } from "../../request";
+import { pushError } from "../../../../data/errors";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -56,22 +57,22 @@ const PlayerInfo = () => {
         })
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          // handleResult("Withdraw successed");
           console.log("pick nugget successed");
           dispatch(getNuggets(0)).then((action) => {
             if (getNuggets.fulfilled.match(action)) {
-              // handleResult("Withdraw successed");
               console.log("getNuggets successed");
               setIsLoading(false);
             } else if (getNuggets.rejected.match(action)) {
-              // setErrorMessage("Withdraw Error: " + action.payload);
-              console.log("getNuggets Error: " + action.payload);
+              const message = "getNuggets Error: " + action.payload;
+              dispatch(pushError(message));
+              console.error(message);
               setIsLoading(false);
             }
           });
         } else if (sendTransaction.rejected.match(action)) {
-          // setErrorMessage("Withdraw Error: " + action.payload);
-          console.log("pick nugget Error: " + action.payload);
+          const message = "pick nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
           setIsLoading(false);
         }
       });

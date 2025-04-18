@@ -95,10 +95,10 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
               nuggetId,
             })
           ).then((action) => {
-            if (sendTransaction.fulfilled.match(action)) {
+            if (getNugget.fulfilled.match(action)) {
               console.log("explore nugget update successed");
               dispatch(setIsLoading(false));
-            } else if (sendTransaction.rejected.match(action)) {
+            } else if (getNugget.rejected.match(action)) {
               const message = "explore nugget update Error: " + action.payload;
               dispatch(pushError(message));
               console.error(message);
@@ -118,7 +118,6 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const onClickSellNugget = () => {
     if (!isLoading) {
       dispatch(setIsLoading(true));
-      setIsLoading(true);
       dispatch(
         sendTransaction({
           cmd: getSellNuggetTransactionCommandArray(

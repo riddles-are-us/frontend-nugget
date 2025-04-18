@@ -35,6 +35,7 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
   const nuggetBid = nuggetData.bid?.bidprice ?? 0;
+  const nuggetBidderId = nuggetData.bid?.bidder[0] ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
     nuggetData.feature
@@ -109,8 +110,19 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Bid: ${nuggetBid}`}
+          {`Current Bid Price: ${nuggetBid}`}
         </p>
+        {nuggetBidderId && (
+          <p
+            className="bid-nugget-info-popup-bidder-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {`Bidder: ${nuggetBidderId}`}
+          </p>
+        )}
         <div className="bid-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div

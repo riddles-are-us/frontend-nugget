@@ -3,10 +3,12 @@ import { RootState } from "../app/store";
 
 export interface ErrorsState {
   messages: string[];
+  isloading: boolean;
 }
 
 const initialState: ErrorsState = {
   messages: [],
+  isloading: false,
 };
 
 const errorsSlice = createSlice({
@@ -18,10 +20,14 @@ const errorsSlice = createSlice({
     },
     popError: (state) => {
       state.messages.shift();
-    }
+    },
+    setIsLoading: (state, d: PayloadAction<boolean>) => {
+      state.isloading = d.payload;
+    },
   },
 });
 
 export const selectError = (state: RootState) => state.errors.messages.length > 0 ? state.errors.messages[0] : "";
-export const { pushError, popError } = errorsSlice.actions;
+export const selectIsLoading = (state: RootState) => state.errors.isloading;
+export const { pushError, popError, setIsLoading } = errorsSlice.actions;
 export default errorsSlice.reducer;

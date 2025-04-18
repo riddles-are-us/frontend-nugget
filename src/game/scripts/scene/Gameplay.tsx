@@ -17,13 +17,16 @@ import avatarImage from "../../images/avatars/Avatar.png";
 import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
 import { selectUIState } from "../../../data/ui";
+import { selectIsLoading } from "../../../data/errors";
 import { getBids, getNugget, getNuggets } from "../request";
+import LoadingHint from "./LoadingHint";
 
 const Gameplay = () => {
   const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const userState = useAppSelector(selectNullableUserState);
+  const isLoading = useAppSelector(selectIsLoading);
 
   useEffect(() => {
     if (userState) {
@@ -43,6 +46,7 @@ const Gameplay = () => {
   return (
     <div className="gameplay-container">
       <Popups />
+      {isLoading && <LoadingHint />}
       <div className="gameplay-top-container">
         <div className="gameplay-top-foreground-container">
           <div className="gameplay-top-player-info-container">

@@ -11,7 +11,11 @@ import {
   getCreateNuggetTransactionCommandArray,
   getNuggets,
 } from "../../request";
-import { pushError } from "../../../../data/errors";
+import {
+  pushError,
+  selectIsLoading,
+  setIsLoading,
+} from "../../../../data/errors";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +26,7 @@ const PlayerInfo = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector(selectIsLoading);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -49,7 +53,7 @@ const PlayerInfo = () => {
 
   const onClickPickNugget = () => {
     if (!isLoading) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
           cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
@@ -61,19 +65,19 @@ const PlayerInfo = () => {
           dispatch(getNuggets(0)).then((action) => {
             if (getNuggets.fulfilled.match(action)) {
               console.log("getNuggets successed");
-              setIsLoading(false);
+              dispatch(setIsLoading(false));
             } else if (getNuggets.rejected.match(action)) {
               const message = "getNuggets Error: " + action.payload;
               dispatch(pushError(message));
               console.error(message);
-              setIsLoading(false);
+              dispatch(setIsLoading(false));
             }
           });
         } else if (sendTransaction.rejected.match(action)) {
           const message = "pick nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          setIsLoading(false);
+          dispatch(setIsLoading(false));
         }
       });
     }

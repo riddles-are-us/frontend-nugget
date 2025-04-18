@@ -17,7 +17,7 @@ import {
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { selectMarketNuggetsData } from "../../../data/nuggets";
-import { pushError } from "../../../data/errors";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 
 interface Props {
   nuggetIndex: number;
@@ -40,7 +40,7 @@ const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
@@ -69,14 +69,14 @@ const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   }, [containerRef.current]);
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.MarketNuggetInfoPopup) {
+    if (uIState.type == UIStateType.MarketNuggetInfoPopup && !isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
 
   const onClickBidNugget = () => {
     if (!isLoading) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
           cmd: getBidNuggetTransactionCommandArray(
@@ -88,12 +88,12 @@ const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("bid nugget successed");
-          setIsLoading(false);
+          dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "bid nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          setIsLoading(false);
+          dispatch(setIsLoading(false));
         }
       });
     }

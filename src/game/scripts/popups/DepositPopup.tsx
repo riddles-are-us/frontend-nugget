@@ -13,7 +13,7 @@ import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
 import { AccountSlice } from "zkwasm-minirollup-browser";
-import { pushError } from "../../../data/errors";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 
 const DepositPopup = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const DepositPopup = () => {
   const [amountString, setAmountString] = useState<string>("");
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const l1account = useAppSelector(AccountSlice.selectL1Account);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector(selectIsLoading);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -42,7 +42,7 @@ const DepositPopup = () => {
 
   const onClickConfirm = () => {
     if (!isLoading) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       dispatch(
         AccountSlice.depositAsync({
           tokenIndex: 0,
@@ -52,7 +52,7 @@ const DepositPopup = () => {
         })
       ).then((action) => {
         if (AccountSlice.depositAsync.fulfilled.match(action)) {
-          setIsLoading(false);
+          dispatch(setIsLoading(false));
           console.log("Deposit Success: " + action.payload!.hash);
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (AccountSlice.depositAsync.rejected.match(action)) {
@@ -69,14 +69,14 @@ const DepositPopup = () => {
             dispatch(pushError(message));
             console.error(message);
           }
-          setIsLoading(false);
+          dispatch(setIsLoading(false));
         }
       });
     }
   };
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.DepositPopup) {
+    if (uIState.type == UIStateType.DepositPopup && !isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };

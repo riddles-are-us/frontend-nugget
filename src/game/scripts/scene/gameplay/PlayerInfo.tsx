@@ -11,6 +11,11 @@ import {
   getCreateNuggetTransactionCommandArray,
   getNuggets,
 } from "../../request";
+import {
+  pushError,
+  selectIsLoading,
+  setIsLoading,
+} from "../../../../data/errors";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +26,7 @@ const PlayerInfo = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector(selectIsLoading);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -48,7 +53,7 @@ const PlayerInfo = () => {
 
   const onClickPickNugget = () => {
     if (!isLoading) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
           cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
@@ -56,23 +61,23 @@ const PlayerInfo = () => {
         })
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          // handleResult("Withdraw successed");
           console.log("pick nugget successed");
           dispatch(getNuggets(0)).then((action) => {
             if (getNuggets.fulfilled.match(action)) {
-              // handleResult("Withdraw successed");
               console.log("getNuggets successed");
-              setIsLoading(false);
+              dispatch(setIsLoading(false));
             } else if (getNuggets.rejected.match(action)) {
-              // setErrorMessage("Withdraw Error: " + action.payload);
-              console.log("getNuggets Error: " + action.payload);
-              setIsLoading(false);
+              const message = "getNuggets Error: " + action.payload;
+              dispatch(pushError(message));
+              console.error(message);
+              dispatch(setIsLoading(false));
             }
           });
         } else if (sendTransaction.rejected.match(action)) {
-          // setErrorMessage("Withdraw Error: " + action.payload);
-          console.log("pick nugget Error: " + action.payload);
-          setIsLoading(false);
+          const message = "pick nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
         }
       });
     }

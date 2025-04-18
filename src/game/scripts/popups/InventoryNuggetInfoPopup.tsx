@@ -18,6 +18,7 @@ import {
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { selectInventoryNuggetsData } from "../../../data/nuggets";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 
 interface Props {
   nuggetIndex: number;
@@ -40,7 +41,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
@@ -69,19 +70,19 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   }, [containerRef.current]);
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.InventoryNuggetInfoPopup) {
+    if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
 
   const onClickExploreNugget = () => {
     if (!isLoading) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetId
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -94,17 +95,21 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
               nuggetId,
             })
           ).then((action) => {
-            if (sendTransaction.fulfilled.match(action)) {
+            if (getNugget.fulfilled.match(action)) {
               console.log("explore nugget update successed");
-              setIsLoading(false);
-            } else if (sendTransaction.rejected.match(action)) {
-              console.log("explore nugget update Error: " + action.payload);
-              setIsLoading(false);
+              dispatch(setIsLoading(false));
+            } else if (getNugget.rejected.match(action)) {
+              const message = "explore nugget update Error: " + action.payload;
+              dispatch(pushError(message));
+              console.error(message);
+              dispatch(setIsLoading(false));
             }
           });
         } else if (sendTransaction.rejected.match(action)) {
-          console.log("explore nugget Error: " + action.payload);
-          setIsLoading(false);
+          const message = "explore nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
         }
       });
     }
@@ -112,25 +117,25 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
 
   const onClickSellNugget = () => {
     if (!isLoading) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
           cmd: getSellNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetId
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          // handleResult("Withdraw successed");
           console.log("sell nugget successed");
           dispatch(setUIState({ type: UIStateType.Idle }));
-          setIsLoading(false);
+          dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
-          // setErrorMessage("Withdraw Error: " + action.payload);
-          console.log("sell nugget Error: " + action.payload);
-          setIsLoading(false);
+          const message = "sell nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
         }
       });
     }

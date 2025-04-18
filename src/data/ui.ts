@@ -26,7 +26,7 @@ export type UIState =
   { type: UIStateType.ConfirmPopup} |
   { type: UIStateType.ErrorPopup} |
   { type: UIStateType.InventoryNuggetInfoPopup; nuggetIndex: number; } |
-  { type: UIStateType.MarketNuggetInfoPopup; nuggetIndex: number; } |
+  { type: UIStateType.MarketNuggetInfoPopup; nuggetIndex: number; isShowingBidAmountPopup: boolean; } |
   { type: UIStateType.BidNuggetInfoPopup; nuggetIndex: number; };
 
 export enum TabState {

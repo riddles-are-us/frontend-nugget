@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./WithdrawPopup.css";
+import "./BidAmountPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
@@ -12,22 +12,27 @@ import rightInputBackground from "../../images/popups/default/right_input.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
-import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import { AccountSlice } from "zkwasm-minirollup-browser";
-import { getWithdrawTransactionCommandArray } from "../request";
-import { selectUserState } from "../../../data/state";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  getBidNuggetTransactionCommandArray,
+  sendTransaction,
+} from "../request";
+import { selectUserState } from "../../../data/state";
 
-const WithdrawPopup = () => {
+interface Props {
+  nuggetIndex: number;
+  nuggetId: number;
+}
+
+const BidAmountPopup = ({ nuggetIndex, nuggetId }: Props) => {
   const dispatch = useAppDispatch();
-  const uIState = useAppSelector(selectUIState);
-  const userState = useAppSelector(selectUserState);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [amountString, setAmountString] = useState<string>("");
   const l2account = useAppSelector(AccountSlice.selectL2Account);
-  const l1account = useAppSelector(AccountSlice.selectL1Account);
   const isLoading = useAppSelector(selectIsLoading);
+  const userState = useAppSelector(selectUserState);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -46,44 +51,50 @@ const WithdrawPopup = () => {
 
   const onClickConfirm = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
-
-      dispatch(
-        sendTransaction({
-          cmd: getWithdrawTransactionCommandArray(
-            userState!.player!.nonce,
-            BigInt(amountString),
-            l1account!
-          ),
-          prikey: l2account!.getPrivateKey(),
-        })
-      ).then((action) => {
-        if (sendTransaction.fulfilled.match(action)) {
-          console.log("Withdraw successed");
-          dispatch(setIsLoading(false));
-
-          dispatch(setUIState({ type: UIStateType.Idle }));
-        } else if (sendTransaction.rejected.match(action)) {
-          const message = "Withdraw Error: " + action.payload;
-          dispatch(pushError(message));
-          console.error(message);
-          dispatch(setIsLoading(false));
-        }
-      });
+      if (!isLoading) {
+        dispatch(setIsLoading(true));
+        dispatch(
+          sendTransaction({
+            cmd: getBidNuggetTransactionCommandArray(
+              userState!.player!.nonce,
+              nuggetId,
+              Number(amountString)
+            ),
+            prikey: l2account!.getPrivateKey(),
+          })
+        ).then((action) => {
+          if (sendTransaction.fulfilled.match(action)) {
+            console.log("bid nugget successed");
+            dispatch(setIsLoading(false));
+            dispatch(setUIState({ type: UIStateType.Idle }));
+          } else if (sendTransaction.rejected.match(action)) {
+            const message = "bid nugget Error: " + action.payload;
+            dispatch(pushError(message));
+            console.error(message);
+            dispatch(setIsLoading(false));
+          }
+        });
+      }
     }
   };
 
   const onClickCancel = () => {
     if (!isLoading) {
-      dispatch(setUIState({ type: UIStateType.Idle }));
+      dispatch(
+        setUIState({
+          type: UIStateType.MarketNuggetInfoPopup,
+          nuggetIndex,
+          isShowingBidAmountPopup: false,
+        })
+      );
     }
   };
 
   return (
-    <div className="withdraw-popup-container">
-      <div onClick={onClickCancel} className="withdraw-popup-mask" />
-      <div ref={containerRef} className="withdraw-popup-main-container">
-        <div className="withdraw-popup-main-background">
+    <div className="bid-amount-popup-container">
+      <div onClick={onClickCancel} className="bid-amount-popup-mask" />
+      <div ref={containerRef} className="bid-amount-popup-main-container">
+        <div className="bid-amount-popup-main-background">
           <HorizontalExtendableImage
             leftRatio={58 / 238}
             rightRatio={58 / 238}
@@ -92,19 +103,19 @@ const WithdrawPopup = () => {
             rightImage={rightBackground}
           />
         </div>
-        <div className="withdraw-popup-close-button">
+        <div className="bid-amount-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="withdraw-popup-title-text"
+          className="bid-amount-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
           }}
         >
-          Withdraw
+          Bid
         </p>
-        <div className="withdraw-popup-amount-input-container">
+        <div className="bid-amount-popup-amount-input-container">
           <HorizontalExtendableImage
             leftRatio={16 / 53}
             rightRatio={16 / 53}
@@ -114,7 +125,7 @@ const WithdrawPopup = () => {
           />
           <input
             type="number"
-            className="withdraw-popup-amount-input"
+            className="bid-amount-popup-amount-input"
             value={amountString}
             onChange={(e) => setAmountString(e.target.value)}
             placeholder="Enter amount"
@@ -125,7 +136,7 @@ const WithdrawPopup = () => {
           />
         </div>
 
-        <div className="withdraw-popup-confirm-button">
+        <div className="bid-amount-popup-confirm-button">
           <DefaultButton
             onClick={onClickConfirm}
             text={"Confirm"}
@@ -137,4 +148,4 @@ const WithdrawPopup = () => {
   );
 };
 
-export default WithdrawPopup;
+export default BidAmountPopup;

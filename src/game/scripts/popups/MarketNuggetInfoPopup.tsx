@@ -17,9 +17,12 @@ import {
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { selectMarketNuggetsData } from "../../../data/nuggets";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import BidAmountPopup from "./BidAmountPopup";
 
 interface Props {
   nuggetIndex: number;
+  isShowingBidAmountPopup: boolean;
 }
 
 const attributeLefts = [
@@ -28,18 +31,18 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
+const MarketNuggetInfoPopup = ({
+  nuggetIndex,
+  isShowingBidAmountPopup,
+}: Props) => {
   const dispatch = useAppDispatch();
   const marketNuggetsData = useAppSelector(selectMarketNuggetsData);
   const nuggetData = marketNuggetsData[nuggetIndex];
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const uIState = useAppSelector(selectUIState);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
-  const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
@@ -68,33 +71,20 @@ const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   }, [containerRef.current]);
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.MarketNuggetInfoPopup) {
+    if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
 
   const onClickBidNugget = () => {
     if (!isLoading) {
-      setIsLoading(true);
       dispatch(
-        sendTransaction({
-          cmd: getBidNuggetTransactionCommandArray(
-            userState!.player!.nonce,
-            nuggetId
-          ),
-          prikey: l2account!.getPrivateKey(),
+        setUIState({
+          type: UIStateType.MarketNuggetInfoPopup,
+          nuggetIndex,
+          isShowingBidAmountPopup: true,
         })
-      ).then((action) => {
-        if (sendTransaction.fulfilled.match(action)) {
-          // handleResult("Withdraw successed");
-          console.log("bid nugget successed");
-          setIsLoading(false);
-        } else if (sendTransaction.rejected.match(action)) {
-          // setErrorMessage("Withdraw Error: " + action.payload);
-          console.log("bid nugget Error: " + action.payload);
-          setIsLoading(false);
-        }
-      });
+      );
     }
   };
 
@@ -182,6 +172,10 @@ const MarketNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           />
         </div>
       </div>
+
+      {isShowingBidAmountPopup && (
+        <BidAmountPopup nuggetIndex={nuggetIndex} nuggetId={nuggetId} />
+      )}
     </div>
   );
 };

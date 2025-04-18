@@ -235,11 +235,12 @@ export function getSellNuggetTransactionCommandArray(
 export function getBidNuggetTransactionCommandArray(
   nonce: number,
   index: number,
+  amount: number,
 ): BigUint64Array {
   const command = createCommand(
     BigInt(nonce),
     BID_NUGGET,
-    [BigInt(index)]
+    [BigInt(index), BigInt(amount)]
   );
   return command;
 }

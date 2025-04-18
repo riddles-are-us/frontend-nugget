@@ -1,5 +1,6 @@
 export interface Bid {
     bidprice: number;
+    bidder: number[];
 }
 
 export interface NuggetData {

@@ -70,7 +70,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   }, [containerRef.current]);
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.InventoryNuggetInfoPopup && !isLoading) {
+    if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };

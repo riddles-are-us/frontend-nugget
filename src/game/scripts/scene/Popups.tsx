@@ -21,7 +21,10 @@ const Popups = () => {
         <InventoryNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
       )}
       {uIState.type == UIStateType.MarketNuggetInfoPopup && (
-        <MarketNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
+        <MarketNuggetInfoPopup
+          nuggetIndex={uIState.nuggetIndex}
+          isShowingBidAmountPopup={uIState.isShowingBidAmountPopup}
+        />
       )}
       {uIState.type == UIStateType.BidNuggetInfoPopup && (
         <BidNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />

@@ -91,7 +91,11 @@ const NuggetGrid = () => {
   const onClickMarketMore = (nuggetIndex: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
-        setUIState({ type: UIStateType.MarketNuggetInfoPopup, nuggetIndex })
+        setUIState({
+          type: UIStateType.MarketNuggetInfoPopup,
+          nuggetIndex,
+          isShowingBidAmountPopup: false,
+        })
       );
     }
   };

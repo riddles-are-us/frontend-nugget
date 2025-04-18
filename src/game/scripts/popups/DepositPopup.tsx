@@ -76,7 +76,7 @@ const DepositPopup = () => {
   };
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.DepositPopup && !isLoading) {
+    if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };

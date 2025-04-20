@@ -16,6 +16,8 @@ import { AccountSlice } from "zkwasm-minirollup-browser";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import {
   getBidNuggetTransactionCommandArray,
+  getBids,
+  getNugget,
   sendTransaction,
 } from "../request";
 import { selectUserState } from "../../../data/state";
@@ -65,8 +67,33 @@ const BidAmountPopup = ({ nuggetIndex, nuggetId }: Props) => {
         ).then((action) => {
           if (sendTransaction.fulfilled.match(action)) {
             console.log("bid nugget successed");
-            dispatch(setIsLoading(false));
-            dispatch(setUIState({ type: UIStateType.Idle }));
+            dispatch(
+              getNugget({
+                nuggetId,
+              })
+            ).then((action) => {
+              if (getNugget.fulfilled.match(action)) {
+                console.log("bid nugget update successed");
+
+                dispatch(getBids(l2account!.getPrivateKey())).then((action) => {
+                  if (getBids.fulfilled.match(action)) {
+                    console.log("bids update successed");
+                    dispatch(setIsLoading(false));
+                    dispatch(setUIState({ type: UIStateType.Idle }));
+                  } else if (getBids.rejected.match(action)) {
+                    const message = "bids update Error: " + action.payload;
+                    dispatch(pushError(message));
+                    console.error(message);
+                    dispatch(setIsLoading(false));
+                  }
+                });
+              } else if (getNugget.rejected.match(action)) {
+                const message = "bid nugget update Error: " + action.payload;
+                dispatch(pushError(message));
+                console.error(message);
+                dispatch(setIsLoading(false));
+              }
+            });
           } else if (sendTransaction.rejected.match(action)) {
             const message = "bid nugget Error: " + action.payload;
             dispatch(pushError(message));

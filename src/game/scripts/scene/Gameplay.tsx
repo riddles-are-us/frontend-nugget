@@ -30,18 +30,18 @@ const Gameplay = () => {
 
   useEffect(() => {
     if (userState) {
+      console.error("Gameplay updated");
       dispatch(getNuggets(0));
       dispatch(getBids(l2account!.getPrivateKey()));
       for (let i = 0; i < userState!.player!.data.inventory.length; i++) {
         dispatch(
           getNugget({
-            index: i,
             nuggetId: userState!.player!.data.inventory[i],
           })
         );
       }
     }
-  }, [userState]);
+  }, []);
 
   return (
     <div className="gameplay-container">

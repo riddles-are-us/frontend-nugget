@@ -107,7 +107,7 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Current Bid Price: ${nuggetBid}`}
+          {`Bid Price: ${nuggetBid}`}
         </p>
         {nuggetBidderId && (
           <p

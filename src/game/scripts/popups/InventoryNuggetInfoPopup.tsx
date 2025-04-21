@@ -190,7 +190,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Bid: ${nuggetBid}`}
+          {`Bid Price: ${nuggetBid}`}
         </p>
         <div className="inventory-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (

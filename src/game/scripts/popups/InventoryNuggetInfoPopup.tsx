@@ -44,6 +44,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
+  const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
   const nuggetBid = nuggetData.bid?.bidprice ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
@@ -219,10 +220,20 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         </div>
         <div className="inventory-nugget-info-popup-explore-button">
           <DefaultButton
-            text={"Explore Nugget"}
+            text={"Explore           "}
             onClick={onClickExploreNugget}
             isDisabled={false}
           />
+          <p
+            className="inventory-nugget-info-popup-coin-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {nuggetExplorePrice}
+          </p>
+          <div className="inventory-nugget-info-popup-coin-image" />
         </div>
         <div className="inventory-nugget-info-popup-sell-button">
           <DefaultButton

@@ -91,7 +91,6 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           console.log("explore nugget successed");
           dispatch(
             getNugget({
-              index: nuggetIndex,
               nuggetId,
             })
           ).then((action) => {

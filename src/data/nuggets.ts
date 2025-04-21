@@ -3,6 +3,7 @@ import { RequestError } from "zkwasm-minirollup-browser";
 import { RootState } from "../app/store";
 import { NuggetData } from "./model";
 import { getNuggets, getNugget, getBids, queryState } from "../game/scripts/request";
+import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 
 export interface NuggetsState {
   nuggets: Record<number, NuggetData>;
@@ -32,17 +33,21 @@ const nuggetsSlice = createSlice({
           state.inventory = action.payload.player.data.inventory;
         }
       })
+      .addCase(sendTransaction.fulfilled, (state, action) => {
+        if (action.payload.player){
+          state.inventory = action.payload.player.data.inventory;
+        }
+      })
       .addCase(getNuggets.fulfilled, (state, action) => {
         state.nuggets = action.payload.reduce((acc: any, nugget: any) => {
           acc[nugget.id] = nugget;
           return acc;
         }, {} as Record<string, NuggetData>);
-        console.log("nuggets", state.nuggets);
       })
-      // .addCase(getNugget.fulfilled, (state, action) => {
-      //   const nugget = action.payload[0];
-      //   state.nuggetsData.inventory[action.meta.arg.index] = nugget;
-      // })
+      .addCase(getNugget.fulfilled, (state, action) => {
+        const nugget = action.payload[0];
+        state.nuggets[nugget.id] = nugget;
+      })
       .addCase(getBids.fulfilled, (state, action) => {
         state.bidNuggets = action.payload;
       });

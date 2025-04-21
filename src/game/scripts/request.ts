@@ -192,7 +192,7 @@ export const getNuggets = createAsyncThunk(
 
 export const getNugget = createAsyncThunk(
   'client/getNugget',
-  async (params: {index: number, nuggetId: number}, { rejectWithValue }) => {
+  async (params: {nuggetId: number}, { rejectWithValue }) => {
     try {
       const res: any = await queryNuggetI(params.nuggetId);
       return res;

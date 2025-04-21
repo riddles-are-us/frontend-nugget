@@ -3,7 +3,6 @@ import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./InventoryNuggetInfoPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
-import { NuggetData } from "../../../data/model";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
@@ -17,7 +16,7 @@ import {
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
-import { selectInventoryNuggetsData } from "../../../data/nuggets";
+import { selectInventoryNuggetData } from "../../../data/nuggets";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 
 interface Props {
@@ -32,8 +31,7 @@ const attributeLefts = [
 
 const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
-  const inventoryNuggetsData = useAppSelector(selectInventoryNuggetsData);
-  const nuggetData = inventoryNuggetsData[nuggetIndex];
+  const nuggetData = useAppSelector(selectInventoryNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const l2account = useAppSelector(AccountSlice.selectL2Account);

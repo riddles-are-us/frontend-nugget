@@ -12,3 +12,13 @@ export interface NuggetData {
     askprice: number;
     bid: Bid | null;
 }
+
+export const emptyNuggetData: NuggetData = {
+    id: 0,
+    attributes: "",
+    feature: 0,
+    cycle: 0,
+    sysprice: 0,
+    askprice: 0,
+    bid: null,
+};

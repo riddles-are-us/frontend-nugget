@@ -3,13 +3,11 @@ import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./BidNuggetInfoPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
-import { NuggetData } from "../../../data/model";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
-import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectBidNuggetsData } from "../../../data/nuggets";
+import { selectBidNuggetData } from "../../../data/nuggets";
 
 interface Props {
   nuggetIndex: number;
@@ -23,8 +21,7 @@ const attributeLefts = [
 
 const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
-  const bidNuggetsData = useAppSelector(selectBidNuggetsData);
-  const nuggetData = bidNuggetsData[nuggetIndex];
+  const nuggetData = useAppSelector(selectBidNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);

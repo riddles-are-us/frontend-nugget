@@ -3,7 +3,6 @@ import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./InventoryNuggetInfoPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
-import { NuggetData } from "../../../data/model";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
@@ -17,7 +16,7 @@ import {
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
-import { selectInventoryNuggetsData } from "../../../data/nuggets";
+import { selectInventoryNuggetData } from "../../../data/nuggets";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 
 interface Props {
@@ -32,8 +31,7 @@ const attributeLefts = [
 
 const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
-  const inventoryNuggetsData = useAppSelector(selectInventoryNuggetsData);
-  const nuggetData = inventoryNuggetsData[nuggetIndex];
+  const nuggetData = useAppSelector(selectInventoryNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
@@ -46,6 +44,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
+  const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
   const nuggetBid = nuggetData.bid?.bidprice ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
@@ -192,7 +191,7 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Bid: ${nuggetBid}`}
+          {`Bid Price: ${nuggetBid}`}
         </p>
         <div className="inventory-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
@@ -221,10 +220,20 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         </div>
         <div className="inventory-nugget-info-popup-explore-button">
           <DefaultButton
-            text={"Explore Nugget"}
+            text={"Explore           "}
             onClick={onClickExploreNugget}
             isDisabled={false}
           />
+          <p
+            className="inventory-nugget-info-popup-coin-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {nuggetExplorePrice}
+          </p>
+          <div className="inventory-nugget-info-popup-coin-image" />
         </div>
         <div className="inventory-nugget-info-popup-sell-button">
           <DefaultButton

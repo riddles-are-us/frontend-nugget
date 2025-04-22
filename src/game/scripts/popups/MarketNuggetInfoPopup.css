@@ -56,7 +56,8 @@
 .market-nugget-info-popup-price-text,
 .market-nugget-info-popup-cycle-text,
 .market-nugget-info-popup-bid-text,
-.market-nugget-info-popup-attributes-text {
+.market-nugget-info-popup-attributes-text,
+.bid-nugget-info-popup-bidder-text {
   margin: 0px;
   color: white;
   font-family: "AdobeClean";
@@ -109,6 +110,16 @@
   height: 15%;
   left: 50%;
   top: 62%;
+  transform: translate(0, -50%);
+}
+
+.bid-nugget-info-popup-bidder-text {
+  position: absolute;
+  text-align: left;
+  width: 90%;
+  height: 8%;
+  left: 5%;
+  top: 84%;
   transform: translate(0, -50%);
 }
 

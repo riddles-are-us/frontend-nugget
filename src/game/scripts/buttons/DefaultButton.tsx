@@ -50,6 +50,7 @@ const DefaultButton = ({
           color: color,
           fontFamily: fontFamily,
           fontSize: `${fontSize}px`,
+          whiteSpace: "pre",
           ...(isBold ? { fontWeight: "bold" } : {}),
           ...getTextShadowStyle(fontSize / 15),
         }}

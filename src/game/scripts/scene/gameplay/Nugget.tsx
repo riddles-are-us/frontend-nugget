@@ -87,7 +87,7 @@ const Nugget = ({ nuggetData, onClickMore }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Bid: ${nuggetBid}`}
+          {`Bid Price: ${nuggetBid}`}
         </p>
         <div>
           {nuggetAttributeString.slice(0, 26).map((s, index) => (

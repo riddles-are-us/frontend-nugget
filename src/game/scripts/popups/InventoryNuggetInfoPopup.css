@@ -146,3 +146,35 @@
   top: 85%;
   transform: translate(-50%, -50%);
 }
+
+.inventory-nugget-info-popup-coin-text {
+  position: absolute;
+  width: 20%;
+  height: 45%;
+  left: 83%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0px;
+  color: white;
+  font-weight: bold;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.inventory-nugget-info-popup-coin-image {
+  position: absolute;
+  width: auto;
+  height: 45%;
+  aspect-ratio: 1;
+  left: 63%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  user-select: none;
+}

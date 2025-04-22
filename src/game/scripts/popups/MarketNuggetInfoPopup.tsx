@@ -2,23 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./MarketNuggetInfoPopup.css";
-import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
-import { NuggetData } from "../../../data/model";
+import { setUIState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import {
-  getBidNuggetTransactionCommandArray,
-  getCreateNuggetTransactionCommandArray,
-  sendTransaction,
-} from "../request";
-import { AccountSlice } from "zkwasm-minirollup-browser";
-import { selectUserState } from "../../../data/state";
-import { selectMarketNuggetsData } from "../../../data/nuggets";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import { selectIsLoading } from "../../../data/errors";
 import BidAmountPopup from "./BidAmountPopup";
+import { selectMarketNuggetData } from "../../../data/nuggets";
 
 interface Props {
   nuggetIndex: number;
@@ -36,8 +28,7 @@ const MarketNuggetInfoPopup = ({
   isShowingBidAmountPopup,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const marketNuggetsData = useAppSelector(selectMarketNuggetsData);
-  const nuggetData = marketNuggetsData[nuggetIndex];
+  const nuggetData = useAppSelector(selectMarketNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -48,6 +39,7 @@ const MarketNuggetInfoPopup = ({
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
   const nuggetBid = nuggetData.bid?.bidprice ?? 0;
+  const nuggetBidderId = nuggetData.bid?.bidder[0] ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
     nuggetData.feature
@@ -137,8 +129,19 @@ const MarketNuggetInfoPopup = ({
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Bid: ${nuggetBid}`}
+          {`Bid Price: ${nuggetBid}`}
         </p>
+        {nuggetBidderId && (
+          <p
+            className="bid-nugget-info-popup-bidder-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {`Bidder: ${nuggetBidderId}`}
+          </p>
+        )}
         <div className="market-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div

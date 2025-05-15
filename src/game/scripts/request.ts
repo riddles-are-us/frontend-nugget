@@ -9,7 +9,7 @@ const protocol = currentLocation.protocol; // e.g., 'http:' or 'https:'
 const hostname = currentLocation.hostname; // e.g., 'sinka' or 'localhost'
 
 // We assume the rpc is at port 3000
-const fullUrl = `${protocol}//${hostname}` + ":3000";
+export const fullUrl = `${protocol}//${hostname}` + ":3000";
 const rpc = new ZKWasmAppRpc(fullUrl);
 
 async function queryConfigI() {
@@ -150,57 +150,6 @@ async function queryData(url: string) {
     }
   }
 }
-
-async function queryBidsI(key: string) {
-  const pubkey = new LeHexBN(query(key).pkx).toU64Array();
-  return await queryData(`bid/${pubkey[1]}/${pubkey[2]}`);
-}
-
-async function queryNuggetsI(page: number) {
-  return await queryData(`nuggets`);
-}
-
-async function queryNuggetI(nuggetId: number) {
-  return await queryData(`nugget/${nuggetId}`);
-}
-
-export const getBids = createAsyncThunk(
-  'client/getBids',
-  async (key: string, { rejectWithValue }) => {
-    try {
-      const res: any = await queryBidsI(key);
-      return res;
-    } catch (err: any) {
-      return rejectWithValue(err);
-    }
-  }
-)
-
-
-
-export const getNuggets = createAsyncThunk(
-  'client/getNuggets',
-  async (page: number, { rejectWithValue }) => {
-    try {
-      const res: any = await queryNuggetsI(page);
-      return res;
-    } catch (err: any) {
-      return rejectWithValue(err);
-    }
-  }
-)
-
-export const getNugget = createAsyncThunk(
-  'client/getNugget',
-  async (params: {nuggetId: number}, { rejectWithValue }) => {
-    try {
-      const res: any = await queryNuggetI(params.nuggetId);
-      return res;
-    } catch (err: any) {
-      return rejectWithValue(err);
-    }
-  }
-)
 
 const EXPLORE_NUGGET = 4n;
 const SELL_NUGGET = 5n;

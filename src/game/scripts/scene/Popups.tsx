@@ -4,8 +4,8 @@ import DepositPopup from "../popups/DepositPopup";
 import { selectUIState, UIStateType } from "../../../data/ui";
 import InventoryNuggetInfoPopup from "../popups/InventoryNuggetInfoPopup";
 import WithdrawPopup from "../popups/WithdrawPopup";
-import BidNuggetInfoPopup from "../popups/BidNuggetInfoPopup";
-import MarketNuggetInfoPopup from "../popups/MarketNuggetInfoPopup";
+import LotNuggetInfoPopup from "../popups/LotNuggetInfoPopup";
+import AuctionNuggetInfoPopup from "../popups/AuctionNuggetInfoPopup";
 import ErrorPopup from "../popups/ErrorPopup";
 import { selectError } from "../../../data/errors";
 
@@ -20,14 +20,14 @@ const Popups = () => {
       {uIState.type == UIStateType.InventoryNuggetInfoPopup && (
         <InventoryNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
       )}
-      {uIState.type == UIStateType.MarketNuggetInfoPopup && (
-        <MarketNuggetInfoPopup
+      {uIState.type == UIStateType.AuctionNuggetInfoPopup && (
+        <AuctionNuggetInfoPopup
           nuggetIndex={uIState.nuggetIndex}
           isShowingBidAmountPopup={uIState.isShowingBidAmountPopup}
         />
       )}
-      {uIState.type == UIStateType.BidNuggetInfoPopup && (
-        <BidNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
+      {uIState.type == UIStateType.LotNuggetInfoPopup && (
+        <LotNuggetInfoPopup nuggetIndex={uIState.nuggetIndex} />
       )}
       {error && <ErrorPopup message={error} />}
     </>

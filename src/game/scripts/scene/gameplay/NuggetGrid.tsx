@@ -9,20 +9,36 @@ import {
   TabState,
   UIStateType,
 } from "../../../../data/ui";
-import { NuggetData } from "../../../../data/model";
 import Nugget from "./Nugget";
 import {
-  selectBidNuggetsData,
+  selectLotNuggetsData,
   selectInventoryNuggetsData,
-  selectMarketNuggetsData,
+  selectSellingNuggetsData,
+  selectAuctionNuggetsData,
 } from "../../../../data/nuggets";
+import { bnToHexLe } from "delphinus-curves/src/altjubjub";
+import { LeHexBN } from "zkwasm-minirollup-rpc";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { selectNullableUserState } from "../../../../data/state";
+import {
+  updateAuctionNuggetsAsync,
+  updateLotNuggetsAsync,
+  updateNuggetsAsync,
+  updateSellingNuggetsAsync,
+} from "../../express";
 
 const NuggetGrid = () => {
   const dispatch = useAppDispatch();
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const userState = useAppSelector(selectNullableUserState);
   const uIState = useAppSelector(selectUIState);
   const inventoryNuggetsData = useAppSelector(selectInventoryNuggetsData);
-  const marketNuggetsData = useAppSelector(selectMarketNuggetsData);
-  const bidNuggetsData = useAppSelector(selectBidNuggetsData);
+  const sellingNuggetsData = useAppSelector(selectSellingNuggetsData);
+  const auctionNuggetsData = useAppSelector(selectAuctionNuggetsData);
+  const lotNuggetsData = useAppSelector(selectLotNuggetsData);
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
 
   const tabState = useAppSelector(selectTabState);
   const elements =
@@ -34,16 +50,24 @@ const NuggetGrid = () => {
             onClickMore={() => onClickInventoryMore(index)}
           />
         ))
-      : tabState == TabState.Market
-      ? marketNuggetsData.map((nuggetData, index) => (
+      : tabState == TabState.Selling
+      ? sellingNuggetsData.map((nuggetData, index) => (
+          <Nugget
+            key={index}
+            nuggetData={nuggetData}
+            onClickMore={() => onClickBidMore(index)}
+          />
+        ))
+      : tabState == TabState.Auction
+      ? auctionNuggetsData.map((nuggetData, index) => (
           <Nugget
             key={index}
             nuggetData={nuggetData}
             onClickMore={() => onClickMarketMore(index)}
           />
         ))
-      : tabState == TabState.Bid
-      ? bidNuggetsData.map((nuggetData, index) => (
+      : tabState == TabState.Lot
+      ? lotNuggetsData.map((nuggetData, index) => (
           <Nugget
             key={index}
             nuggetData={nuggetData}
@@ -77,6 +101,27 @@ const NuggetGrid = () => {
     };
   }, []);
 
+  const initNuggets = async () => {
+    await updateNuggetsAsync(dispatch);
+    await updateAuctionNuggetsAsync(dispatch);
+    await updateLotNuggetsAsync(
+      dispatch,
+      pids[1].toString(),
+      pids[2].toString()
+    );
+    await updateSellingNuggetsAsync(
+      dispatch,
+      pids[1].toString(),
+      pids[2].toString()
+    );
+  };
+
+  useEffect(() => {
+    if (userState) {
+      initNuggets();
+    }
+  }, []);
+
   const onClickInventoryMore = (nuggetIndex: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
@@ -92,7 +137,7 @@ const NuggetGrid = () => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
-          type: UIStateType.MarketNuggetInfoPopup,
+          type: UIStateType.AuctionNuggetInfoPopup,
           nuggetIndex,
           isShowingBidAmountPopup: false,
         })
@@ -103,7 +148,7 @@ const NuggetGrid = () => {
   const onClickBidMore = (nuggetIndex: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
-        setUIState({ type: UIStateType.BidNuggetInfoPopup, nuggetIndex })
+        setUIState({ type: UIStateType.LotNuggetInfoPopup, nuggetIndex })
       );
     }
   };

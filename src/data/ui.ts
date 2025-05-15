@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RequestError } from "zkwasm-minirollup-browser";
 import { RootState } from "../app/store";
-import { NuggetData } from "./model";
-import { getNuggets, getNugget, getBids } from "../game/scripts/request";
 
 export enum UIStateType {
   Idle,
@@ -13,8 +11,8 @@ export enum UIStateType {
   ConfirmPopup,
   ErrorPopup,
   InventoryNuggetInfoPopup,
-  MarketNuggetInfoPopup,
-  BidNuggetInfoPopup,
+  AuctionNuggetInfoPopup,
+  LotNuggetInfoPopup,
 }
 
 export type UIState = 
@@ -26,13 +24,14 @@ export type UIState =
   { type: UIStateType.ConfirmPopup} |
   { type: UIStateType.ErrorPopup} |
   { type: UIStateType.InventoryNuggetInfoPopup; nuggetIndex: number; } |
-  { type: UIStateType.MarketNuggetInfoPopup; nuggetIndex: number; isShowingBidAmountPopup: boolean; } |
-  { type: UIStateType.BidNuggetInfoPopup; nuggetIndex: number; };
+  { type: UIStateType.AuctionNuggetInfoPopup; nuggetIndex: number; isShowingBidAmountPopup: boolean; } |
+  { type: UIStateType.LotNuggetInfoPopup; nuggetIndex: number; };
 
 export enum TabState {
   Inventory,
-  Market,
-  Bid,
+  Selling,
+  Auction,
+  Lot,
 }
 
 export interface PropertiesUIState {
@@ -59,27 +58,15 @@ const uiSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
-    builder
-      .addCase(getNuggets.rejected, (state, action) => {
-        state.lastError = {
-          errorInfo: `send transaction rejected: ${action.payload}`,
-          payload: action.payload,
-        };
-      })
-      .addCase(getNugget.rejected, (state, action) => {
-        state.lastError = {
-          errorInfo: `send transaction rejected: ${action.payload}`,
-          payload: action.payload,
-        };
-      })
-      .addCase(getBids.rejected, (state, action) => {
-        state.lastError = {
-          errorInfo: `send transaction rejected: ${action.payload}`,
-          payload: action.payload,
-        };
-      });
-  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(getNuggets.rejected, (state, action) => {
+  //       state.lastError = {
+  //         errorInfo: `send transaction rejected: ${action.payload}`,
+  //         payload: action.payload,
+  //       };
+  //     })
+  // },
 });
 
 export const selectUIState = (state: RootState) => state.ui.uiState;

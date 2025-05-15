@@ -10,7 +10,6 @@ import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import {
   getExploreNuggetTransactionCommandArray,
-  getNugget,
   getSellNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
@@ -18,6 +17,7 @@ import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { selectInventoryNuggetData } from "../../../data/nuggets";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import { updateNuggetAsync } from "../express";
 
 interface Props {
   nuggetIndex: number;
@@ -85,24 +85,12 @@ const InventoryNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           ),
           prikey: l2account!.getPrivateKey(),
         })
-      ).then((action) => {
+      ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("explore nugget successed");
-          dispatch(
-            getNugget({
-              nuggetId,
-            })
-          ).then((action) => {
-            if (getNugget.fulfilled.match(action)) {
-              console.log("explore nugget update successed");
-              dispatch(setIsLoading(false));
-            } else if (getNugget.rejected.match(action)) {
-              const message = "explore nugget update Error: " + action.payload;
-              dispatch(pushError(message));
-              console.error(message);
-              dispatch(setIsLoading(false));
-            }
-          });
+          await updateNuggetAsync(dispatch, nuggetId);
+          console.log("bid nugget update successed");
+          dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;
           dispatch(pushError(message));

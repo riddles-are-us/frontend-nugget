@@ -13,14 +13,15 @@ import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
 import { AccountSlice } from "zkwasm-minirollup-browser";
+import { bnToHexLe } from "delphinus-curves/src/altjubjub";
+import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import {
   getBidNuggetTransactionCommandArray,
-  getBids,
-  getNugget,
   sendTransaction,
 } from "../request";
 import { selectUserState } from "../../../data/state";
+import { updateLotNuggetsAsync, updateNuggetAsync } from "../express";
 
 interface Props {
   nuggetIndex: number;
@@ -35,6 +36,9 @@ const BidAmountPopup = ({ nuggetIndex, nuggetId }: Props) => {
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const isLoading = useAppSelector(selectIsLoading);
   const userState = useAppSelector(selectUserState);
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -64,36 +68,19 @@ const BidAmountPopup = ({ nuggetIndex, nuggetId }: Props) => {
             ),
             prikey: l2account!.getPrivateKey(),
           })
-        ).then((action) => {
+        ).then(async (action) => {
           if (sendTransaction.fulfilled.match(action)) {
             console.log("bid nugget successed");
-            dispatch(
-              getNugget({
-                nuggetId,
-              })
-            ).then((action) => {
-              if (getNugget.fulfilled.match(action)) {
-                console.log("bid nugget update successed");
 
-                dispatch(getBids(l2account!.getPrivateKey())).then((action) => {
-                  if (getBids.fulfilled.match(action)) {
-                    console.log("bids update successed");
-                    dispatch(setIsLoading(false));
-                    dispatch(setUIState({ type: UIStateType.Idle }));
-                  } else if (getBids.rejected.match(action)) {
-                    const message = "bids update Error: " + action.payload;
-                    dispatch(pushError(message));
-                    console.error(message);
-                    dispatch(setIsLoading(false));
-                  }
-                });
-              } else if (getNugget.rejected.match(action)) {
-                const message = "bid nugget update Error: " + action.payload;
-                dispatch(pushError(message));
-                console.error(message);
-                dispatch(setIsLoading(false));
-              }
-            });
+            await updateNuggetAsync(dispatch, nuggetId);
+            console.log("bid nugget update successed");
+            await updateLotNuggetsAsync(
+              dispatch,
+              pids[1].toString(),
+              pids[2].toString()
+            );
+            dispatch(setIsLoading(false));
+            dispatch(setUIState({ type: UIStateType.Idle }));
           } else if (sendTransaction.rejected.match(action)) {
             const message = "bid nugget Error: " + action.payload;
             dispatch(pushError(message));
@@ -109,9 +96,8 @@ const BidAmountPopup = ({ nuggetIndex, nuggetId }: Props) => {
     if (!isLoading) {
       dispatch(
         setUIState({
-          type: UIStateType.MarketNuggetInfoPopup,
+          type: UIStateType.LotNuggetInfoPopup,
           nuggetIndex,
-          isShowingBidAmountPopup: false,
         })
       );
     }

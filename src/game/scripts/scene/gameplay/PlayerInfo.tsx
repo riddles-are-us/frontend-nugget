@@ -7,15 +7,13 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
-import {
-  getCreateNuggetTransactionCommandArray,
-  getNuggets,
-} from "../../request";
+import { getCreateNuggetTransactionCommandArray } from "../../request";
 import {
   pushError,
   selectIsLoading,
   setIsLoading,
 } from "../../../../data/errors";
+import { updateNuggetsAsync } from "../../express";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -59,20 +57,11 @@ const PlayerInfo = () => {
           cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
           prikey: l2account!.getPrivateKey(),
         })
-      ).then((action) => {
+      ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("pick nugget successed");
-          dispatch(getNuggets(0)).then((action) => {
-            if (getNuggets.fulfilled.match(action)) {
-              console.log("getNuggets successed");
-              dispatch(setIsLoading(false));
-            } else if (getNuggets.rejected.match(action)) {
-              const message = "getNuggets Error: " + action.payload;
-              dispatch(pushError(message));
-              console.error(message);
-              dispatch(setIsLoading(false));
-            }
-          });
+          await updateNuggetsAsync(dispatch);
+          dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "pick nugget Error: " + action.payload;
           dispatch(pushError(message));

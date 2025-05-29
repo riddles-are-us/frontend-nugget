@@ -1,6 +1,6 @@
 import axios from "axios";
 import { fullUrl } from "./request";
-import { NuggetData } from "../../data/model";
+import { Bid, NuggetData } from "../../data/model";
 import { useAppDispatch } from "../../app/hooks";
 import {
   setAuctionNuggets,
@@ -17,42 +17,63 @@ const instance = axios.create({
 });
 
 function decodeNuggets(raws: any): NuggetData[] {
-  const decodeCard = (
-    marketid: number,
-    object: { duration: number; attributes: number }
-  ) => {
-    const value = BigInt(object.attributes);
-    const attributes = [];
-    for (let i = 0; i < 8; i++) {
-      const shift = BigInt(i * 8);
-      const byte = Number((value >> shift) & 0xffn);
-      const signed = byte >= 128 ? byte - 256 : byte;
-      attributes.push(signed);
-    }
-    console.log(attributes);
-    return {
-      duration: object.duration,
-      attributes: attributes,
-      marketid,
-    };
-  };
   const commodityList: NuggetData[] = raws.map(
     ({
+      attributes,
+      cycle,
+      feature,
+      id,
       marketid,
-      askprice,
-      object,
-      bidder,
+      sysprice,
     }: {
+      attributes: number;
+      cycle: number;
+      feature: number;
+      id: number;
       marketid: number;
-      askprice: number;
-      object: { duration: number; attributes: number };
-      bidder: { bidprice: number; bidder: string[] };
+      sysprice: number;
     }) => ({
-      id: Number(marketid),
-      askPrice: Number(askprice ?? 0),
-      object: decodeCard(Number(marketid), object),
-      bidPrice: Number(bidder?.bidprice ?? 0),
-      bidders: bidder?.bidder ?? [],
+      id: Number(id),
+      attributes: Number(attributes),
+      feature: Number(feature),
+      cycle: Number(cycle),
+      sysprice: Number(sysprice ?? 0),
+      askprice: 0,
+      bid: null,
+    })
+  );
+
+  console.log("decode", commodityList);
+  return commodityList;
+}
+
+function decodeMarkets(raws: any): NuggetData[] {
+  const commodityList: NuggetData[] = raws.map(
+    ({
+      askprice,
+      marketid,
+      bidder,
+      object,
+    }: {
+      askprice: number;
+      marketid: number;
+      bidder: Bid;
+      object: {
+        attributes: number;
+        cycle: number;
+        feature: number;
+        id: number;
+        marketid: number;
+        sysprice: number;
+      };
+    }) => ({
+      id: Number(object.id),
+      attributes: Number(object.attributes),
+      feature: Number(object.feature),
+      cycle: Number(object.cycle),
+      sysprice: Number(object.sysprice ?? 0),
+      askprice: Number(askprice ?? 0),
+      bid: bidder,
     })
   );
 
@@ -63,22 +84,22 @@ function decodeNuggets(raws: any): NuggetData[] {
 async function getNuggets(): Promise<NuggetData[]> {
   const res = await getRequest("/data/nuggets");
   const raws = res.data;
-  console.log("raw", raws);
+  console.log("getNuggets", raws);
   return decodeNuggets(raws);
 }
 
 async function getNugget(index: number): Promise<NuggetData[]> {
   const res = await getRequest(`/data/nugget/${index}`);
   const raws = res.data;
-  console.log("nugget raw", raws);
+  console.log("getNugget ", index, " ", raws);
   return decodeNuggets(raws);
 }
 
 async function getAuctionNuggets(): Promise<NuggetData[]> {
   const res = await getRequest("/data/markets");
   const raws = res.data;
-  console.log("market raw", raws);
-  return decodeNuggets(raws);
+  console.log("getAuctionNuggets", raws);
+  return decodeMarkets(raws);
 }
 
 async function getLotNuggets(
@@ -87,8 +108,8 @@ async function getLotNuggets(
 ): Promise<NuggetData[]> {
   const res = await getRequest(`/data/bid/${pid1}/${pid2}`);
   const raws = res.data;
-  console.log("lot raw", raws);
-  return decodeNuggets(raws);
+  console.log("getLotNuggets", raws);
+  return decodeMarkets(raws);
 }
 
 async function getSellingNuggets(
@@ -98,7 +119,7 @@ async function getSellingNuggets(
   const res = await getRequest(`/data/sell/${pid1}/${pid2}`);
   const raws = res.data;
   console.log("sellign raw", raws);
-  return decodeNuggets(raws);
+  return decodeMarkets(raws);
 }
 
 export const updateNuggetAsync = async (dispatch: any, index: number) => {

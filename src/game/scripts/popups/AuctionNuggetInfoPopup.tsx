@@ -8,9 +8,18 @@ import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectIsLoading } from "../../../data/errors";
-import BidAmountPopup from "./BidAmountPopup";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import PriceInputPopup from "./PriceInputPopup";
 import { selectAuctionNuggetData } from "../../../data/nuggets";
+import {
+  getBidNuggetTransactionCommandArray,
+  sendTransaction,
+} from "../request";
+import { updateAuctionNuggetsAsync, updateLotNuggetsAsync } from "../express";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { selectUserState } from "../../../data/state";
+import { LeHexBN } from "zkwasm-minirollup-rpc";
+import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 interface Props {
   nuggetIndex: number;
@@ -44,6 +53,11 @@ const AuctionNuggetInfoPopup = ({
     nuggetData.attributes,
     nuggetData.feature
   );
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const userState = useAppSelector(selectUserState);
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -75,6 +89,51 @@ const AuctionNuggetInfoPopup = ({
           type: UIStateType.AuctionNuggetInfoPopup,
           nuggetIndex,
           isShowingBidAmountPopup: true,
+        })
+      );
+    }
+  };
+
+  const onBidNugget = (amount: number) => {
+    if (!isLoading) {
+      dispatch(setIsLoading(true));
+      dispatch(
+        sendTransaction({
+          cmd: getBidNuggetTransactionCommandArray(
+            userState!.player!.nonce,
+            nuggetData.marketid,
+            amount
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then(async (action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          console.log("bid nugget update successed");
+          await updateAuctionNuggetsAsync(dispatch);
+          await updateLotNuggetsAsync(
+            dispatch,
+            pids[1].toString(),
+            pids[2].toString()
+          );
+          dispatch(setIsLoading(false));
+          dispatch(setUIState({ type: UIStateType.Idle }));
+        } else if (sendTransaction.rejected.match(action)) {
+          const message = "bid nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
+        }
+      });
+    }
+  };
+
+  const onCancelBidNugget = () => {
+    if (!isLoading) {
+      dispatch(
+        setUIState({
+          type: UIStateType.AuctionNuggetInfoPopup,
+          nuggetIndex,
+          isShowingBidAmountPopup: false,
         })
       );
     }
@@ -177,7 +236,11 @@ const AuctionNuggetInfoPopup = ({
       </div>
 
       {isShowingBidAmountPopup && (
-        <BidAmountPopup nuggetIndex={nuggetIndex} nuggetId={nuggetId} />
+        <PriceInputPopup
+          title="bid"
+          onClickConfirm={onBidNugget}
+          onClickCancel={onCancelBidNugget}
+        />
       )}
     </div>
   );

@@ -55,7 +55,7 @@ const NuggetGrid = () => {
           <Nugget
             key={index}
             nuggetData={nuggetData}
-            onClickMore={() => onClickBidMore(index)}
+            onClickMore={() => onClickSellingMore(index)}
           />
         ))
       : tabState == TabState.Auction
@@ -128,6 +128,18 @@ const NuggetGrid = () => {
         setUIState({
           type: UIStateType.InventoryNuggetInfoPopup,
           nuggetIndex,
+          isShowingListAmountPopup: false,
+        })
+      );
+    }
+  };
+
+  const onClickSellingMore = (nuggetIndex: number) => {
+    if (uIState.type == UIStateType.Idle) {
+      dispatch(
+        setUIState({
+          type: UIStateType.SellingNuggetInfoPopup,
+          nuggetIndex,
         })
       );
     }
@@ -148,7 +160,11 @@ const NuggetGrid = () => {
   const onClickBidMore = (nuggetIndex: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
-        setUIState({ type: UIStateType.LotNuggetInfoPopup, nuggetIndex })
+        setUIState({
+          type: UIStateType.LotNuggetInfoPopup,
+          nuggetIndex,
+          isShowingBidAmountPopup: false,
+        })
       );
     }
   };

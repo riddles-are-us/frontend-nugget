@@ -1,4 +1,4 @@
-.lot-nugget-info-popup-container {
+.selling-nugget-info-popup-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -8,14 +8,14 @@
   z-index: 20;
 }
 
-.lot-nugget-info-popup-mask {
+.selling-nugget-info-popup-mask {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   user-select: none;
 }
 
-.lot-nugget-info-popup-main-container {
+.selling-nugget-info-popup-main-container {
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -25,14 +25,14 @@
   aspect-ratio: 726 / 273;
 }
 
-.lot-nugget-info-popup-main-background {
+.selling-nugget-info-popup-main-background {
   position: absolute;
   width: 100%;
   height: 100%;
   user-select: none;
 }
 
-.lot-nugget-info-popup-close-button {
+.selling-nugget-info-popup-close-button {
   position: absolute;
   top: 3%;
   left: 93%;
@@ -42,7 +42,7 @@
   transform: translate(-50%, -50%);
 }
 
-.lot-nugget-info-popup-avatar-image {
+.selling-nugget-info-popup-avatar-image {
   position: absolute;
   width: auto;
   height: 36%;
@@ -52,13 +52,13 @@
   transform: translate(-50%, -50%);
 }
 
-.lot-nugget-info-popup-title-text,
-.lot-nugget-info-popup-price-text,
-.lot-nugget-info-popup-cycle-text,
-.lot-nugget-info-popup-bid-text,
-.lot-nugget-info-popup-attributes-text,
-.lot-nugget-info-popup-bidder-text,
-.lot-nugget-info-popup-bidder-id-text {
+.selling-nugget-info-popup-title-text,
+.selling-nugget-info-popup-price-text,
+.selling-nugget-info-popup-cycle-text,
+.selling-nugget-info-popup-bid-text,
+.selling-nugget-info-popup-attributes-text,
+.selling-nugget-info-popup-bidder-text,
+.selling-nugget-info-popup-bidder-id-text {
   margin: 0px;
   color: white;
   font-family: "AdobeClean";
@@ -67,7 +67,7 @@
   line-height: 1;
 }
 
-.lot-nugget-info-popup-title-text {
+.selling-nugget-info-popup-title-text {
   font-weight: bold;
   position: absolute;
   width: 40%;
@@ -77,7 +77,7 @@
   transform: translate(-50%, -50%);
 }
 
-.lot-nugget-info-popup-price-text {
+.selling-nugget-info-popup-price-text {
   position: absolute;
   width: 30%;
   height: 15%;
@@ -86,7 +86,7 @@
   transform: translate(-50%, -50%);
 }
 
-.lot-nugget-info-popup-cycle-text {
+.selling-nugget-info-popup-cycle-text {
   position: absolute;
   width: 30%;
   height: 15%;
@@ -95,7 +95,7 @@
   transform: translate(-50%, -50%);
 }
 
-.lot-nugget-info-popup-bid-text {
+.selling-nugget-info-popup-bid-text {
   position: absolute;
   width: 30%;
   height: 15%;
@@ -104,7 +104,7 @@
   transform: translate(-50%, -50%);
 }
 
-.lot-nugget-info-popup-attributes-text {
+.selling-nugget-info-popup-attributes-text {
   position: absolute;
   text-align: center;
   width: 3%;
@@ -114,7 +114,7 @@
   transform: translate(0, -50%);
 }
 
-.lot-nugget-info-popup-bidder-text {
+.selling-nugget-info-popup-bidder-text {
   position: absolute;
   text-align: left;
   width: 90%;
@@ -124,7 +124,7 @@
   transform: translate(0, -50%);
 }
 
-.lot-nugget-info-popup-levels-container {
+.selling-nugget-info-popup-levels-container {
   position: absolute;
   width: 0;
   height: 12%;
@@ -134,14 +134,14 @@
   display: flex;
 }
 
-.lot-nugget-info-popup-level-container {
+.selling-nugget-info-popup-level-container {
   position: relative;
   width: auto;
   height: 90%;
   aspect-ratio: 1;
 }
 
-.lot-nugget-info-popup-bid-button {
+.selling-nugget-info-popup-bid-button {
   position: absolute;
   width: 25%;
   height: 18%;

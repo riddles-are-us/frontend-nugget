@@ -1,30 +1,27 @@
 import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./InventoryNuggetInfoPopup.css";
-import { setUIState, UIStateType } from "../../../data/ui";
+import "./SellingNuggetInfoPopup.css";
+import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
-import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
+import { selectSellingNuggetData } from "../../../data/nuggets";
+import DefaultButton from "../buttons/DefaultButton";
+import { updateSellingNuggetsAsync } from "../express";
 import {
-  getExploreNuggetTransactionCommandArray,
-  getListNuggetTransactionCommandArray,
+  getSellNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
-import { selectInventoryNuggetData } from "../../../data/nuggets";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
-import { updateNuggetAsync, updateSellingNuggetsAsync } from "../express";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
-import PriceInputPopup from "./PriceInputPopup";
 
 interface Props {
   nuggetIndex: number;
-  isShowingListAmountPopup: boolean;
 }
 
 const attributeLefts = [
@@ -33,25 +30,23 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const InventoryNuggetInfoPopup = ({
-  nuggetIndex,
-  isShowingListAmountPopup,
-}: Props) => {
+const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(selectInventoryNuggetData(nuggetIndex));
+  const nuggetData = useAppSelector(selectSellingNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
+  const uIState = useAppSelector(selectUIState);
+  const isLoading = useAppSelector(selectIsLoading);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
-  const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
-  const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
   const nuggetBid = nuggetData.bid?.bidprice ?? 0;
+  const nuggetBidderId = nuggetData.bid?.bidder[0] ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
     nuggetData.feature
@@ -77,69 +72,21 @@ const InventoryNuggetInfoPopup = ({
     };
   }, [containerRef.current]);
 
-  const onClickCancel = () => {
+  const onClickSell = () => {
     if (!isLoading) {
-      dispatch(setUIState({ type: UIStateType.Idle }));
-    }
-  };
-
-  const onClickExploreNugget = () => {
-    if (!isLoading) {
+      console.log("onClickSell", nuggetData.marketid);
       dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
-          cmd: getExploreNuggetTransactionCommandArray(
+          cmd: getSellNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex
+            nuggetData.marketid
           ),
           prikey: l2account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          console.log("explore nugget successed");
-          await updateNuggetAsync(dispatch, nuggetId);
-          console.log("bid nugget update successed");
-          dispatch(setIsLoading(false));
-        } else if (sendTransaction.rejected.match(action)) {
-          const message = "explore nugget Error: " + action.payload;
-          dispatch(pushError(message));
-          console.error(message);
-          dispatch(setIsLoading(false));
-        }
-      });
-    }
-  };
-
-  const onClickListNugget = () => {
-    if (!isLoading) {
-      dispatch(
-        setUIState({
-          type: UIStateType.InventoryNuggetInfoPopup,
-          nuggetIndex,
-          isShowingListAmountPopup: true,
-        })
-      );
-    }
-  };
-
-  const onListNugget = (amount: number) => {
-    if (!isLoading) {
-      dispatch(setIsLoading(true));
-      dispatch(
-        sendTransaction({
-          cmd: getListNuggetTransactionCommandArray(
-            userState!.player!.nonce,
-            nuggetIndex,
-            amount
-          ),
-          prikey: l2account!.getPrivateKey(),
-        })
-      ).then(async (action) => {
-        if (sendTransaction.fulfilled.match(action)) {
-          console.log("list nugget successed");
-
-          await updateNuggetAsync(dispatch, nuggetId);
-          console.log("list nugget update successed");
+          console.log("selling nugget update successed");
           await updateSellingNuggetsAsync(
             dispatch,
             pids[1].toString(),
@@ -148,7 +95,7 @@ const InventoryNuggetInfoPopup = ({
           dispatch(setIsLoading(false));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
-          const message = "list nugget Error: " + action.payload;
+          const message = "selling nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
           dispatch(setIsLoading(false));
@@ -157,38 +104,29 @@ const InventoryNuggetInfoPopup = ({
     }
   };
 
-  const onCancelListNugget = () => {
-    if (!isLoading) {
-      dispatch(
-        setUIState({
-          type: UIStateType.InventoryNuggetInfoPopup,
-          nuggetIndex,
-          isShowingListAmountPopup: false,
-        })
-      );
+  const onClickCancel = () => {
+    if (uIState.type == UIStateType.SellingNuggetInfoPopup) {
+      dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
 
   return (
-    <div className="inventory-nugget-info-popup-container">
-      <div
-        onClick={onClickCancel}
-        className="inventory-nugget-info-popup-mask"
-      />
+    <div className="selling-nugget-info-popup-container">
+      <div onClick={onClickCancel} className="selling-nugget-info-popup-mask" />
       <div
         ref={containerRef}
-        className="inventory-nugget-info-popup-main-container"
+        className="selling-nugget-info-popup-main-container"
       >
-        <img src={image} className="inventory-nugget-info-popup-avatar-image" />
+        <img src={image} className="selling-nugget-info-popup-avatar-image" />
         <img
           src={background}
-          className="inventory-nugget-info-popup-main-background"
+          className="selling-nugget-info-popup-main-background"
         />
-        <div className="inventory-nugget-info-popup-close-button">
+        <div className="selling-nugget-info-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="inventory-nugget-info-popup-title-text"
+          className="selling-nugget-info-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -197,7 +135,7 @@ const InventoryNuggetInfoPopup = ({
           {`NuggetId: ${nuggetId}`}
         </p>
         <p
-          className="inventory-nugget-info-popup-price-text"
+          className="selling-nugget-info-popup-price-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -206,7 +144,7 @@ const InventoryNuggetInfoPopup = ({
           {`Recycle Price: ${nuggetPrice}`}
         </p>
         <p
-          className="inventory-nugget-info-popup-cycle-text"
+          className="selling-nugget-info-popup-cycle-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -215,7 +153,7 @@ const InventoryNuggetInfoPopup = ({
           {`Cycle: ${nuggetCycle}`}
         </p>
         <p
-          className="inventory-nugget-info-popup-bid-text"
+          className="selling-nugget-info-popup-bid-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -223,11 +161,22 @@ const InventoryNuggetInfoPopup = ({
         >
           {`Bid Price: ${nuggetBid}`}
         </p>
-        <div className="inventory-nugget-info-popup-levels-container">
+        {nuggetBidderId && (
+          <p
+            className="selling-nugget-info-popup-bidder-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {`Bidder: ${nuggetBidderId}`}
+          </p>
+        )}
+        <div className="selling-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div
               key={index}
-              className={`inventory-nugget-info-popup-level-container`}
+              className={`selling-nugget-info-popup-level-container`}
             >
               <NuggetLevel key={index} isActive={index < nuggetLevel} />
             </div>
@@ -237,7 +186,7 @@ const InventoryNuggetInfoPopup = ({
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
               key={index}
-              className="inventory-nugget-info-popup-attributes-text"
+              className="selling-nugget-info-popup-attributes-text"
               style={{
                 left: `${attributeLefts[index] * 100}%`,
                 fontSize: attributesFontSize,
@@ -248,41 +197,16 @@ const InventoryNuggetInfoPopup = ({
             </p>
           ))}
         </div>
-        <div className="inventory-nugget-info-popup-explore-button">
+        <div className="selling-nugget-info-popup-bid-button">
           <DefaultButton
-            text={"Explore           "}
-            onClick={onClickExploreNugget}
-            isDisabled={false}
-          />
-          <p
-            className="inventory-nugget-info-popup-coin-text"
-            style={{
-              fontSize: descriptionFontSize,
-              ...getTextShadowStyle(descriptionFontSize / 15),
-            }}
-          >
-            {nuggetExplorePrice}
-          </p>
-          <div className="inventory-nugget-info-popup-coin-image" />
-        </div>
-        <div className="inventory-nugget-info-popup-sell-button">
-          <DefaultButton
-            text={"List Nugget"}
-            onClick={onClickListNugget}
+            text={"Sell"}
+            onClick={onClickSell}
             isDisabled={false}
           />
         </div>
       </div>
-
-      {isShowingListAmountPopup && (
-        <PriceInputPopup
-          title="list"
-          onClickConfirm={onListNugget}
-          onClickCancel={onCancelListNugget}
-        />
-      )}
     </div>
   );
 };
 
-export default InventoryNuggetInfoPopup;
+export default SellingNuggetInfoPopup;

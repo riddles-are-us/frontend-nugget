@@ -11,6 +11,7 @@ export enum UIStateType {
   ConfirmPopup,
   ErrorPopup,
   InventoryNuggetInfoPopup,
+  SellingNuggetInfoPopup,
   AuctionNuggetInfoPopup,
   LotNuggetInfoPopup,
 }
@@ -23,9 +24,10 @@ export type UIState =
   { type: UIStateType.DepositPopup} |
   { type: UIStateType.ConfirmPopup} |
   { type: UIStateType.ErrorPopup} |
-  { type: UIStateType.InventoryNuggetInfoPopup; nuggetIndex: number; } |
+  { type: UIStateType.InventoryNuggetInfoPopup; nuggetIndex: number; isShowingListAmountPopup: boolean} |
+  { type: UIStateType.SellingNuggetInfoPopup; nuggetIndex: number; } |
   { type: UIStateType.AuctionNuggetInfoPopup; nuggetIndex: number; isShowingBidAmountPopup: boolean; } |
-  { type: UIStateType.LotNuggetInfoPopup; nuggetIndex: number; };
+  { type: UIStateType.LotNuggetInfoPopup; nuggetIndex: number;  isShowingBidAmountPopup: boolean;};
 
 export enum TabState {
   Inventory,

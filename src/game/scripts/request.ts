@@ -151,11 +151,14 @@ async function queryData(url: string) {
   }
 }
 
+const CMD_WITHDRAW = 2n;
+
 const EXPLORE_NUGGET = 4n;
 const SELL_NUGGET = 5n;
 const BID_NUGGET = 6n;
 const CREATE_NUGGET = 7n;
-const CMD_WITHDRAW = 8n;
+const RECYCLE_NUGGET = 8n;
+const LIST_NUGGET = 9n;
 
 export function getExploreNuggetTransactionCommandArray(
   nonce: number,
@@ -201,6 +204,31 @@ export function getCreateNuggetTransactionCommandArray(
     BigInt(nonce),
     CREATE_NUGGET,
     []
+  );
+  return command;
+}
+
+export function getRecycleNuggetTransactionCommandArray(
+  nonce: number,
+  index: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    RECYCLE_NUGGET,
+    [BigInt(index)]
+  );
+  return command;
+}
+
+export function getListNuggetTransactionCommandArray(
+  nonce: number,
+  index: number,
+  amount: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    LIST_NUGGET,
+    [BigInt(index), BigInt(amount)]
   );
   return command;
 }

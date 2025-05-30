@@ -34,6 +34,7 @@ function decodeNuggets(raws: any): NuggetData[] {
       sysprice: number;
     }) => ({
       id: Number(id),
+      marketid: 0,
       attributes: Number(attributes),
       feature: Number(feature),
       cycle: Number(cycle),
@@ -68,6 +69,7 @@ function decodeMarkets(raws: any): NuggetData[] {
       };
     }) => ({
       id: Number(object.id),
+      marketid: Number(marketid),
       attributes: Number(object.attributes),
       feature: Number(object.feature),
       cycle: Number(object.cycle),

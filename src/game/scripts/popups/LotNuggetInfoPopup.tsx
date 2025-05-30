@@ -2,15 +2,28 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./LotNuggetInfoPopup.css";
-import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
+import { setUIState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import { selectLotNuggetData } from "../../../data/nuggets";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  getBidNuggetTransactionCommandArray,
+  sendTransaction,
+} from "../request";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { selectUserState } from "../../../data/state";
+import { updateAuctionNuggetsAsync, updateLotNuggetsAsync } from "../express";
+import { LeHexBN } from "zkwasm-minirollup-rpc";
+import { bnToHexLe } from "delphinus-curves/src/altjubjub";
+import PriceInputPopup from "./PriceInputPopup";
+import DefaultButton from "../buttons/DefaultButton";
 
 interface Props {
   nuggetIndex: number;
+  isShowingBidAmountPopup: boolean;
 }
 
 const attributeLefts = [
@@ -19,11 +32,16 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const LotNuggetInfoPopup = ({ nuggetIndex }: Props) => {
+const LotNuggetInfoPopup = ({
+  nuggetIndex,
+  isShowingBidAmountPopup,
+}: Props) => {
   const dispatch = useAppDispatch();
   const nuggetData = useAppSelector(selectLotNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const uIState = useAppSelector(selectUIState);
+  const isLoading = useAppSelector(selectIsLoading);
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
@@ -37,6 +55,9 @@ const LotNuggetInfoPopup = ({ nuggetIndex }: Props) => {
     nuggetData.attributes,
     nuggetData.feature
   );
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -56,8 +77,65 @@ const LotNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   }, [containerRef.current]);
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.LotNuggetInfoPopup) {
+    if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
+    }
+  };
+
+  const onClickBidNugget = () => {
+    if (!isLoading) {
+      dispatch(
+        setUIState({
+          type: UIStateType.LotNuggetInfoPopup,
+          nuggetIndex,
+          isShowingBidAmountPopup: true,
+        })
+      );
+    }
+  };
+
+  const onBidNugget = (amount: number) => {
+    if (!isLoading) {
+      dispatch(setIsLoading(true));
+      dispatch(
+        sendTransaction({
+          cmd: getBidNuggetTransactionCommandArray(
+            userState!.player!.nonce,
+            nuggetData.marketid,
+            amount
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then(async (action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          console.log("bid nugget update successed");
+          await updateAuctionNuggetsAsync(dispatch);
+          await updateLotNuggetsAsync(
+            dispatch,
+            pids[1].toString(),
+            pids[2].toString()
+          );
+          dispatch(setIsLoading(false));
+          dispatch(setUIState({ type: UIStateType.Idle }));
+        } else if (sendTransaction.rejected.match(action)) {
+          const message = "bid nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
+        }
+      });
+    }
+  };
+
+  const onCancelBidNugget = () => {
+    if (!isLoading) {
+      dispatch(
+        setUIState({
+          type: UIStateType.AuctionNuggetInfoPopup,
+          nuggetIndex,
+          isShowingBidAmountPopup: false,
+        })
+      );
     }
   };
 
@@ -145,7 +223,22 @@ const LotNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             </p>
           ))}
         </div>
+        <div className="lot-nugget-info-popup-bid-button">
+          <DefaultButton
+            text={"Bid"}
+            onClick={onClickBidNugget}
+            isDisabled={false}
+          />
+        </div>
       </div>
+
+      {isShowingBidAmountPopup && (
+        <PriceInputPopup
+          title="bid"
+          onClickConfirm={onBidNugget}
+          onClickCancel={onCancelBidNugget}
+        />
+      )}
     </div>
   );
 };

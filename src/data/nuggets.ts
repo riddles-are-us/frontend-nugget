@@ -50,11 +50,13 @@ const nuggetsSlice = createSlice({
       .addCase(queryState.fulfilled, (state, action) => {
         if (action.payload.player){
           state.inventory = action.payload.player.data.inventory;
+          console.log("inventory", state.inventory);
         }
       })
       .addCase(sendTransaction.fulfilled, (state, action) => {
         if (action.payload.player){
           state.inventory = action.payload.player.data.inventory;
+          console.log("inventory", state.inventory);
         }
       })
   },

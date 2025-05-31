@@ -1,7 +1,6 @@
-import { createCommand, createWithdrawCommand, ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LeHexBN, query } from 'zkwasm-minirollup-rpc';
 import { AccountSlice } from 'zkwasm-minirollup-browser';
+import { createCommand, createWithdrawCommand, ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
 
 // Get the current URL components
 const currentLocation = window.location;
@@ -9,7 +8,7 @@ const protocol = currentLocation.protocol; // e.g., 'http:' or 'https:'
 const hostname = currentLocation.hostname; // e.g., 'sinka' or 'localhost'
 
 // We assume the rpc is at port 3000
-const fullUrl = "https://rpc.space-nugget.zkwasm.ai";
+export const fullUrl = "https://rpc.space-nugget.zkwasm.ai";
 const rpc = new ZKWasmAppRpc(fullUrl);
 
 async function queryConfigI() {

@@ -1,19 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RequestError } from "zkwasm-minirollup-browser";
 import { RootState } from "../app/store";
 import { emptyNuggetData, NuggetData } from "./model";
-import { getNuggets, getNugget, getBids, queryState } from "../game/scripts/request";
+import { queryState } from "../game/scripts/request";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 
 export interface NuggetsState {
   nuggets: Record<number, NuggetData>;
-  bidNuggets: NuggetData[];
+  auctionNuggets:NuggetData[];
+  lotNuggets:NuggetData[];
+  sellingNuggets:NuggetData[];
   inventory: number[];
 }
 
 const initialState: NuggetsState = {
   nuggets: {},
-  bidNuggets: [],
+  auctionNuggets: [],
+  lotNuggets: [],
+  sellingNuggets: [],
   inventory: [],
 };
 
@@ -21,9 +24,25 @@ const nuggetsSlice = createSlice({
   name: "nuggets",
   initialState,
   reducers: {
-    // setNuggets: (state, d: PayloadAction<UIState>) => {
-    //   state.uiState = d.payload;
-    // },
+    setNuggets: (state, d: PayloadAction<NuggetData[]>) => {
+      state.nuggets = d.payload.reduce((acc: any, nugget: any) => {
+        acc[nugget.id] = nugget;
+        return acc;
+      }, {} as Record<string, NuggetData>);
+    },
+    setNugget: (state, d: PayloadAction<NuggetData[]>) => {
+      const nugget = d.payload[0];
+      state.nuggets[nugget.id] = nugget;
+    },
+    setAuctionNuggets: (state, d: PayloadAction<NuggetData[]>) => {
+      state.auctionNuggets = d.payload;
+    },
+    setLotNuggets: (state, d: PayloadAction<NuggetData[]>) => {
+      state.lotNuggets = d.payload;
+    },
+    setSellingNuggets: (state, d: PayloadAction<NuggetData[]>) => {
+      state.sellingNuggets = d.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -31,26 +50,15 @@ const nuggetsSlice = createSlice({
       .addCase(queryState.fulfilled, (state, action) => {
         if (action.payload.player){
           state.inventory = action.payload.player.data.inventory;
+          console.log("inventory", state.inventory);
         }
       })
       .addCase(sendTransaction.fulfilled, (state, action) => {
         if (action.payload.player){
           state.inventory = action.payload.player.data.inventory;
+          console.log("inventory", state.inventory);
         }
       })
-      .addCase(getNuggets.fulfilled, (state, action) => {
-        state.nuggets = action.payload.reduce((acc: any, nugget: any) => {
-          acc[nugget.id] = nugget;
-          return acc;
-        }, {} as Record<string, NuggetData>);
-      })
-      .addCase(getNugget.fulfilled, (state, action) => {
-        const nugget = action.payload[0];
-        state.nuggets[nugget.id] = nugget;
-      })
-      .addCase(getBids.fulfilled, (state, action) => {
-        state.bidNuggets = action.payload;
-      });
   },
 });
 
@@ -61,16 +69,11 @@ export const selectInventoryNuggetData = (index: number) => (state: RootState) =
   return state.nuggets.nuggets[state.nuggets.inventory[index]] ?? emptyNuggetData;
 };
 
-export const selectMarketNuggetsData = (state: RootState) => {
-  return Object.values(state.nuggets.nuggets).filter(
-    (nugget) => nugget && !state.nuggets.inventory.includes(nugget.id)
-  );
-};
-export const selectMarketNuggetData = (index: number) => (state: RootState) => {
-  const marketNuggets = selectMarketNuggetsData(state);
-  return marketNuggets[index] ?? emptyNuggetData;
-};
-export const selectBidNuggetsData = (state: RootState) => state.nuggets.bidNuggets;
-export const selectBidNuggetData = (index: number) => (state: RootState) => state.nuggets.bidNuggets[index] ?? emptyNuggetData;
-// export const { /* */ } = nuggetsSlice.actions;
+export const selectAuctionNuggetsData = (state: RootState) => state.nuggets.auctionNuggets;
+export const selectAuctionNuggetData = (index: number) => (state: RootState) => state.nuggets.auctionNuggets[index] ?? emptyNuggetData;
+export const selectLotNuggetsData = (state: RootState) => state.nuggets.lotNuggets;
+export const selectLotNuggetData = (index: number) => (state: RootState) => state.nuggets.lotNuggets[index] ?? emptyNuggetData;
+export const selectSellingNuggetsData = (state: RootState) => state.nuggets.sellingNuggets;
+export const selectSellingNuggetData = (index: number) => (state: RootState) => state.nuggets.sellingNuggets[index] ?? emptyNuggetData;
+export const { setNuggets, setNugget, setAuctionNuggets, setLotNuggets, setSellingNuggets} = nuggetsSlice.actions;
 export default nuggetsSlice.reducer;

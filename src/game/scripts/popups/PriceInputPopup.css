@@ -1,4 +1,4 @@
-.bid-amount-popup-container {
+.price-input-popup-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -8,14 +8,14 @@
   z-index: 20;
 }
 
-.bid-amount-popup-mask {
+.price-input-popup-mask {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   user-select: none;
 }
 
-.bid-amount-popup-main-container {
+.price-input-popup-main-container {
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -25,14 +25,14 @@
   aspect-ratio: 5 / 3;
 }
 
-.bid-amount-popup-main-background {
+.price-input-popup-main-background {
   position: absolute;
   width: 100%;
   height: 100%;
   user-select: none;
 }
 
-.bid-amount-popup-close-button {
+.price-input-popup-close-button {
   position: absolute;
   top: 3%;
   left: 87%;
@@ -42,7 +42,7 @@
   transform: translate(-50%, -50%);
 }
 
-.bid-amount-popup-confirm-button {
+.price-input-popup-confirm-button {
   position: absolute;
   top: 82%;
   left: 50%;
@@ -52,7 +52,7 @@
   transform: translate(-50%, -50%);
 }
 
-.bid-amount-popup-title-text {
+.price-input-popup-title-text {
   margin: 0px;
   color: white;
   font-family: "AdobeClean";
@@ -69,7 +69,7 @@
   transform: translate(-50%, -50%);
 }
 
-.bid-amount-popup-amount-input-container {
+.price-input-popup-amount-input-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -80,7 +80,7 @@
   user-select: none;
 }
 
-.bid-amount-popup-amount-input {
+.price-input-popup-amount-input {
   position: absolute;
   background: none;
   border: none;
@@ -95,7 +95,7 @@
   user-select: none;
 }
 
-.bid-amount-popup-amount-input::placeholder {
+.price-input-popup-amount-input::placeholder {
   color: white;
   opacity: 1;
 }

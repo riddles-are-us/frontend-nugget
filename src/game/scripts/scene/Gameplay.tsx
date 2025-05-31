@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState, MouseEvent } from "react";
 import Popups from "./Popups";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useAppSelector } from "../../../app/hooks";
 import "./Gameplay.css";
-import { selectNullableUserState, selectUserState } from "../../../data/state";
-import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import VerticalExtendableImage from "../common/VerticalExtendableImage";
 import leftTopImage from "../../images/scene/gameplay/left_container/left_top.png";
 import leftMiddleImage from "../../images/scene/gameplay/left_container/left_middle.png";
@@ -16,32 +12,11 @@ import PlayerInfo from "./gameplay/PlayerInfo";
 import avatarImage from "../../images/avatars/Avatar.png";
 import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
-import { selectUIState } from "../../../data/ui";
 import { selectIsLoading } from "../../../data/errors";
-import { getBids, getNugget, getNuggets } from "../request";
 import LoadingHint from "./LoadingHint";
 
 const Gameplay = () => {
-  const dispatch = useAppDispatch();
-  const uIState = useAppSelector(selectUIState);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
-  const userState = useAppSelector(selectNullableUserState);
   const isLoading = useAppSelector(selectIsLoading);
-
-  useEffect(() => {
-    if (userState) {
-      console.error("Gameplay updated");
-      dispatch(getNuggets(0));
-      dispatch(getBids(l2account!.getPrivateKey()));
-      for (let i = 0; i < userState!.player!.data.inventory.length; i++) {
-        dispatch(
-          getNugget({
-            nuggetId: userState!.player!.data.inventory[i],
-          })
-        );
-      }
-    }
-  }, []);
 
   return (
     <div className="gameplay-container">

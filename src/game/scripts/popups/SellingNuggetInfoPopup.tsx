@@ -1,13 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./BidNuggetInfoPopup.css";
+import "./SellingNuggetInfoPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectBidNuggetData } from "../../../data/nuggets";
+import { selectSellingNuggetData } from "../../../data/nuggets";
+import DefaultButton from "../buttons/DefaultButton";
+import { updateSellingNuggetsAsync } from "../express";
+import {
+  getSellNuggetTransactionCommandArray,
+  sendTransaction,
+} from "../request";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { selectUserState } from "../../../data/state";
+import { LeHexBN } from "zkwasm-minirollup-rpc";
+import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 interface Props {
   nuggetIndex: number;
@@ -19,11 +30,14 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
+const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(selectBidNuggetData(nuggetIndex));
+  const nuggetData = useAppSelector(selectSellingNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
+  const isLoading = useAppSelector(selectIsLoading);
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
@@ -37,6 +51,9 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
     nuggetData.attributes,
     nuggetData.feature
   );
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -55,26 +72,61 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
     };
   }, [containerRef.current]);
 
+  const onClickSell = () => {
+    if (!isLoading) {
+      console.log("onClickSell", nuggetData.marketid);
+      dispatch(setIsLoading(true));
+      dispatch(
+        sendTransaction({
+          cmd: getSellNuggetTransactionCommandArray(
+            userState!.player!.nonce,
+            nuggetData.marketid
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then(async (action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          console.log("selling nugget update successed");
+          await updateSellingNuggetsAsync(
+            dispatch,
+            pids[1].toString(),
+            pids[2].toString()
+          );
+          dispatch(setIsLoading(false));
+          dispatch(setUIState({ type: UIStateType.Idle }));
+        } else if (sendTransaction.rejected.match(action)) {
+          const message = "selling nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
+        }
+      });
+    }
+  };
+
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.BidNuggetInfoPopup) {
+    if (uIState.type == UIStateType.SellingNuggetInfoPopup) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
 
   return (
-    <div className="bid-nugget-info-popup-container">
-      <div onClick={onClickCancel} className="bid-nugget-info-popup-mask" />
-      <div ref={containerRef} className="bid-nugget-info-popup-main-container">
-        <img src={image} className="bid-nugget-info-popup-avatar-image" />
+    <div className="selling-nugget-info-popup-container">
+      <div onClick={onClickCancel} className="selling-nugget-info-popup-mask" />
+      <div
+        ref={containerRef}
+        className="selling-nugget-info-popup-main-container"
+      >
+        <img src={image} className="selling-nugget-info-popup-avatar-image" />
         <img
           src={background}
-          className="bid-nugget-info-popup-main-background"
+          className="selling-nugget-info-popup-main-background"
         />
-        <div className="bid-nugget-info-popup-close-button">
+        <div className="selling-nugget-info-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="bid-nugget-info-popup-title-text"
+          className="selling-nugget-info-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -83,7 +135,7 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           {`NuggetId: ${nuggetId}`}
         </p>
         <p
-          className="bid-nugget-info-popup-price-text"
+          className="selling-nugget-info-popup-price-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -92,7 +144,7 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           {`Recycle Price: ${nuggetPrice}`}
         </p>
         <p
-          className="bid-nugget-info-popup-cycle-text"
+          className="selling-nugget-info-popup-cycle-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -101,7 +153,7 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           {`Cycle: ${nuggetCycle}`}
         </p>
         <p
-          className="bid-nugget-info-popup-bid-text"
+          className="selling-nugget-info-popup-bid-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -111,7 +163,7 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         </p>
         {nuggetBidderId && (
           <p
-            className="bid-nugget-info-popup-bidder-text"
+            className="selling-nugget-info-popup-bidder-text"
             style={{
               fontSize: descriptionFontSize,
               ...getTextShadowStyle(descriptionFontSize / 15),
@@ -120,11 +172,11 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             {`Bidder: ${nuggetBidderId}`}
           </p>
         )}
-        <div className="bid-nugget-info-popup-levels-container">
+        <div className="selling-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div
               key={index}
-              className={`bid-nugget-info-popup-level-container`}
+              className={`selling-nugget-info-popup-level-container`}
             >
               <NuggetLevel key={index} isActive={index < nuggetLevel} />
             </div>
@@ -134,7 +186,7 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
               key={index}
-              className="bid-nugget-info-popup-attributes-text"
+              className="selling-nugget-info-popup-attributes-text"
               style={{
                 left: `${attributeLefts[index] * 100}%`,
                 fontSize: attributesFontSize,
@@ -145,9 +197,16 @@ const BidNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             </p>
           ))}
         </div>
+        <div className="selling-nugget-info-popup-bid-button">
+          <DefaultButton
+            text={"Sell"}
+            onClick={onClickSell}
+            isDisabled={false}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-export default BidNuggetInfoPopup;
+export default SellingNuggetInfoPopup;

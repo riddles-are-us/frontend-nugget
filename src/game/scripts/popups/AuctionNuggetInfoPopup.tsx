@@ -1,30 +1,29 @@
 import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./InventoryNuggetInfoPopup.css";
+import "./AuctionNuggetInfoPopup.css";
 import { setUIState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import PriceInputPopup from "./PriceInputPopup";
+import { selectAuctionNuggetData } from "../../../data/nuggets";
 import {
-  getExploreNuggetTransactionCommandArray,
-  getListNuggetTransactionCommandArray,
+  getBidNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
+import { updateAuctionNuggetsAsync, updateLotNuggetsAsync } from "../express";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
-import { selectInventoryNuggetData } from "../../../data/nuggets";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
-import { updateNuggetAsync, updateSellingNuggetsAsync } from "../express";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
-import PriceInputPopup from "./PriceInputPopup";
 
 interface Props {
   nuggetIndex: number;
-  isShowingListAmountPopup: boolean;
+  isShowingBidAmountPopup: boolean;
 }
 
 const attributeLefts = [
@@ -33,15 +32,13 @@ const attributeLefts = [
   0.845, 0.883, 0.92, 0.957,
 ];
 
-const InventoryNuggetInfoPopup = ({
+const AuctionNuggetInfoPopup = ({
   nuggetIndex,
-  isShowingListAmountPopup,
+  isShowingBidAmountPopup,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(selectInventoryNuggetData(nuggetIndex));
+  const nuggetData = useAppSelector(selectAuctionNuggetData(nuggetIndex));
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
-  const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
@@ -50,12 +47,14 @@ const InventoryNuggetInfoPopup = ({
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
-  const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
   const nuggetBid = nuggetData.bid?.bidprice ?? 0;
+  const nuggetBidderId = nuggetData.bid?.bidder[0] ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
     nuggetData.feature
   );
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const userState = useAppSelector(selectUserState);
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
@@ -83,64 +82,35 @@ const InventoryNuggetInfoPopup = ({
     }
   };
 
-  const onClickExploreNugget = () => {
-    if (!isLoading) {
-      dispatch(setIsLoading(true));
-      dispatch(
-        sendTransaction({
-          cmd: getExploreNuggetTransactionCommandArray(
-            userState!.player!.nonce,
-            nuggetIndex
-          ),
-          prikey: l2account!.getPrivateKey(),
-        })
-      ).then(async (action) => {
-        if (sendTransaction.fulfilled.match(action)) {
-          console.log("explore nugget successed");
-          await updateNuggetAsync(dispatch, nuggetId);
-          console.log("bid nugget update successed");
-          dispatch(setIsLoading(false));
-        } else if (sendTransaction.rejected.match(action)) {
-          const message = "explore nugget Error: " + action.payload;
-          dispatch(pushError(message));
-          console.error(message);
-          dispatch(setIsLoading(false));
-        }
-      });
-    }
-  };
-
-  const onClickListNugget = () => {
+  const onClickBidNugget = () => {
     if (!isLoading) {
       dispatch(
         setUIState({
-          type: UIStateType.InventoryNuggetInfoPopup,
+          type: UIStateType.AuctionNuggetInfoPopup,
           nuggetIndex,
-          isShowingListAmountPopup: true,
+          isShowingBidAmountPopup: true,
         })
       );
     }
   };
 
-  const onListNugget = (amount: number) => {
+  const onBidNugget = (amount: number) => {
     if (!isLoading) {
       dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
-          cmd: getListNuggetTransactionCommandArray(
+          cmd: getBidNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex,
+            nuggetData.marketid,
             amount
           ),
           prikey: l2account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
-          console.log("list nugget successed");
-
-          await updateNuggetAsync(dispatch, nuggetId);
-          console.log("list nugget update successed");
-          await updateSellingNuggetsAsync(
+          console.log("bid nugget update successed");
+          await updateAuctionNuggetsAsync(dispatch);
+          await updateLotNuggetsAsync(
             dispatch,
             pids[1].toString(),
             pids[2].toString()
@@ -148,7 +118,7 @@ const InventoryNuggetInfoPopup = ({
           dispatch(setIsLoading(false));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
-          const message = "list nugget Error: " + action.payload;
+          const message = "bid nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
           dispatch(setIsLoading(false));
@@ -157,38 +127,35 @@ const InventoryNuggetInfoPopup = ({
     }
   };
 
-  const onCancelListNugget = () => {
+  const onCancelBidNugget = () => {
     if (!isLoading) {
       dispatch(
         setUIState({
-          type: UIStateType.InventoryNuggetInfoPopup,
+          type: UIStateType.AuctionNuggetInfoPopup,
           nuggetIndex,
-          isShowingListAmountPopup: false,
+          isShowingBidAmountPopup: false,
         })
       );
     }
   };
 
   return (
-    <div className="inventory-nugget-info-popup-container">
-      <div
-        onClick={onClickCancel}
-        className="inventory-nugget-info-popup-mask"
-      />
+    <div className="auction-nugget-info-popup-container">
+      <div onClick={onClickCancel} className="auction-nugget-info-popup-mask" />
       <div
         ref={containerRef}
-        className="inventory-nugget-info-popup-main-container"
+        className="auction-nugget-info-popup-main-container"
       >
-        <img src={image} className="inventory-nugget-info-popup-avatar-image" />
+        <img src={image} className="auction-nugget-info-popup-avatar-image" />
         <img
           src={background}
-          className="inventory-nugget-info-popup-main-background"
+          className="auction-nugget-info-popup-main-background"
         />
-        <div className="inventory-nugget-info-popup-close-button">
+        <div className="auction-nugget-info-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="inventory-nugget-info-popup-title-text"
+          className="auction-nugget-info-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -197,7 +164,7 @@ const InventoryNuggetInfoPopup = ({
           {`NuggetId: ${nuggetId}`}
         </p>
         <p
-          className="inventory-nugget-info-popup-price-text"
+          className="auction-nugget-info-popup-price-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -206,7 +173,7 @@ const InventoryNuggetInfoPopup = ({
           {`Recycle Price: ${nuggetPrice}`}
         </p>
         <p
-          className="inventory-nugget-info-popup-cycle-text"
+          className="auction-nugget-info-popup-cycle-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -215,7 +182,7 @@ const InventoryNuggetInfoPopup = ({
           {`Cycle: ${nuggetCycle}`}
         </p>
         <p
-          className="inventory-nugget-info-popup-bid-text"
+          className="auction-nugget-info-popup-bid-text"
           style={{
             fontSize: descriptionFontSize,
             ...getTextShadowStyle(descriptionFontSize / 15),
@@ -223,11 +190,22 @@ const InventoryNuggetInfoPopup = ({
         >
           {`Bid Price: ${nuggetBid}`}
         </p>
-        <div className="inventory-nugget-info-popup-levels-container">
+        {nuggetBidderId && (
+          <p
+            className="auction-nugget-info-popup-bidder-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {`Bidder: ${nuggetBidderId}`}
+          </p>
+        )}
+        <div className="auction-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div
               key={index}
-              className={`inventory-nugget-info-popup-level-container`}
+              className={`auction-nugget-info-popup-level-container`}
             >
               <NuggetLevel key={index} isActive={index < nuggetLevel} />
             </div>
@@ -237,7 +215,7 @@ const InventoryNuggetInfoPopup = ({
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p
               key={index}
-              className="inventory-nugget-info-popup-attributes-text"
+              className="auction-nugget-info-popup-attributes-text"
               style={{
                 left: `${attributeLefts[index] * 100}%`,
                 fontSize: attributesFontSize,
@@ -248,41 +226,24 @@ const InventoryNuggetInfoPopup = ({
             </p>
           ))}
         </div>
-        <div className="inventory-nugget-info-popup-explore-button">
+        <div className="auction-nugget-info-popup-bid-button">
           <DefaultButton
-            text={"Explore           "}
-            onClick={onClickExploreNugget}
-            isDisabled={false}
-          />
-          <p
-            className="inventory-nugget-info-popup-coin-text"
-            style={{
-              fontSize: descriptionFontSize,
-              ...getTextShadowStyle(descriptionFontSize / 15),
-            }}
-          >
-            {nuggetExplorePrice}
-          </p>
-          <div className="inventory-nugget-info-popup-coin-image" />
-        </div>
-        <div className="inventory-nugget-info-popup-sell-button">
-          <DefaultButton
-            text={"List Nugget"}
-            onClick={onClickListNugget}
+            text={"Bid"}
+            onClick={onClickBidNugget}
             isDisabled={false}
           />
         </div>
       </div>
 
-      {isShowingListAmountPopup && (
+      {isShowingBidAmountPopup && (
         <PriceInputPopup
-          title="list"
-          onClickConfirm={onListNugget}
-          onClickCancel={onCancelListNugget}
+          title="bid"
+          onClickConfirm={onBidNugget}
+          onClickCancel={onCancelBidNugget}
         />
       )}
     </div>
   );
 };
 
-export default InventoryNuggetInfoPopup;
+export default AuctionNuggetInfoPopup;

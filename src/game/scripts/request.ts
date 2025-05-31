@@ -151,62 +151,14 @@ async function queryData(url: string) {
   }
 }
 
-async function queryBidsI(key: string) {
-  const pubkey = new LeHexBN(query(key).pkx).toU64Array();
-  return await queryData(`bid/${pubkey[1]}/${pubkey[2]}`);
-}
-
-async function queryNuggetsI(page: number) {
-  return await queryData(`nuggets`);
-}
-
-async function queryNuggetI(nuggetId: number) {
-  return await queryData(`nugget/${nuggetId}`);
-}
-
-export const getBids = createAsyncThunk(
-  'client/getBids',
-  async (key: string, { rejectWithValue }) => {
-    try {
-      const res: any = await queryBidsI(key);
-      return res;
-    } catch (err: any) {
-      return rejectWithValue(err);
-    }
-  }
-)
-
-
-
-export const getNuggets = createAsyncThunk(
-  'client/getNuggets',
-  async (page: number, { rejectWithValue }) => {
-    try {
-      const res: any = await queryNuggetsI(page);
-      return res;
-    } catch (err: any) {
-      return rejectWithValue(err);
-    }
-  }
-)
-
-export const getNugget = createAsyncThunk(
-  'client/getNugget',
-  async (params: {nuggetId: number}, { rejectWithValue }) => {
-    try {
-      const res: any = await queryNuggetI(params.nuggetId);
-      return res;
-    } catch (err: any) {
-      return rejectWithValue(err);
-    }
-  }
-)
+const CMD_WITHDRAW = 2n;
 
 const EXPLORE_NUGGET = 4n;
 const SELL_NUGGET = 5n;
 const BID_NUGGET = 6n;
 const CREATE_NUGGET = 7n;
-const CMD_WITHDRAW = 8n;
+const RECYCLE_NUGGET = 8n;
+const LIST_NUGGET = 9n;
 
 export function getExploreNuggetTransactionCommandArray(
   nonce: number,
@@ -252,6 +204,31 @@ export function getCreateNuggetTransactionCommandArray(
     BigInt(nonce),
     CREATE_NUGGET,
     []
+  );
+  return command;
+}
+
+export function getRecycleNuggetTransactionCommandArray(
+  nonce: number,
+  index: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    RECYCLE_NUGGET,
+    [BigInt(index)]
+  );
+  return command;
+}
+
+export function getListNuggetTransactionCommandArray(
+  nonce: number,
+  index: number,
+  amount: number,
+): BigUint64Array {
+  const command = createCommand(
+    BigInt(nonce),
+    LIST_NUGGET,
+    [BigInt(index), BigInt(amount)]
   );
   return command;
 }

@@ -5,6 +5,7 @@ export interface Bid {
 
 export interface NuggetData {
     id: number;
+    marketid: number;
     attributes: string;
     feature: number;
     cycle: number;
@@ -15,6 +16,7 @@ export interface NuggetData {
 
 export const emptyNuggetData: NuggetData = {
     id: 0,
+    marketid: 0,
     attributes: "",
     feature: 0,
     cycle: 0,

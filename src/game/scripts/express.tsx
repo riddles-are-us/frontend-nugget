@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../app/hooks";
 import {
   setAuctionNuggets,
   setLotNuggets,
+  setNugget,
   setNuggets,
   setSellingNuggets,
 } from "../../data/nuggets";
@@ -90,11 +91,11 @@ async function getNuggets(): Promise<NuggetData[]> {
   return decodeNuggets(raws);
 }
 
-async function getNugget(index: number): Promise<NuggetData[]> {
+async function getNugget(index: number): Promise<NuggetData> {
   const res = await getRequest(`/data/nugget/${index}`);
   const raws = res.data;
   console.log("getNugget ", index, " ", raws);
-  return decodeNuggets(raws);
+  return decodeNuggets(raws)[0];
 }
 
 async function getAuctionNuggets(): Promise<NuggetData[]> {
@@ -126,7 +127,7 @@ async function getSellingNuggets(
 
 export const updateNuggetAsync = async (dispatch: any, index: number) => {
   const ret = await getNugget(index);
-  dispatch(setSellingNuggets(ret));
+  dispatch(setNugget(ret));
 };
 
 export const updateNuggetsAsync = async (dispatch: any) => {

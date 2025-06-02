@@ -30,8 +30,8 @@ const nuggetsSlice = createSlice({
         return acc;
       }, {} as Record<string, NuggetData>);
     },
-    setNugget: (state, d: PayloadAction<NuggetData[]>) => {
-      const nugget = d.payload[0];
+    setNugget: (state, d: PayloadAction<NuggetData>) => {
+      const nugget = d.payload;
       state.nuggets[nugget.id] = nugget;
     },
     setAuctionNuggets: (state, d: PayloadAction<NuggetData[]>) => {

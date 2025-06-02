@@ -11,13 +11,18 @@ import PopupCloseButton from "../buttons/PopupCloseButton";
 import {
   getExploreNuggetTransactionCommandArray,
   getListNuggetTransactionCommandArray,
+  getRecycleNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { selectInventoryNuggetData } from "../../../data/nuggets";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
-import { updateNuggetAsync, updateSellingNuggetsAsync } from "../express";
+import {
+  updateNuggetAsync,
+  updateNuggetsAsync,
+  updateSellingNuggetsAsync,
+} from "../express";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import PriceInputPopup from "./PriceInputPopup";
@@ -98,10 +103,35 @@ const InventoryNuggetInfoPopup = ({
         if (sendTransaction.fulfilled.match(action)) {
           console.log("explore nugget successed");
           await updateNuggetAsync(dispatch, nuggetId);
-          console.log("bid nugget update successed");
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
+        }
+      });
+    }
+  };
+
+  const onClickRecycleNugget = () => {
+    if (!isLoading) {
+      dispatch(setIsLoading(true));
+      dispatch(
+        sendTransaction({
+          cmd: getRecycleNuggetTransactionCommandArray(
+            userState!.player!.nonce,
+            nuggetIndex
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then(async (action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          console.log("recycle nugget successed");
+          await updateNuggetsAsync(dispatch);
+          dispatch(setIsLoading(false));
+        } else if (sendTransaction.rejected.match(action)) {
+          const message = "recycle nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
           dispatch(setIsLoading(false));
@@ -265,10 +295,17 @@ const InventoryNuggetInfoPopup = ({
           </p>
           <div className="inventory-nugget-info-popup-coin-image" />
         </div>
-        <div className="inventory-nugget-info-popup-sell-button">
+        <div className="inventory-nugget-info-popup-list-button">
           <DefaultButton
             text={"List Nugget"}
             onClick={onClickListNugget}
+            isDisabled={false}
+          />
+        </div>
+        <div className="inventory-nugget-info-popup-recycle-button">
+          <DefaultButton
+            text={"Recycle Nugget"}
+            onClick={onClickRecycleNugget}
             isDisabled={false}
           />
         </div>

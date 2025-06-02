@@ -129,7 +129,16 @@
   aspect-ratio: 1;
 }
 
-.inventory-nugget-info-popup-explore-button {
+.inventory-nugget-info-popup-list-button {
+  position: absolute;
+  width: 25%;
+  height: 18%;
+  left: 83%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+}
+
+.inventory-nugget-info-popup-recycle-button {
   position: absolute;
   width: 25%;
   height: 18%;
@@ -138,11 +147,11 @@
   transform: translate(-50%, -50%);
 }
 
-.inventory-nugget-info-popup-sell-button {
+.inventory-nugget-info-popup-explore-button {
   position: absolute;
   width: 25%;
   height: 18%;
-  left: 83%;
+  left: 27%;
   top: 85%;
   transform: translate(-50%, -50%);
 }

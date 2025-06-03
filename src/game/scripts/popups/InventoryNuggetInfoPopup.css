@@ -55,7 +55,6 @@
 .inventory-nugget-info-popup-title-text,
 .inventory-nugget-info-popup-price-text,
 .inventory-nugget-info-popup-cycle-text,
-.inventory-nugget-info-popup-bid-text,
 .inventory-nugget-info-popup-attributes-text {
   margin: 0px;
   color: white;
@@ -93,15 +92,6 @@
   transform: translate(-50%, -50%);
 }
 
-.inventory-nugget-info-popup-bid-text {
-  position: absolute;
-  width: 30%;
-  height: 15%;
-  left: 79%;
-  top: 42%;
-  transform: translate(-50%, -50%);
-}
-
 .inventory-nugget-info-popup-attributes-text {
   position: absolute;
   text-align: center;
@@ -129,7 +119,16 @@
   aspect-ratio: 1;
 }
 
-.inventory-nugget-info-popup-explore-button {
+.inventory-nugget-info-popup-list-button {
+  position: absolute;
+  width: 25%;
+  height: 18%;
+  left: 83%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+}
+
+.inventory-nugget-info-popup-recycle-button {
   position: absolute;
   width: 25%;
   height: 18%;
@@ -138,11 +137,11 @@
   transform: translate(-50%, -50%);
 }
 
-.inventory-nugget-info-popup-sell-button {
+.inventory-nugget-info-popup-explore-button {
   position: absolute;
   width: 25%;
   height: 18%;
-  left: 83%;
+  left: 27%;
   top: 85%;
   transform: translate(-50%, -50%);
 }

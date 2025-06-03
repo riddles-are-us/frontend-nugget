@@ -29,6 +29,7 @@
 .nugget-price-text,
 .nugget-cycle-text,
 .nugget-bid-text,
+.nugget-ask-text,
 .nugget-attributes-text {
   margin: 0px;
   color: white;
@@ -72,6 +73,15 @@
   height: 15%;
   left: 85%;
   top: 33%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-ask-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 85%;
+  top: 23%;
   transform: translate(-50%, -50%);
 }
 

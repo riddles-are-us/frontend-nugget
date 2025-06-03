@@ -48,6 +48,7 @@ const NuggetGrid = () => {
             key={index}
             nuggetData={nuggetData}
             onClickMore={() => onClickInventoryMore(index)}
+            showBidPrice={false}
           />
         ))
       : tabState == TabState.Selling
@@ -56,6 +57,7 @@ const NuggetGrid = () => {
             key={index}
             nuggetData={nuggetData}
             onClickMore={() => onClickSellingMore(index)}
+            showBidPrice={true}
           />
         ))
       : tabState == TabState.Auction
@@ -64,6 +66,7 @@ const NuggetGrid = () => {
             key={index}
             nuggetData={nuggetData}
             onClickMore={() => onClickMarketMore(index)}
+            showBidPrice={true}
           />
         ))
       : tabState == TabState.Lot
@@ -72,6 +75,7 @@ const NuggetGrid = () => {
             key={index}
             nuggetData={nuggetData}
             onClickMore={() => onClickBidMore(index)}
+            showBidPrice={true}
           />
         ))
       : [];

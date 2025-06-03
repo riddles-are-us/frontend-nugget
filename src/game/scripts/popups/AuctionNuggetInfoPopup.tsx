@@ -47,7 +47,8 @@ const AuctionNuggetInfoPopup = ({
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
-  const nuggetBid = nuggetData.bid?.bidprice ?? 0;
+  const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
+  const nuggetAskPrice = nuggetData.askprice;
   const nuggetBidderId = nuggetData.bid?.bidder[0] ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
@@ -188,7 +189,16 @@ const AuctionNuggetInfoPopup = ({
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Bid Price: ${nuggetBid}`}
+          {`Bid Price: ${nuggetBidPrice}`}
+        </p>
+        <p
+          className="auction-nugget-info-popup-ask-text"
+          style={{
+            fontSize: descriptionFontSize,
+            ...getTextShadowStyle(descriptionFontSize / 15),
+          }}
+        >
+          {`Ask Price: ${nuggetAskPrice}`}
         </p>
         {nuggetBidderId && (
           <p

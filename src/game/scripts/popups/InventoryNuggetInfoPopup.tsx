@@ -56,7 +56,6 @@ const InventoryNuggetInfoPopup = ({
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
   const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
-  const nuggetBid = nuggetData.bid?.bidprice ?? 0;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
     nuggetData.feature
@@ -243,15 +242,6 @@ const InventoryNuggetInfoPopup = ({
           }}
         >
           {`Cycle: ${nuggetCycle}`}
-        </p>
-        <p
-          className="inventory-nugget-info-popup-bid-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Bid Price: ${nuggetBid}`}
         </p>
         <div className="inventory-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (

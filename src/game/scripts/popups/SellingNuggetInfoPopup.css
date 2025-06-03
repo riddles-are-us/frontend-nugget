@@ -56,6 +56,7 @@
 .selling-nugget-info-popup-price-text,
 .selling-nugget-info-popup-cycle-text,
 .selling-nugget-info-popup-bid-text,
+.selling-nugget-info-popup-ask-text,
 .selling-nugget-info-popup-attributes-text,
 .selling-nugget-info-popup-bidder-text,
 .selling-nugget-info-popup-bidder-id-text {
@@ -101,6 +102,15 @@
   height: 15%;
   left: 79%;
   top: 42%;
+  transform: translate(-50%, -50%);
+}
+
+.selling-nugget-info-popup-ask-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 79%;
+  top: 32%;
   transform: translate(-50%, -50%);
 }
 

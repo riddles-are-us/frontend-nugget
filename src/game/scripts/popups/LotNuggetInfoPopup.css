@@ -56,6 +56,7 @@
 .lot-nugget-info-popup-price-text,
 .lot-nugget-info-popup-cycle-text,
 .lot-nugget-info-popup-bid-text,
+.lot-nugget-info-popup-ask-text,
 .lot-nugget-info-popup-attributes-text,
 .lot-nugget-info-popup-bidder-text,
 .lot-nugget-info-popup-bidder-id-text {
@@ -101,6 +102,15 @@
   height: 15%;
   left: 79%;
   top: 42%;
+  transform: translate(-50%, -50%);
+}
+
+.lot-nugget-info-popup-ask-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 79%;
+  top: 32%;
   transform: translate(-50%, -50%);
 }
 

@@ -55,7 +55,6 @@
 .inventory-nugget-info-popup-title-text,
 .inventory-nugget-info-popup-price-text,
 .inventory-nugget-info-popup-cycle-text,
-.inventory-nugget-info-popup-bid-text,
 .inventory-nugget-info-popup-attributes-text {
   margin: 0px;
   color: white;
@@ -89,15 +88,6 @@
   width: 30%;
   height: 15%;
   left: 64%;
-  top: 42%;
-  transform: translate(-50%, -50%);
-}
-
-.inventory-nugget-info-popup-bid-text {
-  position: absolute;
-  width: 30%;
-  height: 15%;
-  left: 79%;
   top: 42%;
   transform: translate(-50%, -50%);
 }

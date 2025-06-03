@@ -9,6 +9,7 @@ import { NuggetData } from "../../../../data/model";
 interface Props {
   nuggetData: NuggetData;
   onClickMore: () => void;
+  showBidPrice: boolean;
 }
 
 const attributeLefts = [
@@ -17,7 +18,7 @@ const attributeLefts = [
   0.84, 0.878, 0.914, 0.951,
 ];
 
-const Nugget = ({ nuggetData, onClickMore }: Props) => {
+const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -26,7 +27,8 @@ const Nugget = ({ nuggetData, onClickMore }: Props) => {
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = nuggetData.feature;
-  const nuggetBid = nuggetData.bid?.bidprice ?? 0;
+  const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
+  const nuggetAskPrice = nuggetData.askprice;
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
     nuggetData.feature
@@ -80,15 +82,28 @@ const Nugget = ({ nuggetData, onClickMore }: Props) => {
         >
           {`Cycle: ${nuggetCycle}`}
         </p>
-        <p
-          className="nugget-bid-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Bid Price: ${nuggetBid}`}
-        </p>
+        {showBidPrice && (
+          <>
+            <p
+              className="nugget-bid-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {`Bid Price: ${nuggetBidPrice}`}
+            </p>
+            <p
+              className="nugget-ask-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {`Ask Price: ${nuggetAskPrice}`}
+            </p>
+          </>
+        )}
         <div>
           {nuggetAttributeString.slice(0, 26).map((s, index) => (
             <p

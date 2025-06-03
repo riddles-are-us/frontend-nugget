@@ -63,7 +63,7 @@ const nuggetsSlice = createSlice({
 });
 
 export const selectInventoryNuggetsData = (state: RootState) => {
-  return state.nuggets.inventory.map((id) => state.nuggets.nuggets[id]).filter(nugget => nugget);
+  return state.nuggets.inventory.map((id) => state.nuggets.nuggets[id]).filter(nugget => nugget && nugget.marketid == 0);
 };
 export const selectInventoryNuggetData = (index: number) => (state: RootState) => {
   return state.nuggets.nuggets[state.nuggets.inventory[index]] ?? emptyNuggetData;

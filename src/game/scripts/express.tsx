@@ -35,7 +35,7 @@ function decodeNuggets(raws: any): NuggetData[] {
       sysprice: number;
     }) => ({
       id: Number(id),
-      marketid: 0,
+      marketid: marketid,
       attributes: Number(attributes),
       feature: Number(feature),
       cycle: Number(cycle),

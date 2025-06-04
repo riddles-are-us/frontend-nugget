@@ -1,83 +1,170 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-import { emptyNuggetData, emptyNuggetPageData, NuggetData, NuggetPageData } from "./model";
+import {
+  emptyNuggetData,
+  emptyNuggetPageData,
+  emptyNuggetTabData,
+  NuggetData,
+  NuggetPageData,
+  NuggetTabData,
+} from "./model";
 import { queryState } from "../game/scripts/request";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
+import { TabState } from "./ui";
+import { isEqual } from "../game/scripts/common/Utility";
 
 export interface NuggetsState {
-  nuggets: Record<number, NuggetData>;
-  nuggetPage: NuggetPageData;
-  auctionNuggetPage: NuggetPageData;
-  lotNuggets:NuggetData[];
-  sellingNuggets:NuggetData[];
   inventory: number[];
+  inventoryCache: number[];
+  inventoryNuggetTab: NuggetTabData;
+  sellingNuggetTab: NuggetTabData;
+  auctionNuggetTab: NuggetTabData;
+  lotNuggetTab: NuggetTabData;
 }
 
 const initialState: NuggetsState = {
-  nuggets: {},
-  nuggetPage: emptyNuggetPageData,
-  auctionNuggetPage: emptyNuggetPageData,
-  lotNuggets: [],
-  sellingNuggets: [],
   inventory: [],
+  inventoryCache: [],
+  inventoryNuggetTab: emptyNuggetTabData,
+  sellingNuggetTab: emptyNuggetTabData,
+  auctionNuggetTab: emptyNuggetTabData,
+  lotNuggetTab: emptyNuggetTabData,
 };
 
 const nuggetsSlice = createSlice({
   name: "nuggets",
   initialState,
   reducers: {
-    setNuggetPage: (state, d: PayloadAction<NuggetPageData>) => {
-      state.nuggetPage = d.payload;
-    },
-    setNuggets: (state, d: PayloadAction<NuggetData[]>) => {
-      state.nuggets = d.payload.reduce((acc: any, nugget: any) => {
-        acc[nugget.id] = nugget;
-        return acc;
-      }, {} as Record<string, NuggetData>);
-    },
     setNugget: (state, d: PayloadAction<NuggetData>) => {
-      const nugget = d.payload;
-      state.nuggets[nugget.id] = nugget;
+      // const nugget = d.payload;
+      // state.nuggets[nugget.id] = nugget;
     },
-    setAuctionNuggetPage: (state, d: PayloadAction<NuggetPageData>) => {
-      state.auctionNuggetPage = d.payload;
+    setInventoryNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.inventoryCache = state.inventory;
+      state.inventoryNuggetTab = d.payload;
     },
-    setLotNuggets: (state, d: PayloadAction<NuggetData[]>) => {
-      state.lotNuggets = d.payload;
+    resetSellingNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.sellingNuggetTab.nuggets = d.payload.nuggets;
+      state.sellingNuggetTab.nuggetCount = d.payload.nuggetCount;
     },
-    setSellingNuggets: (state, d: PayloadAction<NuggetData[]>) => {
-      state.sellingNuggets = d.payload;
+    addSellingNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.sellingNuggetTab.nuggets.push(...d.payload.nuggets);
+      state.sellingNuggetTab.nuggetCount = d.payload.nuggetCount;
+    },
+    resetAuctionNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.auctionNuggetTab.nuggets = d.payload.nuggets;
+      state.auctionNuggetTab.nuggetCount = d.payload.nuggetCount;
+    },
+    addAuctionNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.auctionNuggetTab.nuggets.push(...d.payload.nuggets);
+      state.auctionNuggetTab.nuggetCount = d.payload.nuggetCount;
+    },
+    resetLotNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.lotNuggetTab.nuggets = d.payload.nuggets;
+      state.lotNuggetTab.nuggetCount = d.payload.nuggetCount;
+    },
+    addLotNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.lotNuggetTab.nuggets.push(...d.payload.nuggets);
+      state.lotNuggetTab.nuggetCount = d.payload.nuggetCount;
     },
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(queryState.fulfilled, (state, action) => {
-        if (action.payload.player){
+        if (action.payload.player) {
           state.inventory = action.payload.player.data.inventory;
         }
       })
       .addCase(sendTransaction.fulfilled, (state, action) => {
-        if (action.payload.player){
+        if (action.payload.player) {
           state.inventory = action.payload.player.data.inventory;
         }
-      })
+      });
   },
 });
 
-export const selectInventoryNuggetsData = (state: RootState) => {
-  return state.nuggets.inventory.map((id) => state.nuggets.nuggets[id]).filter(nugget => nugget && nugget.marketid == 0);
-};
-export const selectInventoryNuggetData = (index: number) => (state: RootState) => {
-  return state.nuggets.nuggets[state.nuggets.inventory[index]] ?? emptyNuggetData;
-};
+export const selectNuggetPageNeedsUpdate =
+  (tabState: TabState, page: number, pageSize: number) =>
+  (state: RootState) => {
+    if (tabState == TabState.Inventory) {
+      return (
+        state.nuggets.inventoryNuggetTab.nuggetCount == -1 ||
+        !isEqual(state.nuggets.inventory, state.nuggets.inventoryCache)
+      );
+    } else if (tabState == TabState.Selling) {
+      return (
+        state.nuggets.sellingNuggetTab.nuggetCount == -1 ||
+        (state.nuggets.sellingNuggetTab.nuggetCount >
+          state.nuggets.sellingNuggetTab.nuggets.length &&
+          (page + 1) * pageSize >=
+            state.nuggets.sellingNuggetTab.nuggets.length)
+      );
+    } else if (tabState == TabState.Auction) {
+      return (
+        state.nuggets.auctionNuggetTab.nuggetCount == -1 ||
+        (state.nuggets.auctionNuggetTab.nuggetCount >
+          state.nuggets.auctionNuggetTab.nuggets.length &&
+          (page + 1) * pageSize >=
+            state.nuggets.auctionNuggetTab.nuggets.length)
+      );
+    } else if (tabState == TabState.Lot) {
+      return (
+        state.nuggets.lotNuggetTab.nuggetCount == -1 ||
+        (state.nuggets.lotNuggetTab.nuggetCount >
+          state.nuggets.lotNuggetTab.nuggets.length &&
+          (page + 1) * pageSize >= state.nuggets.lotNuggetTab.nuggets.length)
+      );
+    }
+    return false;
+  };
+export const selectNuggetPage =
+  (tabState: TabState, page: number, pageSize: number) =>
+  (state: RootState): NuggetPageData => {
+    const currentTab =
+      tabState == TabState.Inventory
+        ? state.nuggets.inventoryNuggetTab
+        : tabState == TabState.Selling
+        ? state.nuggets.sellingNuggetTab
+        : tabState == TabState.Auction
+        ? state.nuggets.auctionNuggetTab
+        : tabState == TabState.Lot
+        ? state.nuggets.lotNuggetTab
+        : emptyNuggetTabData;
+    return {
+      nuggets: currentTab.nuggets.slice(page * pageSize, (page + 1) * pageSize),
+      page,
+      pageCount: Math.max(Math.ceil(currentTab.nuggetCount / pageSize), 1),
+      nuggetCount: currentTab.nuggetCount,
+    };
+  };
+export const selectNugget =
+  (tabState: TabState, nuggetIndex: number) => (state: RootState) => {
+    if (tabState == TabState.Inventory) {
+      const nuggetId = state.nuggets.inventory[nuggetIndex];
+      return (
+        state.nuggets.inventoryNuggetTab.nuggets.find(
+          (nugget) => nugget.id === nuggetId
+        ) ?? emptyNuggetData
+      );
+    } else if (tabState == TabState.Selling) {
+      return state.nuggets.sellingNuggetTab.nuggets[nuggetIndex];
+    } else if (tabState == TabState.Auction) {
+      return state.nuggets.auctionNuggetTab.nuggets[nuggetIndex];
+    } else if (tabState == TabState.Lot) {
+      return state.nuggets.lotNuggetTab.nuggets[nuggetIndex];
+    }
+    return emptyNuggetData;
+  };
 
-export const selectNuggetPageData = (state: RootState) => state.nuggets.nuggetPage;
-export const selectAuctionNuggetPageData = (state: RootState) => state.nuggets.auctionNuggetPage;
-export const selectAuctionNuggetData = (index: number) => (state: RootState) => state.nuggets.auctionNuggetPage.nuggets[index] ?? emptyNuggetData;
-export const selectLotNuggetsData = (state: RootState) => state.nuggets.lotNuggets;
-export const selectLotNuggetData = (index: number) => (state: RootState) => state.nuggets.lotNuggets[index] ?? emptyNuggetData;
-export const selectSellingNuggetsData = (state: RootState) => state.nuggets.sellingNuggets;
-export const selectSellingNuggetData = (index: number) => (state: RootState) => state.nuggets.sellingNuggets[index] ?? emptyNuggetData;
-export const { setNuggetPage, setNuggets, setNugget, setAuctionNuggetPage, setLotNuggets, setSellingNuggets} = nuggetsSlice.actions;
+export const {
+  setNugget,
+  setInventoryNuggetTab,
+  resetSellingNuggetTab,
+  addSellingNuggetTab,
+  resetAuctionNuggetTab,
+  addAuctionNuggetTab,
+  resetLotNuggetTab,
+  addLotNuggetTab,
+} = nuggetsSlice.actions;
 export default nuggetsSlice.reducer;

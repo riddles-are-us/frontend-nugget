@@ -2,12 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./LotNuggetInfoPopup.css";
-import { setUIState, UIStateType } from "../../../data/ui";
+import { setUIState, TabState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectLotNuggetData } from "../../../data/nuggets";
+import { selectNugget } from "../../../data/nuggets";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import {
   getBidNuggetTransactionCommandArray,
@@ -37,7 +37,8 @@ const LotNuggetInfoPopup = ({
   isShowingBidAmountPopup,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(selectLotNuggetData(nuggetIndex));
+  const nuggetData = useAppSelector(selectNugget(TabState.Lot, nuggetIndex));
+
   const containerRef = useRef<HTMLParagraphElement>(null);
   const isLoading = useAppSelector(selectIsLoading);
   const l2account = useAppSelector(AccountSlice.selectL2Account);

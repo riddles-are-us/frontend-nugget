@@ -2,12 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./SellingNuggetInfoPopup.css";
-import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
+import {
+  selectUIState,
+  setUIState,
+  TabState,
+  UIStateType,
+} from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectSellingNuggetData } from "../../../data/nuggets";
+import { selectNugget } from "../../../data/nuggets";
 import DefaultButton from "../buttons/DefaultButton";
 import { updateSellingNuggetsAsync } from "../express";
 import {
@@ -32,7 +37,9 @@ const attributeLefts = [
 
 const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(selectSellingNuggetData(nuggetIndex));
+  const nuggetData = useAppSelector(
+    selectNugget(TabState.Selling, nuggetIndex)
+  );
   const containerRef = useRef<HTMLParagraphElement>(null);
   const uIState = useAppSelector(selectUIState);
   const isLoading = useAppSelector(selectIsLoading);

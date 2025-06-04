@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./InventoryNuggetInfoPopup.css";
-import { setUIState, UIStateType } from "../../../data/ui";
+import { setUIState, TabState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
@@ -16,7 +16,7 @@ import {
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
-import { selectInventoryNuggetData } from "../../../data/nuggets";
+import { selectNugget } from "../../../data/nuggets";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import {
   updateNuggetAsync,
@@ -26,6 +26,7 @@ import {
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import PriceInputPopup from "./PriceInputPopup";
+import { Tab } from "react-bootstrap";
 
 interface Props {
   nuggetIndex: number;
@@ -43,7 +44,9 @@ const InventoryNuggetInfoPopup = ({
   isShowingListAmountPopup,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(selectInventoryNuggetData(nuggetIndex));
+  const nuggetData = useAppSelector(
+    selectNugget(TabState.Inventory, nuggetIndex)
+  );
   const containerRef = useRef<HTMLParagraphElement>(null);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const userState = useAppSelector(selectUserState);

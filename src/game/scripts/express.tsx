@@ -1,14 +1,13 @@
 import axios from "axios";
 import { fullUrl } from "./request";
-import { Bid, NuggetData, NuggetPageData } from "../../data/model";
-import { useAppDispatch } from "../../app/hooks";
 import {
-  setAuctionNuggetPage,
-  setLotNuggets,
-  setNugget,
-  setNuggets,
-  setSellingNuggets,
-} from "../../data/nuggets";
+  Bid,
+  NuggetData,
+  NuggetPageData,
+  NuggetTabData,
+} from "../../data/model";
+import { useAppDispatch } from "../../app/hooks";
+import { setNugget } from "../../data/nuggets";
 
 const instance = axios.create({
   baseURL: fullUrl,
@@ -84,15 +83,6 @@ function decodeMarkets(raws: any): NuggetData[] {
   return commodityList;
 }
 
-async function getNuggetsId(ids: number[]): Promise<NuggetData[]> {
-  const queryString = ids.map((id) => `ids=${id}`).join("&");
-  const res = await getRequest(`/data/nuggets?${queryString}`);
-  const raws = res.data;
-  console.log("ids", ids);
-  console.log("getNuggetsId", raws);
-  return decodeNuggets(raws);
-}
-
 async function getNuggets(): Promise<NuggetData[]> {
   const res = await getRequest("/data/nuggets");
   const raws = res.data;
@@ -107,14 +97,13 @@ async function getNugget(index: number): Promise<NuggetData> {
   return decodeNuggets(raws)[0];
 }
 
-async function getAuctionNuggets(): Promise<NuggetPageData> {
+async function getAuctionNuggets(): Promise<NuggetTabData> {
   const res = await getRequest(`/data/markets?page=${1}&limit=${2}`);
   const raws = res.data;
   console.log("getAuctionNuggets", raws);
   return {
     nuggets: decodeMarkets(raws),
-    currentPage: 1,
-    totalPage: res.page,
+    nuggetCount: res.nuggetCount,
   };
 }
 
@@ -145,12 +134,12 @@ export const updateNuggetAsync = async (dispatch: any, index: number) => {
 
 export const updateNuggetsAsync = async (dispatch: any) => {
   const ret = await getNuggets();
-  dispatch(setNuggets(ret));
+  // dispatch(setNuggets(ret));
 };
 
 export const updateAuctionNuggetsAsync = async (dispatch: any) => {
   const ret = await getAuctionNuggets();
-  dispatch(setAuctionNuggetPage(ret));
+  // dispatch(setAuctionNuggetPage(ret));
 };
 
 export const updateLotNuggetsAsync = async (
@@ -159,7 +148,7 @@ export const updateLotNuggetsAsync = async (
   pid2: string
 ) => {
   const ret = await getLotNuggets(pid1, pid2);
-  dispatch(setLotNuggets(ret));
+  // dispatch(setLotNuggets(ret));
 };
 
 export const updateSellingNuggetsAsync = async (
@@ -168,11 +157,53 @@ export const updateSellingNuggetsAsync = async (
   pid2: string
 ) => {
   const ret = await getSellingNuggets(pid1, pid2);
-  dispatch(setSellingNuggets(ret));
+  // dispatch(setSellingNuggets(ret));
 };
 
-export const getNuggetsAsync = async (ids: number[]) => {
-  return await getNuggetsId(ids);
+export const getNuggetsAsync = async (ids: number[]): Promise<NuggetData[]> => {
+  const queryString = ids.map((id) => `ids=${id}`).join("&");
+  const res = await getRequest(`/data/nuggets?${queryString}`);
+  const raws = res.data;
+  console.log("getNuggets", raws);
+  return decodeNuggets(raws);
+};
+
+export const getSellingNuggetsAsync = async (
+  skip: number,
+  limit: number,
+  pid1: string,
+  pid2: string
+): Promise<NuggetTabData> => {
+  const res = await getRequest(
+    `/data/sell/${pid1}/${pid2}?skip=${skip}&limit=${limit}`
+  );
+  const raws = res.data;
+  console.log("getSelling", raws);
+  return { nuggets: decodeMarkets(raws), nuggetCount: res.count };
+};
+
+export const getAuctionNuggetsAsync = async (
+  skip: number,
+  limit: number
+): Promise<NuggetTabData> => {
+  const res = await getRequest(`/data/markets?skip=${skip}&limit=${limit}`);
+  const raws = res.data;
+  console.log("getAuction", res, skip, limit);
+  return { nuggets: decodeMarkets(raws), nuggetCount: res.count };
+};
+
+export const getLotNuggetsAsync = async (
+  skip: number,
+  limit: number,
+  pid1: string,
+  pid2: string
+): Promise<NuggetTabData> => {
+  const res = await getRequest(
+    `/data/bid/${pid1}/${pid2}?skip=${skip}&limit=${limit}`
+  );
+  const raws = res.data;
+  console.log("getLot", raws);
+  return { nuggets: decodeMarkets(raws), nuggetCount: res.count };
 };
 
 async function getRequest(path: string) {

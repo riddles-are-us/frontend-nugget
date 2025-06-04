@@ -1,9 +1,9 @@
 import axios from "axios";
 import { fullUrl } from "./request";
-import { Bid, NuggetData } from "../../data/model";
+import { Bid, NuggetData, NuggetPageData } from "../../data/model";
 import { useAppDispatch } from "../../app/hooks";
 import {
-  setAuctionNuggets,
+  setAuctionNuggetPage,
   setLotNuggets,
   setNugget,
   setNuggets,
@@ -84,6 +84,15 @@ function decodeMarkets(raws: any): NuggetData[] {
   return commodityList;
 }
 
+async function getNuggetsId(ids: number[]): Promise<NuggetData[]> {
+  const queryString = ids.map((id) => `ids=${id}`).join("&");
+  const res = await getRequest(`/data/nuggets?${queryString}`);
+  const raws = res.data;
+  console.log("ids", ids);
+  console.log("getNuggetsId", raws);
+  return decodeNuggets(raws);
+}
+
 async function getNuggets(): Promise<NuggetData[]> {
   const res = await getRequest("/data/nuggets");
   const raws = res.data;
@@ -98,11 +107,15 @@ async function getNugget(index: number): Promise<NuggetData> {
   return decodeNuggets(raws)[0];
 }
 
-async function getAuctionNuggets(): Promise<NuggetData[]> {
-  const res = await getRequest("/data/markets");
+async function getAuctionNuggets(): Promise<NuggetPageData> {
+  const res = await getRequest(`/data/markets?page=${1}&limit=${2}`);
   const raws = res.data;
   console.log("getAuctionNuggets", raws);
-  return decodeMarkets(raws);
+  return {
+    nuggets: decodeMarkets(raws),
+    currentPage: 1,
+    totalPage: res.page,
+  };
 }
 
 async function getLotNuggets(
@@ -137,7 +150,7 @@ export const updateNuggetsAsync = async (dispatch: any) => {
 
 export const updateAuctionNuggetsAsync = async (dispatch: any) => {
   const ret = await getAuctionNuggets();
-  dispatch(setAuctionNuggets(ret));
+  dispatch(setAuctionNuggetPage(ret));
 };
 
 export const updateLotNuggetsAsync = async (
@@ -156,6 +169,10 @@ export const updateSellingNuggetsAsync = async (
 ) => {
   const ret = await getSellingNuggets(pid1, pid2);
   dispatch(setSellingNuggets(ret));
+};
+
+export const getNuggetsAsync = async (ids: number[]) => {
+  return await getNuggetsId(ids);
 };
 
 async function getRequest(path: string) {

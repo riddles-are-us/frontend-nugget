@@ -24,3 +24,15 @@ export const emptyNuggetData: NuggetData = {
     askprice: 0,
     bid: null,
 };
+
+export interface NuggetPageData {
+    nuggets: NuggetData[];
+    currentPage: number;
+    totalPage: number;
+}
+
+export const emptyNuggetPageData: NuggetPageData = {
+    nuggets: [],
+    currentPage: 0,
+    totalPage: 0,
+};

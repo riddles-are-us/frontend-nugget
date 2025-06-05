@@ -39,12 +39,10 @@ export interface NuggetPageData {
   nuggets: NuggetData[];
   page: number;
   pageCount: number;
-  nuggetCount: number;
 }
 
 export const emptyNuggetPageData: NuggetPageData = {
   nuggets: [],
   page: 0,
   pageCount: 0,
-  nuggetCount: -1,
 };

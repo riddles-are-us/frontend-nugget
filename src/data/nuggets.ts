@@ -135,8 +135,20 @@ export const selectNuggetPage =
       nuggets: currentTab.nuggets.slice(page * pageSize, (page + 1) * pageSize),
       page,
       pageCount: Math.max(Math.ceil(currentTab.nuggetCount / pageSize), 1),
-      nuggetCount: currentTab.nuggetCount,
     };
+  };
+export const selectNuggetTab =
+  (tabState: TabState) =>
+  (state: RootState): NuggetTabData => {
+    return tabState == TabState.Inventory
+      ? state.nuggets.inventoryNuggetTab
+      : tabState == TabState.Selling
+      ? state.nuggets.sellingNuggetTab
+      : tabState == TabState.Auction
+      ? state.nuggets.auctionNuggetTab
+      : tabState == TabState.Lot
+      ? state.nuggets.lotNuggetTab
+      : emptyNuggetTabData;
   };
 export const selectNugget =
   (tabState: TabState, nuggetIndex: number) => (state: RootState) => {
@@ -156,6 +168,17 @@ export const selectNugget =
     }
     return emptyNuggetData;
   };
+
+export const selectIsInventoryChanged = (state: RootState): boolean =>
+  !isEqual(state.nuggets.inventory, state.nuggets.inventoryCache);
+export const selectInventoryNuggetTab = (state: RootState): NuggetTabData =>
+  state.nuggets.inventoryNuggetTab;
+export const selectSellingNuggetTab = (state: RootState): NuggetTabData =>
+  state.nuggets.sellingNuggetTab;
+export const selectAuctionNuggetTab = (state: RootState): NuggetTabData =>
+  state.nuggets.auctionNuggetTab;
+export const selectLotNuggetTab = (state: RootState): NuggetTabData =>
+  state.nuggets.lotNuggetTab;
 
 export const {
   setNugget,

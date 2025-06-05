@@ -28,8 +28,13 @@ import {
   resetAuctionNuggetTab,
   resetLotNuggetTab,
   resetSellingNuggetTab,
+  selectAuctionNuggetTab,
+  selectInventoryNuggetTab,
+  selectIsInventoryChanged,
+  selectLotNuggetTab,
   selectNuggetPage,
   selectNuggetPageNeedsUpdate,
+  selectSellingNuggetTab,
   setInventoryNuggetTab,
 } from "../../../../data/nuggets";
 import { selectIsLoading, setIsLoading } from "../../../../data/errors";
@@ -56,49 +61,16 @@ const NuggetGrid = () => {
 
   const tabState = useAppSelector(selectTabState);
   const [page, setPage] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0);
   const pageSize = rowCount * columnCount;
-  const nuggetPageNeedsUpdate = useAppSelector(
-    selectNuggetPageNeedsUpdate(tabState, page, pageSize)
-  );
-  const nuggetPage = useAppSelector(selectNuggetPage(tabState, page, pageSize));
-  const elements =
-    tabState == TabState.Inventory
-      ? nuggetPage.nuggets.map((nuggetData, index) => (
-          <Nugget
-            key={index}
-            nuggetData={nuggetData}
-            onClickMore={() => onClickInventoryMore(index)}
-            showBidPrice={false}
-          />
-        ))
-      : tabState == TabState.Selling
-      ? nuggetPage.nuggets.map((nuggetData, index) => (
-          <Nugget
-            key={index}
-            nuggetData={nuggetData}
-            onClickMore={() => onClickSellingMore(index)}
-            showBidPrice={true}
-          />
-        ))
-      : tabState == TabState.Auction
-      ? nuggetPage.nuggets.map((nuggetData, index) => (
-          <Nugget
-            key={index}
-            nuggetData={nuggetData}
-            onClickMore={() => onClickMarketMore(index)}
-            showBidPrice={true}
-          />
-        ))
-      : tabState == TabState.Lot
-      ? nuggetPage.nuggets.map((nuggetData, index) => (
-          <Nugget
-            key={index}
-            nuggetData={nuggetData}
-            onClickMore={() => onClickBidMore(index)}
-            showBidPrice={true}
-          />
-        ))
-      : [];
+
+  const isInventoryChanged = useAppSelector(selectIsInventoryChanged);
+  const inventoryNuggetTab = useAppSelector(selectInventoryNuggetTab);
+  const sellingNuggetTab = useAppSelector(selectSellingNuggetTab);
+  const auctionNuggetTab = useAppSelector(selectAuctionNuggetTab);
+  const lotNuggetTab = useAppSelector(selectLotNuggetTab);
+  const [elements, setElements] = useState<JSX.Element[]>([]);
+  const [tabUpdated, setTabUpdated] = useState<boolean>(false);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -120,6 +92,36 @@ const NuggetGrid = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Page changed");
+    checkTabData();
+  }, [tabState, page]);
+
+  useEffect(() => {
+    if (tabUpdated) {
+      console.log("Tab updated");
+      setTabUpdated(false);
+      checkTabData();
+    }
+  }, [tabUpdated]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [pageSize]);
+
+  const checkTabData = async () => {
+    if (isloading) {
+      return;
+    }
+
+    if (needUpdateTabData()) {
+      await updateTabData();
+      setTabUpdated(true);
+    } else {
+      updateElements();
+    }
+  };
+
   const initNuggets = async () => {
     dispatch(setIsLoading(true));
     await updateInventoryPage();
@@ -129,14 +131,120 @@ const NuggetGrid = () => {
     dispatch(setIsLoading(false));
   };
 
-  useEffect(() => {
-    if (userState) {
-      if (!finishedRendering) {
-        initNuggets();
-        setFinishedRendering(true);
-      }
+  const updateElements = () => {
+    if (tabState == TabState.Inventory) {
+      setElements(
+        inventoryNuggetTab.nuggets
+          .slice(page * pageSize, (page + 1) * pageSize)
+          .map((nuggetData, index) => (
+            <Nugget
+              key={index}
+              nuggetData={nuggetData}
+              onClickMore={() => onClickInventoryMore(index)}
+              showBidPrice={false}
+            />
+          ))
+      );
+      setTotalPage(
+        Math.max(Math.ceil(inventoryNuggetTab.nuggetCount / pageSize), 1)
+      );
+    } else if (tabState == TabState.Selling) {
+      setElements(
+        sellingNuggetTab.nuggets
+          .slice(page * pageSize, (page + 1) * pageSize)
+          .map((nuggetData, index) => (
+            <Nugget
+              key={index}
+              nuggetData={nuggetData}
+              onClickMore={() => onClickSellingMore(index)}
+              showBidPrice={true}
+            />
+          ))
+      );
+
+      setTotalPage(
+        Math.max(Math.ceil(sellingNuggetTab.nuggetCount / pageSize), 1)
+      );
+    } else if (tabState == TabState.Auction) {
+      setElements(
+        auctionNuggetTab.nuggets
+          .slice(page * pageSize, (page + 1) * pageSize)
+          .map((nuggetData, index) => (
+            <Nugget
+              key={index}
+              nuggetData={nuggetData}
+              onClickMore={() => onClickMarketMore(index)}
+              showBidPrice={true}
+            />
+          ))
+      );
+      setTotalPage(
+        Math.max(Math.ceil(auctionNuggetTab.nuggetCount / pageSize), 1)
+      );
+    } else if (tabState == TabState.Lot) {
+      setElements(
+        lotNuggetTab.nuggets
+          .slice(page * pageSize, (page + 1) * pageSize)
+          .map((nuggetData, index) => (
+            <Nugget
+              key={index}
+              nuggetData={nuggetData}
+              onClickMore={() => onClickBidMore(index)}
+              showBidPrice={true}
+            />
+          ))
+      );
+      setTotalPage(Math.max(Math.ceil(lotNuggetTab.nuggetCount / pageSize), 1));
     }
-  }, []);
+  };
+
+  const needUpdateTabData = () => {
+    if (tabState == TabState.Inventory) {
+      return inventoryNuggetTab.nuggetCount == -1 || isInventoryChanged;
+    } else if (tabState == TabState.Selling) {
+      return (
+        sellingNuggetTab.nuggetCount == -1 ||
+        (sellingNuggetTab.nuggetCount > sellingNuggetTab.nuggets.length &&
+          (page + 1) * pageSize >= sellingNuggetTab.nuggets.length)
+      );
+    } else if (tabState == TabState.Auction) {
+      return (
+        auctionNuggetTab.nuggetCount == -1 ||
+        (auctionNuggetTab.nuggetCount > auctionNuggetTab.nuggets.length &&
+          (page + 1) * pageSize >= auctionNuggetTab.nuggets.length)
+      );
+    } else if (tabState == TabState.Lot) {
+      return (
+        lotNuggetTab.nuggetCount == -1 ||
+        (lotNuggetTab.nuggetCount > lotNuggetTab.nuggets.length &&
+          (page + 1) * pageSize >= lotNuggetTab.nuggets.length)
+      );
+    }
+    return false;
+  };
+
+  const updateTabData = async () => {
+    dispatch(setIsLoading(true));
+    if (tabState == TabState.Inventory) {
+      await updateInventoryPage();
+    } else if (tabState == TabState.Selling) {
+      await addSellingPage(
+        Math.max(sellingNuggetTab.nuggetCount, 0),
+        ELEMENT_PER_REQUEST
+      );
+    } else if (tabState == TabState.Auction) {
+      await addAuctionPage(
+        Math.max(auctionNuggetTab.nuggetCount, 0),
+        ELEMENT_PER_REQUEST
+      );
+    } else if (tabState == TabState.Lot) {
+      await addLotPage(
+        Math.max(lotNuggetTab.nuggetCount, 0),
+        ELEMENT_PER_REQUEST
+      );
+    }
+    dispatch(setIsLoading(false));
+  };
 
   const updateInventoryPage = async () => {
     const allNuggets = await getNuggetsAsync(
@@ -233,23 +341,6 @@ const NuggetGrid = () => {
     );
   };
 
-  if (finishedRendering && !isloading) {
-    if (nuggetPageNeedsUpdate) {
-      console.log("nuggetPageNeedsUpdate");
-      dispatch(setIsLoading(true));
-      if (tabState == TabState.Inventory) {
-        updateInventoryPage();
-      } else if (tabState == TabState.Selling) {
-        addSellingPage(nuggetPage.nuggetCount, ELEMENT_PER_REQUEST);
-      } else if (tabState == TabState.Auction) {
-        addAuctionPage(nuggetPage.nuggetCount, ELEMENT_PER_REQUEST);
-      } else if (tabState == TabState.Lot) {
-        addLotPage(nuggetPage.nuggetCount, ELEMENT_PER_REQUEST);
-      }
-      dispatch(setIsLoading(false));
-    }
-  }
-
   useEffect(() => {
     setPage(0);
   }, [pageSize]);
@@ -322,8 +413,8 @@ const NuggetGrid = () => {
       </div>
       <div className="nugget-grid-page-selector-container">
         <PageSelector
-          currentPage={nuggetPage.page}
-          totalPage={nuggetPage.pageCount}
+          currentPage={page}
+          totalPage={totalPage}
           onClickPrevPageButton={onClickPrevPageButton}
           onClickNextPageButton={onClickNextPageButton}
         />

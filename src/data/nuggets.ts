@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import {
   emptyNuggetData,
-  emptyNuggetPageData,
   emptyNuggetTabData,
   NuggetData,
   NuggetPageData,
@@ -20,6 +19,7 @@ export interface NuggetsState {
   sellingNuggetTab: NuggetTabData;
   auctionNuggetTab: NuggetTabData;
   lotNuggetTab: NuggetTabData;
+  forceUpdate: boolean;
 }
 
 const initialState: NuggetsState = {
@@ -29,6 +29,7 @@ const initialState: NuggetsState = {
   sellingNuggetTab: emptyNuggetTabData,
   auctionNuggetTab: emptyNuggetTabData,
   lotNuggetTab: emptyNuggetTabData,
+  forceUpdate: false,
 };
 
 const nuggetsSlice = createSlice({
@@ -66,6 +67,9 @@ const nuggetsSlice = createSlice({
     addLotNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
       state.lotNuggetTab.nuggets.push(...d.payload.nuggets);
       state.lotNuggetTab.nuggetCount = d.payload.nuggetCount;
+    },
+    setForceUpdate: (state, d: PayloadAction<boolean>) => {
+      state.forceUpdate = d.payload;
     },
   },
 
@@ -179,6 +183,8 @@ export const selectAuctionNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.auctionNuggetTab;
 export const selectLotNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.lotNuggetTab;
+export const selectForceUpdate = (state: RootState): boolean =>
+  state.nuggets.forceUpdate;
 
 export const {
   setNugget,
@@ -189,5 +195,6 @@ export const {
   addAuctionNuggetTab,
   resetLotNuggetTab,
   addLotNuggetTab,
+  setForceUpdate,
 } = nuggetsSlice.actions;
 export default nuggetsSlice.reducer;

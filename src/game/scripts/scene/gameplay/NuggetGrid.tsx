@@ -29,12 +29,14 @@ import {
   resetLotNuggetTab,
   resetSellingNuggetTab,
   selectAuctionNuggetTab,
+  selectForceUpdate,
   selectInventoryNuggetTab,
   selectIsInventoryChanged,
   selectLotNuggetTab,
   selectNuggetPage,
   selectNuggetPageNeedsUpdate,
   selectSellingNuggetTab,
+  setForceUpdate,
   setInventoryNuggetTab,
 } from "../../../../data/nuggets";
 import { selectIsLoading, setIsLoading } from "../../../../data/errors";
@@ -69,8 +71,8 @@ const NuggetGrid = () => {
   const sellingNuggetTab = useAppSelector(selectSellingNuggetTab);
   const auctionNuggetTab = useAppSelector(selectAuctionNuggetTab);
   const lotNuggetTab = useAppSelector(selectLotNuggetTab);
+  const forceUpdate = useAppSelector(selectForceUpdate);
   const [elements, setElements] = useState<JSX.Element[]>([]);
-  const [tabUpdated, setTabUpdated] = useState<boolean>(false);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -93,17 +95,15 @@ const NuggetGrid = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Page changed");
     checkTabData();
   }, [tabState, page]);
 
   useEffect(() => {
-    if (tabUpdated) {
-      console.log("Tab updated");
-      setTabUpdated(false);
+    if (forceUpdate) {
+      dispatch(setForceUpdate(false));
       checkTabData();
     }
-  }, [tabUpdated]);
+  }, [forceUpdate]);
 
   useEffect(() => {
     setPage(0);
@@ -116,7 +116,7 @@ const NuggetGrid = () => {
 
     if (needUpdateTabData()) {
       await updateTabData();
-      setTabUpdated(true);
+      dispatch(setForceUpdate(true));
     } else {
       updateElements();
     }

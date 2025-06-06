@@ -13,7 +13,7 @@ import {
   selectIsLoading,
   setIsLoading,
 } from "../../../../data/errors";
-import { updateNuggetsAsync } from "../../express";
+import { setNuggetsForceUpdate } from "../../../../data/nuggets";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -60,7 +60,7 @@ const PlayerInfo = () => {
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("pick nugget successed");
-          await updateNuggetsAsync(dispatch);
+          dispatch(setNuggetsForceUpdate(true));
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "pick nugget Error: " + action.payload;

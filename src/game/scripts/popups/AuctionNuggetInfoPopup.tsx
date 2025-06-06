@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./AuctionNuggetInfoPopup.css";
-import { setUIState, UIStateType } from "../../../data/ui";
+import { setUIState, TabState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
@@ -10,16 +10,20 @@ import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import PriceInputPopup from "./PriceInputPopup";
-import { selectAuctionNuggetData } from "../../../data/nuggets";
 import {
   getBidNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
-import { updateAuctionNuggetsAsync, updateLotNuggetsAsync } from "../express";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
+import {
+  resetAuctionNuggetTab,
+  resetLotNuggetTab,
+  selectNugget,
+  setNuggetsForceUpdate,
+} from "../../../data/nuggets";
 
 interface Props {
   nuggetIndex: number;
@@ -37,7 +41,10 @@ const AuctionNuggetInfoPopup = ({
   isShowingBidAmountPopup,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(selectAuctionNuggetData(nuggetIndex));
+  const nuggetData = useAppSelector(
+    selectNugget(TabState.Auction, nuggetIndex)
+  );
+
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -110,12 +117,9 @@ const AuctionNuggetInfoPopup = ({
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("bid nugget update successed");
-          await updateAuctionNuggetsAsync(dispatch);
-          await updateLotNuggetsAsync(
-            dispatch,
-            pids[1].toString(),
-            pids[2].toString()
-          );
+          dispatch(resetLotNuggetTab());
+          dispatch(resetAuctionNuggetTab());
+          dispatch(setNuggetsForceUpdate(true));
           dispatch(setIsLoading(false));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {

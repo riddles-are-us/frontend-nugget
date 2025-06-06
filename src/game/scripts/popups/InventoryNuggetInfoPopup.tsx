@@ -16,13 +16,16 @@ import {
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
-import { selectNugget } from "../../../data/nuggets";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import {
-  updateNuggetAsync,
-  updateNuggetsAsync,
-  updateSellingNuggetsAsync,
-} from "../express";
+  clearInventoryCache,
+  resetSellingNuggetTab,
+  selectInventoryIdListIndex,
+  selectNugget,
+  setNugget,
+  setNuggetsForceUpdate,
+} from "../../../data/nuggets";
+import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import { updateNuggetAsync } from "../express";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import PriceInputPopup from "./PriceInputPopup";
@@ -44,6 +47,9 @@ const InventoryNuggetInfoPopup = ({
   isShowingListAmountPopup,
 }: Props) => {
   const dispatch = useAppDispatch();
+  const inventoryIdListIndex = useAppSelector(
+    selectInventoryIdListIndex(nuggetIndex)
+  );
   const nuggetData = useAppSelector(
     selectNugget(TabState.Inventory, nuggetIndex)
   );
@@ -97,14 +103,15 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex
+            inventoryIdListIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("explore nugget successed");
-          await updateNuggetAsync(dispatch, nuggetId);
+          const updatedNugget = await updateNuggetAsync(nuggetId);
+          dispatch(setNugget(updatedNugget));
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;
@@ -123,14 +130,15 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getRecycleNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex
+            inventoryIdListIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("recycle nugget successed");
-          await updateNuggetsAsync(dispatch);
+          dispatch(setNuggetsForceUpdate(true));
+          dispatch(setUIState({ type: UIStateType.Idle }));
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "recycle nugget Error: " + action.payload;
@@ -161,7 +169,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getListNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex,
+            inventoryIdListIndex,
             amount
           ),
           prikey: l2account!.getPrivateKey(),
@@ -170,15 +178,11 @@ const InventoryNuggetInfoPopup = ({
         if (sendTransaction.fulfilled.match(action)) {
           console.log("list nugget successed");
 
-          await updateNuggetAsync(dispatch, nuggetId);
-          console.log("list nugget update successed");
-          await updateSellingNuggetsAsync(
-            dispatch,
-            pids[1].toString(),
-            pids[2].toString()
-          );
-          dispatch(setIsLoading(false));
+          dispatch(resetSellingNuggetTab());
+          dispatch(clearInventoryCache());
+          dispatch(setNuggetsForceUpdate(true));
           dispatch(setUIState({ type: UIStateType.Idle }));
+          dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "list nugget Error: " + action.payload;
           dispatch(pushError(message));

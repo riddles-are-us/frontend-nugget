@@ -127,9 +127,8 @@ async function getSellingNuggets(
   return decodeMarkets(raws);
 }
 
-export const updateNuggetAsync = async (dispatch: any, index: number) => {
-  const ret = await getNugget(index);
-  dispatch(setNugget(ret));
+export const updateNuggetAsync = async (index: number) => {
+  return await getNugget(index);
 };
 
 export const updateNuggetsAsync = async (dispatch: any) => {

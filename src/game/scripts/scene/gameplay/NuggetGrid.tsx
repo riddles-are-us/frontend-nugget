@@ -29,14 +29,14 @@ import {
   resetLotNuggetTab,
   resetSellingNuggetTab,
   selectAuctionNuggetTab,
-  selectForceUpdate,
+  selectNuggetsForceUpdate,
   selectInventoryNuggetTab,
   selectIsInventoryChanged,
   selectLotNuggetTab,
   selectNuggetPage,
   selectNuggetPageNeedsUpdate,
   selectSellingNuggetTab,
-  setForceUpdate,
+  setNuggetsForceUpdate,
   setInventoryNuggetTab,
 } from "../../../../data/nuggets";
 import { selectIsLoading, setIsLoading } from "../../../../data/errors";
@@ -49,7 +49,6 @@ const NuggetGrid = () => {
   const userState = useAppSelector(selectNullableUserState);
   const uIState = useAppSelector(selectUIState);
   const isloading = useAppSelector(selectIsLoading);
-  const [finishedRendering, setFinishedRendering] = useState<boolean>(false);
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
@@ -71,7 +70,7 @@ const NuggetGrid = () => {
   const sellingNuggetTab = useAppSelector(selectSellingNuggetTab);
   const auctionNuggetTab = useAppSelector(selectAuctionNuggetTab);
   const lotNuggetTab = useAppSelector(selectLotNuggetTab);
-  const forceUpdate = useAppSelector(selectForceUpdate);
+  const nuggetsForceUpdate = useAppSelector(selectNuggetsForceUpdate);
   const [elements, setElements] = useState<JSX.Element[]>([]);
 
   const adjustSize = () => {
@@ -99,11 +98,11 @@ const NuggetGrid = () => {
   }, [tabState, page]);
 
   useEffect(() => {
-    if (forceUpdate) {
-      dispatch(setForceUpdate(false));
+    if (nuggetsForceUpdate) {
+      dispatch(setNuggetsForceUpdate(false));
       checkTabData();
     }
-  }, [forceUpdate]);
+  }, [nuggetsForceUpdate]);
 
   useEffect(() => {
     setPage(0);
@@ -116,19 +115,10 @@ const NuggetGrid = () => {
 
     if (needUpdateTabData()) {
       await updateTabData();
-      dispatch(setForceUpdate(true));
+      dispatch(setNuggetsForceUpdate(true));
     } else {
       updateElements();
     }
-  };
-
-  const initNuggets = async () => {
-    dispatch(setIsLoading(true));
-    await updateInventoryPage();
-    await resetSellingPage(ELEMENT_PER_REQUEST);
-    await resetAuctionPage(ELEMENT_PER_REQUEST);
-    await resetLotPage(ELEMENT_PER_REQUEST);
-    dispatch(setIsLoading(false));
   };
 
   const updateElements = () => {
@@ -261,21 +251,6 @@ const NuggetGrid = () => {
     );
   };
 
-  const resetSellingPage = async (limit: number) => {
-    const sellingNuggetTabData = await getSellingNuggetsAsync(
-      0,
-      limit,
-      pids[1].toString(),
-      pids[2].toString()
-    );
-    dispatch(
-      resetSellingNuggetTab({
-        nuggets: sellingNuggetTabData.nuggets,
-        nuggetCount: sellingNuggetTabData.nuggetCount,
-      })
-    );
-  };
-
   const addSellingPage = async (skip: number, limit: number) => {
     const sellingNuggetTabData = await getSellingNuggetsAsync(
       skip,
@@ -291,37 +266,12 @@ const NuggetGrid = () => {
     );
   };
 
-  const resetAuctionPage = async (limit: number) => {
-    const auctionNuggetTabData = await getAuctionNuggetsAsync(0, limit);
-    dispatch(
-      resetAuctionNuggetTab({
-        nuggets: auctionNuggetTabData.nuggets,
-        nuggetCount: auctionNuggetTabData.nuggetCount,
-      })
-    );
-  };
-
   const addAuctionPage = async (skip: number, limit: number) => {
     const auctionNuggetTabData = await getAuctionNuggetsAsync(skip, limit);
     dispatch(
       addAuctionNuggetTab({
         nuggets: auctionNuggetTabData.nuggets,
         nuggetCount: auctionNuggetTabData.nuggetCount,
-      })
-    );
-  };
-
-  const resetLotPage = async (limit: number) => {
-    const lotNuggetTabData = await getLotNuggetsAsync(
-      0,
-      limit,
-      pids[1].toString(),
-      pids[2].toString()
-    );
-    dispatch(
-      resetLotNuggetTab({
-        nuggets: lotNuggetTabData.nuggets,
-        nuggetCount: lotNuggetTabData.nuggetCount,
       })
     );
   };

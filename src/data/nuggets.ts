@@ -37,39 +37,43 @@ const nuggetsSlice = createSlice({
   initialState,
   reducers: {
     setNugget: (state, d: PayloadAction<NuggetData>) => {
-      // const nugget = d.payload;
-      // state.nuggets[nugget.id] = nugget;
+      const index = state.sellingNuggetTab.nuggets.findIndex(
+        (nugget) => nugget.id === d.payload.id
+      );
+      if (index !== -1) {
+        state.sellingNuggetTab.nuggets[index] = d.payload;
+      }
     },
     setInventoryNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
       state.inventoryCache = state.inventory;
       state.inventoryNuggetTab = d.payload;
     },
-    resetSellingNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
-      state.sellingNuggetTab.nuggets = d.payload.nuggets;
-      state.sellingNuggetTab.nuggetCount = d.payload.nuggetCount;
+    resetSellingNuggetTab: (state) => {
+      state.sellingNuggetTab = emptyNuggetTabData;
     },
     addSellingNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
       state.sellingNuggetTab.nuggets.push(...d.payload.nuggets);
       state.sellingNuggetTab.nuggetCount = d.payload.nuggetCount;
     },
-    resetAuctionNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
-      state.auctionNuggetTab.nuggets = d.payload.nuggets;
-      state.auctionNuggetTab.nuggetCount = d.payload.nuggetCount;
+    resetAuctionNuggetTab: (state) => {
+      state.auctionNuggetTab = emptyNuggetTabData;
     },
     addAuctionNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
       state.auctionNuggetTab.nuggets.push(...d.payload.nuggets);
       state.auctionNuggetTab.nuggetCount = d.payload.nuggetCount;
     },
-    resetLotNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
-      state.lotNuggetTab.nuggets = d.payload.nuggets;
-      state.lotNuggetTab.nuggetCount = d.payload.nuggetCount;
+    resetLotNuggetTab: (state) => {
+      state.lotNuggetTab = emptyNuggetTabData;
     },
     addLotNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
       state.lotNuggetTab.nuggets.push(...d.payload.nuggets);
       state.lotNuggetTab.nuggetCount = d.payload.nuggetCount;
     },
-    setForceUpdate: (state, d: PayloadAction<boolean>) => {
+    setNuggetsForceUpdate: (state, d: PayloadAction<boolean>) => {
       state.forceUpdate = d.payload;
+    },
+    clearInventoryCache: (state) => {
+      state.inventoryCache = [];
     },
   },
 
@@ -157,12 +161,7 @@ export const selectNuggetTab =
 export const selectNugget =
   (tabState: TabState, nuggetIndex: number) => (state: RootState) => {
     if (tabState == TabState.Inventory) {
-      const nuggetId = state.nuggets.inventory[nuggetIndex];
-      return (
-        state.nuggets.inventoryNuggetTab.nuggets.find(
-          (nugget) => nugget.id === nuggetId
-        ) ?? emptyNuggetData
-      );
+      return state.nuggets.inventoryNuggetTab.nuggets[nuggetIndex];
     } else if (tabState == TabState.Selling) {
       return state.nuggets.sellingNuggetTab.nuggets[nuggetIndex];
     } else if (tabState == TabState.Auction) {
@@ -172,7 +171,12 @@ export const selectNugget =
     }
     return emptyNuggetData;
   };
-
+export const selectInventoryIdListIndex =
+  (nuggetIndex: number) =>
+  (state: RootState): number => {
+    const nuggetId = state.nuggets.inventoryNuggetTab.nuggets[nuggetIndex].id;
+    return state.nuggets.inventory.findIndex((id) => id === nuggetId);
+  };
 export const selectIsInventoryChanged = (state: RootState): boolean =>
   !isEqual(state.nuggets.inventory, state.nuggets.inventoryCache);
 export const selectInventoryNuggetTab = (state: RootState): NuggetTabData =>
@@ -183,7 +187,7 @@ export const selectAuctionNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.auctionNuggetTab;
 export const selectLotNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.lotNuggetTab;
-export const selectForceUpdate = (state: RootState): boolean =>
+export const selectNuggetsForceUpdate = (state: RootState): boolean =>
   state.nuggets.forceUpdate;
 
 export const {
@@ -195,6 +199,7 @@ export const {
   addAuctionNuggetTab,
   resetLotNuggetTab,
   addLotNuggetTab,
-  setForceUpdate,
+  setNuggetsForceUpdate,
+  clearInventoryCache,
 } = nuggetsSlice.actions;
 export default nuggetsSlice.reducer;

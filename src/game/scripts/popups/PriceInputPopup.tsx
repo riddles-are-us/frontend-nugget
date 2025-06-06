@@ -16,16 +16,24 @@ interface Props {
   title: string;
   onClickConfirm: (amount: number) => void;
   onClickCancel: () => void;
+  cost?: number;
 }
 
-const PriceInputPopup = ({ title, onClickConfirm, onClickCancel }: Props) => {
+const PriceInputPopup = ({
+  title,
+  onClickConfirm,
+  onClickCancel,
+  cost = 0,
+}: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
+  const [buttonFontSize, setButtonFontSize] = useState<number>(0);
   const [amountString, setAmountString] = useState<string>("");
 
   const adjustSize = () => {
     if (containerRef.current) {
       setTitleFontSize(containerRef.current.offsetHeight / 10);
+      setButtonFontSize(containerRef.current.offsetHeight / 15);
     }
   };
 
@@ -84,13 +92,33 @@ const PriceInputPopup = ({ title, onClickConfirm, onClickCancel }: Props) => {
           />
         </div>
 
-        <div className="price-input-popup-confirm-button">
-          <DefaultButton
-            onClick={() => onClickConfirm(Number(amountString))}
-            text={"Confirm"}
-            isDisabled={false}
-          />
-        </div>
+        {cost == 0 ? (
+          <div className="price-input-popup-confirm-button">
+            <DefaultButton
+              onClick={() => onClickConfirm(Number(amountString))}
+              text={"Confirm"}
+              isDisabled={false}
+            />
+          </div>
+        ) : (
+          <div className="price-input-popup-explore-button">
+            <DefaultButton
+              onClick={() => onClickConfirm(Number(amountString))}
+              text={"Confirm                 "}
+              isDisabled={false}
+            />
+            <p
+              className="price-input-popup-coin-text"
+              style={{
+                fontSize: buttonFontSize,
+                ...getTextShadowStyle(buttonFontSize / 15),
+              }}
+            >
+              {cost}
+            </p>
+            <div className="price-input-popup-coin-image" />
+          </div>
+        )}
       </div>
     </div>
   );

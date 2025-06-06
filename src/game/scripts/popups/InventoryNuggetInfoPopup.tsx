@@ -313,6 +313,7 @@ const InventoryNuggetInfoPopup = ({
           title="list"
           onClickConfirm={onListNugget}
           onClickCancel={onCancelListNugget}
+          cost={500}
         />
       )}
     </div>

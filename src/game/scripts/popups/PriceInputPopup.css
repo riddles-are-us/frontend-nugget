@@ -95,6 +95,48 @@
   user-select: none;
 }
 
+.price-input-popup-explore-button {
+  position: absolute;
+  top: 82%;
+  left: 50%;
+  height: 15%;
+  width: auto;
+  aspect-ratio: 8 / 2;
+  transform: translate(-50%, -50%);
+}
+
+.price-input-popup-coin-text {
+  position: absolute;
+  width: 30%;
+  height: 45%;
+  left: 80%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0px;
+  color: white;
+  font-weight: bold;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.price-input-popup-coin-image {
+  position: absolute;
+  width: auto;
+  height: 45%;
+  aspect-ratio: 1;
+  left: 55%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  user-select: none;
+}
+
 .price-input-popup-amount-input::placeholder {
   color: white;
   opacity: 1;

@@ -7,7 +7,12 @@ import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectNugget } from "../../../data/nuggets";
+import {
+  resetAuctionNuggetTab,
+  resetLotNuggetTab,
+  selectNugget,
+  setNuggetsForceUpdate,
+} from "../../../data/nuggets";
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import {
   getBidNuggetTransactionCommandArray,
@@ -15,7 +20,6 @@ import {
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
-import { updateAuctionNuggetsAsync, updateLotNuggetsAsync } from "../express";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import PriceInputPopup from "./PriceInputPopup";
@@ -111,12 +115,9 @@ const LotNuggetInfoPopup = ({
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("bid nugget update successed");
-          await updateAuctionNuggetsAsync(dispatch);
-          await updateLotNuggetsAsync(
-            dispatch,
-            pids[1].toString(),
-            pids[2].toString()
-          );
+          dispatch(resetLotNuggetTab());
+          dispatch(resetAuctionNuggetTab());
+          dispatch(setNuggetsForceUpdate(true));
           dispatch(setIsLoading(false));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {

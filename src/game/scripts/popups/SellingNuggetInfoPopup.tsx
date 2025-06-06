@@ -12,9 +12,12 @@ import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectNugget } from "../../../data/nuggets";
+import {
+  resetSellingNuggetTab,
+  selectNugget,
+  setNuggetsForceUpdate,
+} from "../../../data/nuggets";
 import DefaultButton from "../buttons/DefaultButton";
-import { updateSellingNuggetsAsync } from "../express";
 import {
   getSellNuggetTransactionCommandArray,
   sendTransaction,
@@ -95,11 +98,8 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("selling nugget update successed");
-          await updateSellingNuggetsAsync(
-            dispatch,
-            pids[1].toString(),
-            pids[2].toString()
-          );
+          dispatch(resetSellingNuggetTab());
+          dispatch(setNuggetsForceUpdate(true));
           dispatch(setIsLoading(false));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {

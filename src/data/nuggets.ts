@@ -14,7 +14,7 @@ import { isEqual } from "../game/scripts/common/Utility";
 
 export interface NuggetsState {
   inventory: number[];
-  inventoryCache: number[];
+  inventoryCache: number[] | null;
   inventoryNuggetTab: NuggetTabData;
   sellingNuggetTab: NuggetTabData;
   auctionNuggetTab: NuggetTabData;
@@ -24,7 +24,7 @@ export interface NuggetsState {
 
 const initialState: NuggetsState = {
   inventory: [],
-  inventoryCache: [],
+  inventoryCache: null,
   inventoryNuggetTab: emptyNuggetTabData,
   sellingNuggetTab: emptyNuggetTabData,
   auctionNuggetTab: emptyNuggetTabData,
@@ -73,7 +73,7 @@ const nuggetsSlice = createSlice({
       state.forceUpdate = d.payload;
     },
     clearInventoryCache: (state) => {
-      state.inventoryCache = [];
+      state.inventoryCache = null;
     },
   },
 
@@ -98,6 +98,7 @@ export const selectNuggetPageNeedsUpdate =
     if (tabState == TabState.Inventory) {
       return (
         state.nuggets.inventoryNuggetTab.nuggetCount == -1 ||
+        state.nuggets.inventoryCache == null ||
         !isEqual(state.nuggets.inventory, state.nuggets.inventoryCache)
       );
     } else if (tabState == TabState.Selling) {
@@ -178,6 +179,7 @@ export const selectInventoryIdListIndex =
     return state.nuggets.inventory.findIndex((id) => id === nuggetId);
   };
 export const selectIsInventoryChanged = (state: RootState): boolean =>
+  state.nuggets.inventoryCache == null ||
   !isEqual(state.nuggets.inventory, state.nuggets.inventoryCache);
 export const selectInventoryNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.inventoryNuggetTab;

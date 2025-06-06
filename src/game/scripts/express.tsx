@@ -131,34 +131,6 @@ export const updateNuggetAsync = async (index: number) => {
   return await getNugget(index);
 };
 
-export const updateNuggetsAsync = async (dispatch: any) => {
-  const ret = await getNuggets();
-  // dispatch(setNuggets(ret));
-};
-
-export const updateAuctionNuggetsAsync = async (dispatch: any) => {
-  const ret = await getAuctionNuggets();
-  // dispatch(setAuctionNuggetPage(ret));
-};
-
-export const updateLotNuggetsAsync = async (
-  dispatch: any,
-  pid1: string,
-  pid2: string
-) => {
-  const ret = await getLotNuggets(pid1, pid2);
-  // dispatch(setLotNuggets(ret));
-};
-
-export const updateSellingNuggetsAsync = async (
-  dispatch: any,
-  pid1: string,
-  pid2: string
-) => {
-  const ret = await getSellingNuggets(pid1, pid2);
-  // dispatch(setSellingNuggets(ret));
-};
-
 export const getNuggetsAsync = async (ids: number[]): Promise<NuggetData[]> => {
   const queryString = ids.map((id) => `ids=${id}`).join("&");
   const res = await getRequest(`/data/nuggets?${queryString}`);

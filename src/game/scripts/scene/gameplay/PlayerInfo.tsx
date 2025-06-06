@@ -13,7 +13,6 @@ import {
   selectIsLoading,
   setIsLoading,
 } from "../../../../data/errors";
-import { updateNuggetsAsync } from "../../express";
 import { setNuggetsForceUpdate } from "../../../../data/nuggets";
 
 const PlayerInfo = () => {

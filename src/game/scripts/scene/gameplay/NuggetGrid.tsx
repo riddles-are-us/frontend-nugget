@@ -20,21 +20,15 @@ import {
   getSellingNuggetsAsync,
 } from "../../express";
 import PageSelector from "../../common/PageSelector";
-import { isEqual } from "../../common/Utility";
 import {
   addAuctionNuggetTab,
   addLotNuggetTab,
   addSellingNuggetTab,
-  resetAuctionNuggetTab,
-  resetLotNuggetTab,
-  resetSellingNuggetTab,
   selectAuctionNuggetTab,
   selectNuggetsForceUpdate,
   selectInventoryNuggetTab,
   selectIsInventoryChanged,
   selectLotNuggetTab,
-  selectNuggetPage,
-  selectNuggetPageNeedsUpdate,
   selectSellingNuggetTab,
   setNuggetsForceUpdate,
   setInventoryNuggetTab,
@@ -79,8 +73,7 @@ const NuggetGrid = () => {
       const height = width / elementRatio + 10;
       setElementWidth(width);
       setElementHeight(height);
-      // setRowCount(Math.floor(containerRef.current.offsetHeight / height));
-      setRowCount(1);
+      setRowCount(Math.floor(containerRef.current.offsetHeight / height));
     }
   };
 

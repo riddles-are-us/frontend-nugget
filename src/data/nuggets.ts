@@ -37,11 +37,11 @@ const nuggetsSlice = createSlice({
   initialState,
   reducers: {
     setNugget: (state, d: PayloadAction<NuggetData>) => {
-      const index = state.sellingNuggetTab.nuggets.findIndex(
+      const index = state.inventoryNuggetTab.nuggets.findIndex(
         (nugget) => nugget.id === d.payload.id
       );
       if (index !== -1) {
-        state.sellingNuggetTab.nuggets[index] = d.payload;
+        state.inventoryNuggetTab.nuggets[index] = d.payload;
       }
     },
     setInventoryNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {

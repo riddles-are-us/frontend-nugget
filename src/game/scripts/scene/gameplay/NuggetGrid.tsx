@@ -89,7 +89,18 @@ const NuggetGrid = () => {
 
   useEffect(() => {
     checkTabData();
-  }, [tabState, page]);
+  }, [page]);
+
+  useEffect(() => {
+    setPage(0);
+    if (page == 0) {
+      checkTabData();
+    }
+  }, [tabState]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [pageSize]);
 
   useEffect(() => {
     if (nuggetsForceUpdate) {
@@ -97,10 +108,6 @@ const NuggetGrid = () => {
       checkTabData();
     }
   }, [nuggetsForceUpdate]);
-
-  useEffect(() => {
-    setPage(0);
-  }, [pageSize]);
 
   const checkTabData = async () => {
     if (isloading) {

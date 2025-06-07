@@ -19,7 +19,6 @@ import { selectUserState } from "../../../data/state";
 import {
   clearInventoryCache,
   resetSellingNuggetTab,
-  selectInventoryIdListIndex,
   selectNugget,
   setNugget,
   setNuggetsForceUpdate,
@@ -47,9 +46,6 @@ const InventoryNuggetInfoPopup = ({
   isShowingListAmountPopup,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const inventoryIdListIndex = useAppSelector(
-    selectInventoryIdListIndex(nuggetIndex)
-  );
   const nuggetData = useAppSelector(
     selectNugget(TabState.Inventory, nuggetIndex)
   );
@@ -103,7 +99,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            inventoryIdListIndex
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -130,7 +126,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getRecycleNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            inventoryIdListIndex
+            nuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -169,7 +165,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getListNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            inventoryIdListIndex,
+            nuggetIndex,
             amount
           ),
           prikey: l2account!.getPrivateKey(),

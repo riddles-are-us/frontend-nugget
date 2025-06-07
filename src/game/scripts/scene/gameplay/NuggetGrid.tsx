@@ -73,7 +73,8 @@ const NuggetGrid = () => {
       const height = width / elementRatio + 10;
       setElementWidth(width);
       setElementHeight(height);
-      setRowCount(Math.floor(containerRef.current.offsetHeight / height));
+      // setRowCount(Math.floor(containerRef.current.offsetHeight / height));
+      setRowCount(1);
     }
   };
 
@@ -296,47 +297,47 @@ const NuggetGrid = () => {
     setPage(page + 1);
   };
 
-  const onClickInventoryMore = (nuggetIndex: number) => {
+  const onClickInventoryMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.InventoryNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
           isShowingListAmountPopup: false,
         })
       );
     }
   };
 
-  const onClickSellingMore = (nuggetIndex: number) => {
+  const onClickSellingMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.SellingNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
         })
       );
     }
   };
 
-  const onClickMarketMore = (nuggetIndex: number) => {
+  const onClickMarketMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.AuctionNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
           isShowingBidAmountPopup: false,
         })
       );
     }
   };
 
-  const onClickBidMore = (nuggetIndex: number) => {
+  const onClickBidMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.LotNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
           isShowingBidAmountPopup: false,
         })
       );

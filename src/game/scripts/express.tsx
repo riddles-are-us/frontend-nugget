@@ -83,52 +83,11 @@ function decodeMarkets(raws: any): NuggetData[] {
   return commodityList;
 }
 
-async function getNuggets(): Promise<NuggetData[]> {
-  const res = await getRequest("/data/nuggets");
-  const raws = res.data;
-  console.log("getNuggets", raws);
-  return decodeNuggets(raws);
-}
-
-async function getNugget(index: number): Promise<NuggetData> {
+export const updateNuggetAsync = async (index: number) => {
   const res = await getRequest(`/data/nugget/${index}`);
   const raws = res.data;
   console.log("getNugget ", index, " ", raws);
   return decodeNuggets(raws)[0];
-}
-
-async function getAuctionNuggets(): Promise<NuggetTabData> {
-  const res = await getRequest(`/data/markets?page=${1}&limit=${2}`);
-  const raws = res.data;
-  console.log("getAuctionNuggets", raws);
-  return {
-    nuggets: decodeMarkets(raws),
-    nuggetCount: res.nuggetCount,
-  };
-}
-
-async function getLotNuggets(
-  pid1: string,
-  pid2: string
-): Promise<NuggetData[]> {
-  const res = await getRequest(`/data/bid/${pid1}/${pid2}`);
-  const raws = res.data;
-  console.log("getLotNuggets", raws);
-  return decodeMarkets(raws);
-}
-
-async function getSellingNuggets(
-  pid1: string,
-  pid2: string
-): Promise<NuggetData[]> {
-  const res = await getRequest(`/data/sell/${pid1}/${pid2}`);
-  const raws = res.data;
-  console.log("sellign raw", raws);
-  return decodeMarkets(raws);
-}
-
-export const updateNuggetAsync = async (index: number) => {
-  return await getNugget(index);
 };
 
 export const getNuggetsAsync = async (ids: number[]): Promise<NuggetData[]> => {

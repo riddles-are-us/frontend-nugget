@@ -73,7 +73,8 @@ const NuggetGrid = () => {
       const height = width / elementRatio + 10;
       setElementWidth(width);
       setElementHeight(height);
-      setRowCount(Math.floor(containerRef.current.offsetHeight / height));
+      // setRowCount(Math.floor(containerRef.current.offsetHeight / height));
+      setRowCount(1);
     }
   };
 
@@ -88,7 +89,18 @@ const NuggetGrid = () => {
 
   useEffect(() => {
     checkTabData();
-  }, [tabState, page]);
+  }, [page]);
+
+  useEffect(() => {
+    setPage(0);
+    if (page == 0) {
+      checkTabData();
+    }
+  }, [tabState]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [pageSize]);
 
   useEffect(() => {
     if (nuggetsForceUpdate) {
@@ -96,10 +108,6 @@ const NuggetGrid = () => {
       checkTabData();
     }
   }, [nuggetsForceUpdate]);
-
-  useEffect(() => {
-    setPage(0);
-  }, [pageSize]);
 
   const checkTabData = async () => {
     if (isloading) {
@@ -296,47 +304,47 @@ const NuggetGrid = () => {
     setPage(page + 1);
   };
 
-  const onClickInventoryMore = (nuggetIndex: number) => {
+  const onClickInventoryMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.InventoryNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
           isShowingListAmountPopup: false,
         })
       );
     }
   };
 
-  const onClickSellingMore = (nuggetIndex: number) => {
+  const onClickSellingMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.SellingNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
         })
       );
     }
   };
 
-  const onClickMarketMore = (nuggetIndex: number) => {
+  const onClickMarketMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.AuctionNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
           isShowingBidAmountPopup: false,
         })
       );
     }
   };
 
-  const onClickBidMore = (nuggetIndex: number) => {
+  const onClickBidMore = (index: number) => {
     if (uIState.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.LotNuggetInfoPopup,
-          nuggetIndex,
+          nuggetIndex: page * pageSize + index,
           isShowingBidAmountPopup: false,
         })
       );

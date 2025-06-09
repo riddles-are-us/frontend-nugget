@@ -54,7 +54,7 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
-  const nuggetLevel = nuggetData.feature;
+  const nuggetLevel = 7 - nuggetData.feature;
   const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
   const nuggetAskPrice = nuggetData.askprice;
   const nuggetBidderId = nuggetData.bid?.bidder[0] ?? 0;

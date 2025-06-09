@@ -59,7 +59,7 @@ const InventoryNuggetInfoPopup = ({
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetCycle = nuggetData.cycle;
-  const nuggetLevel = nuggetData.feature;
+  const nuggetLevel = 7 - nuggetData.feature;
   const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,

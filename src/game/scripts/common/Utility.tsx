@@ -43,14 +43,15 @@ export function getAttributeList(attributes: string, feature: number) {
   if (feature > 0) {
     str += "(";
   }
-  for (let i = 0; i < feature; i++) {
-    const symbol = attrs[i] == 0 ? "??" : (attrs[i] - 1).toString();
+  for (let i = 0; i < feature + 1; i++) {
+    const symbol =
+      attrs[i] == 0 ? "??" : (i == 0 ? attrs[i] : attrs[i] - 1).toString();
     str += `${i > 0 ? "+" : ""}${symbol}`;
   }
   if (feature > 0) {
     str += ")";
   }
-  for (let i = feature; i < 8; i++) {
+  for (let i = feature + 1; i < 8; i++) {
     const symbol = attrs[i] == 0 ? "??" : (attrs[i] - 1).toString();
     str += `${i > 0 ? "x" : ""}${symbol}`;
   }

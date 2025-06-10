@@ -78,8 +78,7 @@ const NuggetGrid = () => {
       const height = width / elementRatio + 10;
       setElementWidth(width);
       setElementHeight(height);
-      // setRowCount(Math.floor(containerRef.current.offsetHeight / height));
-      setRowCount(1);
+      setRowCount(Math.floor(containerRef.current.offsetHeight / height));
     }
   };
 

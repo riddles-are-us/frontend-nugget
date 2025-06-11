@@ -62,16 +62,32 @@
   font-weight: bold;
   position: absolute;
   text-align: center;
-  width: 40%;
+  width: 80%;
   height: 20%;
   left: 50%;
-  top: 25%;
+  top: 23%;
+  transform: translate(-50%, -50%);
+}
+
+.price-input-popup-description-text {
+  margin: 0px;
+  color: white;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  position: absolute;
+  text-align: center;
+  width: 80%;
+  height: 20%;
+  left: 50%;
+  top: 40%;
   transform: translate(-50%, -50%);
 }
 
 .price-input-popup-amount-input-container {
   position: absolute;
-  top: 50%;
+  top: 58%;
   left: 50%;
   width: 80%;
   height: auto;

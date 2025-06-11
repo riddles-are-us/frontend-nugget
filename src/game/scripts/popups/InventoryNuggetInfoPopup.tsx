@@ -116,7 +116,6 @@ const InventoryNuggetInfoPopup = ({
           const updatedNugget = await updateNuggetAsync(nuggetId);
           dispatch(setNugget(updatedNugget));
           dispatch(setNuggetsForceUpdate(true));
-
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;
@@ -315,7 +314,9 @@ const InventoryNuggetInfoPopup = ({
 
       {isShowingListAmountPopup && (
         <PriceInputPopup
-          title="list"
+          title="List"
+          description={"Enter the price"}
+          min={1}
           onClickConfirm={onListNugget}
           onClickCancel={onCancelListNugget}
           cost={500}

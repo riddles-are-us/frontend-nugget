@@ -20,6 +20,7 @@ import {
   clearInventoryCache,
   resetSellingNuggetTab,
   selectNugget,
+  selectPlayerDataInventoryNuggetIndex,
   setNugget,
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
@@ -68,6 +69,12 @@ const InventoryNuggetInfoPopup = ({
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
+  const playerDataInventoryNuggetIndex = useAppSelector(
+    selectPlayerDataInventoryNuggetIndex(
+      userState.player!.data.inventory!,
+      nuggetId
+    )
+  );
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -99,7 +106,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex
+            playerDataInventoryNuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -128,7 +135,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getRecycleNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex
+            playerDataInventoryNuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -167,7 +174,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getListNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex,
+            playerDataInventoryNuggetIndex,
             amount
           ),
           prikey: l2account!.getPrivateKey(),

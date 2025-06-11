@@ -32,9 +32,14 @@ import {
   selectSellingNuggetTab,
   setNuggetsForceUpdate,
   setInventoryNuggetTab,
+  resetSellingNuggetTab,
+  resetLotNuggetTab,
+  resetAuctionNuggetTab,
+  clearInventoryCache,
 } from "../../../../data/nuggets";
 import { selectIsLoading, setIsLoading } from "../../../../data/errors";
 import Nugget from "./Nugget";
+import DefaultButton from "../../buttons/DefaultButton";
 
 const ELEMENT_PER_REQUEST = 30;
 const NuggetGrid = () => {
@@ -73,8 +78,7 @@ const NuggetGrid = () => {
       const height = width / elementRatio + 10;
       setElementWidth(width);
       setElementHeight(height);
-      // setRowCount(Math.floor(containerRef.current.offsetHeight / height));
-      setRowCount(1);
+      setRowCount(Math.floor(containerRef.current.offsetHeight / height));
     }
   };
 
@@ -237,6 +241,20 @@ const NuggetGrid = () => {
     dispatch(setIsLoading(false));
   };
 
+  const reloadTabData = async () => {
+    if (tabState == TabState.Inventory) {
+      dispatch(clearInventoryCache());
+    } else if (tabState == TabState.Selling) {
+      dispatch(resetSellingNuggetTab());
+    } else if (tabState == TabState.Auction) {
+      dispatch(resetAuctionNuggetTab());
+    } else if (tabState == TabState.Lot) {
+      dispatch(resetLotNuggetTab());
+    }
+    dispatch(setNuggetsForceUpdate(true));
+    setPage(0);
+  };
+
   const updateInventoryPage = async () => {
     const allNuggets = await getNuggetsAsync(
       userState!.player!.data.inventory ?? []
@@ -369,6 +387,14 @@ const NuggetGrid = () => {
           onClickPrevPageButton={onClickPrevPageButton}
           onClickNextPageButton={onClickNextPageButton}
         />
+      </div>
+
+      <div className="nugget-grid-page-reload-button">
+        <DefaultButton
+          text={"Reload"}
+          onClick={reloadTabData}
+          isDisabled={false}
+        ></DefaultButton>
       </div>
     </div>
   );

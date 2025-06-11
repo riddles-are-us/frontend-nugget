@@ -25,3 +25,13 @@
   bottom: 0;
   transform: translate(-50%, 0);
 }
+
+.nugget-grid-page-reload-button {
+  position: absolute;
+  width: auto;
+  height: 5%;
+  aspect-ratio: 3/1;
+  left: 10%;
+  top: 95%;
+  transform: translate(-50%, -50%);
+}

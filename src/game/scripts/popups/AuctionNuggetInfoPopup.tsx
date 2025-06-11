@@ -251,7 +251,12 @@ const AuctionNuggetInfoPopup = ({
 
       {isShowingBidAmountPopup && (
         <PriceInputPopup
-          title="bid"
+          title="Bid"
+          description={`Enter the price (${
+            nuggetBidPrice + 1
+          } - ${nuggetAskPrice})`}
+          min={nuggetBidPrice + 1}
+          max={nuggetAskPrice}
           onClickConfirm={onBidNugget}
           onClickCancel={onCancelBidNugget}
         />

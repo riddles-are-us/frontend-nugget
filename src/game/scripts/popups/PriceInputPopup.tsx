@@ -14,6 +14,9 @@ import { getTextShadowStyle } from "../common/Utility";
 
 interface Props {
   title: string;
+  description: string;
+  min?: number | null;
+  max?: number | null;
   onClickConfirm: (amount: number) => void;
   onClickCancel: () => void;
   cost?: number;
@@ -21,6 +24,9 @@ interface Props {
 
 const PriceInputPopup = ({
   title,
+  description,
+  min,
+  max,
   onClickConfirm,
   onClickCancel,
   cost = 0,
@@ -45,6 +51,23 @@ const PriceInputPopup = ({
       window.removeEventListener("resize", adjustSize);
     };
   }, [containerRef.current]);
+
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    if (value === "") {
+      setAmountString("");
+      return;
+    }
+
+    if (/^0\d+/.test(value)) {
+      value = String(Number(value));
+    }
+
+    const num = Number(value);
+    if (Number.isInteger(num) && num >= 0 && (max == null || num <= max)) {
+      setAmountString(value);
+    }
+  };
 
   return (
     <div className="price-input-popup-container">
@@ -71,6 +94,15 @@ const PriceInputPopup = ({
         >
           {title}
         </p>
+        <p
+          className="price-input-popup-description-text"
+          style={{
+            fontSize: titleFontSize,
+            ...getTextShadowStyle(titleFontSize / 15),
+          }}
+        >
+          {description}
+        </p>
         <div className="price-input-popup-amount-input-container">
           <HorizontalExtendableImage
             leftRatio={16 / 53}
@@ -81,10 +113,10 @@ const PriceInputPopup = ({
           />
           <input
             type="number"
-            className="price-input-popup-amount-input"
             value={amountString}
-            onChange={(e) => setAmountString(e.target.value)}
-            placeholder="Enter amount"
+            onChange={onInputChange}
+            placeholder="price"
+            className="price-input-popup-amount-input"
             style={{
               fontSize: titleFontSize,
               ...getTextShadowStyle(titleFontSize / 15),

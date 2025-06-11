@@ -20,6 +20,7 @@ import {
   clearInventoryCache,
   resetSellingNuggetTab,
   selectNugget,
+  selectPlayerDataInventoryNuggetIndex,
   setNugget,
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
@@ -68,6 +69,12 @@ const InventoryNuggetInfoPopup = ({
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
+  const playerDataInventoryNuggetIndex = useAppSelector(
+    selectPlayerDataInventoryNuggetIndex(
+      userState.player!.data.inventory!,
+      nuggetId
+    )
+  );
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -99,7 +106,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex
+            playerDataInventoryNuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -108,6 +115,7 @@ const InventoryNuggetInfoPopup = ({
           console.log("explore nugget successed");
           const updatedNugget = await updateNuggetAsync(nuggetId);
           dispatch(setNugget(updatedNugget));
+          dispatch(setNuggetsForceUpdate(true));
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;
@@ -126,7 +134,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getRecycleNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex
+            playerDataInventoryNuggetIndex
           ),
           prikey: l2account!.getPrivateKey(),
         })
@@ -165,7 +173,7 @@ const InventoryNuggetInfoPopup = ({
         sendTransaction({
           cmd: getListNuggetTransactionCommandArray(
             userState!.player!.nonce,
-            nuggetIndex,
+            playerDataInventoryNuggetIndex,
             amount
           ),
           prikey: l2account!.getPrivateKey(),
@@ -306,7 +314,9 @@ const InventoryNuggetInfoPopup = ({
 
       {isShowingListAmountPopup && (
         <PriceInputPopup
-          title="list"
+          title="List"
+          description={"Enter the price"}
+          min={1}
           onClickConfirm={onListNugget}
           onClickCancel={onCancelListNugget}
           cost={500}

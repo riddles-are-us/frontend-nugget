@@ -37,12 +37,14 @@ const nuggetsSlice = createSlice({
   initialState,
   reducers: {
     setNugget: (state, d: PayloadAction<NuggetData>) => {
-      const index = state.inventoryNuggetTab.nuggets.findIndex(
-        (nugget) => nugget.id === d.payload.id
+      const updatedNuggets = state.inventoryNuggetTab.nuggets.map((nugget) =>
+        nugget.id === d.payload.id ? d.payload : nugget
       );
-      if (index !== -1) {
-        state.inventoryNuggetTab.nuggets[index] = d.payload;
-      }
+
+      state.inventoryNuggetTab = {
+        ...state.inventoryNuggetTab,
+        nuggets: updatedNuggets,
+      };
     },
     setInventoryNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
       state.inventoryCache = state.inventory;
@@ -104,6 +106,11 @@ export const selectNugget =
       return state.nuggets.lotNuggetTab.nuggets[nuggetIndex];
     }
     return emptyNuggetData;
+  };
+export const selectPlayerDataInventoryNuggetIndex =
+  (inventory: number[], nuggetId: number) =>
+  (state: RootState): number => {
+    return inventory.findIndex((id) => id === nuggetId);
   };
 export const selectIsInventoryChanged = (state: RootState): boolean =>
   state.nuggets.inventoryCache == null ||

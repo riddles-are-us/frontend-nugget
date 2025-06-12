@@ -85,7 +85,6 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
 
   const onClickSell = () => {
     if (!isLoading) {
-      console.log("onClickSell", nuggetData.marketid);
       dispatch(setIsLoading(true));
       dispatch(
         sendTransaction({
@@ -113,7 +112,7 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   };
 
   const onClickCancel = () => {
-    if (uIState.type == UIStateType.SellingNuggetInfoPopup) {
+    if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };

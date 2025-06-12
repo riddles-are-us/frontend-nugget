@@ -253,7 +253,7 @@ const AuctionNuggetInfoPopup = ({
         <PriceInputPopup
           title="Bid"
           description={`Enter the price (${
-            nuggetBidPrice + 1
+            Number(nuggetBidPrice) + 1
           } - ${nuggetAskPrice})`}
           min={nuggetBidPrice + 1}
           max={nuggetAskPrice}

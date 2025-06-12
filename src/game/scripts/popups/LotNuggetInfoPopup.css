@@ -159,3 +159,12 @@
   top: 85%;
   transform: translate(-50%, -50%);
 }
+
+.lot-nugget-info-popup-settle-button {
+  position: absolute;
+  width: 25%;
+  height: 18%;
+  left: 55%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+}

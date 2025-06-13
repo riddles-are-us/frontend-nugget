@@ -16,6 +16,7 @@ import {
 import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
 import {
   getBidNuggetTransactionCommandArray,
+  getSellNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
 import { AccountSlice } from "zkwasm-minirollup-browser";
@@ -142,6 +143,34 @@ const LotNuggetInfoPopup = ({
     }
   };
 
+  const onClickSettle = () => {
+    if (!isLoading) {
+      dispatch(setIsLoading(true));
+      dispatch(
+        sendTransaction({
+          cmd: getSellNuggetTransactionCommandArray(
+            userState!.player!.nonce,
+            nuggetData.marketid
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then(async (action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          console.log("settle nugget update successed");
+          dispatch(resetLotNuggetTab());
+          dispatch(setNuggetsForceUpdate(true));
+          dispatch(setIsLoading(false));
+          dispatch(setUIState({ type: UIStateType.Idle }));
+        } else if (sendTransaction.rejected.match(action)) {
+          const message = "selling nugget Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setIsLoading(false));
+        }
+      });
+    }
+  };
+
   return (
     <div className="lot-nugget-info-popup-container">
       <div onClick={onClickCancel} className="lot-nugget-info-popup-mask" />
@@ -242,13 +271,20 @@ const LotNuggetInfoPopup = ({
             isDisabled={false}
           />
         </div>
+        <div className="lot-nugget-info-popup-settle-button">
+          <DefaultButton
+            text={"Settle"}
+            onClick={onClickSettle}
+            isDisabled={false}
+          />
+        </div>
       </div>
 
       {isShowingBidAmountPopup && (
         <PriceInputPopup
           title="Bid"
           description={`Enter the price (${
-            nuggetBidPrice + 1
+            Number(nuggetBidPrice) + 1
           } - ${nuggetAskPrice})`}
           min={nuggetBidPrice + 1}
           max={nuggetAskPrice}

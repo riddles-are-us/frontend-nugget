@@ -95,6 +95,7 @@ const InventoryNuggetInfoPopup = ({
 
   const onClickCancel = () => {
     if (!isLoading) {
+      dispatch(setNuggetsForceUpdate(true));
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };

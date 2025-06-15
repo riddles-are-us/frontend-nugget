@@ -135,7 +135,7 @@ const LotNuggetInfoPopup = ({
     if (!isLoading) {
       dispatch(
         setUIState({
-          type: UIStateType.AuctionNuggetInfoPopup,
+          type: UIStateType.LotNuggetInfoPopup,
           nuggetIndex,
           isShowingBidAmountPopup: false,
         })

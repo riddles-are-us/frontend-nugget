@@ -134,6 +134,11 @@ const PriceInputPopup = ({
           <input
             type="number"
             value={amountString}
+            onKeyDown={(e) => {
+              if (["e", "E", "-", "+", "."].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
             onChange={onInputChange}
             placeholder="price"
             className="price-input-popup-amount-input"

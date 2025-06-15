@@ -286,10 +286,10 @@ const LotNuggetInfoPopup = ({
           description={`Enter the price (${
             Number(nuggetBidPrice) + 1
           } - ${nuggetAskPrice})`}
-          min={nuggetBidPrice + 1}
+          min={Number(nuggetBidPrice) + 1}
           max={nuggetAskPrice}
-          onClickConfirm={onBidNugget}
-          onClickCancel={onCancelBidNugget}
+          onConfirm={onBidNugget}
+          onCancel={onCancelBidNugget}
         />
       )}
     </div>

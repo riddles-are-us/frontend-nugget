@@ -17,8 +17,8 @@ interface Props {
   description: string;
   min?: number | null;
   max?: number | null;
-  onClickConfirm: (amount: number) => void;
-  onClickCancel: () => void;
+  onConfirm: (amount: number) => void;
+  onCancel: () => void;
   cost?: number;
 }
 
@@ -27,14 +27,15 @@ const PriceInputPopup = ({
   description,
   min,
   max,
-  onClickConfirm,
-  onClickCancel,
+  onConfirm,
+  onCancel,
   cost = 0,
 }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [buttonFontSize, setButtonFontSize] = useState<number>(0);
   const [amountString, setAmountString] = useState<string>("");
+  const [hasError, setHasError] = useState<boolean>(false); // State to track error
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -69,9 +70,24 @@ const PriceInputPopup = ({
     }
   };
 
+  const onClickConfirm = () => {
+    const amount = Number(amountString);
+    console.log("Amount:", amount, "Min:", min, "Max:", max);
+    if (
+      amount &&
+      (min == null || amount >= min) &&
+      (max == null || amount <= max)
+    ) {
+      onConfirm(amount);
+      setHasError(false);
+    } else {
+      setHasError(true);
+    }
+  };
+
   return (
     <div className="price-input-popup-container">
-      <div onClick={onClickCancel} className="price-input-popup-mask" />
+      <div onClick={onCancel} className="price-input-popup-mask" />
       <div ref={containerRef} className="price-input-popup-main-container">
         <div className="price-input-popup-main-background">
           <HorizontalExtendableImage
@@ -83,7 +99,7 @@ const PriceInputPopup = ({
           />
         </div>
         <div className="price-input-popup-close-button">
-          <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
+          <PopupCloseButton onClick={onCancel} isDisabled={false} />
         </div>
         <p
           className="price-input-popup-title-text"
@@ -95,7 +111,11 @@ const PriceInputPopup = ({
           {title}
         </p>
         <p
-          className="price-input-popup-description-text"
+          className={
+            hasError
+              ? "price-input-popup-description-text-has-error"
+              : "price-input-popup-description-text"
+          }
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -127,7 +147,7 @@ const PriceInputPopup = ({
         {cost == 0 ? (
           <div className="price-input-popup-confirm-button">
             <DefaultButton
-              onClick={() => onClickConfirm(Number(amountString))}
+              onClick={onClickConfirm}
               text={"Confirm"}
               isDisabled={false}
             />
@@ -135,7 +155,7 @@ const PriceInputPopup = ({
         ) : (
           <div className="price-input-popup-explore-button">
             <DefaultButton
-              onClick={() => onClickConfirm(Number(amountString))}
+              onClick={onClickConfirm}
               text={"Confirm                 "}
               isDisabled={false}
             />

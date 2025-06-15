@@ -319,8 +319,8 @@ const InventoryNuggetInfoPopup = ({
           title="List"
           description={"Enter the price"}
           min={1}
-          onClickConfirm={onListNugget}
-          onClickCancel={onCancelListNugget}
+          onConfirm={onListNugget}
+          onCancel={onCancelListNugget}
           cost={500}
         />
       )}

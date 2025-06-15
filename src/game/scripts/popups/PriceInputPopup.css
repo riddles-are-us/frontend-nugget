@@ -85,6 +85,22 @@
   transform: translate(-50%, -50%);
 }
 
+.price-input-popup-description-text-has-error {
+  margin: 0px;
+  color: red;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  position: absolute;
+  text-align: center;
+  width: 80%;
+  height: 20%;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+}
+
 .price-input-popup-amount-input-container {
   position: absolute;
   top: 58%;

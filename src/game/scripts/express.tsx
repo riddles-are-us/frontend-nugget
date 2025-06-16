@@ -33,7 +33,7 @@ function decodeNuggets(raws: any): NuggetData[] {
     }) => ({
       id: Number(id),
       marketid: marketid,
-      attributes: Number(attributes),
+      attributes: String(attributes),
       feature: Number(feature),
       sysprice: Number(sysprice ?? 0),
       askprice: 0,
@@ -69,7 +69,7 @@ function decodeMarkets(raws: any): NuggetData[] {
     }) => ({
       id: Number(object.id),
       marketid: Number(marketid),
-      attributes: Number(object.attributes),
+      attributes: String(object.attributes),
       feature: Number(object.feature),
       sysprice: Number(object.sysprice ?? 0),
       askprice: Number(askprice ?? 0),

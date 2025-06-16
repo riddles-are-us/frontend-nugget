@@ -3,7 +3,11 @@ import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./InventoryNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
-import { getAttributeList, getTextShadowStyle } from "../common/Utility";
+import {
+  getAttributeList,
+  getIsFullyExplored,
+  getTextShadowStyle,
+} from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
@@ -65,9 +69,8 @@ const InventoryNuggetInfoPopup = ({
     nuggetData.attributes,
     nuggetData.feature
   );
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
-    : ["", "", "", ""];
+  const isFullyExplored = getIsFullyExplored(nuggetData.attributes);
+  const coin = userState.player!.data.balance;
   const playerDataInventoryNuggetIndex = useAppSelector(
     selectPlayerDataInventoryNuggetIndex(
       userState.player!.data.inventory!,
@@ -116,7 +119,6 @@ const InventoryNuggetInfoPopup = ({
           const updatedNugget = await updateNuggetAsync(nuggetId);
           dispatch(setNugget(updatedNugget));
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setUIState({ type: UIStateType.Idle }));
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;
@@ -271,23 +273,25 @@ const InventoryNuggetInfoPopup = ({
             </p>
           ))}
         </div>
-        <div className="inventory-nugget-info-popup-explore-button">
-          <DefaultButton
-            text={"Explore           "}
-            onClick={onClickExploreNugget}
-            isDisabled={false}
-          />
-          <p
-            className="inventory-nugget-info-popup-coin-text"
-            style={{
-              fontSize: descriptionFontSize,
-              ...getTextShadowStyle(descriptionFontSize / 15),
-            }}
-          >
-            {nuggetExplorePrice}
-          </p>
-          <div className="inventory-nugget-info-popup-coin-image" />
-        </div>
+        {!isFullyExplored && (
+          <div className="inventory-nugget-info-popup-explore-button">
+            <DefaultButton
+              text={"Explore           "}
+              onClick={onClickExploreNugget}
+              isDisabled={coin < nuggetExplorePrice}
+            />
+            <p
+              className="inventory-nugget-info-popup-coin-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {nuggetExplorePrice}
+            </p>
+            <div className="inventory-nugget-info-popup-coin-image" />
+          </div>
+        )}
         <div className="inventory-nugget-info-popup-list-button">
           <DefaultButton
             text={"List Nugget"}
@@ -307,7 +311,7 @@ const InventoryNuggetInfoPopup = ({
       {isShowingListAmountPopup && (
         <PriceInputPopup
           title="List"
-          description={"Enter the price"}
+          description={"Enter the bid price"}
           min={1}
           onConfirm={onListNugget}
           onCancel={onCancelListNugget}

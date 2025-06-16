@@ -251,8 +251,13 @@ const NuggetGrid = () => {
     } else if (tabState == TabState.Lot) {
       dispatch(resetLotNuggetTab());
     }
-    dispatch(setNuggetsForceUpdate(true));
-    setPage(0);
+
+    //ensure the page is only reload once
+    if (page == 0) {
+      dispatch(setNuggetsForceUpdate(true));
+    } else {
+      setPage(0);
+    }
   };
 
   const updateInventoryPage = async () => {

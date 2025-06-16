@@ -140,7 +140,6 @@ const PriceInputPopup = ({
               }
             }}
             onChange={onInputChange}
-            placeholder="price"
             className="price-input-popup-amount-input"
             style={{
               fontSize: titleFontSize,

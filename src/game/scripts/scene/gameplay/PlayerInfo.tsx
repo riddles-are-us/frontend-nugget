@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import DefaultButton from "../../buttons/DefaultButton";
 import "./PlayerInfo.css";
-import { addressAbbreviation, getTextShadowStyle } from "../../common/Utility";
+import {
+  addressAbbreviation,
+  getTextShadowStyle,
+  PICK_NUGGET_COST,
+} from "../../common/Utility";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
@@ -24,12 +28,15 @@ const PlayerInfo = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
+  const [pickNuggetCoinFontSize, setPickNuggetCoinFontSize] =
+    useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
 
   const adjustSize = () => {
     if (containerRef.current) {
       setTitleFontSize(containerRef.current.offsetHeight / 6);
       setMoneyFontSize(containerRef.current.offsetHeight / 8);
+      setPickNuggetCoinFontSize(containerRef.current.offsetHeight / 12);
     }
   };
 
@@ -109,10 +116,20 @@ const PlayerInfo = () => {
       </div>
       <div className="player-info-pick-nugget-button">
         <DefaultButton
-          text={"Pick Nugget"}
+          text={"Pick Nugget              "}
           onClick={onClickPickNugget}
-          isDisabled={false}
+          isDisabled={coin < PICK_NUGGET_COST}
         />
+        <p
+          className="player-info-pick-nugget-coin-text"
+          style={{
+            fontSize: pickNuggetCoinFontSize,
+            ...getTextShadowStyle(pickNuggetCoinFontSize / 15),
+          }}
+        >
+          {PICK_NUGGET_COST}
+        </p>
+        <div className="player-info-pick-nugget-coin-image" />
       </div>
     </div>
   );

@@ -54,7 +54,6 @@
 
 .auction-nugget-info-popup-title-text,
 .auction-nugget-info-popup-price-text,
-.auction-nugget-info-popup-cycle-text,
 .auction-nugget-info-popup-bid-text,
 .auction-nugget-info-popup-ask-text,
 .auction-nugget-info-popup-attributes-text,
@@ -86,20 +85,11 @@
   transform: translate(-50%, -50%);
 }
 
-.auction-nugget-info-popup-cycle-text {
-  position: absolute;
-  width: 30%;
-  height: 15%;
-  left: 64%;
-  top: 42%;
-  transform: translate(-50%, -50%);
-}
-
 .auction-nugget-info-popup-bid-text {
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 79%;
+  left: 66%;
   top: 42%;
   transform: translate(-50%, -50%);
 }
@@ -108,8 +98,8 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 79%;
-  top: 32%;
+  left: 88%;
+  top: 42%;
   transform: translate(-50%, -50%);
 }
 

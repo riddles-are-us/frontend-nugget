@@ -59,7 +59,6 @@ const InventoryNuggetInfoPopup = ({
   const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.lastUpdate;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
   const nuggetAttributeString = getAttributeList(
@@ -246,15 +245,6 @@ const InventoryNuggetInfoPopup = ({
           }}
         >
           {`Recycle Price: ${nuggetPrice}`}
-        </p>
-        <p
-          className="inventory-nugget-info-popup-cycle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Cycle: ${nuggetCycle}`}
         </p>
         <div className="inventory-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (

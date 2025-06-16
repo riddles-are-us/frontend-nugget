@@ -58,7 +58,6 @@ const LotNuggetInfoPopup = ({
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.lastUpdate;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
   const nuggetAskPrice = nuggetData.askprice;
@@ -72,11 +71,11 @@ const LotNuggetInfoPopup = ({
     : ["", "", "", ""];
   const isSettleEnabled = getIsSettleEnabled(
     userState.state.counter,
-    nuggetCycle
+    nuggetData.lastUpdate
   );
   const remainSettleTime = formatTimeOneDigit(
     userState.state.counter,
-    nuggetCycle
+    nuggetData.lastUpdate
   );
 
   const adjustSize = () => {
@@ -213,15 +212,6 @@ const LotNuggetInfoPopup = ({
           }}
         >
           {`Recycle Price: ${nuggetPrice}`}
-        </p>
-        <p
-          className="lot-nugget-info-popup-cycle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Cycle: ${nuggetCycle}`}
         </p>
         <p
           className="lot-nugget-info-popup-bid-text"

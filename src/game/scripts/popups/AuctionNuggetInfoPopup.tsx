@@ -52,7 +52,6 @@ const AuctionNuggetInfoPopup = ({
   const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.lastUpdate;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
   const nuggetAskPrice = nuggetData.askprice;
@@ -176,15 +175,6 @@ const AuctionNuggetInfoPopup = ({
           }}
         >
           {`Recycle Price: ${nuggetPrice}`}
-        </p>
-        <p
-          className="auction-nugget-info-popup-cycle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Cycle: ${nuggetCycle}`}
         </p>
         <p
           className="auction-nugget-info-popup-bid-text"

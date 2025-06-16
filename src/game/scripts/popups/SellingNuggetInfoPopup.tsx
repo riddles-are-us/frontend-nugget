@@ -2,12 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./SellingNuggetInfoPopup.css";
-import {
-  selectUIState,
-  setUIState,
-  TabState,
-  UIStateType,
-} from "../../../data/ui";
+import { setUIState, TabState, UIStateType } from "../../../data/ui";
 import { getAttributeList, getTextShadowStyle } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
@@ -44,7 +39,6 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
     selectNugget(TabState.Selling, nuggetIndex)
   );
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const uIState = useAppSelector(selectUIState);
   const isLoading = useAppSelector(selectIsLoading);
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const userState = useAppSelector(selectUserState);
@@ -53,7 +47,6 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.lastUpdate;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
   const nuggetAskPrice = nuggetData.askprice;
@@ -149,15 +142,6 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           }}
         >
           {`Recycle Price: ${nuggetPrice}`}
-        </p>
-        <p
-          className="selling-nugget-info-popup-cycle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Cycle: ${nuggetCycle}`}
         </p>
         <p
           className="selling-nugget-info-popup-bid-text"

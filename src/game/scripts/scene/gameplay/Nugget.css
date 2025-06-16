@@ -27,7 +27,6 @@
 
 .nugget-title-text,
 .nugget-price-text,
-.nugget-cycle-text,
 .nugget-bid-text,
 .nugget-ask-text,
 .nugget-attributes-text {
@@ -58,20 +57,11 @@
   transform: translate(-50%, -50%);
 }
 
-.nugget-cycle-text {
-  position: absolute;
-  width: 30%;
-  height: 15%;
-  left: 70%;
-  top: 33%;
-  transform: translate(-50%, -50%);
-}
-
 .nugget-bid-text {
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 85%;
+  left: 72%;
   top: 33%;
   transform: translate(-50%, -50%);
 }
@@ -80,8 +70,8 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 85%;
-  top: 23%;
+  left: 91%;
+  top: 33%;
   transform: translate(-50%, -50%);
 }
 

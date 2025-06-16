@@ -3,7 +3,12 @@ import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./LotNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
-import { getAttributeList, getTextShadowStyle } from "../common/Utility";
+import {
+  formatTimeOneDigit,
+  getAttributeList,
+  getIsSettleEnabled,
+  getTextShadowStyle,
+} from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
@@ -53,7 +58,7 @@ const LotNuggetInfoPopup = ({
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.cycle;
+  const nuggetCycle = nuggetData.lastUpdate;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
   const nuggetAskPrice = nuggetData.askprice;
@@ -65,6 +70,14 @@ const LotNuggetInfoPopup = ({
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
+  const isSettleEnabled = getIsSettleEnabled(
+    userState.state.counter,
+    nuggetCycle
+  );
+  const remainSettleTime = formatTimeOneDigit(
+    userState.state.counter,
+    nuggetCycle
+  );
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -273,9 +286,9 @@ const LotNuggetInfoPopup = ({
         </div>
         <div className="lot-nugget-info-popup-settle-button">
           <DefaultButton
-            text={"Settle"}
+            text={isSettleEnabled ? "Settle" : `Settle in ${remainSettleTime}`}
             onClick={onClickSettle}
-            isDisabled={false}
+            isDisabled={!isSettleEnabled}
           />
         </div>
       </div>

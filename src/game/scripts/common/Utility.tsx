@@ -71,3 +71,25 @@ export function isEqual(a: number[], b: number[]) {
   }
   return a.every((item: number, index: number) => item === b[index]);
 }
+
+const MARKET_DEAL_DELAY = (24 * 60 * 60) / 5;
+export function getIsSettleEnabled(
+  counter: number,
+  lastUpdate: number
+): boolean {
+  return counter - lastUpdate >= MARKET_DEAL_DELAY;
+}
+
+export function formatTimeOneDigit(
+  counter: number,
+  lastUpdate: number
+): string {
+  const seconds = (MARKET_DEAL_DELAY + lastUpdate - counter) * 5;
+  if (seconds >= 3600) {
+    const hours = Math.floor(seconds / 3600);
+    return `${hours} hour${hours > 1 ? "s" : ""}`;
+  } else {
+    const minutes = Math.max(Math.floor(seconds / 60), 1);
+    return `${minutes} min`;
+  }
+}

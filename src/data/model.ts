@@ -8,10 +8,10 @@ export interface NuggetData {
   marketid: number;
   attributes: string;
   feature: number;
-  cycle: number;
   sysprice: number;
   askprice: number;
   bid: Bid | null;
+  lastUpdate: number;
 }
 
 export const emptyNuggetData: NuggetData = {
@@ -19,10 +19,10 @@ export const emptyNuggetData: NuggetData = {
   marketid: 0,
   attributes: "",
   feature: 0,
-  cycle: 0,
   sysprice: 0,
   askprice: 0,
   bid: null,
+  lastUpdate: 0,
 };
 
 export interface NuggetTabData {

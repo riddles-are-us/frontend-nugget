@@ -61,6 +61,10 @@ export function getAttributeList(attributes: string, feature: number) {
   }
   return ret;
 }
+export function getIsFullyExplored(attributes: string): boolean {
+  const attrs = decodeAttributes(attributes);
+  return attrs.every((attr) => attr != 0);
+}
 
 export function isEqual(a: number[], b: number[]) {
   if (!Array.isArray(a) || !Array.isArray(b)) {

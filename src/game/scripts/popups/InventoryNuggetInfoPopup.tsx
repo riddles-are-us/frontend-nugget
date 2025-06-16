@@ -70,9 +70,7 @@ const InventoryNuggetInfoPopup = ({
     nuggetData.feature
   );
   const isFullyExplored = getIsFullyExplored(nuggetData.attributes);
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
-    : ["", "", "", ""];
+  const coin = userState.player!.data.balance;
   const playerDataInventoryNuggetIndex = useAppSelector(
     selectPlayerDataInventoryNuggetIndex(
       userState.player!.data.inventory!,
@@ -276,25 +274,23 @@ const InventoryNuggetInfoPopup = ({
           ))}
         </div>
         {!isFullyExplored && (
-          <>
-            <div className="inventory-nugget-info-popup-explore-button">
-              <DefaultButton
-                text={"Explore           "}
-                onClick={onClickExploreNugget}
-                isDisabled={false}
-              />
-              <p
-                className="inventory-nugget-info-popup-coin-text"
-                style={{
-                  fontSize: descriptionFontSize,
-                  ...getTextShadowStyle(descriptionFontSize / 15),
-                }}
-              >
-                {nuggetExplorePrice}
-              </p>
-              <div className="inventory-nugget-info-popup-coin-image" />
-            </div>
-          </>
+          <div className="inventory-nugget-info-popup-explore-button">
+            <DefaultButton
+              text={"Explore           "}
+              onClick={onClickExploreNugget}
+              isDisabled={coin < nuggetExplorePrice}
+            />
+            <p
+              className="inventory-nugget-info-popup-coin-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {nuggetExplorePrice}
+            </p>
+            <div className="inventory-nugget-info-popup-coin-image" />
+          </div>
         )}
         <div className="inventory-nugget-info-popup-list-button">
           <DefaultButton

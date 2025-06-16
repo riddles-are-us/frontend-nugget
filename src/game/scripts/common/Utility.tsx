@@ -1,3 +1,6 @@
+const MARKET_DEAL_DELAY = (24 * 60 * 60) / 5;
+export const PICK_NUGGET_COST = 5000;
+
 export function getTextShadowStyle(size: number, color = "black") {
   return {
     textShadow: ` 
@@ -76,7 +79,6 @@ export function isEqual(a: number[], b: number[]) {
   return a.every((item: number, index: number) => item === b[index]);
 }
 
-const MARKET_DEAL_DELAY = (24 * 60 * 60) / 5;
 export function getIsSettleEnabled(
   counter: number,
   lastUpdate: number

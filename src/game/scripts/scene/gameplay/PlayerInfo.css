@@ -68,3 +68,35 @@
 .player-info-pick-nugget-button {
   top: 73%;
 }
+
+.player-info-pick-nugget-coin-text {
+  position: absolute;
+  width: 20%;
+  height: 45%;
+  left: 83%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  margin: 0px;
+  color: white;
+  font-weight: bold;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.player-info-pick-nugget-coin-image {
+  position: absolute;
+  width: auto;
+  height: 35%;
+  aspect-ratio: 1;
+  left: 66%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  user-select: none;
+}

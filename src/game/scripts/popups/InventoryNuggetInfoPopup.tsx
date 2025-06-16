@@ -59,7 +59,6 @@ const InventoryNuggetInfoPopup = ({
   const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetExplorePrice = Math.floor(nuggetPrice / 4);
   const nuggetAttributeString = getAttributeList(
@@ -95,6 +94,7 @@ const InventoryNuggetInfoPopup = ({
 
   const onClickCancel = () => {
     if (!isLoading) {
+      dispatch(setNuggetsForceUpdate(true));
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
   };
@@ -246,15 +246,6 @@ const InventoryNuggetInfoPopup = ({
         >
           {`Recycle Price: ${nuggetPrice}`}
         </p>
-        <p
-          className="inventory-nugget-info-popup-cycle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Cycle: ${nuggetCycle}`}
-        </p>
         <div className="inventory-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div
@@ -318,8 +309,8 @@ const InventoryNuggetInfoPopup = ({
           title="List"
           description={"Enter the price"}
           min={1}
-          onClickConfirm={onListNugget}
-          onClickCancel={onCancelListNugget}
+          onConfirm={onListNugget}
+          onCancel={onCancelListNugget}
           cost={500}
         />
       )}

@@ -3,7 +3,12 @@ import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./LotNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
-import { getAttributeList, getTextShadowStyle } from "../common/Utility";
+import {
+  formatTimeOneDigit,
+  getAttributeList,
+  getIsSettleEnabled,
+  getTextShadowStyle,
+} from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
@@ -53,7 +58,6 @@ const LotNuggetInfoPopup = ({
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.cycle;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
   const nuggetAskPrice = nuggetData.askprice;
@@ -65,6 +69,14 @@ const LotNuggetInfoPopup = ({
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
+  const isSettleEnabled = getIsSettleEnabled(
+    userState.state.counter,
+    nuggetData.lastUpdate
+  );
+  const remainSettleTime = formatTimeOneDigit(
+    userState.state.counter,
+    nuggetData.lastUpdate
+  );
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -135,7 +147,7 @@ const LotNuggetInfoPopup = ({
     if (!isLoading) {
       dispatch(
         setUIState({
-          type: UIStateType.AuctionNuggetInfoPopup,
+          type: UIStateType.LotNuggetInfoPopup,
           nuggetIndex,
           isShowingBidAmountPopup: false,
         })
@@ -202,15 +214,6 @@ const LotNuggetInfoPopup = ({
           {`Recycle Price: ${nuggetPrice}`}
         </p>
         <p
-          className="lot-nugget-info-popup-cycle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {`Cycle: ${nuggetCycle}`}
-        </p>
-        <p
           className="lot-nugget-info-popup-bid-text"
           style={{
             fontSize: descriptionFontSize,
@@ -273,9 +276,9 @@ const LotNuggetInfoPopup = ({
         </div>
         <div className="lot-nugget-info-popup-settle-button">
           <DefaultButton
-            text={"Settle"}
+            text={isSettleEnabled ? "Settle" : `Settle in ${remainSettleTime}`}
             onClick={onClickSettle}
-            isDisabled={false}
+            isDisabled={!isSettleEnabled}
           />
         </div>
       </div>
@@ -286,10 +289,10 @@ const LotNuggetInfoPopup = ({
           description={`Enter the price (${
             Number(nuggetBidPrice) + 1
           } - ${nuggetAskPrice})`}
-          min={nuggetBidPrice + 1}
+          min={Number(nuggetBidPrice) + 1}
           max={nuggetAskPrice}
-          onClickConfirm={onBidNugget}
-          onClickCancel={onCancelBidNugget}
+          onConfirm={onBidNugget}
+          onCancel={onCancelBidNugget}
         />
       )}
     </div>

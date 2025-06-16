@@ -20,14 +20,12 @@ function decodeNuggets(raws: any): NuggetData[] {
   const commodityList: NuggetData[] = raws.map(
     ({
       attributes,
-      cycle,
       feature,
       id,
       marketid,
       sysprice,
     }: {
       attributes: number;
-      cycle: number;
       feature: number;
       id: number;
       marketid: number;
@@ -37,10 +35,10 @@ function decodeNuggets(raws: any): NuggetData[] {
       marketid: marketid,
       attributes: Number(attributes),
       feature: Number(feature),
-      cycle: Number(cycle),
       sysprice: Number(sysprice ?? 0),
       askprice: 0,
       bid: null,
+      lastUpdate: 0,
     })
   );
 
@@ -55,27 +53,28 @@ function decodeMarkets(raws: any): NuggetData[] {
       marketid,
       bidder,
       object,
+      settleinfo,
     }: {
       askprice: number;
       marketid: number;
       bidder: Bid;
       object: {
         attributes: number;
-        cycle: number;
         feature: number;
         id: number;
         marketid: number;
         sysprice: number;
       };
+      settleinfo: number;
     }) => ({
       id: Number(object.id),
       marketid: Number(marketid),
       attributes: Number(object.attributes),
       feature: Number(object.feature),
-      cycle: Number(object.cycle),
       sysprice: Number(object.sysprice ?? 0),
       askprice: Number(askprice ?? 0),
       bid: bidder,
+      lastUpdate: (Number(settleinfo) - 1) >> 16,
     })
   );
 

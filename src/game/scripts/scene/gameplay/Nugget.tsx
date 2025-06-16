@@ -25,7 +25,7 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
-  const nuggetCycle = nuggetData.cycle;
+  const nuggetCycle = nuggetData.lastUpdate;
   const nuggetLevel = 7 - nuggetData.feature;
   const nuggetBidPrice = nuggetData.bid?.bidprice ?? 0;
   const nuggetAskPrice = nuggetData.askprice;

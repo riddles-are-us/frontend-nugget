@@ -116,7 +116,6 @@ const InventoryNuggetInfoPopup = ({
           const updatedNugget = await updateNuggetAsync(nuggetId);
           dispatch(setNugget(updatedNugget));
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setUIState({ type: UIStateType.Idle }));
           dispatch(setIsLoading(false));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;

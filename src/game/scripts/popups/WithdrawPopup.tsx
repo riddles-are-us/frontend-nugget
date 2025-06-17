@@ -16,7 +16,12 @@ import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { getWithdrawTransactionCommandArray } from "../request";
 import { selectUserState } from "../../../data/state";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  LoadingType,
+  pushError,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/errors";
 
 const WithdrawPopup = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +51,7 @@ const WithdrawPopup = () => {
 
   const onClickConfirm = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.Default));
 
       dispatch(
         sendTransaction({
@@ -60,14 +65,14 @@ const WithdrawPopup = () => {
       ).then((action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("Withdraw successed");
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
 
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "Withdraw Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }

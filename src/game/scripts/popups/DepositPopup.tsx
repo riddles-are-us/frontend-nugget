@@ -13,7 +13,12 @@ import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
 import { AccountSlice } from "zkwasm-minirollup-browser";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  LoadingType,
+  pushError,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/errors";
 
 const DepositPopup = () => {
   const dispatch = useAppDispatch();
@@ -42,7 +47,7 @@ const DepositPopup = () => {
 
   const onClickConfirm = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.Default));
       dispatch(
         AccountSlice.depositAsync({
           tokenIndex: 0,
@@ -52,7 +57,7 @@ const DepositPopup = () => {
         })
       ).then((action) => {
         if (AccountSlice.depositAsync.fulfilled.match(action)) {
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
           console.log("Deposit Success: " + action.payload!.hash);
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (AccountSlice.depositAsync.rejected.match(action)) {
@@ -69,7 +74,7 @@ const DepositPopup = () => {
             dispatch(pushError(message));
             console.error(message);
           }
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }

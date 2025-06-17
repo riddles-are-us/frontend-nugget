@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./WelcomePage.css";
 import background from "../../images/scene/welcome_page/welcome_bg.png";
 import TemplateAdjustableImageTextButton from "../template/TemplateAdjustableImageTextButton";
+import DisclaimerPopup from "../popups/DisclaimerPopup";
 
 interface Props {
   isLogin: boolean;
@@ -40,6 +41,9 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
   return (
     <div className="welcome-page-container">
       <div className="welcome-page-background" />
+      <div className="welcome-page-disclaimer-popup-container">
+        <DisclaimerPopup />
+      </div>
       {isLogin ? (
         <div className="welcome-page-panel-play-button">
           <TemplateAdjustableImageTextButton

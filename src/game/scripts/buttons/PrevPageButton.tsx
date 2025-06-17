@@ -1,5 +1,5 @@
 import normalImage from "../../images/buttons/prev_page_button/prev.png";
-import hoverImage from "../../images/buttons/prev_page_button/prev_hover.png";
+import hoverImage from "../../images/buttons/prev_page_button/prev_hv.png";
 import clickImage from "../../images/buttons/prev_page_button/prev_click.png";
 import ImageButton from "../common/ImageButton";
 
@@ -17,7 +17,7 @@ const PrevPageButton = ({ onClick, isDisabled }: Props) => {
         top: "50%",
         width: "auto",
         height: "100%",
-        aspectRatio: "52 / 45",
+        aspectRatio: "29 / 39",
         transform: "translate(-50%, -50%)",
         margin: "0px",
       }}

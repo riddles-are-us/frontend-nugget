@@ -24,6 +24,17 @@
   user-select: none;
 }
 
+.welcome-page-disclaimer-popup-container {
+  position: absolute;
+  width: 60%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 5 / 3;
+  transform: translate(-50%, -50%);
+  user-select: none;
+}
+
 .welcome-page-panel-connect-wallet-button {
   position: absolute;
   top: 96.5%;

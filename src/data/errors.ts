@@ -1,14 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 
+export enum LoadingType {
+  None,
+  Default,
+  PickNugget,
+  ExploreNugget,
+  ListNugget,
+  RecycleNugget,
+  SettleNugget,
+  BidNugget,
+}
+
 export interface ErrorsState {
   messages: string[];
-  isloading: boolean;
+  loadingType: LoadingType;
 }
 
 const initialState: ErrorsState = {
   messages: [],
-  isloading: false,
+  loadingType: LoadingType.None,
 };
 
 const errorsSlice = createSlice({
@@ -21,13 +32,16 @@ const errorsSlice = createSlice({
     popError: (state) => {
       state.messages.shift();
     },
-    setIsLoading: (state, d: PayloadAction<boolean>) => {
-      state.isloading = d.payload;
+    setLoadingType: (state, d: PayloadAction<LoadingType>) => {
+      state.loadingType = d.payload;
     },
   },
 });
 
-export const selectError = (state: RootState) => state.errors.messages.length > 0 ? state.errors.messages[0] : "";
-export const selectIsLoading = (state: RootState) => state.errors.isloading;
-export const { pushError, popError, setIsLoading } = errorsSlice.actions;
+export const selectError = (state: RootState) =>
+  state.errors.messages.length > 0 ? state.errors.messages[0] : "";
+export const selectIsLoading = (state: RootState) =>
+  state.errors.loadingType != LoadingType.None;
+export const selectLoadingType = (state: RootState) => state.errors.loadingType;
+export const { pushError, popError, setLoadingType } = errorsSlice.actions;
 export default errorsSlice.reducer;

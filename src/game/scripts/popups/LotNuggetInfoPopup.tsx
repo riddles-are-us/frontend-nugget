@@ -18,7 +18,12 @@ import {
   selectNugget,
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  LoadingType,
+  pushError,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/errors";
 import {
   getBidNuggetTransactionCommandArray,
   getSellNuggetTransactionCommandArray,
@@ -115,7 +120,7 @@ const LotNuggetInfoPopup = ({
 
   const onBidNugget = (amount: number) => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.BidNugget));
       dispatch(
         sendTransaction({
           cmd: getBidNuggetTransactionCommandArray(
@@ -131,13 +136,13 @@ const LotNuggetInfoPopup = ({
           dispatch(resetLotNuggetTab());
           dispatch(resetAuctionNuggetTab());
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "bid nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }
@@ -157,7 +162,7 @@ const LotNuggetInfoPopup = ({
 
   const onClickSettle = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.SettleNugget));
       dispatch(
         sendTransaction({
           cmd: getSellNuggetTransactionCommandArray(
@@ -171,13 +176,13 @@ const LotNuggetInfoPopup = ({
           console.log("settle nugget update successed");
           dispatch(resetLotNuggetTab());
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "selling nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }

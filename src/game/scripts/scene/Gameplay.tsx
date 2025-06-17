@@ -9,7 +9,7 @@ import rightTopImage from "../../images/scene/gameplay/right_container/right_top
 import rightMiddleImage from "../../images/scene/gameplay/right_container/right_middle.png";
 import rightBottomImage from "../../images/scene/gameplay/right_container/right_bottom.png";
 import PlayerInfo from "./gameplay/PlayerInfo";
-import avatarImage from "../../images/avatars/Avatar.png";
+import avatarImage from "../../images/avatars/avatar_1.png";
 import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
 import { selectIsLoading } from "../../../data/errors";

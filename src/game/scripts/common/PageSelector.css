@@ -11,7 +11,7 @@
   position: absolute;
   width: auto;
   height: 60%;
-  aspect-ratio: 56/25;
+  aspect-ratio: 111 / 40;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -31,7 +31,6 @@
   width: 56px;
   height: 25px;
   font-family: "AdobeClean";
-  color: #5cffff;
   pointer-events: none;
   user-select: none;
 }
@@ -39,19 +38,19 @@
 .page-selector-prev-button {
   position: absolute;
   top: 50%;
-  left: 15%;
-  height: 40%;
+  left: 10%;
+  height: 60%;
   width: auto;
   aspect-ratio: 52 / 45;
-  transform: translate(-50%, -50%) rotate(-90deg);
+  transform: translate(-50%, -50%);
 }
 
 .page-selector-next-button {
   position: absolute;
   top: 50%;
-  left: 85%;
-  height: 40%;
+  left: 90%;
+  height: 60%;
   width: auto;
   aspect-ratio: 52 / 45;
-  transform: translate(-50%, -50%) rotate(-90deg);
+  transform: translate(-50%, -50%);
 }

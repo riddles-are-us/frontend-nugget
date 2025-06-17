@@ -4,6 +4,7 @@ import midBackground from "../../images/scene/loading_page/progress_background/m
 import rightBackground from "../../images/scene/loading_page/progress_background/right.png";
 import { useEffect, useRef, useState } from "react";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
+import DisclaimerPopup from "../popups/DisclaimerPopup";
 
 interface Props {
   message: string;

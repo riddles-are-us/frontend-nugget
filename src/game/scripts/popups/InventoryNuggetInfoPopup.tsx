@@ -28,7 +28,12 @@ import {
   setNugget,
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  LoadingType,
+  pushError,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/errors";
 import { updateNuggetAsync } from "../express";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
@@ -104,7 +109,7 @@ const InventoryNuggetInfoPopup = ({
 
   const onClickExploreNugget = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.ExploreNugget));
       dispatch(
         sendTransaction({
           cmd: getExploreNuggetTransactionCommandArray(
@@ -119,12 +124,12 @@ const InventoryNuggetInfoPopup = ({
           const updatedNugget = await updateNuggetAsync(nuggetId);
           dispatch(setNugget(updatedNugget));
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "explore nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }
@@ -132,7 +137,7 @@ const InventoryNuggetInfoPopup = ({
 
   const onClickRecycleNugget = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.RecycleNugget));
       dispatch(
         sendTransaction({
           cmd: getRecycleNuggetTransactionCommandArray(
@@ -146,12 +151,12 @@ const InventoryNuggetInfoPopup = ({
           console.log("recycle nugget successed");
           dispatch(setNuggetsForceUpdate(true));
           dispatch(setUIState({ type: UIStateType.Idle }));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "recycle nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }
@@ -171,7 +176,7 @@ const InventoryNuggetInfoPopup = ({
 
   const onListNugget = (amount: number) => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.ListNugget));
       dispatch(
         sendTransaction({
           cmd: getListNuggetTransactionCommandArray(
@@ -189,12 +194,12 @@ const InventoryNuggetInfoPopup = ({
           dispatch(clearInventoryCache());
           dispatch(setNuggetsForceUpdate(true));
           dispatch(setUIState({ type: UIStateType.Idle }));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "list nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }

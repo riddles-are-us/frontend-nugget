@@ -8,7 +8,12 @@ import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  LoadingType,
+  pushError,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/errors";
 import PriceInputPopup from "./PriceInputPopup";
 import {
   getBidNuggetTransactionCommandArray,
@@ -103,7 +108,7 @@ const AuctionNuggetInfoPopup = ({
 
   const onBidNugget = (amount: number) => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.BidNugget));
       dispatch(
         sendTransaction({
           cmd: getBidNuggetTransactionCommandArray(
@@ -119,13 +124,13 @@ const AuctionNuggetInfoPopup = ({
           dispatch(resetLotNuggetTab());
           dispatch(resetAuctionNuggetTab());
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "bid nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }

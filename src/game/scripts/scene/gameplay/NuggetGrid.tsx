@@ -37,7 +37,11 @@ import {
   resetAuctionNuggetTab,
   clearInventoryCache,
 } from "../../../../data/nuggets";
-import { selectIsLoading, setIsLoading } from "../../../../data/errors";
+import {
+  LoadingType,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../../data/errors";
 import Nugget from "./Nugget";
 import DefaultButton from "../../buttons/DefaultButton";
 
@@ -219,7 +223,7 @@ const NuggetGrid = () => {
   };
 
   const updateTabData = async () => {
-    dispatch(setIsLoading(true));
+    dispatch(setLoadingType(LoadingType.Default));
     if (tabState == TabState.Inventory) {
       await updateInventoryPage();
     } else if (tabState == TabState.Selling) {
@@ -238,7 +242,7 @@ const NuggetGrid = () => {
         ELEMENT_PER_REQUEST
       );
     }
-    dispatch(setIsLoading(false));
+    dispatch(setLoadingType(LoadingType.None));
   };
 
   const reloadTabData = async () => {

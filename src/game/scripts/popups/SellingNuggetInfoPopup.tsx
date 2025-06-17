@@ -17,7 +17,12 @@ import {
   getSellNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
-import { pushError, selectIsLoading, setIsLoading } from "../../../data/errors";
+import {
+  LoadingType,
+  pushError,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/errors";
 import { AccountSlice } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
@@ -78,7 +83,7 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
 
   const onClickSell = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.SettleNugget));
       dispatch(
         sendTransaction({
           cmd: getSellNuggetTransactionCommandArray(
@@ -92,13 +97,13 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
           console.log("selling nugget update successed");
           dispatch(resetSellingNuggetTab());
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
           dispatch(setUIState({ type: UIStateType.Idle }));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "selling nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }

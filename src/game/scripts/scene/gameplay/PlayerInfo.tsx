@@ -13,9 +13,10 @@ import { setUIState, UIStateType } from "../../../../data/ui";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import { getCreateNuggetTransactionCommandArray } from "../../request";
 import {
+  LoadingType,
   pushError,
   selectIsLoading,
-  setIsLoading,
+  setLoadingType,
 } from "../../../../data/errors";
 import { setNuggetsForceUpdate } from "../../../../data/nuggets";
 
@@ -58,7 +59,7 @@ const PlayerInfo = () => {
 
   const onClickPickNugget = () => {
     if (!isLoading) {
-      dispatch(setIsLoading(true));
+      dispatch(setLoadingType(LoadingType.PickNugget));
       dispatch(
         sendTransaction({
           cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
@@ -68,12 +69,12 @@ const PlayerInfo = () => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("pick nugget successed");
           dispatch(setNuggetsForceUpdate(true));
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         } else if (sendTransaction.rejected.match(action)) {
           const message = "pick nugget Error: " + action.payload;
           dispatch(pushError(message));
           console.error(message);
-          dispatch(setIsLoading(false));
+          dispatch(setLoadingType(LoadingType.None));
         }
       });
     }

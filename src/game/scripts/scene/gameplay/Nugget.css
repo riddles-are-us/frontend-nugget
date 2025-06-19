@@ -110,3 +110,35 @@
   height: 90%;
   aspect-ratio: 1;
 }
+
+.nugget-tag-container {
+  position: absolute;
+  width: auto;
+  height: 22%;
+  aspect-ratio: 92/26;
+  left: 86.5%;
+  top: 5%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-tag-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.nugget-tag-text {
+  position: absolute;
+  width: 90%;
+  height: 70%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin: 0px;
+  color: white;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}

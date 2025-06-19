@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
+import self_own_tag from "../../images/scene/gameplay/nugget/tag_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./InventoryNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
@@ -65,6 +66,7 @@ const InventoryNuggetInfoPopup = ({
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
+  const [tagFontSize, setTagFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
@@ -74,6 +76,12 @@ const InventoryNuggetInfoPopup = ({
     nuggetData.attributes,
     nuggetData.feature
   );
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
+  const selfOwned =
+    nuggetData.owner[0] == Number(pids[1]) &&
+    nuggetData.owner[1] == Number(pids[2]);
   const isFullyExplored = getIsFullyExplored(nuggetData.attributes);
   const coin = userState.player!.data.balance;
   const playerDataInventoryNuggetIndex = useAppSelector(
@@ -88,6 +96,7 @@ const InventoryNuggetInfoPopup = ({
       setTitleFontSize(containerRef.current.offsetHeight / 10);
       setDescriptionFontSize(containerRef.current.offsetHeight / 13);
       setAttributesFontSize(containerRef.current.offsetHeight / 10);
+      setTagFontSize(containerRef.current.offsetHeight / 13);
     }
   };
 
@@ -121,7 +130,10 @@ const InventoryNuggetInfoPopup = ({
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("explore nugget successed");
-          const updatedNugget = await updateNuggetAsync(nuggetId);
+          const updatedNugget = await updateNuggetAsync(nuggetId, [
+            Number(pids[1]),
+            Number(pids[2]),
+          ]);
           dispatch(setNugget(updatedNugget));
           dispatch(setNuggetsForceUpdate(true));
           dispatch(setLoadingType(LoadingType.None));
@@ -311,6 +323,23 @@ const InventoryNuggetInfoPopup = ({
             isDisabled={false}
           />
         </div>
+        {selfOwned && (
+          <div className="inventory-nugget-info-popup-tag-container">
+            <img
+              className="inventory-nugget-info-popup-tag-image"
+              src={self_own_tag}
+            />
+            <p
+              className="inventory-nugget-info-popup-tag-text"
+              style={{
+                fontSize: tagFontSize,
+                ...getTextShadowStyle(tagFontSize / 15),
+              }}
+            >
+              List by you
+            </p>
+          </div>
+        )}
       </div>
 
       {isShowingListAmountPopup && (

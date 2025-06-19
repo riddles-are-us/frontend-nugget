@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Nugget.css";
 import image from "../../../images/nuggets/image.png";
+import self_own_tag from "../../../images/scene/gameplay/nugget/tag_frame.png";
 import { getAttributeList, getTextShadowStyle } from "../../common/Utility";
 import DefaultButton from "../../buttons/DefaultButton";
 import NuggetLevel from "./NuggetLevel";
 import { NuggetData } from "../../../../data/model";
+import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useAppSelector } from "../../../../app/hooks";
+import { LeHexBN } from "zkwasm-minirollup-rpc";
+import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 interface Props {
   nuggetData: NuggetData;
@@ -19,10 +24,12 @@ const attributeLefts = [
 ];
 
 const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
+  const [tagFontSize, setTagFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetLevel = 7 - nuggetData.feature;
@@ -32,12 +39,19 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
     nuggetData.attributes,
     nuggetData.feature
   );
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
+  const selfOwned =
+    nuggetData.owner[0] == Number(pids[1]) &&
+    nuggetData.owner[1] == Number(pids[2]);
 
   const adjustSize = () => {
     if (containerRef.current) {
       setTitleFontSize(containerRef.current.offsetHeight / 8);
       setDescriptionFontSize(containerRef.current.offsetHeight / 11);
       setAttributesFontSize(containerRef.current.offsetHeight / 10);
+      setTagFontSize(containerRef.current.offsetHeight / 11);
     }
   };
 
@@ -124,6 +138,20 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
             </div>
           ))}
         </div>
+        {selfOwned && (
+          <div className="nugget-tag-container">
+            <img className="nugget-tag-image" src={self_own_tag} />
+            <p
+              className="nugget-tag-text"
+              style={{
+                fontSize: tagFontSize,
+                ...getTextShadowStyle(tagFontSize / 15),
+              }}
+            >
+              List by you
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

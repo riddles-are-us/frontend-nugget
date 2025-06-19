@@ -59,7 +59,9 @@ const DepositPopup = () => {
         if (AccountSlice.depositAsync.fulfilled.match(action)) {
           dispatch(setLoadingType(LoadingType.None));
           console.log("Deposit Success: " + action.payload!.hash);
-          dispatch(setUIState({ type: UIStateType.Idle }));
+          // temporary solution to use the error popup
+          // add another popup later
+          dispatch(pushError("Deposit Success"));
         } else if (AccountSlice.depositAsync.rejected.match(action)) {
           if (action.error.message == null) {
             const message = "Deposit Failed: Unknown Error";

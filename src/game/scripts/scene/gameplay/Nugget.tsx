@@ -15,6 +15,7 @@ interface Props {
   nuggetData: NuggetData;
   onClickMore: () => void;
   showBidPrice: boolean;
+  showTag: boolean;
 }
 
 const attributeLefts = [
@@ -23,7 +24,7 @@ const attributeLefts = [
   0.84, 0.878, 0.914, 0.951,
 ];
 
-const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
+const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
@@ -138,7 +139,7 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
             </div>
           ))}
         </div>
-        {selfOwned && (
+        {showTag && selfOwned && (
           <div className="nugget-tag-container">
             <img className="nugget-tag-image" src={self_own_tag} />
             <p

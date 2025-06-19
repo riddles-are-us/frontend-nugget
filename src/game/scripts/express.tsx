@@ -1,13 +1,6 @@
 import axios from "axios";
 import { fullUrl } from "./request";
-import {
-  Bid,
-  NuggetData,
-  NuggetPageData,
-  NuggetTabData,
-} from "../../data/model";
-import { useAppDispatch } from "../../app/hooks";
-import { setNugget } from "../../data/nuggets";
+import { Bid, NuggetData, NuggetTabData } from "../../data/model";
 
 const instance = axios.create({
   baseURL: fullUrl,
@@ -16,7 +9,7 @@ const instance = axios.create({
   },
 });
 
-function decodeNuggets(raws: any): NuggetData[] {
+function decodeNuggets(raws: any, owner: number[]): NuggetData[] {
   const commodityList: NuggetData[] = raws.map(
     ({
       attributes,
@@ -38,6 +31,7 @@ function decodeNuggets(raws: any): NuggetData[] {
       sysprice: Number(sysprice ?? 0),
       askprice: 0,
       bid: null,
+      owner: owner,
       lastUpdate: 0,
     })
   );
@@ -51,12 +45,14 @@ function decodeMarkets(raws: any): NuggetData[] {
     ({
       askprice,
       marketid,
+      owner,
       bidder,
       object,
       settleinfo,
     }: {
       askprice: number;
       marketid: number;
+      owner: number[];
       bidder: Bid;
       object: {
         attributes: number;
@@ -73,6 +69,7 @@ function decodeMarkets(raws: any): NuggetData[] {
       feature: Number(object.feature),
       sysprice: Number(object.sysprice ?? 0),
       askprice: Number(askprice ?? 0),
+      owner: owner,
       bid: bidder,
       lastUpdate: (Number(settleinfo) - 1) >> 16,
     })
@@ -82,19 +79,22 @@ function decodeMarkets(raws: any): NuggetData[] {
   return commodityList;
 }
 
-export const updateNuggetAsync = async (index: number) => {
+export const updateNuggetAsync = async (index: number, owner: number[]) => {
   const res = await getRequest(`/data/nugget/${index}`);
   const raws = res.data;
   console.log("getNugget ", index, " ", raws);
-  return decodeNuggets(raws)[0];
+  return decodeNuggets(raws, owner)[0];
 };
 
-export const getNuggetsAsync = async (ids: number[]): Promise<NuggetData[]> => {
+export const getNuggetsAsync = async (
+  ids: number[],
+  owner: number[]
+): Promise<NuggetData[]> => {
   const queryString = ids.map((id) => `ids=${id}`).join("&");
   const res = await getRequest(`/data/nuggets?${queryString}`);
   const raws = res.data;
   console.log("getNuggets", raws);
-  return decodeNuggets(raws);
+  return decodeNuggets(raws, owner);
 };
 
 export const getSellingNuggetsAsync = async (

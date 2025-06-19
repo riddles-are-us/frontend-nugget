@@ -266,7 +266,8 @@ const NuggetGrid = () => {
 
   const updateInventoryPage = async () => {
     const allNuggets = await getNuggetsAsync(
-      userState!.player!.data.inventory ?? []
+      userState!.player!.data.inventory ?? [],
+      [Number(pids[1]), Number(pids[2])]
     );
     const inventoryNuggets = allNuggets.filter(
       (nugget) => nugget.marketid == 0

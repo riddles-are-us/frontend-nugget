@@ -10,6 +10,7 @@ export interface NuggetData {
   feature: number;
   sysprice: number;
   askprice: number;
+  owner: number[];
   bid: Bid | null;
   lastUpdate: number;
 }
@@ -21,6 +22,7 @@ export const emptyNuggetData: NuggetData = {
   feature: 0,
   sysprice: 0,
   askprice: 0,
+  owner: [],
   bid: null,
   lastUpdate: 0,
 };

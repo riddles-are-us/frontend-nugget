@@ -228,19 +228,16 @@ const NuggetGrid = () => {
       await updateInventoryPage();
     } else if (tabState == TabState.Selling) {
       await addSellingPage(
-        Math.max(sellingNuggetTab.nuggetCount, 0),
+        sellingNuggetTab.nuggets.length,
         ELEMENT_PER_REQUEST
       );
     } else if (tabState == TabState.Auction) {
       await addAuctionPage(
-        Math.max(auctionNuggetTab.nuggetCount, 0),
+        auctionNuggetTab.nuggets.length,
         ELEMENT_PER_REQUEST
       );
     } else if (tabState == TabState.Lot) {
-      await addLotPage(
-        Math.max(lotNuggetTab.nuggetCount, 0),
-        ELEMENT_PER_REQUEST
-      );
+      await addLotPage(lotNuggetTab.nuggets.length, ELEMENT_PER_REQUEST);
     }
     dispatch(setLoadingType(LoadingType.None));
   };

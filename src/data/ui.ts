@@ -16,18 +16,30 @@ export enum UIStateType {
   LotNuggetInfoPopup,
 }
 
-export type UIState = 
-  { type: UIStateType.Idle} |
-  { type: UIStateType.WelcomePage} |
-  { type: UIStateType.TemplatePopup} |
-  { type: UIStateType.WithdrawPopup} |
-  { type: UIStateType.DepositPopup} |
-  { type: UIStateType.ConfirmPopup} |
-  { type: UIStateType.ErrorPopup} |
-  { type: UIStateType.InventoryNuggetInfoPopup; nuggetIndex: number; isShowingListAmountPopup: boolean} |
-  { type: UIStateType.SellingNuggetInfoPopup; nuggetIndex: number; } |
-  { type: UIStateType.AuctionNuggetInfoPopup; nuggetIndex: number; isShowingBidAmountPopup: boolean; } |
-  { type: UIStateType.LotNuggetInfoPopup; nuggetIndex: number;  isShowingBidAmountPopup: boolean;};
+export type UIState =
+  | { type: UIStateType.Idle }
+  | { type: UIStateType.WelcomePage }
+  | { type: UIStateType.TemplatePopup }
+  | { type: UIStateType.WithdrawPopup }
+  | { type: UIStateType.DepositPopup }
+  | { type: UIStateType.ConfirmPopup; title: string; description: string }
+  | { type: UIStateType.ErrorPopup }
+  | {
+      type: UIStateType.InventoryNuggetInfoPopup;
+      nuggetIndex: number;
+      isShowingListAmountPopup: boolean;
+    }
+  | { type: UIStateType.SellingNuggetInfoPopup; nuggetIndex: number }
+  | {
+      type: UIStateType.AuctionNuggetInfoPopup;
+      nuggetIndex: number;
+      isShowingBidAmountPopup: boolean;
+    }
+  | {
+      type: UIStateType.LotNuggetInfoPopup;
+      nuggetIndex: number;
+      isShowingBidAmountPopup: boolean;
+    };
 
 export enum TabState {
   Inventory,
@@ -43,7 +55,7 @@ export interface PropertiesUIState {
 }
 
 const initialState: PropertiesUIState = {
-  uiState: {type: UIStateType.WelcomePage},
+  uiState: { type: UIStateType.WelcomePage },
   tabState: TabState.Inventory,
   lastError: null,
 };

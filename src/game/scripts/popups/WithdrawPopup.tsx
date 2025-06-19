@@ -66,10 +66,13 @@ const WithdrawPopup = () => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("Withdraw successed");
           dispatch(setLoadingType(LoadingType.None));
-
-          // temporary solution to use the error popup
-          // add another popup later
-          dispatch(pushError("Withdraw Success"));
+          dispatch(
+            setUIState({
+              type: UIStateType.ConfirmPopup,
+              title: "Withdraw Success",
+              description: "",
+            })
+          );
         } else if (sendTransaction.rejected.match(action)) {
           const message = "Withdraw Error: " + action.payload;
           dispatch(pushError(message));

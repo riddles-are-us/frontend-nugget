@@ -9,6 +9,7 @@ import AuctionNuggetInfoPopup from "../popups/AuctionNuggetInfoPopup";
 import ErrorPopup from "../popups/ErrorPopup";
 import { selectError } from "../../../data/errors";
 import SellingNuggetInfoPopup from "../popups/SellingNuggetInfoPopup";
+import ConfirmPopup from "../popups/ConfirmPopup";
 
 const Popups = () => {
   const uIState = useAppSelector(selectUIState);
@@ -18,6 +19,9 @@ const Popups = () => {
     <>
       {uIState.type == UIStateType.DepositPopup && <DepositPopup />}
       {uIState.type == UIStateType.WithdrawPopup && <WithdrawPopup />}
+      {uIState.type == UIStateType.ConfirmPopup && (
+        <ConfirmPopup title={uIState.title} description={uIState.description} />
+      )}
       {uIState.type == UIStateType.InventoryNuggetInfoPopup && (
         <InventoryNuggetInfoPopup
           nuggetIndex={uIState.nuggetIndex}

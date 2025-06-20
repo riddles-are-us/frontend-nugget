@@ -4,9 +4,12 @@ import self_own_tag from "../../images/scene/gameplay/nugget/tag_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./AuctionNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
-import { getAttributeList, getTextShadowStyle } from "../common/Utility";
+import {
+  getAttributeList,
+  getNuggetImage,
+  getTextShadowStyle,
+} from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
-import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import {
@@ -161,7 +164,10 @@ const AuctionNuggetInfoPopup = ({
         ref={containerRef}
         className="auction-nugget-info-popup-main-container"
       >
-        <img src={image} className="auction-nugget-info-popup-avatar-image" />
+        <img
+          src={getNuggetImage(nuggetLevel)}
+          className="auction-nugget-info-popup-avatar-image"
+        />
         <img
           src={background}
           className="auction-nugget-info-popup-main-background"

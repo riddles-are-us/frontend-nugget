@@ -6,10 +6,10 @@ import { setUIState, TabState, UIStateType } from "../../../data/ui";
 import {
   getAttributeList,
   getIsFullyExplored,
+  getNuggetImage,
   getTextShadowStyle,
 } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
-import image from "../../images/nuggets/image.png";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import {
@@ -235,7 +235,10 @@ const InventoryNuggetInfoPopup = ({
         ref={containerRef}
         className="inventory-nugget-info-popup-main-container"
       >
-        <img src={image} className="inventory-nugget-info-popup-avatar-image" />
+        <img
+          src={getNuggetImage(nuggetLevel)}
+          className="inventory-nugget-info-popup-avatar-image"
+        />
         <img
           src={background}
           className="inventory-nugget-info-popup-main-background"

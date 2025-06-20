@@ -1,3 +1,34 @@
+import nugget_image_1 from "../../images/nuggets/1.png";
+import nugget_image_2 from "../../images/nuggets/2.png";
+import nugget_image_3 from "../../images/nuggets/3.png";
+import nugget_image_4 from "../../images/nuggets/4.png";
+import nugget_image_5 from "../../images/nuggets/5.png";
+import nugget_image_6 from "../../images/nuggets/6.png";
+import nugget_image_7 from "../../images/nuggets/7.png";
+
+export function getNuggetImage(level: number) {
+  switch (level) {
+    case 0:
+      return nugget_image_1;
+    case 1:
+      return nugget_image_1;
+    case 2:
+      return nugget_image_2;
+    case 3:
+      return nugget_image_3;
+    case 4:
+      return nugget_image_4;
+    case 5:
+      return nugget_image_5;
+    case 6:
+      return nugget_image_6;
+    case 7:
+      return nugget_image_7;
+    default:
+      return nugget_image_1;
+  }
+}
+
 const MARKET_DEAL_DELAY = (24 * 60 * 60) / 5;
 export const PICK_NUGGET_COST = 5000;
 

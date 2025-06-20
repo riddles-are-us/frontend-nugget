@@ -3,9 +3,12 @@ import background from "../../images/popups/pop_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./SellingNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
-import { getAttributeList, getTextShadowStyle } from "../common/Utility";
+import {
+  getAttributeList,
+  getNuggetImage,
+  getTextShadowStyle,
+} from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
-import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import {
   resetSellingNuggetTab,
@@ -119,7 +122,10 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
         ref={containerRef}
         className="selling-nugget-info-popup-main-container"
       >
-        <img src={image} className="selling-nugget-info-popup-avatar-image" />
+        <img
+          src={getNuggetImage(nuggetLevel)}
+          className="selling-nugget-info-popup-avatar-image"
+        />
         <img
           src={background}
           className="selling-nugget-info-popup-main-background"

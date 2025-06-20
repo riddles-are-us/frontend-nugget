@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Nugget.css";
-import image from "../../../images/nuggets/image.png";
 import self_own_tag from "../../../images/scene/gameplay/nugget/tag_frame.png";
-import { getAttributeList, getTextShadowStyle } from "../../common/Utility";
+import {
+  getAttributeList,
+  getNuggetImage,
+  getTextShadowStyle,
+} from "../../common/Utility";
 import DefaultButton from "../../buttons/DefaultButton";
 import NuggetLevel from "./NuggetLevel";
 import { NuggetData } from "../../../../data/model";
@@ -67,7 +70,7 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
 
   return (
     <div ref={containerRef} className="nugget-container">
-      <img className="nugget-avatar-image" src={image} />
+      <img className="nugget-avatar-image" src={getNuggetImage(nuggetLevel)} />
       <div className="nugget-margin-container">
         <p
           className="nugget-title-text"

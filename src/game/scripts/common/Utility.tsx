@@ -5,25 +5,26 @@ import nugget_image_4 from "../../images/nuggets/4.png";
 import nugget_image_5 from "../../images/nuggets/5.png";
 import nugget_image_6 from "../../images/nuggets/6.png";
 import nugget_image_7 from "../../images/nuggets/7.png";
+import nugget_image_8 from "../../images/nuggets/8.png";
 
 export function getNuggetImage(level: number) {
   switch (level) {
     case 0:
       return nugget_image_1;
     case 1:
-      return nugget_image_1;
-    case 2:
       return nugget_image_2;
-    case 3:
+    case 2:
       return nugget_image_3;
-    case 4:
+    case 3:
       return nugget_image_4;
-    case 5:
+    case 4:
       return nugget_image_5;
-    case 6:
+    case 5:
       return nugget_image_6;
-    case 7:
+    case 6:
       return nugget_image_7;
+    case 7:
+      return nugget_image_8;
     default:
       return nugget_image_1;
   }

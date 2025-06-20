@@ -141,6 +141,7 @@ const NuggetGrid = () => {
               nuggetData={nuggetData}
               onClickMore={() => onClickInventoryMore(index)}
               showBidPrice={false}
+              showTag={false}
             />
           ))
       );
@@ -157,6 +158,7 @@ const NuggetGrid = () => {
               nuggetData={nuggetData}
               onClickMore={() => onClickSellingMore(index)}
               showBidPrice={true}
+              showTag={false}
             />
           ))
       );
@@ -174,6 +176,7 @@ const NuggetGrid = () => {
               nuggetData={nuggetData}
               onClickMore={() => onClickMarketMore(index)}
               showBidPrice={true}
+              showTag={true}
             />
           ))
       );
@@ -190,6 +193,7 @@ const NuggetGrid = () => {
               nuggetData={nuggetData}
               onClickMore={() => onClickBidMore(index)}
               showBidPrice={true}
+              showTag={false}
             />
           ))
       );

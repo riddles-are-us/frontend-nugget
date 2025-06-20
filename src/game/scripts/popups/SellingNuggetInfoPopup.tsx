@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/pop_frame.png";
-import self_own_tag from "../../images/scene/gameplay/nugget/tag_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./SellingNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
@@ -51,7 +50,6 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
-  const [tagFontSize, setTagFontSize] = useState<number>(0);
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetLevel = 7 - nuggetData.feature;
@@ -62,19 +60,12 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
     nuggetData.attributes,
     nuggetData.feature
   );
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
-    : ["", "", "", ""];
-  const selfOwned =
-    nuggetData.owner[0] == Number(pids[1]) &&
-    nuggetData.owner[1] == Number(pids[2]);
 
   const adjustSize = () => {
     if (containerRef.current) {
       setTitleFontSize(containerRef.current.offsetHeight / 10);
       setDescriptionFontSize(containerRef.current.offsetHeight / 13);
       setAttributesFontSize(containerRef.current.offsetHeight / 10);
-      setTagFontSize(containerRef.current.offsetHeight / 13);
     }
   };
 
@@ -215,23 +206,6 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             isDisabled={false}
           />
         </div>
-        {selfOwned && (
-          <div className="inventory-nugget-info-popup-tag-container">
-            <img
-              className="inventory-nugget-info-popup-tag-image"
-              src={self_own_tag}
-            />
-            <p
-              className="inventory-nugget-info-popup-tag-text"
-              style={{
-                fontSize: tagFontSize,
-                ...getTextShadowStyle(tagFontSize / 15),
-              }}
-            >
-              List by you
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );

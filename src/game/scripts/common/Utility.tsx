@@ -33,7 +33,7 @@ export function getNuggetImage(level: number) {
 const MARKET_DEAL_DELAY = (24 * 60 * 60) / 5;
 export const PICK_NUGGET_COST = 5000;
 
-export function getTextShadowStyle(size: number, color = "black") {
+export function getTextShadowStyle(size: number, color = "#3D3C3B") {
   return {
     textShadow: ` 
     -${size}px -${size}px 0 ${color}, 

@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Nugget.css";
-import image from "../../../images/nuggets/image.png";
 import self_own_tag from "../../../images/scene/gameplay/nugget/tag_frame.png";
-import { getAttributeList, getTextShadowStyle } from "../../common/Utility";
+import {
+  getAttributeList,
+  getNuggetImage,
+  getTextShadowStyle,
+} from "../../common/Utility";
 import DefaultButton from "../../buttons/DefaultButton";
 import NuggetLevel from "./NuggetLevel";
 import { NuggetData } from "../../../../data/model";
@@ -15,6 +18,7 @@ interface Props {
   nuggetData: NuggetData;
   onClickMore: () => void;
   showBidPrice: boolean;
+  showTag: boolean;
 }
 
 const attributeLefts = [
@@ -23,7 +27,7 @@ const attributeLefts = [
   0.84, 0.878, 0.914, 0.951,
 ];
 
-const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
+const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
@@ -66,7 +70,7 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
 
   return (
     <div ref={containerRef} className="nugget-container">
-      <img className="nugget-avatar-image" src={image} />
+      <img className="nugget-avatar-image" src={getNuggetImage(nuggetLevel)} />
       <div className="nugget-margin-container">
         <p
           className="nugget-title-text"
@@ -138,7 +142,7 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice }: Props) => {
             </div>
           ))}
         </div>
-        {selfOwned && (
+        {showTag && selfOwned && (
           <div className="nugget-tag-container">
             <img className="nugget-tag-image" src={self_own_tag} />
             <p

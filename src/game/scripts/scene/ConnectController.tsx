@@ -101,7 +101,7 @@ export function ConnectController({
   const onLogin = () => {
     if (!queryingLogin) {
       dispatch(
-        AccountSlice.loginL2AccountAsync("ZKWASM-BEAT")
+        AccountSlice.loginL2AccountAsync("0xSpaceNugget")
       ); /* create player */
       setQueryingLogin(true);
     }

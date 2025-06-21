@@ -7,10 +7,10 @@ import {
   formatTimeOneDigit,
   getAttributeList,
   getIsSettleEnabled,
+  getNuggetImage,
   getTextShadowStyle,
 } from "../common/Utility";
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
-import image from "../../images/nuggets/image.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import {
   resetAuctionNuggetTab,
@@ -192,7 +192,10 @@ const LotNuggetInfoPopup = ({
     <div className="lot-nugget-info-popup-container">
       <div onClick={onClickCancel} className="lot-nugget-info-popup-mask" />
       <div ref={containerRef} className="lot-nugget-info-popup-main-container">
-        <img src={image} className="lot-nugget-info-popup-avatar-image" />
+        <img
+          src={getNuggetImage(nuggetLevel)}
+          className="lot-nugget-info-popup-avatar-image"
+        />
         <img
           src={background}
           className="lot-nugget-info-popup-main-background"

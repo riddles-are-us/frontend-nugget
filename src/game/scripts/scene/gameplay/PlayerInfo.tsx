@@ -12,6 +12,9 @@ import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import { getCreateNuggetTransactionCommandArray } from "../../request";
+import treasure_image from "../../../images/scene/gameplay/top_container/treasure.png";
+import cash_image from "../../../images/scene/gameplay/top_container/cash.png";
+import available_image from "../../../images/scene/gameplay/top_container/available.png";
 import {
   LoadingType,
   pushError,
@@ -134,7 +137,7 @@ const PlayerInfo = () => {
         >
           {total}
         </p>
-        <div className="player-info-title-value-image" />
+        <img className="player-info-title-value-image" src={treasure_image} />
       </div>
       <div className="player-info-cash-container">
         <p
@@ -155,7 +158,7 @@ const PlayerInfo = () => {
         >
           {cash}
         </p>
-        <div className="player-info-title-value-image" />
+        <img className="player-info-title-value-image" src={cash_image} />
       </div>
       <div className="player-info-available-container">
         <p
@@ -176,7 +179,7 @@ const PlayerInfo = () => {
         >
           {treasure}
         </p>
-        <div className="player-info-title-value-image" />
+        <img className="player-info-title-value-image" src={available_image} />
       </div>
       <div className="player-info-deposit-button">
         <DefaultButton

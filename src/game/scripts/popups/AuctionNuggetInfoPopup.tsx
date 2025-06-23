@@ -5,7 +5,9 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./AuctionNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
 import {
+  formatTimeOneDigit,
   getAttributeList,
+  getIsSettleEnabled,
   getNuggetImage,
   getTextShadowStyle,
 } from "../common/Utility";
@@ -75,6 +77,14 @@ const AuctionNuggetInfoPopup = ({
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
+  const isSettleEnabled = getIsSettleEnabled(
+    userState.state.counter,
+    nuggetData.lastUpdate
+  );
+  const remainSettleTime = formatTimeOneDigit(
+    userState.state.counter,
+    nuggetData.lastUpdate
+  );
   const selfOwned =
     nuggetData.owner[0] == Number(pids[1]) &&
     nuggetData.owner[1] == Number(pids[2]);
@@ -222,6 +232,15 @@ const AuctionNuggetInfoPopup = ({
             {`Bidder: ${nuggetBidderId}`}
           </p>
         )}
+        <p
+          className="auction-nugget-info-popup-settle-text"
+          style={{
+            fontSize: descriptionFontSize,
+            ...getTextShadowStyle(descriptionFontSize / 15),
+          }}
+        >
+          {isSettleEnabled ? "Can be settled" : `Settle in ${remainSettleTime}`}
+        </p>
         <div className="auction-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div

@@ -5,7 +5,10 @@
 }
 
 .player-info-player-id-text,
-.player-info-coin-text {
+.player-info-player-id-value-text,
+.player-info-coin-text,
+.player-info-title-value-title-text,
+.player-info-title-value-value-text {
   margin: 0px;
   color: white;
   font-weight: bold;
@@ -20,7 +23,16 @@
   width: 40%;
   height: 20%;
   left: 45%;
-  top: 35%;
+  top: 28%;
+  transform: translate(-50%, -50%);
+}
+
+.player-info-player-id-value-text {
+  position: absolute;
+  width: 40%;
+  height: 20%;
+  left: 45%;
+  top: 45%;
   transform: translate(-50%, -50%);
 }
 
@@ -29,7 +41,7 @@
   width: 40%;
   height: 20%;
   left: 49%;
-  top: 68%;
+  top: 73%;
   transform: translate(-50%, -50%);
 }
 
@@ -39,7 +51,66 @@
   height: 15%;
   aspect-ratio: 1;
   left: 26%;
-  top: 65%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.player-info-treasure-container {
+  position: absolute;
+  width: 22%;
+  height: 20%;
+  left: 58%;
+  top: 28%;
+  transform: translate(-50%, -50%);
+}
+
+.player-info-cash-container {
+  position: absolute;
+  width: 22%;
+  height: 20%;
+  left: 58%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.player-info-available-container {
+  position: absolute;
+  width: 22%;
+  height: 20%;
+  left: 58%;
+  top: 72%;
+  transform: translate(-50%, -50%);
+}
+
+.player-info-title-value-title-text {
+  position: absolute;
+  width: 90%;
+  height: 40%;
+  left: 65%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+
+.player-info-title-value-value-text {
+  position: absolute;
+  width: 90%;
+  height: 40%;
+  left: 65%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+}
+
+.player-info-title-value-image {
+  position: absolute;
+  width: auto;
+  height: 80%;
+  aspect-ratio: 1;
+  left: 10%;
+  top: 50%;
   transform: translate(-50%, -50%);
   background-image: url("../../../images/scene/gameplay/top_container/coin.png");
   background-size: contain;
@@ -93,10 +164,6 @@
   left: 66%;
   top: 53%;
   transform: translate(-50%, -50%);
-  background-image: url("../../../images/scene/gameplay/top_container/coin.png");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
   pointer-events: none;
   user-select: none;
 }

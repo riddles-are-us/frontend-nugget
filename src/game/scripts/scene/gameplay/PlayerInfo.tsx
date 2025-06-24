@@ -12,6 +12,9 @@ import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
 import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import { getCreateNuggetTransactionCommandArray } from "../../request";
+import treasure_image from "../../../images/scene/gameplay/top_container/treasure.png";
+import cash_image from "../../../images/scene/gameplay/top_container/cash.png";
+import available_image from "../../../images/scene/gameplay/top_container/available.png";
 import {
   LoadingType,
   pushError,
@@ -26,9 +29,13 @@ const PlayerInfo = () => {
   const playerId = addressAbbreviation("0x" + l2account!.pubkey, 5);
   const userState = useAppSelector(selectUserState);
   const coin = userState.player!.data.balance;
+  const cash = userState.state!.cash;
+  const total = userState.state!.total;
+  const treasure = userState.state!.treasure;
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
+  const [treasureFontSize, setTreasureFontSize] = useState<number>(0);
   const [pickNuggetCoinFontSize, setPickNuggetCoinFontSize] =
     useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
@@ -37,6 +44,7 @@ const PlayerInfo = () => {
     if (containerRef.current) {
       setTitleFontSize(containerRef.current.offsetHeight / 6);
       setMoneyFontSize(containerRef.current.offsetHeight / 8);
+      setTreasureFontSize(containerRef.current.offsetHeight / 11);
       setPickNuggetCoinFontSize(containerRef.current.offsetHeight / 12);
     }
   };
@@ -89,7 +97,16 @@ const PlayerInfo = () => {
           ...getTextShadowStyle(titleFontSize / 15),
         }}
       >
-        Player ID: {playerId}
+        Player ID:
+      </p>
+      <p
+        className="player-info-player-id-value-text"
+        style={{
+          fontSize: titleFontSize,
+          ...getTextShadowStyle(titleFontSize / 15),
+        }}
+      >
+        {playerId}
       </p>
       <p
         className="player-info-coin-text"
@@ -101,6 +118,69 @@ const PlayerInfo = () => {
         {coin}
       </p>
       <div className="player-info-coin-image" />
+      <div className="player-info-treasure-container">
+        <p
+          className="player-info-title-value-title-text"
+          style={{
+            fontSize: treasureFontSize,
+            ...getTextShadowStyle(treasureFontSize / 15),
+          }}
+        >
+          Current Treasure:
+        </p>
+        <p
+          className="player-info-title-value-value-text"
+          style={{
+            fontSize: treasureFontSize,
+            ...getTextShadowStyle(treasureFontSize / 15),
+          }}
+        >
+          {total}
+        </p>
+        <img className="player-info-title-value-image" src={treasure_image} />
+      </div>
+      <div className="player-info-cash-container">
+        <p
+          className="player-info-title-value-title-text"
+          style={{
+            fontSize: treasureFontSize,
+            ...getTextShadowStyle(treasureFontSize / 15),
+          }}
+        >
+          Current Cash:
+        </p>
+        <p
+          className="player-info-title-value-value-text"
+          style={{
+            fontSize: treasureFontSize,
+            ...getTextShadowStyle(treasureFontSize / 15),
+          }}
+        >
+          {cash}
+        </p>
+        <img className="player-info-title-value-image" src={cash_image} />
+      </div>
+      <div className="player-info-available-container">
+        <p
+          className="player-info-title-value-title-text"
+          style={{
+            fontSize: treasureFontSize,
+            ...getTextShadowStyle(treasureFontSize / 15),
+          }}
+        >
+          Undestributed Treasure:
+        </p>
+        <p
+          className="player-info-title-value-value-text"
+          style={{
+            fontSize: treasureFontSize,
+            ...getTextShadowStyle(treasureFontSize / 15),
+          }}
+        >
+          {treasure}
+        </p>
+        <img className="player-info-title-value-image" src={available_image} />
+      </div>
       <div className="player-info-deposit-button">
         <DefaultButton
           text={"Deposit"}

@@ -1,6 +1,6 @@
 import normalImage from "../../images/buttons/rank/rank.png";
-// import hoverImage from "../../images/buttons/rank/rank_hv.png";
-// import clickImage from "../../images/buttons/rank/rank_click.png";
+import hoverImage from "../../images/buttons/rank/rank_hv.png";
+import clickImage from "../../images/buttons/rank/rank_click.png";
 import ImageButton from "../common/ImageButton";
 
 interface Props {
@@ -26,9 +26,9 @@ const RankButton = ({ onClick, isDisabled }: Props) => {
         onClick={onClick}
         isDisabled={isDisabled}
         defaultImagePath={normalImage}
-        hoverImagePath={normalImage}
-        clickedImagePath={normalImage}
-        disabledImagePath={normalImage}
+        hoverImagePath={hoverImage}
+        clickedImagePath={clickImage}
+        disabledImagePath={clickImage}
       />
     </div>
   );

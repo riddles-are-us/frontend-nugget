@@ -29,9 +29,9 @@ const PlayerInfo = () => {
   const playerId = addressAbbreviation("0x" + l2account!.pubkey, 5);
   const userState = useAppSelector(selectUserState);
   const coin = userState.player!.data.balance;
-  const cash = userState.state!.cash;
-  const total = userState.state!.total;
   const treasure = userState.state!.treasure;
+  const cash = userState.state!.cash;
+  const available = treasure - cash;
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
@@ -135,7 +135,7 @@ const PlayerInfo = () => {
             ...getTextShadowStyle(treasureFontSize / 15),
           }}
         >
-          {total}
+          {treasure}
         </p>
         <img className="player-info-title-value-image" src={treasure_image} />
       </div>
@@ -177,7 +177,7 @@ const PlayerInfo = () => {
             ...getTextShadowStyle(treasureFontSize / 15),
           }}
         >
-          {treasure}
+          {available}
         </p>
         <img className="player-info-title-value-image" src={available_image} />
       </div>

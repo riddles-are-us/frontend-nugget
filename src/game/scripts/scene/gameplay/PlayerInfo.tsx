@@ -22,6 +22,7 @@ import {
   setLoadingType,
 } from "../../../../data/errors";
 import { setNuggetsForceUpdate } from "../../../../data/nuggets";
+import RankButton from "../../buttons/RankButton";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -88,6 +89,10 @@ const PlayerInfo = () => {
     }
   };
 
+  const onClickRank = () => {
+    /* */
+  };
+
   return (
     <div ref={containerRef} className="player-info-container">
       <p
@@ -118,6 +123,9 @@ const PlayerInfo = () => {
         {coin}
       </p>
       <div className="player-info-coin-image" />
+      <div className="player-info-rank-button">
+        <RankButton onClick={onClickRank} isDisabled={false} />
+      </div>
       <div className="player-info-treasure-container">
         <p
           className="player-info-title-value-title-text"

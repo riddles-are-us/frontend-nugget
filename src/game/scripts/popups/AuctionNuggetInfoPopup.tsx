@@ -77,6 +77,7 @@ const AuctionNuggetInfoPopup = ({
   const pids = l2account?.pubkey
     ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
     : ["", "", "", ""];
+  const hasBidden = nuggetData.lastUpdate >= 0;
   const isSettleEnabled = getIsSettleEnabled(
     userState.state.counter,
     nuggetData.lastUpdate
@@ -232,15 +233,19 @@ const AuctionNuggetInfoPopup = ({
             {`Bidder: ${nuggetBidderId}`}
           </p>
         )}
-        <p
-          className="auction-nugget-info-popup-settle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {isSettleEnabled ? "Can be settled" : `Settle in ${remainSettleTime}`}
-        </p>
+        {hasBidden && (
+          <p
+            className="auction-nugget-info-popup-settle-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {isSettleEnabled
+              ? "Can be settled"
+              : `Settle in ${remainSettleTime}`}
+          </p>
+        )}
         <div className="auction-nugget-info-popup-levels-container">
           {Array.from({ length: 7 }).map((_, index) => (
             <div

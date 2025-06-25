@@ -65,6 +65,7 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
     nuggetData.attributes,
     nuggetData.feature
   );
+  const hasBidden = nuggetData.lastUpdate >= 0;
   const isSettleEnabled = getIsSettleEnabled(
     userState.state.counter,
     nuggetData.lastUpdate
@@ -215,15 +216,19 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             </p>
           ))}
         </div>
-        <p
-          className="selling-nugget-info-popup-settle-text"
-          style={{
-            fontSize: descriptionFontSize,
-            ...getTextShadowStyle(descriptionFontSize / 15),
-          }}
-        >
-          {isSettleEnabled ? "Can be settled" : `Settle in ${remainSettleTime}`}
-        </p>
+        {hasBidden && (
+          <p
+            className="auction-nugget-info-popup-settle-text"
+            style={{
+              fontSize: descriptionFontSize,
+              ...getTextShadowStyle(descriptionFontSize / 15),
+            }}
+          >
+            {isSettleEnabled
+              ? "Can be settled"
+              : `Settle in ${remainSettleTime}`}
+          </p>
+        )}
         <div className="selling-nugget-info-popup-bid-button">
           <DefaultButton
             text={"Sell"}

@@ -1,20 +1,14 @@
+import normalImage from "../../images/buttons/rank/rank.png";
+import hoverImage from "../../images/buttons/rank/rank_hv.png";
+import clickImage from "../../images/buttons/rank/rank_click.png";
 import ImageButton from "../common/ImageButton";
 
 interface Props {
   onClick: () => void;
   isDisabled: boolean;
-  normalImage: string;
-  hoverImage: string;
-  clickImage: string;
 }
 
-const PrevPageButton = ({
-  onClick,
-  isDisabled,
-  normalImage,
-  hoverImage,
-  clickImage,
-}: Props) => {
+const RankButton = ({ onClick, isDisabled }: Props) => {
   return (
     <div
       style={{
@@ -23,7 +17,7 @@ const PrevPageButton = ({
         top: "50%",
         width: "auto",
         height: "100%",
-        aspectRatio: "29 / 39",
+        aspectRatio: "24 / 23",
         transform: "translate(-50%, -50%)",
         margin: "0px",
       }}
@@ -40,4 +34,4 @@ const PrevPageButton = ({
   );
 };
 
-export default PrevPageButton;
+export default RankButton;

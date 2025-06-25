@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import number_display from "../../images/common/number_frame.png";
 import "./PageSelector.css";
 import NextPageButton from "../buttons/NextPageButton";
 import PrevPageButton from "../buttons/PrevPageButton";
@@ -7,6 +6,13 @@ import PrevPageButton from "../buttons/PrevPageButton";
 interface Props {
   currentPage: number;
   totalPage: number;
+  nextPageNormalImage: string;
+  nextPageHoverImage: string;
+  nextPageClickImage: string;
+  prevPageNormalImage: string;
+  prevPageHoverImage: string;
+  prevPageClickImage: string;
+  pageSelectorFrame: string;
   onClickPrevPageButton: () => void;
   onClickNextPageButton: () => void;
 }
@@ -14,6 +20,13 @@ interface Props {
 const PageSelector = ({
   currentPage,
   totalPage,
+  nextPageNormalImage,
+  nextPageHoverImage,
+  nextPageClickImage,
+  prevPageNormalImage,
+  prevPageHoverImage,
+  prevPageClickImage,
+  pageSelectorFrame,
   onClickPrevPageButton,
   onClickNextPageButton,
 }: Props) => {
@@ -42,11 +55,14 @@ const PageSelector = ({
       <div className="page-selector-prev-button">
         <PrevPageButton
           isDisabled={!enablePrevPageButton}
+          normalImage={prevPageNormalImage}
+          hoverImage={prevPageHoverImage}
+          clickImage={prevPageClickImage}
           onClick={onClickPrevPageButton}
         />
       </div>
       <img
-        src={number_display}
+        src={pageSelectorFrame}
         className="page-selector-page-number-background"
       ></img>
 
@@ -57,6 +73,9 @@ const PageSelector = ({
       <div className="page-selector-next-button">
         <NextPageButton
           isDisabled={!enableNextPageButton}
+          normalImage={nextPageNormalImage}
+          hoverImage={nextPageHoverImage}
+          clickImage={nextPageClickImage}
           onClick={onClickNextPageButton}
         />
       </div>

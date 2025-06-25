@@ -19,6 +19,7 @@ export interface NuggetsState {
   sellingNuggetTab: NuggetTabData;
   auctionNuggetTab: NuggetTabData;
   lotNuggetTab: NuggetTabData;
+  rankNuggetTab: NuggetTabData;
   forceUpdate: boolean;
 }
 
@@ -29,6 +30,8 @@ const initialState: NuggetsState = {
   sellingNuggetTab: emptyNuggetTabData,
   auctionNuggetTab: emptyNuggetTabData,
   lotNuggetTab: emptyNuggetTabData,
+  rankNuggetTab: emptyNuggetTabData,
+
   forceUpdate: false,
 };
 
@@ -71,6 +74,14 @@ const nuggetsSlice = createSlice({
       state.lotNuggetTab.nuggets.push(...d.payload.nuggets);
       state.lotNuggetTab.nuggetCount = d.payload.nuggetCount;
     },
+    resetRankNuggetTab: (state) => {
+      state.rankNuggetTab = emptyNuggetTabData;
+    },
+    addRankNuggetTab: (state, d: PayloadAction<NuggetTabData>) => {
+      state.rankNuggetTab.nuggets.push(...d.payload.nuggets);
+      state.rankNuggetTab.nuggetCount = d.payload.nuggetCount;
+    },
+
     setNuggetsForceUpdate: (state, d: PayloadAction<boolean>) => {
       state.forceUpdate = d.payload;
     },
@@ -123,6 +134,8 @@ export const selectAuctionNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.auctionNuggetTab;
 export const selectLotNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.lotNuggetTab;
+export const selectRankNuggetTab = (state: RootState): NuggetTabData =>
+  state.nuggets.rankNuggetTab;
 export const selectNuggetsForceUpdate = (state: RootState): boolean =>
   state.nuggets.forceUpdate;
 
@@ -135,6 +148,8 @@ export const {
   addAuctionNuggetTab,
   resetLotNuggetTab,
   addLotNuggetTab,
+  resetRankNuggetTab,
+  addRankNuggetTab,
   setNuggetsForceUpdate,
   clearInventoryCache,
 } = nuggetsSlice.actions;

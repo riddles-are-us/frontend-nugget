@@ -1,0 +1,79 @@
+.rank-popup-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+.rank-popup-mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.rank-popup-main-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: 55%;
+  aspect-ratio: 7 / 5;
+}
+
+.rank-popup-main-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.rank-popup-close-button {
+  position: absolute;
+  top: 3%;
+  left: 90%;
+  height: 10%;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+}
+
+.rank-popup-title-text {
+  margin: 0px;
+  color: white;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  font-weight: bold;
+  position: absolute;
+  text-align: center;
+  width: 40%;
+  height: 20%;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+
+.rank-popup-grid-container {
+  position: absolute;
+  width: 80%;
+  height: 60%;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, 0);
+}
+
+.rank-popup-page-selector-container {
+  position: absolute;
+  width: auto;
+  height: 10%;
+  aspect-ratio: 3/1;
+  left: 50%;
+  top: 82.5%;
+  transform: translate(-50%, 0);
+}

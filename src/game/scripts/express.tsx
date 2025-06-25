@@ -135,6 +135,17 @@ export const getLotNuggetsAsync = async (
   return { nuggets: decodeMarkets(raws), nuggetCount: res.count };
 };
 
+export const getRankNuggetsAsync = async (
+  skip: number,
+  limit: number,
+  owner: number[]
+): Promise<NuggetTabData> => {
+  const res = await getRequest(`/data/ranks?skip=${skip}&limit=${limit}`);
+  const raws = res.data;
+  console.log("getRank", res, skip, limit);
+  return { nuggets: decodeNuggets(raws, owner), nuggetCount: res.count };
+};
+
 async function getRequest(path: string) {
   try {
     const response = await instance.get(path);

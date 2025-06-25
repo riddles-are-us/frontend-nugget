@@ -22,6 +22,7 @@ import {
   setLoadingType,
 } from "../../../../data/errors";
 import { setNuggetsForceUpdate } from "../../../../data/nuggets";
+import RankButton from "../../buttons/RankButton";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -29,9 +30,9 @@ const PlayerInfo = () => {
   const playerId = addressAbbreviation("0x" + l2account!.pubkey, 5);
   const userState = useAppSelector(selectUserState);
   const coin = userState.player!.data.balance;
-  const cash = userState.state!.cash;
-  const total = userState.state!.total;
   const treasure = userState.state!.treasure;
+  const cash = userState.state!.cash;
+  const available = treasure - cash;
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
@@ -88,6 +89,10 @@ const PlayerInfo = () => {
     }
   };
 
+  const onClickRank = () => {
+    dispatch(setUIState({ type: UIStateType.RankPopup }));
+  };
+
   return (
     <div ref={containerRef} className="player-info-container">
       <p
@@ -118,6 +123,9 @@ const PlayerInfo = () => {
         {coin}
       </p>
       <div className="player-info-coin-image" />
+      <div className="player-info-rank-button">
+        <RankButton onClick={onClickRank} isDisabled={false} />
+      </div>
       <div className="player-info-treasure-container">
         <p
           className="player-info-title-value-title-text"
@@ -135,7 +143,7 @@ const PlayerInfo = () => {
             ...getTextShadowStyle(treasureFontSize / 15),
           }}
         >
-          {total}
+          {treasure}
         </p>
         <img className="player-info-title-value-image" src={treasure_image} />
       </div>
@@ -177,7 +185,7 @@ const PlayerInfo = () => {
             ...getTextShadowStyle(treasureFontSize / 15),
           }}
         >
-          {treasure}
+          {available}
         </p>
         <img className="player-info-title-value-image" src={available_image} />
       </div>

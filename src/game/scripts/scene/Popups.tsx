@@ -10,6 +10,7 @@ import ErrorPopup from "../popups/ErrorPopup";
 import { selectError } from "../../../data/errors";
 import SellingNuggetInfoPopup from "../popups/SellingNuggetInfoPopup";
 import ConfirmPopup from "../popups/ConfirmPopup";
+import RankPopup from "../popups/RankPopup";
 
 const Popups = () => {
   const uIState = useAppSelector(selectUIState);
@@ -43,6 +44,7 @@ const Popups = () => {
           isShowingBidAmountPopup={uIState.isShowingBidAmountPopup}
         />
       )}
+      {uIState.type == UIStateType.RankPopup && <RankPopup />}
       {error && <ErrorPopup message={error} />}
     </>
   );

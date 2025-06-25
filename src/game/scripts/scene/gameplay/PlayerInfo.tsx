@@ -90,7 +90,7 @@ const PlayerInfo = () => {
   };
 
   const onClickRank = () => {
-    /* */
+    dispatch(setUIState({ type: UIStateType.RankPopup }));
   };
 
   return (

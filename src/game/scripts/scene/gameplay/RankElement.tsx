@@ -14,6 +14,7 @@ import { AccountSlice } from "zkwasm-minirollup-browser";
 import { useAppSelector } from "../../../../app/hooks";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
+import NuggetLevel from "./NuggetLevel";
 
 interface Props {
   rank: number;
@@ -27,7 +28,12 @@ const RankElement = ({ rank, nuggetData }: Props) => {
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [coinFontSize, setCoinFontSize] = useState<number>(0);
   const nuggetPrice = nuggetData.sysprice;
+  const nuggetLevel = 7 - nuggetData.feature;
   const ownerId = nuggetData.owner[0] ?? "";
+  const nuggetAttributeString = getAttributeList(
+    nuggetData.attributes,
+    nuggetData.feature
+  );
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -66,7 +72,7 @@ const RankElement = ({ rank, nuggetData }: Props) => {
           </p>
         )}
 
-        <p
+        {/* <p
           className="rank-element-bidder-text"
           style={{
             fontSize: titleFontSize,
@@ -83,6 +89,19 @@ const RankElement = ({ rank, nuggetData }: Props) => {
           }}
         >
           {ownerId}
+        </p> */}
+        <img
+          className="rank-element-avatar-image"
+          src={getNuggetImage(nuggetLevel)}
+        />
+        <p
+          className="rank-element-attributes-text"
+          style={{
+            fontSize: coinFontSize,
+            ...getTextShadowStyle(coinFontSize / 15),
+          }}
+        >
+          {nuggetAttributeString.join(" ")}
         </p>
         <p
           className="rank-element-coin-text"

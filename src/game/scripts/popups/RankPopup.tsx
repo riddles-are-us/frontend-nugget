@@ -39,6 +39,7 @@ import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 const ELEMENT_PER_REQUEST = 30;
 const RankPopup = () => {
+  const isFirst = useRef(true);
   const dispatch = useAppDispatch();
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const containerRef = useRef<HTMLParagraphElement>(null);
@@ -86,7 +87,10 @@ const RankPopup = () => {
   }, [containerRef.current]);
 
   useEffect(() => {
-    checkTabData();
+    if (isFirst.current || rankNuggetTab.nuggets.length > 0) {
+      isFirst.current = false;
+      checkTabData();
+    }
   }, [page]);
 
   useEffect(() => {
@@ -107,6 +111,7 @@ const RankPopup = () => {
     }
 
     if (needUpdateTabData()) {
+      console.log("update tab data");
       await updateTabData();
       dispatch(setNuggetsForceUpdate(true));
     } else {
@@ -119,7 +124,11 @@ const RankPopup = () => {
       rankNuggetTab.nuggets
         .slice(page * pageSize, (page + 1) * pageSize)
         .map((nuggetData, index) => (
-          <RankElement key={index} rank={index + 1} nuggetData={nuggetData} />
+          <RankElement
+            key={index}
+            rank={page * pageSize + index + 1}
+            nuggetData={nuggetData}
+          />
         ))
     );
     setTotalPage(Math.max(Math.ceil(rankNuggetTab.nuggetCount / pageSize), 1));

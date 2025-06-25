@@ -34,10 +34,13 @@ import {
 } from "../../../data/nuggets";
 import { getRankNuggetsAsync } from "../express";
 import PageSelector from "../common/PageSelector";
+import { LeHexBN } from "zkwasm-minirollup-rpc";
+import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 const ELEMENT_PER_REQUEST = 30;
 const RankPopup = () => {
   const dispatch = useAppDispatch();
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
@@ -55,6 +58,9 @@ const RankPopup = () => {
   const rankNuggetTab = useAppSelector(selectRankNuggetTab);
   const nuggetsForceUpdate = useAppSelector(selectNuggetsForceUpdate);
   const [elements, setElements] = useState<JSX.Element[]>([]);
+  const pids = l2account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -144,7 +150,10 @@ const RankPopup = () => {
   };
 
   const addRankPage = async (skip: number, limit: number) => {
-    const rankNuggetTabData = await getRankNuggetsAsync(skip, limit);
+    const rankNuggetTabData = await getRankNuggetsAsync(skip, limit, [
+      Number(pids[1]),
+      Number(pids[2]),
+    ]);
     dispatch(
       addRankNuggetTab({
         nuggets: rankNuggetTabData.nuggets,

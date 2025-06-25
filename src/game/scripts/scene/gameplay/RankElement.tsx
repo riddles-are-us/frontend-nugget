@@ -27,7 +27,7 @@ const RankElement = ({ rank, nuggetData }: Props) => {
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [coinFontSize, setCoinFontSize] = useState<number>(0);
   const nuggetPrice = nuggetData.sysprice;
-  const bidderId = nuggetData.bid?.bidder[0] ?? "";
+  const ownerId = nuggetData.owner[0] ?? "";
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -65,38 +65,25 @@ const RankElement = ({ rank, nuggetData }: Props) => {
             {rank}
           </p>
         )}
-        {bidderId ? (
-          <>
-            <p
-              className="rank-element-bidder-text"
-              style={{
-                fontSize: titleFontSize,
-                ...getTextShadowStyle(titleFontSize / 15),
-              }}
-            >
-              Bidder ID:
-            </p>
-            <p
-              className="rank-element-bidder-value-text"
-              style={{
-                fontSize: titleFontSize,
-                ...getTextShadowStyle(titleFontSize / 15),
-              }}
-            >
-              {bidderId}
-            </p>
-          </>
-        ) : (
-          <p
-            className="rank-element-bidder-text"
-            style={{
-              fontSize: titleFontSize,
-              ...getTextShadowStyle(titleFontSize / 15),
-            }}
-          >
-            No Bidder
-          </p>
-        )}
+
+        <p
+          className="rank-element-bidder-text"
+          style={{
+            fontSize: titleFontSize,
+            ...getTextShadowStyle(titleFontSize / 15),
+          }}
+        >
+          Owner ID:
+        </p>
+        <p
+          className="rank-element-bidder-value-text"
+          style={{
+            fontSize: titleFontSize,
+            ...getTextShadowStyle(titleFontSize / 15),
+          }}
+        >
+          {ownerId}
+        </p>
         <p
           className="rank-element-coin-text"
           style={{

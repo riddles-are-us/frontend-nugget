@@ -6,9 +6,13 @@ import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
 import midBackground from "../../images/popups/default/mid.png";
 import rightBackground from "../../images/popups/default/right.png";
-import leftInputBackground from "../../images/popups/default/left_input.png";
-import midInputBackground from "../../images/popups/default/mid_input.png";
-import rightInputBackground from "../../images/popups/default/right_input.png";
+import nextPageNormalImage from "../../images/buttons/next_page_button/right_arrow.png";
+import nextPageHoverImage from "../../images/buttons/next_page_button/right_arrow_hv.png";
+import nextPageClickImage from "../../images/buttons/next_page_button/right_arrow_click.png";
+import prevPageNormalImage from "../../images/buttons/prev_page_button/left_arrow.png";
+import prevPageHoverImage from "../../images/buttons/prev_page_button/left_arrow_hv.png";
+import prevPageClickImage from "../../images/buttons/prev_page_button/left_arrow_click.png";
+import pageSelectorFrame from "../../images/scene/gameplay/rank/rank_frame.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
@@ -23,16 +27,18 @@ import RankElement from "../scene/gameplay/RankElement";
 import Grid from "../common/Grid";
 import {
   addRankNuggetTab,
+  resetRankNuggetTab,
   selectNuggetsForceUpdate,
   selectRankNuggetTab,
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
 import { getRankNuggetsAsync } from "../express";
+import PageSelector from "../common/PageSelector";
 
 const ELEMENT_PER_REQUEST = 30;
 const RankPopup = () => {
+  const isFirst = useRef(false);
   const dispatch = useAppDispatch();
-  const uIState = useAppSelector(selectUIState);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
@@ -75,11 +81,15 @@ const RankPopup = () => {
   }, [containerRef.current]);
 
   useEffect(() => {
-    checkTabData();
+    if (!isFirst.current) {
+      isFirst.current = true;
+      checkTabData();
+    }
   }, [page]);
 
   useEffect(() => {
     setPage(0);
+    reloadTabData();
   }, [pageSize]);
 
   useEffect(() => {
@@ -121,6 +131,16 @@ const RankPopup = () => {
     );
   };
 
+  const reloadTabData = async () => {
+    dispatch(resetRankNuggetTab());
+
+    if (page == 0) {
+      dispatch(setNuggetsForceUpdate(true));
+    } else {
+      setPage(0);
+    }
+  };
+
   const updateTabData = async () => {
     dispatch(setLoadingType(LoadingType.Default));
     await addRankPage(rankNuggetTab.nuggets.length, ELEMENT_PER_REQUEST);
@@ -141,6 +161,14 @@ const RankPopup = () => {
     if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
     }
+  };
+
+  const onClickPrevPageButton = () => {
+    setPage(page - 1);
+  };
+
+  const onClickNextPageButton = () => {
+    setPage(page + 1);
   };
 
   return (
@@ -177,7 +205,21 @@ const RankPopup = () => {
             elements={elements}
           />
         </div>
-        {/* <RankElement */}
+        <div className="rank-popup-page-selector-container">
+          <PageSelector
+            currentPage={page}
+            totalPage={totalPage}
+            nextPageNormalImage={nextPageNormalImage}
+            nextPageHoverImage={nextPageHoverImage}
+            nextPageClickImage={nextPageClickImage}
+            prevPageNormalImage={prevPageNormalImage}
+            prevPageHoverImage={prevPageHoverImage}
+            prevPageClickImage={prevPageClickImage}
+            pageSelectorFrame={pageSelectorFrame}
+            onClickPrevPageButton={onClickPrevPageButton}
+            onClickNextPageButton={onClickNextPageButton}
+          />
+        </div>
       </div>
     </div>
   );

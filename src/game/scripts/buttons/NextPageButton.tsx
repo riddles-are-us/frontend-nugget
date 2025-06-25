@@ -1,14 +1,20 @@
-import normalImage from "../../images/buttons/next_page_button/next.png";
-import hoverImage from "../../images/buttons/next_page_button/next_hv.png";
-import clickImage from "../../images/buttons/next_page_button/next_click.png";
 import ImageButton from "../common/ImageButton";
 
 interface Props {
   onClick: () => void;
   isDisabled: boolean;
+  normalImage: string;
+  hoverImage: string;
+  clickImage: string;
 }
 
-const NextPageButton = ({ onClick, isDisabled }: Props) => {
+const NextPageButton = ({
+  onClick,
+  normalImage,
+  hoverImage,
+  clickImage,
+  isDisabled,
+}: Props) => {
   return (
     <div
       style={{

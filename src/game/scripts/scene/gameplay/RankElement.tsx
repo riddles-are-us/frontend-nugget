@@ -65,24 +65,38 @@ const RankElement = ({ rank, nuggetData }: Props) => {
             {rank}
           </p>
         )}
-        <p
-          className="rank-element-bidder-text"
-          style={{
-            fontSize: titleFontSize,
-            ...getTextShadowStyle(titleFontSize / 15),
-          }}
-        >
-          Bidder ID:
-        </p>
-        <p
-          className="rank-element-bidder-value-text"
-          style={{
-            fontSize: titleFontSize,
-            ...getTextShadowStyle(titleFontSize / 15),
-          }}
-        >
-          {bidderId}
-        </p>
+        {bidderId ? (
+          <>
+            <p
+              className="rank-element-bidder-text"
+              style={{
+                fontSize: titleFontSize,
+                ...getTextShadowStyle(titleFontSize / 15),
+              }}
+            >
+              Bidder ID:
+            </p>
+            <p
+              className="rank-element-bidder-value-text"
+              style={{
+                fontSize: titleFontSize,
+                ...getTextShadowStyle(titleFontSize / 15),
+              }}
+            >
+              {bidderId}
+            </p>
+          </>
+        ) : (
+          <p
+            className="rank-element-bidder-text"
+            style={{
+              fontSize: titleFontSize,
+              ...getTextShadowStyle(titleFontSize / 15),
+            }}
+          >
+            No Bidder
+          </p>
+        )}
         <p
           className="rank-element-coin-text"
           style={{

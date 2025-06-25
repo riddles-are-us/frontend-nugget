@@ -175,4 +175,8 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   user-select: none;
+  background-image: url("../../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }

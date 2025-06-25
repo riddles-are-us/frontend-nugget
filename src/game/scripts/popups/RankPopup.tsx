@@ -37,7 +37,6 @@ import PageSelector from "../common/PageSelector";
 
 const ELEMENT_PER_REQUEST = 30;
 const RankPopup = () => {
-  const isFirst = useRef(false);
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
@@ -81,10 +80,7 @@ const RankPopup = () => {
   }, [containerRef.current]);
 
   useEffect(() => {
-    if (!isFirst.current) {
-      isFirst.current = true;
-      checkTabData();
-    }
+    checkTabData();
   }, [page]);
 
   useEffect(() => {

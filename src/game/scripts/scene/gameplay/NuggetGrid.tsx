@@ -55,7 +55,6 @@ import DefaultButton from "../../buttons/DefaultButton";
 
 const ELEMENT_PER_REQUEST = 30;
 const NuggetGrid = () => {
-  const isFirst = useRef(false);
   const dispatch = useAppDispatch();
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const userState = useAppSelector(selectNullableUserState);
@@ -105,10 +104,7 @@ const NuggetGrid = () => {
   }, []);
 
   useEffect(() => {
-    if (!isFirst.current) {
-      isFirst.current = true;
-      checkTabData();
-    }
+    checkTabData();
   }, [page]);
 
   useEffect(() => {

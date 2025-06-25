@@ -20,6 +20,14 @@ import {
   getSellingNuggetsAsync,
 } from "../../express";
 import PageSelector from "../../common/PageSelector";
+import nextPageNormalImage from "../../../images/buttons/next_page_button/next.png";
+import nextPageHoverImage from "../../../images/buttons/next_page_button/next_hv.png";
+import nextPageClickImage from "../../../images/buttons/next_page_button/next_click.png";
+import prevPageNormalImage from "../../../images/buttons/prev_page_button/prev.png";
+import prevPageHoverImage from "../../../images/buttons/prev_page_button/prev_hv.png";
+import prevPageClickImage from "../../../images/buttons/prev_page_button/prev_click.png";
+import pageSelectorFrame from "../../../images/common/number_frame.png";
+
 import {
   addAuctionNuggetTab,
   addLotNuggetTab,
@@ -395,6 +403,13 @@ const NuggetGrid = () => {
         <PageSelector
           currentPage={page}
           totalPage={totalPage}
+          nextPageNormalImage={nextPageNormalImage}
+          nextPageHoverImage={nextPageHoverImage}
+          nextPageClickImage={nextPageClickImage}
+          prevPageNormalImage={prevPageNormalImage}
+          prevPageHoverImage={prevPageHoverImage}
+          prevPageClickImage={prevPageClickImage}
+          pageSelectorFrame={pageSelectorFrame}
           onClickPrevPageButton={onClickPrevPageButton}
           onClickNextPageButton={onClickNextPageButton}
         />

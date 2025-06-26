@@ -71,7 +71,7 @@ function decodeMarkets(raws: any): NuggetData[] {
       askprice: Number(askprice ?? 0),
       owner: owner,
       bid: bidder,
-      lastUpdate: (Number(settleinfo) - 1) >> 16,
+      lastUpdate: Number((BigInt(settleinfo) - 1n) >> 16n),
     })
   );
 

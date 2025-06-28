@@ -108,7 +108,7 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
                 ...getTextShadowStyle(descriptionFontSize / 15),
               }}
             >
-              {`Ask Price: ${nuggetAskPrice}`}
+              {`Buyout Price: ${nuggetAskPrice}`}
             </p>
           </>
         )}

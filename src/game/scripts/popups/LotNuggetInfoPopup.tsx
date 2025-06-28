@@ -237,7 +237,7 @@ const LotNuggetInfoPopup = ({
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Ask Price: ${nuggetAskPrice}`}
+          {`Buyout Price: ${nuggetAskPrice}`}
         </p>
         {nuggetBidderId && (
           <p

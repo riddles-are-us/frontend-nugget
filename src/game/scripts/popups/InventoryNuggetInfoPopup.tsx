@@ -327,7 +327,7 @@ const InventoryNuggetInfoPopup = ({
       {isShowingListAmountPopup && (
         <PriceInputPopup
           title="List"
-          description={"Enter the bid price"}
+          description={"Enter the buyout price"}
           min={1}
           onConfirm={onListNugget}
           onCancel={onCancelListNugget}

@@ -16,7 +16,7 @@ import { pushError } from "../../../data/errors";
 
 const CREATE_PLAYER = 1n;
 
-setRpcUrl("https://rpc.space-nugget.zkwasm.ai");
+setRpcUrl("https://rpc.test-nugget.zkwasm.ai");
 interface Props {
   imageUrls: string[];
   onStart: () => Promise<void>;

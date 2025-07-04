@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AccountSlice } from 'zkwasm-minirollup-browser';
-import { createCommand, createWithdrawCommand, ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
+import type { L1AccountInfo } from 'zkwasm-minirollup-browser/dist/types/account';
+import { createCommand, ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
 
 // Get the current URL components
 const currentLocation = window.location;
@@ -235,16 +235,12 @@ export function getListNuggetTransactionCommandArray(
 export function getWithdrawTransactionCommandArray(
   nonce: number,
   amount: bigint,
-  account: AccountSlice.L1AccountInfo
+  account: L1AccountInfo
 ): BigUint64Array {
-console.log("address", account)
-const address = account!.address.slice(2);
-  const command = createWithdrawCommand(
+  const command = createCommand(
     BigInt(nonce),
     CMD_WITHDRAW,
-    address,
-    0n,
-    amount
+    [amount, BigInt(account.address.slice(2))]
   );
   return command;
 }

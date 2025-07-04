@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RequestError } from "zkwasm-minirollup-browser";
+import { RequestError } from "zkwasm-minirollup-browser/dist/store/app-slice";
 import { RootState } from "../app/store";
 
 export enum UIStateType {

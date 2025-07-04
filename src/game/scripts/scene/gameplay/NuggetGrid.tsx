@@ -11,7 +11,7 @@ import {
 } from "../../../../data/ui";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectNullableUserState } from "../../../../data/state";
 import {
   getAuctionNuggetsAsync,
@@ -56,12 +56,12 @@ import DefaultButton from "../../buttons/DefaultButton";
 const ELEMENT_PER_REQUEST = 30;
 const NuggetGrid = () => {
   const dispatch = useAppDispatch();
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const userState = useAppSelector(selectNullableUserState);
   const uIState = useAppSelector(selectUIState);
   const isloading = useAppSelector(selectIsLoading);
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
 
   const elementRatio = 432 / 132;

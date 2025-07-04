@@ -9,16 +9,17 @@ import Gameplay from "./Gameplay";
 import {
   queryInitialState,
   queryState,
-} from "zkwasm-minirollup-browser/src/connect";
-import { ConnectState } from "zkwasm-minirollup-browser";
+} from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { ConnectController } from "./ConnectController";
 import { setUIState, UIStateType } from "../../../data/ui";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { ConnectState } from "zkwasm-minirollup-browser/dist/store/app-slice";
+
 
 export function LoadingController() {
   const dispatch = useAppDispatch();
   const userState = useAppSelector(selectNullableUserState);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const config = useAppSelector(selectNullableConfig);
   const connectState = useAppSelector(selectConnectState);
   const [inc, setInc] = useState(0);
@@ -27,8 +28,8 @@ export function LoadingController() {
   function updateState() {
     if (connectState == ConnectState.Init && userState == null) {
       dispatch(queryInitialState("1"));
-    } else if (l2account) {
-      dispatch(queryState(l2account.getPrivateKey()));
+    } else if (l2Account) {
+      dispatch(queryState(l2Account.getPrivateKey()));
     }
     setInc(inc + 1);
   }

@@ -12,7 +12,7 @@ import rightInputBackground from "../../images/popups/default/right_input.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import {
   LoadingType,
   pushError,
@@ -26,8 +26,7 @@ const DepositPopup = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [amountString, setAmountString] = useState<string>("");
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
-  const l1account = useAppSelector(AccountSlice.selectL1Account);
+  const { l2Account, l1Account, deposit } = useWalletContext();
   const isLoading = useAppSelector(selectIsLoading);
 
   const adjustSize = () => {
@@ -48,40 +47,24 @@ const DepositPopup = () => {
   const onClickConfirm = () => {
     if (!isLoading) {
       dispatch(setLoadingType(LoadingType.Default));
-      dispatch(
-        AccountSlice.depositAsync({
-          tokenIndex: 0,
-          amount: Number(BigInt(amountString)),
-          l2account: l2account!,
-          l1account: l1account!,
-        })
-      ).then((action) => {
-        if (AccountSlice.depositAsync.fulfilled.match(action)) {
-          dispatch(setLoadingType(LoadingType.None));
-          console.log("Deposit Success: " + action.payload!.hash);
-          dispatch(
-            setUIState({
-              type: UIStateType.ConfirmPopup,
-              title: "Deposit Success",
-              description: "",
-            })
-          );
-        } else if (AccountSlice.depositAsync.rejected.match(action)) {
-          if (action.error.message == null) {
-            const message = "Deposit Failed: Unknown Error";
-            dispatch(pushError(message));
-            console.error(message);
-          } else if (action.error.message.startsWith("user rejected action")) {
-            const message = "Deposit Failed: User rejected action";
-            dispatch(pushError(message));
-            console.error(message);
-          } else {
-            const message = "Deposit Failed: " + action.error.message;
-            dispatch(pushError(message));
-            console.error(message);
-          }
-          dispatch(setLoadingType(LoadingType.None));
-        }
+      deposit({
+        tokenIndex: 0,
+        amount: Number(BigInt(amountString)),
+      }).then(() => {
+        dispatch(setLoadingType(LoadingType.None));
+        console.log("Deposit Success");
+        dispatch(
+          setUIState({
+            type: UIStateType.ConfirmPopup,
+            title: "Deposit Success",
+            description: "",
+          })
+        );
+      }).catch((error) => {
+        const message = `Deposit Failed: ${error.message || "Unknown error"}`;
+        dispatch(pushError(message));
+        console.error(message);
+        dispatch(setLoadingType(LoadingType.None));
       });
     }
   };

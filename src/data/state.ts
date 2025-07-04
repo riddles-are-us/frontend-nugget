@@ -2,7 +2,7 @@ import {
   createStateSlice,
   PropertiesState,
   ConnectState,
-} from "zkwasm-minirollup-browser";
+} from "zkwasm-minirollup-browser/dist/store/app-slice";
 import { RootState } from "../app/store";
 
 export interface PlayerInfo {

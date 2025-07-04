@@ -16,7 +16,7 @@ import pageSelectorFrame from "../../images/scene/gameplay/rank/rank_frame.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import {
   LoadingType,
   pushError,
@@ -41,7 +41,7 @@ const ELEMENT_PER_REQUEST = 30;
 const RankPopup = () => {
   const isFirst = useRef(true);
   const dispatch = useAppDispatch();
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
@@ -59,8 +59,8 @@ const RankPopup = () => {
   const rankNuggetTab = useAppSelector(selectRankNuggetTab);
   const nuggetsForceUpdate = useAppSelector(selectNuggetsForceUpdate);
   const [elements, setElements] = useState<JSX.Element[]>([]);
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
 
   const adjustSize = () => {

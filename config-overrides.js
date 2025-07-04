@@ -15,7 +15,8 @@ module.exports = function override(config, env) {
       "https": require.resolve("https-browserify"),
       "os": require.resolve("os-browserify"),
       "vm": false,
-      "url": require.resolve("url")
+      "url": require.resolve("url"),
+      "path": require.resolve("path-browserify"),
   })
   config.resolve.fallback = fallback;
   config.plugins = (config.plugins || []).concat([
@@ -66,6 +67,23 @@ module.exports = function override(config, env) {
           resolve: {
                   fullySpecified: false,
           },
+  });
+
+  // 排除 zkwasm-minirollup-browser 的 source-map-loader 解析，防止警告
+  config.module.rules.forEach(rule => {
+    if (
+      rule.use &&
+      rule.use.some(
+        (u) =>
+          (typeof u === "string" && u.includes("source-map-loader")) ||
+          (typeof u === "object" && u.loader && u.loader.includes("source-map-loader"))
+      )
+    ) {
+      rule.exclude = [
+        ...(rule.exclude || []),
+        /node_modules\/zkwasm-minirollup-browser/
+      ];
+    }
   });
 
   return config

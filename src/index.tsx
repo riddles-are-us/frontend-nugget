@@ -3,17 +3,20 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { store } from "./app/store";
-import { Provider } from "react-redux";
+import { DelphinusReactProvider, setProviderConfig } from "zkwasm-minirollup-browser";
 import * as serviceWorker from "./serviceWorker";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
 
+// Configure RainbowKit provider type before rendering
+setProviderConfig({ type: "rainbow" });
+
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <DelphinusReactProvider appName="SPACE-NUGGET" store={store}>
       <App />
-    </Provider>
+    </DelphinusReactProvider>
   </React.StrictMode>
 );
 

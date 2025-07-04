@@ -25,7 +25,7 @@ import {
   getBidNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
@@ -72,10 +72,10 @@ const AuctionNuggetInfoPopup = ({
     nuggetData.attributes,
     nuggetData.feature
   );
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const userState = useAppSelector(selectUserState);
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
   const hasBidden = nuggetData.lastUpdate >= 0;
   const isSettleEnabled = getIsSettleEnabled(
@@ -136,7 +136,7 @@ const AuctionNuggetInfoPopup = ({
             nuggetData.marketid,
             amount
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {

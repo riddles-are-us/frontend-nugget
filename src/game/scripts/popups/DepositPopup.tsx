@@ -50,9 +50,9 @@ const DepositPopup = () => {
       deposit({
         tokenIndex: 0,
         amount: Number(BigInt(amountString)),
-      }).then(() => {
+      }).then((result) => {
         dispatch(setLoadingType(LoadingType.None));
-        console.log("Deposit Success");
+        console.log("Deposit Success: " + result.hash);
         dispatch(
           setUIState({
             type: UIStateType.ConfirmPopup,

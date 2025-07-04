@@ -32,7 +32,7 @@
     "zkwasm-service-helper": "github:DelphinusLab/zkWasm-service-helper"
   },
   "scripts": {
-    "start": "npx react-app-rewired start -- --host 0.0.0.0",
+    "start": "npx react-app-rewired start",
     "build": "npx react-app-rewired build",
     "test": "npx react-app-rewired test",
     "eject": "npx react-app-rewired eject",

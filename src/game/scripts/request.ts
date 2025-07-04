@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { L1AccountInfo } from 'zkwasm-minirollup-browser/dist/types/account';
-import { createCommand, ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
+import { createCommand, createWithdrawCommand,  ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
 
 // Get the current URL components
 const currentLocation = window.location;
@@ -237,10 +237,14 @@ export function getWithdrawTransactionCommandArray(
   amount: bigint,
   account: L1AccountInfo
 ): BigUint64Array {
-  const command = createCommand(
+console.log("address", account)
+const address = account!.address.slice(2);
+  const command = createWithdrawCommand(
     BigInt(nonce),
     CMD_WITHDRAW,
-    [amount, BigInt(account.address.slice(2))]
+    address,
+    0n,
+    amount
   );
   return command;
 }

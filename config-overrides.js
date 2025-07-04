@@ -69,7 +69,6 @@ module.exports = function override(config, env) {
           },
   });
 
-  // 排除 zkwasm-minirollup-browser 的 source-map-loader 解析，防止警告
   config.module.rules.forEach(rule => {
     if (
       rule.use &&

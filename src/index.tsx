@@ -14,7 +14,7 @@ setProviderConfig({ type: "rainbow" });
 
 root.render(
   <React.StrictMode>
-    <DelphinusReactProvider appName="SPACE-NUGGET" store={store}>
+    <DelphinusReactProvider appName="0xSpaceNugget" store={store}>
       <App />
     </DelphinusReactProvider>
   </React.StrictMode>

@@ -52,10 +52,10 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setTitleFontSize(containerRef.current.offsetHeight / 8);
-      setDescriptionFontSize(containerRef.current.offsetHeight / 11);
+      setTitleFontSize(containerRef.current.offsetHeight / 11);
+      setDescriptionFontSize(containerRef.current.offsetHeight / 13);
       setAttributesFontSize(containerRef.current.offsetHeight / 10);
-      setTagFontSize(containerRef.current.offsetHeight / 11);
+      setTagFontSize(containerRef.current.offsetHeight / 13);
     }
   };
 
@@ -79,8 +79,15 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
             ...getTextShadowStyle(titleFontSize / 15),
           }}
         >
-          {`NuggetId: ${nuggetId}`}
+          {`Nugget ID: ${nuggetId}`}
         </p>
+        <div className="nugget-levels-container">
+          {Array.from({ length: 7 }).map((_, index) => (
+            <div key={index} className="nugget-level-container">
+              <NuggetLevel key={index} isActive={index < nuggetLevel} />
+            </div>
+          ))}
+        </div>
         <p
           className="nugget-price-text"
           style={{
@@ -88,7 +95,16 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Recycle Price: ${nuggetPrice}`}
+          Recycle Price:
+        </p>
+        <p
+          className="nugget-price-value-text"
+          style={{
+            fontSize: descriptionFontSize,
+            ...getTextShadowStyle(descriptionFontSize / 15),
+          }}
+        >
+          {nuggetPrice}
         </p>
         {showBidPrice && (
           <>
@@ -99,7 +115,16 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
                 ...getTextShadowStyle(descriptionFontSize / 15),
               }}
             >
-              {`Bid Price: ${nuggetBidPrice}`}
+              Bid Price:
+            </p>
+            <p
+              className="nugget-bid-value-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {nuggetBidPrice}
             </p>
             <p
               className="nugget-ask-text"
@@ -108,7 +133,16 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
                 ...getTextShadowStyle(descriptionFontSize / 15),
               }}
             >
-              {`Buyout Price: ${nuggetAskPrice}`}
+              Buyout Price:
+            </p>
+            <p
+              className="nugget-ask-value-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {nuggetAskPrice}
             </p>
           </>
         )}
@@ -134,13 +168,6 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
             isDisabled={false}
             fontSizeRatio={1.2}
           />
-        </div>
-        <div className="nugget-levels-container">
-          {Array.from({ length: 7 }).map((_, index) => (
-            <div key={index} className={`nugget-level-container`}>
-              <NuggetLevel key={index} isActive={index < nuggetLevel} />
-            </div>
-          ))}
         </div>
         {showTag && selfOwned && (
           <div className="nugget-tag-container">

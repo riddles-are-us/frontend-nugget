@@ -1,6 +1,6 @@
-import normalImage from "../../images/buttons/rank/rank.png";
-import hoverImage from "../../images/buttons/rank/rank_hv.png";
-import clickImage from "../../images/buttons/rank/rank_click.png";
+import normalImage from "../../images/buttons/earning_rank_button/earning_rank.png";
+import hoverImage from "../../images/buttons/earning_rank_button/earning_rank_hv.png";
+import clickImage from "../../images/buttons/earning_rank_button/earning_rank_click.png";
 import ImageButton from "../common/ImageButton";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   isDisabled: boolean;
 }
 
-const RankButton = ({ onClick, isDisabled }: Props) => {
+const EarningRankButton = ({ onClick, isDisabled }: Props) => {
   return (
     <div
       style={{
@@ -17,7 +17,7 @@ const RankButton = ({ onClick, isDisabled }: Props) => {
         top: "50%",
         width: "auto",
         height: "100%",
-        aspectRatio: "24 / 23",
+        aspectRatio: "36 / 35",
         transform: "translate(-50%, -50%)",
         margin: "0px",
       }}
@@ -34,4 +34,4 @@ const RankButton = ({ onClick, isDisabled }: Props) => {
   );
 };
 
-export default RankButton;
+export default EarningRankButton;

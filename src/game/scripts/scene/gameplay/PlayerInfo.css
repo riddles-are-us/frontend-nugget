@@ -6,9 +6,7 @@
 
 .player-info-player-id-text,
 .player-info-player-id-value-text,
-.player-info-coin-text,
-.player-info-title-value-title-text,
-.player-info-title-value-value-text {
+.player-info-coin-text {
   margin: 0px;
   color: white;
   font-weight: bold;
@@ -23,7 +21,7 @@
   width: 40%;
   height: 20%;
   left: 45%;
-  top: 28%;
+  top: 25%;
   transform: translate(-50%, -50%);
 }
 
@@ -31,8 +29,8 @@
   position: absolute;
   width: 40%;
   height: 20%;
-  left: 45%;
-  top: 45%;
+  left: 60%;
+  top: 25%;
   transform: translate(-50%, -50%);
 }
 
@@ -41,17 +39,17 @@
   width: 40%;
   height: 20%;
   left: 49%;
-  top: 73%;
+  top: 48%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-coin-image {
   position: absolute;
   width: auto;
-  height: 15%;
+  height: 17%;
   aspect-ratio: 1;
   left: 26%;
-  top: 70%;
+  top: 45%;
   transform: translate(-50%, -50%);
   background-image: url("../../../images/scene/gameplay/top_container/coin.png");
   background-size: contain;
@@ -62,90 +60,69 @@
 .player-info-treasure-container {
   position: absolute;
   width: 22%;
-  height: 20%;
-  left: 58%;
-  top: 28%;
+  height: 16%;
+  left: 35%;
+  top: 75%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-cash-container {
   position: absolute;
   width: 22%;
-  height: 20%;
+  height: 16%;
   left: 58%;
-  top: 50%;
+  top: 75%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-available-container {
   position: absolute;
   width: 22%;
-  height: 20%;
-  left: 58%;
-  top: 72%;
+  height: 16%;
+  left: 81%;
+  top: 75%;
   transform: translate(-50%, -50%);
-}
-
-.player-info-title-value-title-text {
-  position: absolute;
-  width: 90%;
-  height: 40%;
-  left: 65%;
-  top: 20%;
-  transform: translate(-50%, -50%);
-}
-
-.player-info-title-value-value-text {
-  position: absolute;
-  width: 90%;
-  height: 40%;
-  left: 65%;
-  top: 70%;
-  transform: translate(-50%, -50%);
-}
-
-.player-info-title-value-image {
-  position: absolute;
-  width: auto;
-  height: 80%;
-  aspect-ratio: 1;
-  left: 10%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-image: url("../../../images/scene/gameplay/top_container/coin.png");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .player-info-deposit-button,
 .player-info-withdraw-button,
 .player-info-pick-nugget-button {
   position: absolute;
-  width: 18%;
-  height: 23%;
-  left: 87.5%;
+  width: 15%;
+  height: 16%;
+  left: 89%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-deposit-button {
-  top: 23%;
+  top: 18.5%;
 }
 
 .player-info-withdraw-button {
-  top: 48%;
+  top: 34.5%;
 }
 
 .player-info-pick-nugget-button {
-  top: 73%;
+  top: 50.5%;
 }
 
 .player-info-rank-button {
   position: absolute;
-  height: 14%;
+  height: 20%;
+  width: auto;
   aspect-ratio: 24 / 23;
-  left: 45%;
-  top: 70%;
+  left: 72%;
+  top: 24%;
+  transform: translate(-50%, -50%);
+}
+
+.player-info-earning-button {
+  position: absolute;
+  height: 20%;
+  width: auto;
+  aspect-ratio: 24 / 23;
+  left: 72%;
+  top: 48%;
   transform: translate(-50%, -50%);
 }
 
@@ -154,7 +131,7 @@
   width: 20%;
   height: 45%;
   left: 83%;
-  top: 55%;
+  top: 45%;
   transform: translate(-50%, -50%);
   margin: 0px;
   color: white;

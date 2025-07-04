@@ -18,10 +18,10 @@
 .nugget-avatar-image {
   position: absolute;
   width: auto;
-  height: 48%;
+  height: 38%;
   aspect-ratio: 88 / 79;
-  left: 13%;
-  top: 32.5%;
+  left: 12%;
+  top: 43%;
   transform: translate(-50%, -50%);
 }
 
@@ -29,6 +29,9 @@
 .nugget-price-text,
 .nugget-bid-text,
 .nugget-ask-text,
+.nugget-price-value-text,
+.nugget-bid-value-text,
+.nugget-ask-value-text,
 .nugget-attributes-text {
   margin: 0px;
   color: white;
@@ -43,8 +46,8 @@
   position: absolute;
   width: 40%;
   height: 20%;
-  left: 48%;
-  top: 17%;
+  left: 23%;
+  top: 12%;
   transform: translate(-50%, -50%);
 }
 
@@ -52,8 +55,8 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 43%;
-  top: 33%;
+  left: 39%;
+  top: 35%;
   transform: translate(-50%, -50%);
 }
 
@@ -61,8 +64,8 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 72%;
-  top: 33%;
+  left: 39%;
+  top: 45%;
   transform: translate(-50%, -50%);
 }
 
@@ -70,8 +73,35 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 91%;
-  top: 33%;
+  left: 39%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-price-value-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 60%;
+  top: 35%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-bid-value-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 60%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.nugget-ask-value-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 60%;
+  top: 55%;
   transform: translate(-50%, -50%);
 }
 
@@ -88,18 +118,18 @@
 .nugget-more-button {
   position: absolute;
   width: 15%;
-  height: 20%;
-  left: 90%;
-  top: 53%;
+  height: 18%;
+  left: 88.2%;
+  top: 55%;
   transform: translate(-50%, -50%);
 }
 
 .nugget-levels-container {
   position: absolute;
   width: 0;
-  height: 20%;
-  left: 25%;
-  top: 53%;
+  height: 12%;
+  left: 45%;
+  top: 9%;
   transform: translate(-50%, -50%);
   display: flex;
 }
@@ -114,7 +144,7 @@
 .nugget-tag-container {
   position: absolute;
   width: auto;
-  height: 22%;
+  height: 16%;
   aspect-ratio: 92/26;
   left: 86.5%;
   top: 5%;
@@ -131,8 +161,8 @@
   position: absolute;
   width: 90%;
   height: 70%;
-  left: 50%;
-  top: 50%;
+  left: 46%;
+  top: 43%;
   transform: translate(-50%, -50%);
   text-align: center;
   margin: 0px;

@@ -1,7 +1,11 @@
-import { createCommand, createWithdrawCommand, ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LeHexBN, query } from 'zkwasm-minirollup-rpc';
-import { AccountSlice } from 'zkwasm-minirollup-browser';
+import {
+  createCommand,
+  createWithdrawCommand,
+  ZKWasmAppRpc,
+} from "zkwasm-minirollup-rpc";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { LeHexBN, query } from "zkwasm-minirollup-rpc";
+import { AccountSlice } from "zkwasm-minirollup-browser";
 
 // Get the current URL components
 const currentLocation = window.location;
@@ -38,43 +42,43 @@ async function queryStateI(prikey: string) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      throw Error("No response was received from the server, please check your network connection.");
+      throw Error(
+        "No response was received from the server, please check your network connection."
+      );
     } else {
       throw Error("UnknownError");
     }
   }
 }
 
-
-export const getConfig = createAsyncThunk(
-  'client/getConfig',
-  async () => {
-    const res: any = await queryConfigI();
-    const data = JSON.parse(res.data);
-    return data;
-  }
-)
+export const getConfig = createAsyncThunk("client/getConfig", async () => {
+  const res: any = await queryConfigI();
+  const data = JSON.parse(res.data);
+  return data;
+});
 
 export const SERVER_TICK_TO_SECOND = 5;
 
 interface UserState<P, S> {
-  player: P | null,
-  state: S,
+  player: P | null;
+  state: S;
 }
 
 interface SendTransactionParams {
-    cmd: Array<bigint>;
-    prikey: string;
+  cmd: Array<bigint>;
+  prikey: string;
 }
 
 interface QueryStateParams {
-    prikey: string;
+  prikey: string;
 }
 
-
 export const sendTransaction = createAsyncThunk(
-  'client/sendTransaction',
-  async (params: {cmd: BigUint64Array, prikey: string }, { rejectWithValue }) => {
+  "client/sendTransaction",
+  async (
+    params: { cmd: BigUint64Array; prikey: string },
+    { rejectWithValue }
+  ) => {
     try {
       const { cmd, prikey } = params;
       const state: any = await rpc.sendTransaction(cmd, prikey);
@@ -88,8 +92,11 @@ export const sendTransaction = createAsyncThunk(
 );
 
 export const sendExtrinsicTransaction = createAsyncThunk(
-  'client/sendExtrinsicTransaction',
-  async (params: {cmd: BigUint64Array, prikey: string }, { rejectWithValue }) => {
+  "client/sendExtrinsicTransaction",
+  async (
+    params: { cmd: BigUint64Array; prikey: string },
+    { rejectWithValue }
+  ) => {
     try {
       const { cmd, prikey } = params;
       const state: any = await rpc.sendExtrinsic(cmd, prikey);
@@ -101,9 +108,8 @@ export const sendExtrinsicTransaction = createAsyncThunk(
   }
 );
 
-
 export const queryState = createAsyncThunk(
-  'client/queryState',
+  "client/queryState",
   async (key: string, { rejectWithValue }) => {
     try {
       const state: any = await queryStateI(key);
@@ -116,7 +122,7 @@ export const queryState = createAsyncThunk(
 );
 
 export const queryInitialState = createAsyncThunk(
-  'client/queryInitialState',
+  "client/queryInitialState",
   async (key: string, { rejectWithValue }) => {
     try {
       const state: any = await queryStateI(key);
@@ -128,10 +134,9 @@ export const queryInitialState = createAsyncThunk(
   }
 );
 
-
 async function queryData(url: string) {
   try {
-    const data: any = await rpc.queryData(url)
+    const data: any = await rpc.queryData(url);
     return data.data;
   } catch (error: any) {
     if (error.response) {
@@ -144,7 +149,9 @@ async function queryData(url: string) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      throw new Error("No response was received from the server, please check your network connection.");
+      throw new Error(
+        "No response was received from the server, please check your network connection."
+      );
     } else {
       throw new Error("UnknownError");
     }
@@ -159,77 +166,60 @@ const BID_NUGGET = 6n;
 const CREATE_NUGGET = 7n;
 const RECYCLE_NUGGET = 8n;
 const LIST_NUGGET = 9n;
+const CLAIM_REWARD = 10n;
 
 export function getExploreNuggetTransactionCommandArray(
   nonce: number,
-  index: number,
+  index: number
 ): BigUint64Array {
-  const command = createCommand(
-    BigInt(nonce),
-    EXPLORE_NUGGET,
-    [BigInt(index)]
-  );
+  const command = createCommand(BigInt(nonce), EXPLORE_NUGGET, [BigInt(index)]);
   return command;
 }
 
 export function getSellNuggetTransactionCommandArray(
   nonce: number,
-  index: number,
+  index: number
 ): BigUint64Array {
-  const command = createCommand(
-    BigInt(nonce),
-    SELL_NUGGET,
-    [BigInt(index)]
-  );
+  const command = createCommand(BigInt(nonce), SELL_NUGGET, [BigInt(index)]);
   return command;
 }
 
 export function getBidNuggetTransactionCommandArray(
   nonce: number,
   index: number,
-  amount: number,
+  amount: number
 ): BigUint64Array {
-  const command = createCommand(
-    BigInt(nonce),
-    BID_NUGGET,
-    [BigInt(index), BigInt(amount)]
-  );
+  const command = createCommand(BigInt(nonce), BID_NUGGET, [
+    BigInt(index),
+    BigInt(amount),
+  ]);
   return command;
 }
 
 export function getCreateNuggetTransactionCommandArray(
-  nonce: number,
+  nonce: number
 ): BigUint64Array {
-  const command = createCommand(
-    BigInt(nonce),
-    CREATE_NUGGET,
-    []
-  );
+  const command = createCommand(BigInt(nonce), CREATE_NUGGET, []);
   return command;
 }
 
 export function getRecycleNuggetTransactionCommandArray(
   nonce: number,
-  index: number,
+  index: number
 ): BigUint64Array {
-  const command = createCommand(
-    BigInt(nonce),
-    RECYCLE_NUGGET,
-    [BigInt(index)]
-  );
+  const command = createCommand(BigInt(nonce), RECYCLE_NUGGET, [BigInt(index)]);
   return command;
 }
 
 export function getListNuggetTransactionCommandArray(
   nonce: number,
   index: number,
-  amount: number,
+  amount: number
 ): BigUint64Array {
-  const command = createCommand(
-    BigInt(nonce),
-    LIST_NUGGET,
-    [BigInt(index), BigInt(amount)]
-  );
+  const command = createCommand(BigInt(nonce), LIST_NUGGET, [
+    BigInt(index),
+    BigInt(amount),
+  ]);
   return command;
 }
 
@@ -238,8 +228,8 @@ export function getWithdrawTransactionCommandArray(
   amount: bigint,
   account: AccountSlice.L1AccountInfo
 ): BigUint64Array {
-console.log("address", account)
-const address = account!.address.slice(2);
+  console.log("address", account);
+  const address = account!.address.slice(2);
   const command = createWithdrawCommand(
     BigInt(nonce),
     CMD_WITHDRAW,
@@ -247,5 +237,13 @@ const address = account!.address.slice(2);
     0n,
     amount
   );
+  return command;
+}
+
+export function getClaimRewardTransactionCommandArray(
+  nonce: number,
+  index: bigint
+): BigUint64Array {
+  const command = createCommand(BigInt(nonce), CLAIM_REWARD, [BigInt(index)]);
   return command;
 }

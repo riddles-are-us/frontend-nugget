@@ -8,16 +8,29 @@ import midBackground from "../../images/popups/default/mid.png";
 import rightBackground from "../../images/popups/default/right.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import { getTextShadowStyle } from "../common/Utility";
-import { selectIsLoading } from "../../../data/errors";
+import {
+  LoadingType,
+  pushError,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/errors";
 import Grid from "../common/Grid";
 import { selectEarningRankNuggets } from "../../../data/nuggets";
 import EarningRankElement from "../scene/gameplay/EarningRankElement";
+import {
+  getClaimRewardTransactionCommandArray,
+  sendTransaction,
+} from "../request";
+import { selectUserState } from "../../../data/state";
+import { AccountSlice } from "zkwasm-minirollup-browser";
 
 const EarningRankPopup = () => {
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
+  const userState = useAppSelector(selectUserState);
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
 
   const elementRatio = 738 / 54;
   const gridContainerRef = useRef<HTMLParagraphElement>(null);
@@ -28,7 +41,11 @@ const EarningRankPopup = () => {
 
   const nuggets = useAppSelector(selectEarningRankNuggets);
   const elements = nuggets.map((nuggetData, index) => (
-    <EarningRankElement key={index} rank={index + 1} nuggetData={nuggetData} />
+    <EarningRankElement
+      key={index}
+      nuggetData={nuggetData}
+      onCliamReward={() => onCliamReward(index)}
+    />
   ));
 
   const adjustSize = () => {
@@ -57,6 +74,32 @@ const EarningRankPopup = () => {
   const onClickCancel = () => {
     if (!isLoading) {
       dispatch(setUIState({ type: UIStateType.Idle }));
+    }
+  };
+
+  const onCliamReward = (index: number) => {
+    if (!isLoading) {
+      dispatch(setLoadingType(LoadingType.ListNugget));
+      dispatch(
+        sendTransaction({
+          cmd: getClaimRewardTransactionCommandArray(
+            userState!.player!.nonce,
+            BigInt(index)
+          ),
+          prikey: l2account!.getPrivateKey(),
+        })
+      ).then(async (action) => {
+        if (sendTransaction.fulfilled.match(action)) {
+          console.log("claim reward successed");
+          dispatch(setUIState({ type: UIStateType.Idle }));
+          dispatch(setLoadingType(LoadingType.None));
+        } else if (sendTransaction.rejected.match(action)) {
+          const message = "claim reward Error: " + action.payload;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setLoadingType(LoadingType.None));
+        }
+      });
     }
   };
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./EarningRankElement.css";
 import {
-  addressAbbreviation,
   getAttributeList,
   getNuggetImage,
   getTextShadowStyle,
@@ -14,14 +13,14 @@ import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import NuggetLevel from "./NuggetLevel";
 import background from "../../../images/scene/gameplay/earning_rank/background.png";
 import DefaultButton from "../../buttons/DefaultButton";
+import { selectIsLoading } from "../../../../data/errors";
 
 interface Props {
-  rank: number;
   nuggetData: NuggetData;
+  onCliamReward: () => void;
 }
 
-const EarningRankElement = ({ rank, nuggetData }: Props) => {
-  console.log("EarningRankElement", rank, nuggetData);
+const EarningRankElement = ({ nuggetData, onCliamReward }: Props) => {
   const l2account = useAppSelector(AccountSlice.selectL2Account);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
@@ -29,6 +28,7 @@ const EarningRankElement = ({ rank, nuggetData }: Props) => {
   const nuggetPrice = nuggetData.sysprice;
   const nuggetLevel = 7 - nuggetData.feature;
   const ownerId = nuggetData.owner[0] ?? "";
+
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
     nuggetData.feature
@@ -50,9 +50,6 @@ const EarningRankElement = ({ rank, nuggetData }: Props) => {
     };
   }, [containerRef.current]);
 
-  const onClickClaim = () => {
-    // 1
-  };
   return (
     <div ref={containerRef} className="earning-rank-element-container">
       <div className="earning-rank-element-margin-container">
@@ -96,7 +93,7 @@ const EarningRankElement = ({ rank, nuggetData }: Props) => {
         <div className="earning-rank-element-claim-button">
           <DefaultButton
             text={"Claim"}
-            onClick={onClickClaim}
+            onClick={onCliamReward}
             isDisabled={false}
           />
         </div>

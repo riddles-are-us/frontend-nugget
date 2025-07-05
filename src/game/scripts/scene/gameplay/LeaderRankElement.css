@@ -1,8 +1,8 @@
-.rank-element-container {
+.leader-rank-element-container {
   position: relative;
 }
 
-.rank-element-margin-container {
+.leader-rank-element-margin-container {
   position: absolute;
   width: 95%;
   height: calc(95% - 9.5px);
@@ -13,7 +13,7 @@
   border-radius: 1dvh;
 }
 
-.rank-element-rank-image {
+.leader-rank-element-rank-image {
   position: absolute;
   width: auto;
   height: 125%;
@@ -23,7 +23,7 @@
   transform: translate(-50%, -50%);
 }
 
-.rank-element-avatar-image {
+.leader-rank-element-avatar-image {
   position: absolute;
   width: auto;
   height: 80%;
@@ -33,7 +33,7 @@
   transform: translate(-50%, -50%);
 }
 
-.rank-element-attributes-text {
+.leader-rank-element-attributes-text {
   position: absolute;
   width: 50%;
   height: 80%;
@@ -42,11 +42,11 @@
   transform: translate(-50%, -50%);
 }
 
-.rank-element-attributes-text,
-.rank-element-rank-text,
-.rank-element-coin-text,
-.rank-element-bidder-value-text,
-.rank-element-bidder-text {
+.leader-rank-element-attributes-text,
+.leader-rank-element-rank-text,
+.leader-rank-element-coin-text,
+.leader-rank-element-bidder-value-text,
+.leader-rank-element-bidder-text {
   margin: 0px;
   color: white;
   font-weight: bold;
@@ -56,7 +56,7 @@
   line-height: 1;
 }
 
-.rank-element-rank-text {
+.leader-rank-element-rank-text {
   position: absolute;
   width: 20%;
   height: 80%;
@@ -65,7 +65,7 @@
   transform: translate(-50%, -50%);
 }
 
-.rank-element-bidder-text {
+.leader-rank-element-bidder-text {
   position: absolute;
   width: 20%;
   height: 80%;
@@ -74,7 +74,7 @@
   transform: translate(-50%, -50%);
 }
 
-.rank-element-bidder-value-text {
+.leader-rank-element-bidder-value-text {
   position: absolute;
   width: 20%;
   height: 80%;
@@ -83,7 +83,7 @@
   transform: translate(-50%, -50%);
 }
 
-.rank-element-coin-text {
+.leader-rank-element-coin-text {
   position: absolute;
   width: 20%;
   height: 80%;
@@ -92,7 +92,7 @@
   transform: translate(-50%, -50%);
 }
 
-.rank-element-coin-image {
+.leader-rank-element-coin-image {
   position: absolute;
   width: auto;
   height: 50%;

@@ -91,8 +91,12 @@ const PlayerInfo = () => {
     }
   };
 
-  const onClickRank = () => {
-    dispatch(setUIState({ type: UIStateType.RankPopup }));
+  const onClickLeaderRank = () => {
+    dispatch(setUIState({ type: UIStateType.LeaderRankPopup }));
+  };
+
+  const onClickEarningRank = () => {
+    dispatch(setUIState({ type: UIStateType.EarningRankPopup }));
   };
 
   return (
@@ -126,10 +130,10 @@ const PlayerInfo = () => {
       </p>
       <div className="player-info-coin-image" />
       <div className="player-info-rank-button">
-        <LeaderRankButton onClick={onClickRank} isDisabled={false} />
+        <LeaderRankButton onClick={onClickLeaderRank} isDisabled={false} />
       </div>
       <div className="player-info-earning-button">
-        <EarningRankButton onClick={onClickRank} isDisabled={false} />
+        <EarningRankButton onClick={onClickEarningRank} isDisabled={false} />
       </div>
 
       <div className="player-info-treasure-container">

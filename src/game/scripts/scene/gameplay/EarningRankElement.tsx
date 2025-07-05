@@ -6,7 +6,7 @@ import {
   getTextShadowStyle,
 } from "../../common/Utility";
 import { NuggetData } from "../../../../data/model";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { useAppSelector } from "../../../../app/hooks";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const EarningRankElement = ({ nuggetData, onCliamReward }: Props) => {
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const [coinFontSize, setCoinFontSize] = useState<number>(0);

@@ -21,13 +21,8 @@ interface Props {
   nuggetData: NuggetData;
 }
 
-<<<<<<< HEAD:src/game/scripts/scene/gameplay/RankElement.tsx
-const RankElement = ({ rank, nuggetData }: Props) => {
-  const { l2Account } = useWalletContext();
-=======
 const LeaderRankElement = ({ rank, nuggetData }: Props) => {
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
->>>>>>> upstream/dev:src/game/scripts/scene/gameplay/LeaderRankElement.tsx
+  const { l2Account } = useWalletContext();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [rankFontSize, setRankFontSize] = useState<number>(0);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);

@@ -11,6 +11,7 @@ import { queryState } from "../game/scripts/request";
 import { sendTransaction } from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
 import { TabState } from "./ui";
 import { isEqual } from "../game/scripts/common/Utility";
+import { decodeNuggets } from "../game/scripts/express";
 
 export interface NuggetsState {
   inventory: number[];
@@ -21,6 +22,7 @@ export interface NuggetsState {
   lotNuggetTab: NuggetTabData;
   rankNuggetTab: NuggetTabData;
   forceUpdate: boolean;
+  earningRankNuggets: NuggetData[];
 }
 
 const initialState: NuggetsState = {
@@ -31,8 +33,8 @@ const initialState: NuggetsState = {
   auctionNuggetTab: emptyNuggetTabData,
   lotNuggetTab: emptyNuggetTabData,
   rankNuggetTab: emptyNuggetTabData,
-
   forceUpdate: false,
+  earningRankNuggets: [],
 };
 
 const nuggetsSlice = createSlice({
@@ -96,6 +98,12 @@ const nuggetsSlice = createSlice({
         if (action.payload.player) {
           state.inventory = action.payload.player.data.inventory;
         }
+        if (action.payload.state) {
+          state.earningRankNuggets = decodeNuggets(
+            action.payload.state.leaderboard.nuggets,
+            []
+          );
+        }
       })
       .addCase(sendTransaction.fulfilled, (state, action) => {
         if (action.payload.player) {
@@ -138,6 +146,8 @@ export const selectRankNuggetTab = (state: RootState): NuggetTabData =>
   state.nuggets.rankNuggetTab;
 export const selectNuggetsForceUpdate = (state: RootState): boolean =>
   state.nuggets.forceUpdate;
+export const selectEarningRankNuggets = (state: RootState): NuggetData[] =>
+  state.nuggets.earningRankNuggets;
 
 export const {
   setNugget,

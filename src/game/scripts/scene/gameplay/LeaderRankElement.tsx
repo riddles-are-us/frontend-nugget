@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./RankElement.css";
-import rank_1 from "../../../images/scene/gameplay/rank/rank_1.png";
-import rank_2 from "../../../images/scene/gameplay/rank/rank_2.png";
-import rank_3 from "../../../images/scene/gameplay/rank/rank_3.png";
+import "./LeaderRankElement.css";
+import rank_1 from "../../../images/scene/gameplay/leader_rank/rank_1.png";
+import rank_2 from "../../../images/scene/gameplay/leader_rank/rank_2.png";
+import rank_3 from "../../../images/scene/gameplay/leader_rank/rank_3.png";
 import {
   addressAbbreviation,
   getAttributeList,
@@ -21,8 +21,13 @@ interface Props {
   nuggetData: NuggetData;
 }
 
+<<<<<<< HEAD:src/game/scripts/scene/gameplay/RankElement.tsx
 const RankElement = ({ rank, nuggetData }: Props) => {
   const { l2Account } = useWalletContext();
+=======
+const LeaderRankElement = ({ rank, nuggetData }: Props) => {
+  const l2account = useAppSelector(AccountSlice.selectL2Account);
+>>>>>>> upstream/dev:src/game/scripts/scene/gameplay/LeaderRankElement.tsx
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [rankFontSize, setRankFontSize] = useState<number>(0);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
@@ -53,16 +58,16 @@ const RankElement = ({ rank, nuggetData }: Props) => {
   }, [containerRef.current]);
 
   return (
-    <div ref={containerRef} className="rank-element-container">
-      <div className="rank-element-margin-container">
+    <div ref={containerRef} className="leader-rank-element-container">
+      <div className="leader-rank-element-margin-container">
         {rank <= 3 ? (
           <img
-            className="rank-element-rank-image"
+            className="leader-rank-element-rank-image"
             src={rank == 1 ? rank_1 : rank == 2 ? rank_2 : rank_3}
           />
         ) : (
           <p
-            className="rank-element-rank-text"
+            className="leader-rank-element-rank-text"
             style={{
               fontSize: rankFontSize,
               ...getTextShadowStyle(rankFontSize / 15),
@@ -73,7 +78,7 @@ const RankElement = ({ rank, nuggetData }: Props) => {
         )}
 
         {/* <p
-          className="rank-element-bidder-text"
+          className="leader-rank-element-bidder-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -82,7 +87,7 @@ const RankElement = ({ rank, nuggetData }: Props) => {
           Owner ID:
         </p>
         <p
-          className="rank-element-bidder-value-text"
+          className="leader-rank-element-bidder-value-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -91,11 +96,11 @@ const RankElement = ({ rank, nuggetData }: Props) => {
           {ownerId}
         </p> */}
         <img
-          className="rank-element-avatar-image"
+          className="leader-rank-element-avatar-image"
           src={getNuggetImage(nuggetLevel)}
         />
         <p
-          className="rank-element-attributes-text"
+          className="leader-rank-element-attributes-text"
           style={{
             fontSize: coinFontSize,
             ...getTextShadowStyle(coinFontSize / 15),
@@ -104,7 +109,7 @@ const RankElement = ({ rank, nuggetData }: Props) => {
           {nuggetAttributeString.join(" ")}
         </p>
         <p
-          className="rank-element-coin-text"
+          className="leader-rank-element-coin-text"
           style={{
             fontSize: coinFontSize,
             ...getTextShadowStyle(coinFontSize / 15),
@@ -112,10 +117,10 @@ const RankElement = ({ rank, nuggetData }: Props) => {
         >
           {nuggetPrice}
         </p>
-        <div className="rank-element-coin-image" />
+        <div className="leader-rank-element-coin-image" />
       </div>
     </div>
   );
 };
 
-export default RankElement;
+export default LeaderRankElement;

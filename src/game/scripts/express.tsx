@@ -9,7 +9,7 @@ const instance = axios.create({
   },
 });
 
-function decodeNuggets(raws: any, owner: number[]): NuggetData[] {
+export function decodeNuggets(raws: any, owner: number[]): NuggetData[] {
   const commodityList: NuggetData[] = raws.map(
     ({
       attributes,

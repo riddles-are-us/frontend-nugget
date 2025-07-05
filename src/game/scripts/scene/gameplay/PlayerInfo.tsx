@@ -22,7 +22,9 @@ import {
   setLoadingType,
 } from "../../../../data/errors";
 import { setNuggetsForceUpdate } from "../../../../data/nuggets";
-import RankButton from "../../buttons/RankButton";
+import LeaderRankButton from "../../buttons/LeaderRankButton";
+import PlayerTreasureInfo from "./PlayerTreasureInfo";
+import EarningRankButton from "../../buttons/EarningRankButton";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +47,7 @@ const PlayerInfo = () => {
     if (containerRef.current) {
       setTitleFontSize(containerRef.current.offsetHeight / 6);
       setMoneyFontSize(containerRef.current.offsetHeight / 8);
-      setTreasureFontSize(containerRef.current.offsetHeight / 11);
+      setTreasureFontSize(containerRef.current.offsetHeight / 13);
       setPickNuggetCoinFontSize(containerRef.current.offsetHeight / 12);
     }
   };
@@ -89,8 +91,12 @@ const PlayerInfo = () => {
     }
   };
 
-  const onClickRank = () => {
-    dispatch(setUIState({ type: UIStateType.RankPopup }));
+  const onClickLeaderRank = () => {
+    dispatch(setUIState({ type: UIStateType.LeaderRankPopup }));
+  };
+
+  const onClickEarningRank = () => {
+    dispatch(setUIState({ type: UIStateType.EarningRankPopup }));
   };
 
   return (
@@ -124,71 +130,37 @@ const PlayerInfo = () => {
       </p>
       <div className="player-info-coin-image" />
       <div className="player-info-rank-button">
-        <RankButton onClick={onClickRank} isDisabled={false} />
+        <LeaderRankButton onClick={onClickLeaderRank} isDisabled={false} />
       </div>
+      <div className="player-info-earning-button">
+        <EarningRankButton onClick={onClickEarningRank} isDisabled={false} />
+      </div>
+
       <div className="player-info-treasure-container">
-        <p
-          className="player-info-title-value-title-text"
-          style={{
-            fontSize: treasureFontSize,
-            ...getTextShadowStyle(treasureFontSize / 15),
-          }}
-        >
-          Current Treasure:
-        </p>
-        <p
-          className="player-info-title-value-value-text"
-          style={{
-            fontSize: treasureFontSize,
-            ...getTextShadowStyle(treasureFontSize / 15),
-          }}
-        >
-          {treasure}
-        </p>
-        <img className="player-info-title-value-image" src={treasure_image} />
+        <PlayerTreasureInfo
+          title={"Current Treasure:"}
+          value={treasure}
+          icon={treasure_image}
+          fontSize={treasureFontSize}
+        />
       </div>
       <div className="player-info-cash-container">
-        <p
-          className="player-info-title-value-title-text"
-          style={{
-            fontSize: treasureFontSize,
-            ...getTextShadowStyle(treasureFontSize / 15),
-          }}
-        >
-          Current Cash:
-        </p>
-        <p
-          className="player-info-title-value-value-text"
-          style={{
-            fontSize: treasureFontSize,
-            ...getTextShadowStyle(treasureFontSize / 15),
-          }}
-        >
-          {cash}
-        </p>
-        <img className="player-info-title-value-image" src={cash_image} />
+        <PlayerTreasureInfo
+          title={"Current Cash:"}
+          value={cash}
+          icon={cash_image}
+          fontSize={treasureFontSize}
+        />
       </div>
       <div className="player-info-available-container">
-        <p
-          className="player-info-title-value-title-text"
-          style={{
-            fontSize: treasureFontSize,
-            ...getTextShadowStyle(treasureFontSize / 15),
-          }}
-        >
-          Undestributed Treasure:
-        </p>
-        <p
-          className="player-info-title-value-value-text"
-          style={{
-            fontSize: treasureFontSize,
-            ...getTextShadowStyle(treasureFontSize / 15),
-          }}
-        >
-          {available}
-        </p>
-        <img className="player-info-title-value-image" src={available_image} />
+        <PlayerTreasureInfo
+          title={"Undestributed Treasure:"}
+          value={available}
+          icon={available_image}
+          fontSize={treasureFontSize}
+        />
       </div>
+
       <div className="player-info-deposit-button">
         <DefaultButton
           text={"Deposit"}

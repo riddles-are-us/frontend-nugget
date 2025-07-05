@@ -64,7 +64,7 @@ const NuggetGrid = () => {
     ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
 
-  const elementRatio = 432 / 132;
+  const elementRatio = 432 / 159;
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [elementWidth, setElementWidth] = useState<number>(0);
   const [elementHeight, setElementHeight] = useState<number>(0);

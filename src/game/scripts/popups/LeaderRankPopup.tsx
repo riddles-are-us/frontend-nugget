@@ -12,7 +12,7 @@ import nextPageClickImage from "../../images/buttons/next_page_button/right_arro
 import prevPageNormalImage from "../../images/buttons/prev_page_button/left_arrow.png";
 import prevPageHoverImage from "../../images/buttons/prev_page_button/left_arrow_hv.png";
 import prevPageClickImage from "../../images/buttons/prev_page_button/left_arrow_click.png";
-import pageSelectorFrame from "../../images/scene/gameplay/rank/rank_frame.png";
+import pageSelectorFrame from "../../images/scene/gameplay/leader_rank/rank_frame.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
@@ -23,7 +23,7 @@ import {
   selectIsLoading,
   setLoadingType,
 } from "../../../data/errors";
-import RankElement from "../scene/gameplay/RankElement";
+import RankElement from "../scene/gameplay/LeaderRankElement";
 import Grid from "../common/Grid";
 import {
   addRankNuggetTab,
@@ -208,7 +208,7 @@ const LeaderRankPopup = () => {
             ...getTextShadowStyle(titleFontSize / 15),
           }}
         >
-          Recycle Ranking
+          Leaderboard
         </p>
         <div
           ref={gridContainerRef}

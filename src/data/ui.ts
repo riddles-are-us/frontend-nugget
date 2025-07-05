@@ -15,6 +15,7 @@ export enum UIStateType {
   AuctionNuggetInfoPopup,
   LotNuggetInfoPopup,
   LeaderRankPopup,
+  EarningRankPopup,
 }
 
 export type UIState =
@@ -41,7 +42,8 @@ export type UIState =
       nuggetIndex: number;
       isShowingBidAmountPopup: boolean;
     }
-  | { type: UIStateType.LeaderRankPopup };
+  | { type: UIStateType.LeaderRankPopup }
+  | { type: UIStateType.EarningRankPopup };
 
 export enum TabState {
   Inventory,
@@ -73,16 +75,6 @@ const uiSlice = createSlice({
       state.tabState = d.payload;
     },
   },
-
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(getNuggets.rejected, (state, action) => {
-  //       state.lastError = {
-  //         errorInfo: `send transaction rejected: ${action.payload}`,
-  //         payload: action.payload,
-  //       };
-  //     })
-  // },
 });
 
 export const selectUIState = (state: RootState) => state.ui.uiState;

@@ -39,6 +39,7 @@ export function ConnectController({
     l2Account,
     connectL1,
     connectL2,
+    disconnect
   } = useWalletContext();
   const connectState = useAppSelector(selectConnectState);
   const [queryingLogin, setQueryingLogin] = useState(false);

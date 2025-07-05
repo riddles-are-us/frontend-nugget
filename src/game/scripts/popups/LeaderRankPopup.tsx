@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./RankPopup.css";
+import "./LeaderRankPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
@@ -38,7 +38,7 @@ import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 const ELEMENT_PER_REQUEST = 30;
-const RankPopup = () => {
+const LeaderRankPopup = () => {
   const isFirst = useRef(true);
   const dispatch = useAppDispatch();
   const l2account = useAppSelector(AccountSlice.selectL2Account);
@@ -186,10 +186,10 @@ const RankPopup = () => {
   };
 
   return (
-    <div className="rank-popup-container">
-      <div onClick={onClickCancel} className="rank-popup-mask" />
-      <div ref={containerRef} className="rank-popup-main-container">
-        <div className="rank-popup-main-background">
+    <div className="leader-rank-popup-container">
+      <div onClick={onClickCancel} className="leader-rank-popup-mask" />
+      <div ref={containerRef} className="leader-rank-popup-main-container">
+        <div className="leader-rank-popup-main-background">
           <HorizontalExtendableImage
             leftRatio={58 / 238}
             rightRatio={58 / 238}
@@ -198,11 +198,11 @@ const RankPopup = () => {
             rightImage={rightBackground}
           />
         </div>
-        <div className="rank-popup-close-button">
+        <div className="leader-rank-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="rank-popup-title-text"
+          className="leader-rank-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
@@ -210,7 +210,10 @@ const RankPopup = () => {
         >
           Recycle Ranking
         </p>
-        <div ref={gridContainerRef} className="rank-popup-grid-container">
+        <div
+          ref={gridContainerRef}
+          className="leader-rank-popup-grid-container"
+        >
           <Grid
             elementWidth={elementWidth}
             elementHeight={elementHeight}
@@ -219,7 +222,7 @@ const RankPopup = () => {
             elements={elements}
           />
         </div>
-        <div className="rank-popup-page-selector-container">
+        <div className="leader-rank-popup-page-selector-container">
           <PageSelector
             currentPage={page}
             totalPage={totalPage}
@@ -239,4 +242,4 @@ const RankPopup = () => {
   );
 };
 
-export default RankPopup;
+export default LeaderRankPopup;

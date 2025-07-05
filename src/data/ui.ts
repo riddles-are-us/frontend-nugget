@@ -14,7 +14,7 @@ export enum UIStateType {
   SellingNuggetInfoPopup,
   AuctionNuggetInfoPopup,
   LotNuggetInfoPopup,
-  RankPopup,
+  LeaderRankPopup,
 }
 
 export type UIState =
@@ -41,7 +41,7 @@ export type UIState =
       nuggetIndex: number;
       isShowingBidAmountPopup: boolean;
     }
-  | { type: UIStateType.RankPopup };
+  | { type: UIStateType.LeaderRankPopup };
 
 export enum TabState {
   Inventory,

@@ -92,7 +92,7 @@ const PlayerInfo = () => {
   };
 
   const onClickRank = () => {
-    dispatch(setUIState({ type: UIStateType.RankPopup }));
+    dispatch(setUIState({ type: UIStateType.LeaderRankPopup }));
   };
 
   return (

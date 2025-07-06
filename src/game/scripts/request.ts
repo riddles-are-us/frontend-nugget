@@ -1,19 +1,11 @@
-import {
-  createCommand,
-  createWithdrawCommand,
-  ZKWasmAppRpc,
-} from "zkwasm-minirollup-rpc";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { LeHexBN, query } from "zkwasm-minirollup-rpc";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import type { L1AccountInfo } from 'zkwasm-minirollup-browser';
+import { createCommand, createWithdrawCommand,  ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
+import { getRpcUrl, setRpcUrl } from "zkwasm-minirollup-browser";
 
-// Get the current URL components
-const currentLocation = window.location;
-const protocol = currentLocation.protocol; // e.g., 'http:' or 'https:'
-const hostname = currentLocation.hostname; // e.g., 'sinka' or 'localhost'
 
-// We assume the rpc is at port 3000
-export const fullUrl = `${protocol}//${hostname}` + ":3000";
+setRpcUrl("https://rpc.test-nugget.zkwasm.ai");
+export const fullUrl = getRpcUrl();
 const rpc = new ZKWasmAppRpc(fullUrl);
 
 async function queryConfigI() {
@@ -226,7 +218,7 @@ export function getListNuggetTransactionCommandArray(
 export function getWithdrawTransactionCommandArray(
   nonce: number,
   amount: bigint,
-  account: AccountSlice.L1AccountInfo
+  account: L1AccountInfo
 ): BigUint64Array {
   console.log("address", account);
   const address = account!.address.slice(2);

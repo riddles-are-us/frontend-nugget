@@ -18,7 +18,7 @@ import {
   getRecycleNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import {
   clearInventoryCache,
@@ -59,7 +59,7 @@ const InventoryNuggetInfoPopup = ({
     selectNugget(TabState.Inventory, nuggetIndex)
   );
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -73,8 +73,8 @@ const InventoryNuggetInfoPopup = ({
     nuggetData.attributes,
     nuggetData.feature
   );
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
   const selfOwned =
     nuggetData.owner[0] == Number(pids[1]) &&
@@ -121,7 +121,7 @@ const InventoryNuggetInfoPopup = ({
             userState!.player!.nonce,
             playerDataInventoryNuggetIndex
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
@@ -152,7 +152,7 @@ const InventoryNuggetInfoPopup = ({
             userState!.player!.nonce,
             playerDataInventoryNuggetIndex
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
@@ -192,7 +192,7 @@ const InventoryNuggetInfoPopup = ({
             playerDataInventoryNuggetIndex,
             amount
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {

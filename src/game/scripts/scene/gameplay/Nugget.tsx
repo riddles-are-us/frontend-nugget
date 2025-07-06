@@ -9,7 +9,7 @@ import {
 import DefaultButton from "../../buttons/DefaultButton";
 import NuggetLevel from "./NuggetLevel";
 import { NuggetData } from "../../../../data/model";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { useAppSelector } from "../../../../app/hooks";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
@@ -28,7 +28,7 @@ const attributeLefts = [
 ];
 
 const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -43,8 +43,8 @@ const Nugget = ({ nuggetData, onClickMore, showBidPrice, showTag }: Props) => {
     nuggetData.attributes,
     nuggetData.feature
   );
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
   const selfOwned =
     nuggetData.owner[0] == Number(pids[1]) &&

@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
-import { AccountSlice, ConnectState } from "zkwasm-minirollup-browser";
-import {
-  getConfig,
-  sendTransaction,
-  queryState,
-} from "zkwasm-minirollup-browser/src/connect";
+import { useWalletContext, getConfig, sendTransaction, queryState, ConnectState } from "zkwasm-minirollup-browser";
+// scene/ConnectController.tsx
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectConnectState, setConnectState } from "../../../data/state";
 import LoadingPage from "./LoadingPage";
 import WelcomePage from "./WelcomePage";
 import { pushError } from "../../../data/errors";
+import { useConnectModal } from "zkwasm-minirollup-browser";
 
 const CREATE_PLAYER = 1n;
 
@@ -27,10 +24,27 @@ export function ConnectController({
 }: Props) {
   const dispatch = useAppDispatch();
   const [progress, setProgress] = useState(0);
-  const l1account = useAppSelector(AccountSlice.selectL1Account);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const {
+    isConnected,
+    isL2Connected,
+    l1Account,
+    l2Account,
+    connectL1,
+    connectL2,
+    disconnect
+  } = useWalletContext();
   const connectState = useAppSelector(selectConnectState);
   const [queryingLogin, setQueryingLogin] = useState(false);
+
+  // RainbowKit connect modal hook
+  const { openConnectModal } = useConnectModal();
+
+  // Show connect modal automatically on mount if wallet not connected
+  useEffect(() => {
+    if (!l1Account && openConnectModal) {
+      openConnectModal();
+    }
+  }, [l1Account, openConnectModal]);
 
   async function preloadImages(imageUrls: string[]): Promise<void> {
     let loadedCount = 0;
@@ -62,17 +76,18 @@ export function ConnectController({
     }
   };
 
+  // Initiate wallet connection & L1 login on mount
   useEffect(() => {
-    dispatch(AccountSlice.loginL1AccountAsync());
-  }, []);
+    connectL1();
+  }, [connectL1]);
 
   useEffect(() => {
-    if (l1account) {
+    if (l1Account) {
       if (connectState == ConnectState.Init) {
         dispatch(setConnectState(ConnectState.OnStart));
       }
     }
-  }, [l1account]);
+  }, [l1Account]);
 
   useEffect(() => {
     console.log("connectState", connectState);
@@ -89,23 +104,22 @@ export function ConnectController({
       dispatch(
         sendTransaction({
           cmd: command,
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       );
     }
   }, [connectState]);
 
-  const onLogin = () => {
+  const onLogin = async () => {
     if (!queryingLogin) {
-      dispatch(
-        AccountSlice.loginL2AccountAsync("0xSpaceNugget")
-      ); /* create player */
+      await connectL2();
       setQueryingLogin(true);
     }
   };
 
   const onStartGame = () => {
-    dispatch(queryState(l2account!.getPrivateKey()));
+    if (!l2Account) return;
+    dispatch(queryState(l2Account.getPrivateKey()));
     onStartGameplay();
   };
 
@@ -118,7 +132,7 @@ export function ConnectController({
   } else if (connectState == ConnectState.Idle) {
     return (
       <WelcomePage
-        isLogin={l2account != null}
+        isLogin={l2Account != null}
         onLogin={onLogin}
         onStartGame={onStartGame}
       />

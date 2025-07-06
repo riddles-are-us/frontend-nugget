@@ -22,15 +22,16 @@ import {
   sendTransaction,
 } from "../request";
 import { selectUserState } from "../../../data/state";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
+import { AnyAction } from '@reduxjs/toolkit';
 
 const EarningRankPopup = () => {
   const dispatch = useAppDispatch();
-  const containerRef = useRef<HTMLParagraphElement>(null);
+  const containerRef = useRef<HTMLParagraphElement>(null) ;
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
   const userState = useAppSelector(selectUserState);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
 
   const elementRatio = 738 / 54;
   const gridContainerRef = useRef<HTMLParagraphElement>(null);
@@ -86,9 +87,9 @@ const EarningRankPopup = () => {
             userState!.player!.nonce,
             BigInt(index)
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
-      ).then(async (action) => {
+      ).then(async (action: AnyAction) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("claim reward successed");
           dispatch(setUIState({ type: UIStateType.Idle }));

@@ -1,33 +1,15 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { AccountSliceReducer } from 'zkwasm-minirollup-browser';
+import { ThunkAction, Action } from '@reduxjs/toolkit';
 import stateReducer from "../data/state";
 import uiReducer from "../data/ui";
 import nuggetsReducer from "../data/nuggets";
 import errorsReducer from "../data/errors";
+import { createDelphinusStore } from 'zkwasm-minirollup-browser';
 
-export const store = configureStore({
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['acccount/deriveL2Account/fulfilled', 'acccount/deposit/pending', 'acccount/deposit/rejected'],
-        ignoredActionPaths: ['payload.web3', 'payload.seed', 'payload.injector', 'meta.arg.cmd'],
-        ignoredPaths: [
-          "acccount/fetchAccount/fulfilled",
-          "account.l1Account.web3",
-          "endpoint.zkWasmServiceHelper",
-          "status.config.latest_server_checksum",
-          "account.l2account",
-          "ui.player.data.action",
-        ],
-      },
-    }),
-  reducer: {
-    account: AccountSliceReducer,
-    state: stateReducer,
-    ui: uiReducer,
-    nuggets: nuggetsReducer,
-    errors: errorsReducer,
-  },
+export const store = createDelphinusStore({
+  state: stateReducer,
+  ui: uiReducer,
+  nuggets: nuggetsReducer,
+  errors: errorsReducer,
 });
 
 export type AppDispatch = typeof store.dispatch;

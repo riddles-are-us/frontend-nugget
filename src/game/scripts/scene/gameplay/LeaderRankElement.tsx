@@ -10,7 +10,7 @@ import {
   getTextShadowStyle,
 } from "../../common/Utility";
 import { NuggetData } from "../../../../data/model";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { useAppSelector } from "../../../../app/hooks";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const LeaderRankElement = ({ rank, nuggetData }: Props) => {
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [rankFontSize, setRankFontSize] = useState<number>(0);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);

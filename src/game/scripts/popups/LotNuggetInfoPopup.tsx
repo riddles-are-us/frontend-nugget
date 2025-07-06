@@ -29,7 +29,7 @@ import {
   getSellNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
@@ -56,7 +56,7 @@ const LotNuggetInfoPopup = ({
 
   const containerRef = useRef<HTMLParagraphElement>(null);
   const isLoading = useAppSelector(selectIsLoading);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -71,8 +71,8 @@ const LotNuggetInfoPopup = ({
     nuggetData.attributes,
     nuggetData.feature
   );
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
   const isSettleEnabled = getIsSettleEnabled(
     userState.state.counter,
@@ -128,7 +128,7 @@ const LotNuggetInfoPopup = ({
             nuggetData.marketid,
             amount
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {
@@ -169,7 +169,7 @@ const LotNuggetInfoPopup = ({
             userState!.player!.nonce,
             nuggetData.marketid
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {

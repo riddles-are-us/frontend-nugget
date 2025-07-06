@@ -6,7 +6,7 @@ import {
   sendTransaction,
   queryState,
 } from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
-import { getRpcUrl, setRpcUrl } from "zkwasm-minirollup-browser/dist/rpc/client";
+import { setRpcUrl } from "zkwasm-minirollup-browser/dist/rpc/client";
 import { ConnectState } from "zkwasm-minirollup-browser/dist/store/app-slice";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";

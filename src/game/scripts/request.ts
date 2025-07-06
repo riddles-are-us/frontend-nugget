@@ -1,14 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { L1AccountInfo } from 'zkwasm-minirollup-browser/dist/types/account';
 import { createCommand, createWithdrawCommand,  ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
+import { getRpcUrl } from "zkwasm-minirollup-browser/dist/rpc/client";
 
-// Get the current URL components
-const currentLocation = window.location;
-const protocol = currentLocation.protocol; // e.g., 'http:' or 'https:'
-const hostname = currentLocation.hostname; // e.g., 'sinka' or 'localhost'
-
-// We assume the rpc is at port 3000
-export const fullUrl = "https://rpc.test-nugget.zkwasm.ai";
+export const fullUrl = getRpcUrl();
 const rpc = new ZKWasmAppRpc(fullUrl);
 
 async function queryConfigI() {

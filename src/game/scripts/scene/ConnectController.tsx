@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useWalletContext, getConfig, sendTransaction, queryState, ConnectState } from "zkwasm-minirollup-browser";
 // scene/ConnectController.tsx
 import { createCommand } from "zkwasm-minirollup-rpc";
@@ -39,12 +39,30 @@ export function ConnectController({
   // RainbowKit connect modal hook
   const { openConnectModal } = useConnectModal();
 
-  // Show connect modal automatically on mount if wallet not connected
+  const showedModal = useRef(false);
+
   useEffect(() => {
-    if (!l1Account && openConnectModal) {
-      openConnectModal();
+    if (!isConnected && !showedModal.current) {
+      showedModal.current = true;
+      openConnectModal?.();
     }
-  }, [l1Account, openConnectModal]);
+  }, [isConnected, openConnectModal]);
+
+  useEffect(() => {
+    if (isConnected && !l1Account) {
+      connectL1();
+    }
+  }, [isConnected, l1Account, connectL1]);
+
+  const prevIsConnected = useRef(isConnected);
+
+  useEffect(() => {
+    if (prevIsConnected.current && !isConnected) {
+      showedModal.current = false;
+      openConnectModal?.();
+    }
+    prevIsConnected.current = isConnected;
+  }, [isConnected, openConnectModal]);
 
   async function preloadImages(imageUrls: string[]): Promise<void> {
     let loadedCount = 0;
@@ -75,11 +93,6 @@ export function ConnectController({
       console.error(message);
     }
   };
-
-  // Initiate wallet connection & L1 login on mount
-  useEffect(() => {
-    connectL1();
-  }, [connectL1]);
 
   useEffect(() => {
     if (l1Account) {

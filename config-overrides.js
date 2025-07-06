@@ -69,21 +69,5 @@ module.exports = function override(config, env) {
           },
   });
 
-  config.module.rules.forEach(rule => {
-    if (
-      rule.use &&
-      rule.use.some(
-        (u) =>
-          (typeof u === "string" && u.includes("source-map-loader")) ||
-          (typeof u === "object" && u.loader && u.loader.includes("source-map-loader"))
-      )
-    ) {
-      rule.exclude = [
-        ...(rule.exclude || []),
-        /node_modules\/zkwasm-minirollup-browser/
-      ];
-    }
-  });
-
   return config
 }

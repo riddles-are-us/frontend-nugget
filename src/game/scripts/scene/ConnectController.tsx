@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import { useWalletContext } from "zkwasm-minirollup-browser";
+import { useWalletContext, getConfig, sendTransaction, queryState, ConnectState } from "zkwasm-minirollup-browser";
 // scene/ConnectController.tsx
-import {
-  getConfig,
-  sendTransaction,
-  queryState,
-} from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
-import { ConnectState } from "zkwasm-minirollup-browser/dist/store/app-slice";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectConnectState, setConnectState } from "../../../data/state";

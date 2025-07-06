@@ -12,8 +12,7 @@ import rightInputBackground from "../../images/popups/default/right_input.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
-import { useWalletContext } from "zkwasm-minirollup-browser";
-import { sendTransaction } from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
+import { useWalletContext, sendTransaction } from "zkwasm-minirollup-browser";
 import { getWithdrawTransactionCommandArray } from "../request";
 import { selectUserState } from "../../../data/state";
 import {

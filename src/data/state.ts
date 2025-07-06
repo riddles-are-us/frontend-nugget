@@ -2,7 +2,7 @@ import {
   createStateSlice,
   PropertiesState,
   ConnectState,
-} from "zkwasm-minirollup-browser/dist/store/app-slice";
+} from "zkwasm-minirollup-browser";
 import { RootState } from "../app/store";
 import { NuggetData } from "./model";
 

@@ -6,14 +6,9 @@ import {
   selectNullableUserState,
 } from "../../../data/state";
 import Gameplay from "./Gameplay";
-import {
-  queryInitialState,
-  queryState,
-} from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
-import { useWalletContext } from "zkwasm-minirollup-browser";
+import { useWalletContext, queryInitialState, queryState, ConnectState } from "zkwasm-minirollup-browser";
 import { ConnectController } from "./ConnectController";
 import { setUIState, UIStateType } from "../../../data/ui";
-import { ConnectState } from "zkwasm-minirollup-browser/dist/store/app-slice";
 
 
 export function LoadingController() {

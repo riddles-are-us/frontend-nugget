@@ -8,7 +8,7 @@ import {
   NuggetTabData,
 } from "./model";
 import { queryState } from "../game/scripts/request";
-import { sendTransaction } from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
+import { sendTransaction } from "zkwasm-minirollup-browser";
 import { TabState } from "./ui";
 import { isEqual } from "../game/scripts/common/Utility";
 import { decodeNuggets } from "../game/scripts/express";

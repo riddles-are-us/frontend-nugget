@@ -6,11 +6,10 @@ import {
   getTextShadowStyle,
   PICK_NUGGET_COST,
 } from "../../common/Utility";
-import { useWalletContext } from "zkwasm-minirollup-browser";
+import { useWalletContext, sendTransaction } from "zkwasm-minirollup-browser";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
-import { sendTransaction } from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
 import { getCreateNuggetTransactionCommandArray } from "../../request";
 import treasure_image from "../../../images/scene/gameplay/top_container/treasure.png";
 import cash_image from "../../../images/scene/gameplay/top_container/cash.png";
@@ -25,6 +24,7 @@ import { setNuggetsForceUpdate } from "../../../../data/nuggets";
 import LeaderRankButton from "../../buttons/LeaderRankButton";
 import PlayerTreasureInfo from "./PlayerTreasureInfo";
 import EarningRankButton from "../../buttons/EarningRankButton";
+import { AnyAction } from "@reduxjs/toolkit";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
@@ -76,7 +76,7 @@ const PlayerInfo = () => {
           cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
           prikey: l2Account!.getPrivateKey(),
         })
-      ).then(async (action) => {
+      ).then(async (action: AnyAction) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("pick nugget successed");
           dispatch(setNuggetsForceUpdate(true));

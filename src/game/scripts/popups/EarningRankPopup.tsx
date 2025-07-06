@@ -23,6 +23,7 @@ import {
 } from "../request";
 import { selectUserState } from "../../../data/state";
 import { useWalletContext } from "zkwasm-minirollup-browser";
+import { AnyAction } from '@reduxjs/toolkit';
 
 const EarningRankPopup = () => {
   const dispatch = useAppDispatch();
@@ -88,7 +89,7 @@ const EarningRankPopup = () => {
           ),
           prikey: l2Account!.getPrivateKey(),
         })
-      ).then(async (action) => {
+      ).then(async (action: AnyAction) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("claim reward successed");
           dispatch(setUIState({ type: UIStateType.Idle }));

@@ -1,8 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { L1AccountInfo } from 'zkwasm-minirollup-browser/dist/types/account';
 import { createCommand, createWithdrawCommand,  ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
-import { getRpcUrl } from "zkwasm-minirollup-browser/dist/rpc/client";
+import { getRpcUrl, setRpcUrl } from "zkwasm-minirollup-browser/dist/rpc/client";
 
+
+setRpcUrl("https://rpc.test-nugget.zkwasm.ai");
 export const fullUrl = getRpcUrl();
 const rpc = new ZKWasmAppRpc(fullUrl);
 

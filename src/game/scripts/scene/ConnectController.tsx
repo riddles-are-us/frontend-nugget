@@ -6,7 +6,6 @@ import {
   sendTransaction,
   queryState,
 } from "zkwasm-minirollup-browser/dist/store/rpc-thunks";
-import { setRpcUrl } from "zkwasm-minirollup-browser/dist/rpc/client";
 import { ConnectState } from "zkwasm-minirollup-browser/dist/store/app-slice";
 import { createCommand } from "zkwasm-minirollup-rpc";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
@@ -18,7 +17,6 @@ import { useConnectModal } from "zkwasm-minirollup-browser";
 
 const CREATE_PLAYER = 1n;
 
-setRpcUrl("https://rpc.test-nugget.zkwasm.ai");
 interface Props {
   imageUrls: string[];
   onStart: () => Promise<void>;

@@ -13,6 +13,7 @@ export interface NuggetData {
   owner: number[];
   bid: Bid | null;
   lastUpdate: number;
+  earningStart: number;
 }
 
 export const emptyNuggetData: NuggetData = {
@@ -25,6 +26,7 @@ export const emptyNuggetData: NuggetData = {
   owner: [],
   bid: null,
   lastUpdate: 0,
+  earningStart: 0,
 };
 
 export interface NuggetTabData {

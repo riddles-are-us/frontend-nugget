@@ -4,7 +4,7 @@ import { createCommand, createWithdrawCommand,  ZKWasmAppRpc } from 'zkwasm-mini
 import { getRpcUrl, setRpcUrl } from "zkwasm-minirollup-browser";
 
 
-setRpcUrl("https://rpc.test-nugget.zkwasm.ai");
+setRpcUrl("https://rpc.space-nugget.zkwasm.ai");
 export const fullUrl = getRpcUrl();
 const rpc = new ZKWasmAppRpc(fullUrl);
 

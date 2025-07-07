@@ -9,20 +9,27 @@ const instance = axios.create({
   },
 });
 
-export function decodeNuggets(raws: any, owner: number[]): NuggetData[] {
+export function decodeNuggets(
+  raws: any,
+  default_owner?: number[]
+): NuggetData[] {
   const commodityList: NuggetData[] = raws.map(
     ({
       attributes,
       feature,
       id,
+      owner,
       marketid,
       sysprice,
+      start,
     }: {
       attributes: number;
       feature: number;
       id: number;
+      owner: number[];
       marketid: number;
       sysprice: number;
+      start: number;
     }) => ({
       id: Number(id),
       marketid: marketid,
@@ -31,8 +38,9 @@ export function decodeNuggets(raws: any, owner: number[]): NuggetData[] {
       sysprice: Number(sysprice ?? 0),
       askprice: 0,
       bid: null,
-      owner: owner,
+      owner: owner ?? default_owner,
       lastUpdate: 0,
+      earningStart: Number(start ?? 0),
     })
   );
 

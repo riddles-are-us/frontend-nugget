@@ -100,8 +100,7 @@ const nuggetsSlice = createSlice({
         }
         if (action.payload.state) {
           state.earningRankNuggets = decodeNuggets(
-            action.payload.state.leaderboard.nuggets,
-            []
+            action.payload.state.leaderboard.nuggets
           );
         }
       })

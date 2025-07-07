@@ -14,6 +14,7 @@ import NuggetLevel from "./NuggetLevel";
 import background from "../../../images/scene/gameplay/earning_rank/background.png";
 import DefaultButton from "../../buttons/DefaultButton";
 import { selectIsLoading } from "../../../../data/errors";
+import { selectUserState } from "../../../../data/state";
 
 interface Props {
   nuggetData: NuggetData;
@@ -25,9 +26,15 @@ const EarningRankElement = ({ nuggetData, onCliamReward }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const [coinFontSize, setCoinFontSize] = useState<number>(0);
-  const nuggetPrice = nuggetData.sysprice;
+  const userState = useAppSelector(selectUserState);
+  const earningAmount = userState.state.counter - nuggetData.earningStart;
   const nuggetLevel = 7 - nuggetData.feature;
-  const ownerId = nuggetData.owner[0] ?? "";
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
+    : ["", "", "", ""];
+  const selfOwned =
+    nuggetData.owner[0] == Number(pids[1]) &&
+    nuggetData.owner[1] == Number(pids[2]);
 
   const nuggetAttributeString = getAttributeList(
     nuggetData.attributes,
@@ -87,14 +94,14 @@ const EarningRankElement = ({ nuggetData, onCliamReward }: Props) => {
             ...getTextShadowStyle(coinFontSize / 15),
           }}
         >
-          {nuggetPrice}
+          {earningAmount}
         </p>
         <div className="earning-rank-element-coin-image" />
         <div className="earning-rank-element-claim-button">
           <DefaultButton
             text={"Claim"}
             onClick={onCliamReward}
-            isDisabled={false}
+            isDisabled={!selfOwned}
           />
         </div>
       </div>

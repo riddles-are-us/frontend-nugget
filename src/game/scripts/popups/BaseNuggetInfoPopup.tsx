@@ -15,27 +15,12 @@ import {
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import {
-  LoadingType,
-  pushError,
-  selectIsLoading,
-  setLoadingType,
-} from "../../../data/errors";
-import PriceInputPopup from "./PriceInputPopup";
-import {
-  getBidNuggetTransactionCommandArray,
-  sendTransaction,
-} from "../request";
+import { selectIsLoading } from "../../../data/errors";
 import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
-import {
-  resetAuctionNuggetTab,
-  resetLotNuggetTab,
-  selectNugget,
-  setNuggetsForceUpdate,
-} from "../../../data/nuggets";
+import { selectNugget } from "../../../data/nuggets";
 
 interface Props {
   nuggetIndex: number;
@@ -167,29 +152,60 @@ const BaseNuggetInfoPopup = ({
             ...getTextShadowStyle(descriptionFontSize / 15),
           }}
         >
-          {`Recycle Price: ${nuggetPrice}`}
+          Recycle Price:
+        </p>
+        <p
+          className="base-nugget-info-popup-price-value-text"
+          style={{
+            fontSize: descriptionFontSize,
+            ...getTextShadowStyle(descriptionFontSize / 15),
+          }}
+        >
+          {nuggetPrice}
         </p>
         {showBidPrice && (
-          <p
-            className="base-nugget-info-popup-bid-text"
-            style={{
-              fontSize: descriptionFontSize,
-              ...getTextShadowStyle(descriptionFontSize / 15),
-            }}
-          >
-            {`Bid Price: ${nuggetBidPrice}`}
-          </p>
+          <>
+            <p
+              className="base-nugget-info-popup-bid-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              Bid Price:
+            </p>
+            <p
+              className="base-nugget-info-popup-bid-value-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {nuggetBidPrice}
+            </p>
+          </>
         )}
         {showBuyOutPrice && (
-          <p
-            className="base-nugget-info-popup-ask-text"
-            style={{
-              fontSize: descriptionFontSize,
-              ...getTextShadowStyle(descriptionFontSize / 15),
-            }}
-          >
-            {`Buyout Price: ${nuggetAskPrice}`}
-          </p>
+          <>
+            <p
+              className="base-nugget-info-popup-ask-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              Buyout Price:
+            </p>
+            <p
+              className="base-nugget-info-popup-ask-value-text"
+              style={{
+                fontSize: descriptionFontSize,
+                ...getTextShadowStyle(descriptionFontSize / 15),
+              }}
+            >
+              {nuggetAskPrice}
+            </p>
+          </>
         )}
         {nuggetBidderId && (
           <p

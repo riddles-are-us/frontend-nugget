@@ -54,8 +54,11 @@
 
 .base-nugget-info-popup-title-text,
 .base-nugget-info-popup-price-text,
+.base-nugget-info-popup-price-value-text,
 .base-nugget-info-popup-bid-text,
+.base-nugget-info-popup-bid-value-text,
 .base-nugget-info-popup-ask-text,
+.base-nugget-info-popup-ask-value-text,
 .base-nugget-info-popup-attributes-text,
 .base-nugget-info-popup-bidder-text {
   margin: 0px;
@@ -80,8 +83,17 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 37%;
-  top: 42%;
+  left: 72%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+
+.base-nugget-info-popup-price-value-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 90%;
+  top: 20%;
   transform: translate(-50%, -50%);
 }
 
@@ -89,8 +101,17 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 66%;
-  top: 42%;
+  left: 72%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+}
+
+.base-nugget-info-popup-bid-value-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 90%;
+  top: 30%;
   transform: translate(-50%, -50%);
 }
 
@@ -98,8 +119,17 @@
   position: absolute;
   width: 30%;
   height: 15%;
-  left: 88%;
-  top: 42%;
+  left: 72%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+}
+
+.base-nugget-info-popup-ask-value-text {
+  position: absolute;
+  width: 30%;
+  height: 15%;
+  left: 90%;
+  top: 40%;
   transform: translate(-50%, -50%);
 }
 

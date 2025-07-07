@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import "./RankPopup.css";
+import "./LeaderRankPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
@@ -12,18 +12,18 @@ import nextPageClickImage from "../../images/buttons/next_page_button/right_arro
 import prevPageNormalImage from "../../images/buttons/prev_page_button/left_arrow.png";
 import prevPageHoverImage from "../../images/buttons/prev_page_button/left_arrow_hv.png";
 import prevPageClickImage from "../../images/buttons/prev_page_button/left_arrow_click.png";
-import pageSelectorFrame from "../../images/scene/gameplay/rank/rank_frame.png";
+import pageSelectorFrame from "../../images/scene/gameplay/leader_rank/rank_frame.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import {
   LoadingType,
   pushError,
   selectIsLoading,
   setLoadingType,
 } from "../../../data/errors";
-import RankElement from "../scene/gameplay/RankElement";
+import RankElement from "../scene/gameplay/LeaderRankElement";
 import Grid from "../common/Grid";
 import {
   addRankNuggetTab,
@@ -38,10 +38,10 @@ import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 const ELEMENT_PER_REQUEST = 30;
-const RankPopup = () => {
+const LeaderRankPopup = () => {
   const isFirst = useRef(true);
   const dispatch = useAppDispatch();
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
@@ -59,8 +59,8 @@ const RankPopup = () => {
   const rankNuggetTab = useAppSelector(selectRankNuggetTab);
   const nuggetsForceUpdate = useAppSelector(selectNuggetsForceUpdate);
   const [elements, setElements] = useState<JSX.Element[]>([]);
-  const pids = l2account?.pubkey
-    ? new LeHexBN(bnToHexLe(l2account?.pubkey)).toU64Array()
+  const pids = l2Account?.pubkey
+    ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
 
   const adjustSize = () => {
@@ -186,10 +186,10 @@ const RankPopup = () => {
   };
 
   return (
-    <div className="rank-popup-container">
-      <div onClick={onClickCancel} className="rank-popup-mask" />
-      <div ref={containerRef} className="rank-popup-main-container">
-        <div className="rank-popup-main-background">
+    <div className="leader-rank-popup-container">
+      <div onClick={onClickCancel} className="leader-rank-popup-mask" />
+      <div ref={containerRef} className="leader-rank-popup-main-container">
+        <div className="leader-rank-popup-main-background">
           <HorizontalExtendableImage
             leftRatio={58 / 238}
             rightRatio={58 / 238}
@@ -198,19 +198,22 @@ const RankPopup = () => {
             rightImage={rightBackground}
           />
         </div>
-        <div className="rank-popup-close-button">
+        <div className="leader-rank-popup-close-button">
           <PopupCloseButton onClick={onClickCancel} isDisabled={false} />
         </div>
         <p
-          className="rank-popup-title-text"
+          className="leader-rank-popup-title-text"
           style={{
             fontSize: titleFontSize,
             ...getTextShadowStyle(titleFontSize / 15),
           }}
         >
-          Recycle Ranking
+          Leaderboard
         </p>
-        <div ref={gridContainerRef} className="rank-popup-grid-container">
+        <div
+          ref={gridContainerRef}
+          className="leader-rank-popup-grid-container"
+        >
           <Grid
             elementWidth={elementWidth}
             elementHeight={elementHeight}
@@ -219,7 +222,7 @@ const RankPopup = () => {
             elements={elements}
           />
         </div>
-        <div className="rank-popup-page-selector-container">
+        <div className="leader-rank-popup-page-selector-container">
           <PageSelector
             currentPage={page}
             totalPage={totalPage}
@@ -239,4 +242,4 @@ const RankPopup = () => {
   );
 };
 
-export default RankPopup;
+export default LeaderRankPopup;

@@ -28,7 +28,7 @@ import {
   selectIsLoading,
   setLoadingType,
 } from "../../../data/errors";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
@@ -50,7 +50,7 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   );
   const containerRef = useRef<HTMLParagraphElement>(null);
   const isLoading = useAppSelector(selectIsLoading);
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
+  const { l2Account } = useWalletContext();
   const userState = useAppSelector(selectUserState);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -101,7 +101,7 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
             userState!.player!.nonce,
             nuggetData.marketid
           ),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
       ).then(async (action) => {
         if (sendTransaction.fulfilled.match(action)) {

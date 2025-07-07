@@ -4,6 +4,7 @@ import {
   ConnectState,
 } from "zkwasm-minirollup-browser";
 import { RootState } from "../app/store";
+import { NuggetData } from "./model";
 
 export interface PlayerInfo {
   nonce: number;
@@ -19,6 +20,7 @@ export interface GlobalState {
   counter: number;
   total: number;
   treasure: number;
+  leaderboard: { nuggets: NuggetData[] };
 }
 
 const initialState: PropertiesState<PlayerInfo, GlobalState, any> = {

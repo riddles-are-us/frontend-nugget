@@ -1,0 +1,104 @@
+.earning-rank-element-container {
+  position: relative;
+}
+
+.earning-rank-element-margin-container {
+  position: absolute;
+  width: 95%;
+  height: calc(95% - 4.75px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1dvh;
+}
+
+.earning-rank-element-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.earning-rank-element-avatar-image {
+  position: absolute;
+  width: auto;
+  height: 78%;
+  aspect-ratio: 88 / 88;
+  left: 3.7%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.earning-rank-element-miner-image {
+  position: absolute;
+  width: auto;
+  height: 78%;
+  aspect-ratio: 88 / 79;
+  left: 63.45%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.earning-rank-element-attributes-text {
+  position: absolute;
+  width: 50%;
+  height: 80%;
+  left: 37%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+}
+
+.earning-rank-element-attributes-text,
+.earning-rank-element-coin-title-text,
+.earning-rank-element-coin-text {
+  margin: 0px;
+  color: white;
+  font-weight: bold;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.earning-rank-element-coin-title-text {
+  position: absolute;
+  width: 20%;
+  height: 80%;
+  left: 80%;
+  top: 54%;
+  transform: translate(-50%, -50%);
+}
+
+.earning-rank-element-coin-text {
+  position: absolute;
+  width: 20%;
+  height: 80%;
+  left: 83%;
+  top: 89%;
+  transform: translate(-50%, -50%);
+}
+
+.earning-rank-element-coin-image {
+  position: absolute;
+  width: auto;
+  height: 35%;
+  aspect-ratio: 1;
+  left: 71%;
+  top: 65%;
+  transform: translate(-50%, -50%);
+  background-image: url("../../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.earning-rank-element-claim-button {
+  position: absolute;
+  width: 10%;
+  height: 80%;
+  left: 94%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -6,11 +6,10 @@ import {
   getTextShadowStyle,
   PICK_NUGGET_COST,
 } from "../../common/Utility";
-import { AccountSlice } from "zkwasm-minirollup-browser";
+import { useWalletContext, sendTransaction } from "zkwasm-minirollup-browser";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
-import { sendTransaction } from "zkwasm-minirollup-browser/src/connect";
 import { getCreateNuggetTransactionCommandArray } from "../../request";
 import treasure_image from "../../../images/scene/gameplay/top_container/treasure.png";
 import cash_image from "../../../images/scene/gameplay/top_container/cash.png";
@@ -25,11 +24,12 @@ import { setNuggetsForceUpdate } from "../../../../data/nuggets";
 import LeaderRankButton from "../../buttons/LeaderRankButton";
 import PlayerTreasureInfo from "./PlayerTreasureInfo";
 import EarningRankButton from "../../buttons/EarningRankButton";
+import { AnyAction } from "@reduxjs/toolkit";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
-  const l2account = useAppSelector(AccountSlice.selectL2Account);
-  const playerId = addressAbbreviation("0x" + l2account!.pubkey, 5);
+  const { l2Account } = useWalletContext();
+  const playerId = addressAbbreviation("0x" + l2Account!.pubkey, 5);
   const userState = useAppSelector(selectUserState);
   const coin = userState.player!.data.balance;
   const treasure = userState.state!.treasure;
@@ -74,9 +74,9 @@ const PlayerInfo = () => {
       dispatch(
         sendTransaction({
           cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
-          prikey: l2account!.getPrivateKey(),
+          prikey: l2Account!.getPrivateKey(),
         })
-      ).then(async (action) => {
+      ).then(async (action: AnyAction) => {
         if (sendTransaction.fulfilled.match(action)) {
           console.log("pick nugget successed");
           dispatch(setNuggetsForceUpdate(true));
@@ -91,8 +91,12 @@ const PlayerInfo = () => {
     }
   };
 
-  const onClickRank = () => {
-    dispatch(setUIState({ type: UIStateType.RankPopup }));
+  const onClickLeaderRank = () => {
+    dispatch(setUIState({ type: UIStateType.LeaderRankPopup }));
+  };
+
+  const onClickEarningRank = () => {
+    dispatch(setUIState({ type: UIStateType.EarningRankPopup }));
   };
 
   return (
@@ -126,10 +130,10 @@ const PlayerInfo = () => {
       </p>
       <div className="player-info-coin-image" />
       <div className="player-info-rank-button">
-        <LeaderRankButton onClick={onClickRank} isDisabled={false} />
+        <LeaderRankButton onClick={onClickLeaderRank} isDisabled={false} />
       </div>
       <div className="player-info-earning-button">
-        <EarningRankButton onClick={onClickRank} isDisabled={false} />
+        <EarningRankButton onClick={onClickEarningRank} isDisabled={false} />
       </div>
 
       <div className="player-info-treasure-container">

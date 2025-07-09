@@ -99,7 +99,7 @@ const AuctionNuggetInfoPopup = ({
   return (
     <div className="auction-nugget-info-popup-container">
       <BaseNuggetInfoPopup
-        nuggetIndex={nuggetIndex}
+        nuggetData={nuggetData}
         showBidPrice={true}
         showBuyOutPrice={true}
         showSelfOwnedTag={true}

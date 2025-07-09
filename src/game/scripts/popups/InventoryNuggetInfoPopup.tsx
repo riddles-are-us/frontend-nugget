@@ -174,7 +174,7 @@ const InventoryNuggetInfoPopup = ({
   return (
     <div className="inventory-nugget-info-popup-container">
       <BaseNuggetInfoPopup
-        nuggetIndex={nuggetIndex}
+        nuggetData={nuggetData}
         showBidPrice={false}
         showBuyOutPrice={false}
         showSelfOwnedTag={true}

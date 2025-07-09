@@ -20,10 +20,10 @@ import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
-import { selectNugget } from "../../../data/nuggets";
+import { NuggetData } from "../../../data/model";
 
 interface Props {
-  nuggetIndex: number;
+  nuggetData: NuggetData;
   showBidPrice: boolean;
   showBuyOutPrice: boolean;
   showSelfOwnedTag: boolean;
@@ -43,7 +43,7 @@ const attributeLefts = [
 ];
 
 const BaseNuggetInfoPopup = ({
-  nuggetIndex,
+  nuggetData,
   showBidPrice,
   showBuyOutPrice,
   showSelfOwnedTag,
@@ -56,10 +56,6 @@ const BaseNuggetInfoPopup = ({
   onClickSettle,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const nuggetData = useAppSelector(
-    selectNugget(TabState.Auction, nuggetIndex)
-  );
-
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);

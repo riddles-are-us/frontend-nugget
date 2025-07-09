@@ -64,7 +64,7 @@ const SellingNuggetInfoPopup = ({ nuggetIndex }: Props) => {
   return (
     <div className="selling-nugget-info-popup-container">
       <BaseNuggetInfoPopup
-        nuggetIndex={nuggetIndex}
+        nuggetData={nuggetData}
         showBidPrice={true}
         showBuyOutPrice={true}
         showSelfOwnedTag={false}

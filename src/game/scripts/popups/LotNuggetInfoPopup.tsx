@@ -126,7 +126,7 @@ const LotNuggetInfoPopup = ({
   return (
     <div className="lot-nugget-info-popup-container">
       <BaseNuggetInfoPopup
-        nuggetIndex={nuggetIndex}
+        nuggetData={nuggetData}
         showBidPrice={true}
         showBuyOutPrice={true}
         showSelfOwnedTag={false}

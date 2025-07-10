@@ -59,6 +59,7 @@ const NuggetGrid = () => {
   const { l2Account } = useWalletContext();
   const userState = useAppSelector(selectNullableUserState);
   const uIState = useAppSelector(selectUIState);
+  const uIStateRef = useRef<{ type: UIStateType }>({ type: UIStateType.Idle });
   const isloading = useAppSelector(selectIsLoading);
   const pids = l2Account?.pubkey
     ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
@@ -124,6 +125,10 @@ const NuggetGrid = () => {
       checkTabData();
     }
   }, [nuggetsForceUpdate]);
+
+  useEffect(() => {
+    uIStateRef.current = uIState;
+  }, [uIState]);
 
   const checkTabData = async () => {
     if (isloading) {
@@ -342,7 +347,7 @@ const NuggetGrid = () => {
   };
 
   const onClickInventoryMore = (index: number) => {
-    if (uIState.type == UIStateType.Idle) {
+    if (uIStateRef.current.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.InventoryNuggetInfoPopup,
@@ -354,7 +359,7 @@ const NuggetGrid = () => {
   };
 
   const onClickSellingMore = (index: number) => {
-    if (uIState.type == UIStateType.Idle) {
+    if (uIStateRef.current.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.SellingNuggetInfoPopup,
@@ -365,7 +370,7 @@ const NuggetGrid = () => {
   };
 
   const onClickMarketMore = (index: number) => {
-    if (uIState.type == UIStateType.Idle) {
+    if (uIStateRef.current.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.AuctionNuggetInfoPopup,
@@ -377,7 +382,7 @@ const NuggetGrid = () => {
   };
 
   const onClickBidMore = (index: number) => {
-    if (uIState.type == UIStateType.Idle) {
+    if (uIStateRef.current.type == UIStateType.Idle) {
       dispatch(
         setUIState({
           type: UIStateType.LotNuggetInfoPopup,

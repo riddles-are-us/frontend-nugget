@@ -18,38 +18,38 @@
 
 .player-info-player-id-text {
   position: absolute;
-  width: 40%;
-  height: 20%;
-  left: 45%;
-  top: 25%;
+  width: 10%;
+  height: 10%;
+  left: 10%;
+  top: 17%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-player-id-value-text {
   position: absolute;
-  width: 40%;
-  height: 20%;
-  left: 60%;
-  top: 25%;
+  width: 30%;
+  height: 10%;
+  left: 30%;
+  top: 17%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-coin-text {
   position: absolute;
-  width: 40%;
-  height: 20%;
-  left: 49%;
-  top: 48%;
+  width: 20%;
+  height: 10%;
+  left: 66%;
+  top: 17%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-coin-image {
   position: absolute;
   width: auto;
-  height: 17%;
+  height: 12%;
   aspect-ratio: 1;
-  left: 26%;
-  top: 45%;
+  left: 53%;
+  top: 17%;
   transform: translate(-50%, -50%);
   background-image: url("../../../images/scene/gameplay/top_container/coin.png");
   background-size: contain;
@@ -59,28 +59,28 @@
 
 .player-info-treasure-container {
   position: absolute;
-  width: 22%;
-  height: 16%;
-  left: 35%;
-  top: 75%;
+  width: 20%;
+  aspect-ratio: 14 / 7;
+  left: 27%;
+  top: 58.5%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-cash-container {
   position: absolute;
-  width: 22%;
-  height: 16%;
-  left: 58%;
-  top: 75%;
+  width: 20%;
+  aspect-ratio: 14 / 7;
+  left: 47.5%;
+  top: 58.5%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-available-container {
   position: absolute;
-  width: 22%;
-  height: 16%;
-  left: 81%;
-  top: 75%;
+  width: 20%;
+  aspect-ratio: 14 / 7;
+  left: 68%;
+  top: 58.5%;
   transform: translate(-50%, -50%);
 }
 
@@ -88,50 +88,50 @@
 .player-info-withdraw-button,
 .player-info-pick-nugget-button {
   position: absolute;
-  width: 15%;
-  height: 16%;
-  left: 89%;
+  width: 13%;
+  height: 18%;
+  left: 90%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-deposit-button {
-  top: 18.5%;
+  top: 39%;
 }
 
 .player-info-withdraw-button {
-  top: 34.5%;
+  top: 58%;
 }
 
 .player-info-pick-nugget-button {
-  top: 50.5%;
+  top: 77%;
 }
 
 .player-info-rank-button {
   position: absolute;
-  height: 20%;
+  height: 15%;
   width: auto;
-  aspect-ratio: 24 / 23;
-  left: 72%;
-  top: 24%;
+  aspect-ratio: 61 / 30;
+  left: 86.7%;
+  top: 21%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-earning-button {
   position: absolute;
-  height: 20%;
+  height: 15%;
   width: auto;
-  aspect-ratio: 24 / 23;
-  left: 72%;
-  top: 48%;
+  aspect-ratio: 61 / 30;
+  left: 93.3%;
+  top: 21%;
   transform: translate(-50%, -50%);
 }
 
 .player-info-pick-nugget-coin-text {
   position: absolute;
   width: 20%;
-  height: 45%;
-  left: 83%;
-  top: 45%;
+  height: 35%;
+  left: 80%;
+  top: 51%;
   transform: translate(-50%, -50%);
   margin: 0px;
   color: white;
@@ -147,8 +147,8 @@
   width: auto;
   height: 35%;
   aspect-ratio: 1;
-  left: 66%;
-  top: 53%;
+  left: 63%;
+  top: 51%;
   transform: translate(-50%, -50%);
   pointer-events: none;
   user-select: none;

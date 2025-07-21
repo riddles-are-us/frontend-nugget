@@ -17,7 +17,7 @@ const EarningRankButton = ({ onClick, isDisabled }: Props) => {
         top: "50%",
         width: "auto",
         height: "100%",
-        aspectRatio: "36 / 35",
+        aspectRatio: "61 / 30",
         transform: "translate(-50%, -50%)",
         margin: "0px",
       }}

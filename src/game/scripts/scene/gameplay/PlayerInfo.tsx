@@ -25,11 +25,12 @@ import LeaderRankButton from "../../buttons/LeaderRankButton";
 import PlayerTreasureInfo from "./PlayerTreasureInfo";
 import EarningRankButton from "../../buttons/EarningRankButton";
 import { AnyAction } from "@reduxjs/toolkit";
+import { title } from "process";
 
 const PlayerInfo = () => {
   const dispatch = useAppDispatch();
   const { l2Account } = useWalletContext();
-  const playerId = addressAbbreviation("0x" + l2Account!.pubkey, 5);
+  const playerId = addressAbbreviation("0x" + l2Account!.pubkey, 20);
   const userState = useAppSelector(selectUserState);
   const coin = userState.player!.data.balance;
   const treasure = userState.state!.treasure;
@@ -37,7 +38,6 @@ const PlayerInfo = () => {
   const available = treasure - cash;
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
-  const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
   const [treasureFontSize, setTreasureFontSize] = useState<number>(0);
   const [pickNuggetCoinFontSize, setPickNuggetCoinFontSize] =
     useState<number>(0);
@@ -45,10 +45,9 @@ const PlayerInfo = () => {
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setTitleFontSize(containerRef.current.offsetHeight / 6);
-      setMoneyFontSize(containerRef.current.offsetHeight / 8);
+      setTitleFontSize(containerRef.current.offsetHeight / 10);
       setTreasureFontSize(containerRef.current.offsetHeight / 13);
-      setPickNuggetCoinFontSize(containerRef.current.offsetHeight / 12);
+      setPickNuggetCoinFontSize(containerRef.current.offsetHeight / 16);
     }
   };
 
@@ -122,19 +121,13 @@ const PlayerInfo = () => {
       <p
         className="player-info-coin-text"
         style={{
-          fontSize: moneyFontSize,
-          ...getTextShadowStyle(moneyFontSize / 15),
+          fontSize: titleFontSize,
+          ...getTextShadowStyle(titleFontSize / 15),
         }}
       >
         {coin}
       </p>
       <div className="player-info-coin-image" />
-      <div className="player-info-rank-button">
-        <LeaderRankButton onClick={onClickLeaderRank} isDisabled={false} />
-      </div>
-      <div className="player-info-earning-button">
-        <EarningRankButton onClick={onClickEarningRank} isDisabled={false} />
-      </div>
 
       <div className="player-info-treasure-container">
         <PlayerTreasureInfo
@@ -161,11 +154,18 @@ const PlayerInfo = () => {
         />
       </div>
 
+      <div className="player-info-rank-button">
+        <LeaderRankButton onClick={onClickLeaderRank} isDisabled={false} />
+      </div>
+      <div className="player-info-earning-button">
+        <EarningRankButton onClick={onClickEarningRank} isDisabled={false} />
+      </div>
       <div className="player-info-deposit-button">
         <DefaultButton
           text={"Deposit"}
           onClick={onClickDeposit}
           isDisabled={false}
+          fontSizeRatio={0.7}
         />
       </div>
       <div className="player-info-withdraw-button">
@@ -173,13 +173,15 @@ const PlayerInfo = () => {
           text={"Withdraw"}
           onClick={onClickWithdraw}
           isDisabled={false}
+          fontSizeRatio={0.7}
         />
       </div>
       <div className="player-info-pick-nugget-button">
         <DefaultButton
-          text={"Pick Nugget              "}
+          text={"Pick Nugget                "}
           onClick={onClickPickNugget}
           isDisabled={coin < PICK_NUGGET_COST}
+          fontSizeRatio={0.7}
         />
         <p
           className="player-info-pick-nugget-coin-text"

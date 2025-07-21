@@ -12,7 +12,6 @@ interface Props {
 const PlayerTreasureInfo = ({ title, value, icon, fontSize }: Props) => {
   return (
     <div className="player-treasure-info-container">
-      <div className="player-treasure-value-background" />
       <p
         className="player-treasure-info-title-text"
         style={{

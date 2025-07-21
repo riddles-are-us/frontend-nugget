@@ -13,46 +13,34 @@
   pointer-events: none;
   user-select: none;
   line-height: 1;
+  text-align: center;
 }
 
 .player-treasure-info-title-text {
   position: absolute;
   width: 90%;
-  height: 40%;
-  left: 65%;
-  top: 20%;
+  height: 20%;
+  left: 50%;
+  top: 65%;
   transform: translate(-50%, -50%);
 }
 
 .player-treasure-info-value-text {
   position: absolute;
   width: 90%;
-  height: 40%;
-  left: 65%;
-  top: 70%;
+  height: 20%;
+  left: 50%;
+  top: 90%;
   transform: translate(-50%, -50%);
-}
-
-.player-treasure-value-background {
-  position: absolute;
-  width: 80%;
-  height: 53%;
-  left: 58%;
-  top: 78%;
-  transform: translate(-50%, -50%);
-  background-image: url("../../../images/scene/gameplay/top_container/number_frame.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .player-treasure-info-icon {
   position: absolute;
   width: auto;
-  height: 80%;
+  height: 40%;
   aspect-ratio: 1;
-  left: 10%;
-  top: 50%;
+  left: 50%;
+  top: 25%;
   transform: translate(-50%, -50%);
   background-image: url("../../../images/scene/gameplay/top_container/coin.png");
   background-size: contain;

@@ -4,8 +4,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px;
+  gap: 2px; /* Reduce gap */
+  padding: 4px; /* Reduce padding */
   margin: 0;
   box-sizing: border-box;
 }
@@ -15,8 +15,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-  gap: 8px;
+  margin-bottom: 2px; /* Reduce margin */
+  gap: 4px; /* Reduce gap */
 }
 
 .mobile-game-title {
@@ -69,7 +69,7 @@
   background: rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.2s ease;
-  padding: 2px;
+  padding: 1px; /* Reduce padding */
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -92,8 +92,8 @@
 .mobile-second-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 6px; /* Reduce gap */
+  margin-bottom: 2px; /* Reduce margin */
 }
 
 .mobile-avatar-section {
@@ -120,8 +120,8 @@
 /* Third Row: Other Three Stats */
 .mobile-third-row {
   display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
+  gap: 4px; /* Reduce gap */
+  margin-bottom: 2px; /* Reduce margin */
 }
 
 .mobile-third-row .mobile-stat-item {
@@ -131,8 +131,8 @@
 
 /* Fourth Row: Action Buttons Container */
 .mobile-fourth-row {
-  margin-top: 4px;
-  margin-bottom: 16px;
+  margin-top: 0; /* Remove margin */
+  margin-bottom: 0; /* Remove margin */
 }
 
 /* Original game asset icons */
@@ -147,7 +147,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 4px;
+  padding: 3px 2px; /* Reduce padding */
   background: linear-gradient(145deg, 
     rgba(60, 60, 70, 0.6) 0%, 
     rgba(45, 45, 55, 0.8) 100%);

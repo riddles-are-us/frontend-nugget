@@ -144,7 +144,7 @@
 /* Extra small mobile screens */
 @media (max-width: 480px) {
   .responsive-tab-buttons-mobile-container {
-    padding: 0 var(--spacing-xs);
+    padding: 0; /* Remove padding to eliminate margins */
     gap: 2px;
   }
   

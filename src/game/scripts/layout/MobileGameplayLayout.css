@@ -141,7 +141,7 @@
   }
   
   .mobile-content {
-    padding: var(--spacing-xs);
+    padding: 0; /* Remove padding to eliminate margins */
   }
 }
 

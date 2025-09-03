@@ -4,4 +4,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    row-gap: 1px; /* Vertical spacing between card rows */
+    column-gap: 2px; /* Horizontal spacing between card columns */
+}
+
+/* Mobile specific grid spacing */
+@media (max-width: 768px) {
+  .grid-contianer {
+    row-gap: 1px; /* Minimal vertical spacing for mobile */
+    column-gap: 2px; /* Smaller horizontal spacing for mobile */
+  }
 }

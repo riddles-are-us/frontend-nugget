@@ -1,7 +1,46 @@
 /* Mobile UI Optimizations */
 
-/* Global Mobile Optimizations */
+/* Mobile browser UI safe area handling */
 @media (max-width: 768px) {
+  /* Add safe area for mobile browser UI */
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 60px) !important;
+    padding-bottom: max(env(safe-area-inset-bottom), 60px) !important;
+  }
+  
+  /* Game container adjustments */
+  #root {
+    padding-bottom: 60px !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Specific adjustments for popup containers */
+  .earning-rank-popup-container,
+  .leader-rank-popup-container {
+    padding-bottom: 60px !important;
+    height: calc(100vh - 60px) !important;
+    height: calc(100svh - 60px) !important;
+  }
+  
+  /* Add a fixed bottom safe area to prevent UI overlap */
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: transparent;
+    pointer-events: none;
+    z-index: 9999;
+  }
+  
+  /* Alternative: Create a safe zone for all interactive elements */
+  .mobile-safe-bottom {
+    margin-bottom: 60px !important;
+    padding-bottom: 10px !important;
+  }
+  
   /* Disable hover effects on mobile */
   .no-mobile-hover:hover {
     transform: none !important;

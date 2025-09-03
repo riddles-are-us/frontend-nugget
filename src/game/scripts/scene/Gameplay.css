@@ -5,6 +5,17 @@
   user-select: none;
 }
 
+/* Mobile browser UI adjustments */
+@media (max-width: 768px) {
+  .gameplay-container {
+    height: 100vh;
+    height: 100svh; /* Use small viewport height for mobile */
+    padding-bottom: 60px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+}
+
 .gameplay-top-container {
   position: relative;
   height: 30%;

@@ -30,7 +30,7 @@ export interface ViewportInfo {
 export const useViewport = (): ViewportInfo => {
   const [viewport, setViewport] = useState<ViewportInfo>({
     width: typeof window !== 'undefined' ? window.innerWidth : 1280,
-    height: typeof window !== 'undefined' ? window.innerHeight : 720,
+    height: typeof window !== 'undefined' ? window.visualViewport?.height || window.innerHeight : 720,
     device: 'desktop',
     isMobile: false,
     isTablet: false,
@@ -42,9 +42,16 @@ export const useViewport = (): ViewportInfo => {
   useEffect(() => {
     const updateViewport = () => {
       const width = window.innerWidth;
-      const height = window.innerHeight;
+      // Use visualViewport for actual available height (excluding browser UI)
+      const height = window.visualViewport?.height || window.innerHeight;
       const aspectRatio = width / height;
       const orientation = width > height ? 'landscape' : 'portrait';
+      
+      // Update CSS custom property for mobile browsers
+      if (typeof document !== 'undefined') {
+        const vh = height * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      }
       
       let device: DeviceType;
       if (width < BREAKPOINTS.mobile) {
@@ -72,9 +79,17 @@ export const useViewport = (): ViewportInfo => {
     window.addEventListener('resize', updateViewport);
     window.addEventListener('orientationchange', updateViewport);
     
+    // Listen to visualViewport changes for mobile browsers
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', updateViewport);
+    }
+    
     return () => {
       window.removeEventListener('resize', updateViewport);
       window.removeEventListener('orientationchange', updateViewport);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', updateViewport);
+      }
     };
   }, []);
 

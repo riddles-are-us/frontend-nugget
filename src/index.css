@@ -72,8 +72,21 @@ body {
   overscroll-behavior: none;
 }
 
+/* Mobile browser UI handling */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari */
+  :root {
+    --vh: 1vh;
+  }
+}
+
 /* Additional mobile fixes */
 @media (max-width: 768px) {
+  /* Dynamic viewport height calculation for mobile browsers */
+  :root {
+    --vh: 1vh;
+  }
+  
   html {
     overflow: hidden;
     touch-action: none;
@@ -81,6 +94,9 @@ body {
     /* Disable zoom on iOS */
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    /* Use the dynamic viewport height */
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
   }
   
   body {
@@ -89,6 +105,18 @@ body {
     overscroll-behavior-y: none;
     /* Prevent pull-to-refresh */
     overflow-anchor: none;
+    /* Use the corrected viewport height */
+    height: 100vh !important;
+    height: calc(var(--vh, 1vh) * 100) !important;
+  }
+  
+  /* Ensure root container uses corrected height */
+  #root {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    overflow: hidden;
   }
 }
 

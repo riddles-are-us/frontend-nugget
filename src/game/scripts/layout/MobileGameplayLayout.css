@@ -93,16 +93,39 @@
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4);
   
   /* Safe area for devices with notches + converted space from removed margins */
-  padding-top: 16px; /* Added top padding from removed container padding */
-  padding-bottom: calc(env(safe-area-inset-bottom) + 60px); /* Significantly increased bottom padding */
+  padding-top: 0; /* Remove top padding so buttons stick to top of container */
+  padding-bottom: calc(env(safe-area-inset-bottom) + 80px); /* Further increased bottom padding */
 }
 
 .mobile-tab-buttons-container {
   display: flex;
-  height: 100%;
+  height: 60px; /* Fixed height for buttons */
   align-items: center;
   justify-content: space-around;
   padding: 0 var(--spacing-md);
+}
+
+/* Footer links in padding area */
+.mobile-footer-links {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.telegram-link {
+  color: #F5D547;
+  text-decoration: none;
+  font-size: 12px;
+  font-family: "AdobeClean", sans-serif;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.telegram-link:hover {
+  opacity: 1;
+  color: #B8860B;
 }
 
 /* Mobile-specific responsive adjustments */

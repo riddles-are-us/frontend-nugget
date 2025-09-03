@@ -37,6 +37,18 @@ const MobileGameplayLayout: React.FC<MobileGameplayLayoutProps> = ({
         <div className="mobile-tab-buttons-container">
           {tabButtons}
         </div>
+        
+        {/* Telegram Link in Footer Padding Area */}
+        <div className="mobile-footer-links">
+          <a 
+            href="https://t.me/DelphinusLabOfficial/44551" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="telegram-link"
+          >
+            Join Telegram Community
+          </a>
+        </div>
       </div>
     </div>
   );

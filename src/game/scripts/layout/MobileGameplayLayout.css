@@ -51,7 +51,7 @@
   height: calc(100vh - 200px - 60px); /* Total height - header - navigation */
   overflow: hidden;
   position: relative;
-  padding: 8px;
+  padding: 0; /* Remove padding to eliminate margins */
 }
 
 .mobile-nugget-grid-container {
@@ -59,7 +59,7 @@
   height: 100%;
   border-radius: var(--theme-border-radius);
   background: rgba(0, 0, 0, 0.3);
-  padding: var(--spacing-sm);
+  padding: 0; /* Remove padding to eliminate margins */
   overflow-y: auto;
   
   /* Custom scrollbar for mobile */
@@ -92,8 +92,9 @@
   z-index: var(--z-content);
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4);
   
-  /* Safe area for devices with notches */
-  padding-bottom: env(safe-area-inset-bottom);
+  /* Safe area for devices with notches + converted space from removed margins */
+  padding-top: 16px; /* Added top padding from removed container padding */
+  padding-bottom: calc(env(safe-area-inset-bottom) + 60px); /* Significantly increased bottom padding */
 }
 
 .mobile-tab-buttons-container {

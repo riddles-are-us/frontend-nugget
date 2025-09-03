@@ -56,7 +56,7 @@ const LeaderRankPopup = () => {
 
   const [page, setPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
-  const pageSize = rowCount * columnCount;
+  const pageSize = isMobile ? 10 : rowCount * columnCount;
   const rankNuggetTab = useAppSelector(selectRankNuggetTab);
   const nuggetsForceUpdate = useAppSelector(selectNuggetsForceUpdate);
   const [elements, setElements] = useState<JSX.Element[]>([]);
@@ -80,9 +80,9 @@ const LeaderRankPopup = () => {
       
       setElementWidth(width);
       setElementHeight(height);
-      // Strict limit for mobile: exactly 10 items, no more
+      // Strict limit for mobile: exactly 10 items per page
       const calculatedRows = Math.floor(gridContainerRef.current.offsetHeight / height);
-      setRowCount(isMobile ? Math.min(10, calculatedRows) : calculatedRows);
+      setRowCount(isMobile ? 10 : calculatedRows);
     }
   };
 

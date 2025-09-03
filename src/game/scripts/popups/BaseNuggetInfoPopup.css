@@ -25,6 +25,31 @@
   aspect-ratio: 726 / 273;
 }
 
+/* Mobile optimizations for popup */
+@media (max-width: 768px) {
+  .base-nugget-info-popup-main-container {
+    height: 22% !important;
+    max-width: 85vw !important;
+  }
+  
+  /* Scale down only Nugget ID and Recycle Price text */
+  .base-nugget-info-popup-title-text {
+    font-size: 12px !important;
+    width: 35% !important;
+  }
+  
+  .base-nugget-info-popup-price-text,
+  .base-nugget-info-popup-price-value-text {
+    font-size: 10px !important;
+    width: 25% !important;
+  }
+  
+  /* Scale down level stars container */
+  .base-nugget-info-popup-levels-container {
+    transform: translate(-50%, -50%) scale(0.8) !important;
+  }
+}
+
 .base-nugget-info-popup-main-background {
   position: absolute;
   width: 100%;
@@ -229,29 +254,29 @@
 
 .base-nugget-info-popup-list-button {
   position: absolute;
-  width: 25%;
+  width: 15%;
   height: 18%;
-  left: 83%;
+  left: 88%;
   top: 85%;
   transform: translate(-50%, -50%);
 }
 
 .base-nugget-info-popup-recycle-button {
   position: absolute;
-  width: 25%;
+  width: 20%;
   height: 18%;
-  left: 55%;
+  left: 68%;
   top: 85%;
   transform: translate(-50%, -50%);
 }
 
 .base-nugget-info-popup-explore-button {
   position: absolute;
-  width: 25%;
+  width: 50%;
   height: 18%;
-  left: 27%;
+  left: 5%;
   top: 85%;
-  transform: translate(-50%, -50%);
+  transform: translate(0, -50%);
 }
 
 .base-nugget-info-popup-coin-text {

@@ -67,3 +67,47 @@
   top: 15%;
   transform: translate(-50%, 0);
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .earning-rank-popup-main-container {
+    width: 95%;
+    max-width: 500px;
+    height: 70%;
+    max-height: 600px;
+    aspect-ratio: unset;
+  }
+  
+  .earning-rank-popup-title-text {
+    font-size: 20px;
+    width: 80%;
+    top: 10%;
+    font-weight: 800;
+  }
+  
+  .earning-rank-popup-grid-container {
+    width: 80%;
+    height: 360px;
+    top: 15%;
+    overflow: hidden;
+  }
+  
+  .earning-rank-popup-close-button {
+    width: 44px;
+    height: 44px;
+    top: 4%;
+    left: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .earning-rank-popup-main-container {
+    width: 98%;
+    height: 80%;
+  }
+  
+  .earning-rank-popup-title-text {
+    font-size: 16px;
+    width: 90%;
+  }
+}

@@ -11,7 +11,7 @@ import {
 } from "../../common/Utility";
 import { NuggetData } from "../../../../data/model";
 import { useWalletContext } from "zkwasm-minirollup-browser";
-import { useAppSelector } from "../../../../app/hooks";
+import { useAppSelector, useViewport } from "../../../../app/hooks";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import NuggetLevel from "./NuggetLevel";
@@ -23,6 +23,7 @@ interface Props {
 
 const LeaderRankElement = ({ rank, nuggetData }: Props) => {
   const { l2Account } = useWalletContext();
+  const { isMobile } = useViewport();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [rankFontSize, setRankFontSize] = useState<number>(0);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
@@ -55,64 +56,82 @@ const LeaderRankElement = ({ rank, nuggetData }: Props) => {
   return (
     <div ref={containerRef} className="leader-rank-element-container">
       <div className="leader-rank-element-margin-container">
-        {rank <= 3 ? (
-          <img
-            className="leader-rank-element-rank-image"
-            src={rank == 1 ? rank_1 : rank == 2 ? rank_2 : rank_3}
-          />
-        ) : (
-          <p
-            className="leader-rank-element-rank-text"
-            style={{
-              fontSize: rankFontSize,
-              ...getTextShadowStyle(rankFontSize / 15),
-            }}
-          >
-            {rank}
-          </p>
-        )}
+        {isMobile ? (
+          <>
+            {/* Left Section - Grouped rank and avatar */}
+            <div className="leader-rank-element-left-section">
+              {rank <= 3 ? (
+                <img
+                  className="leader-rank-element-rank-image"
+                  src={rank == 1 ? rank_1 : rank == 2 ? rank_2 : rank_3}
+                  alt={`Rank ${rank}`}
+                />
+              ) : (
+                <p className="leader-rank-element-rank-text">
+                  {rank}
+                </p>
+              )}
+              <img
+                className="leader-rank-element-avatar-image"
+                src={getNuggetImage(nuggetLevel)}
+                alt={`Nugget Level ${nuggetLevel}`}
+              />
+            </div>
 
-        {/* <p
-          className="leader-rank-element-bidder-text"
-          style={{
-            fontSize: titleFontSize,
-            ...getTextShadowStyle(titleFontSize / 15),
-          }}
-        >
-          Owner ID:
-        </p>
-        <p
-          className="leader-rank-element-bidder-value-text"
-          style={{
-            fontSize: titleFontSize,
-            ...getTextShadowStyle(titleFontSize / 15),
-          }}
-        >
-          {ownerId}
-        </p> */}
-        <img
-          className="leader-rank-element-avatar-image"
-          src={getNuggetImage(nuggetLevel)}
-        />
-        <p
-          className="leader-rank-element-attributes-text"
-          style={{
-            fontSize: coinFontSize,
-            ...getTextShadowStyle(coinFontSize / 15),
-          }}
-        >
-          {nuggetAttributeString.join(" ")}
-        </p>
-        <p
-          className="leader-rank-element-coin-text"
-          style={{
-            fontSize: coinFontSize,
-            ...getTextShadowStyle(coinFontSize / 15),
-          }}
-        >
-          {nuggetPrice}
-        </p>
-        <div className="leader-rank-element-coin-image" />
+            {/* Right Section - Score */}
+            <div className="leader-rank-element-score-section">
+              <div className="leader-rank-element-coin-image" />
+              <p className="leader-rank-element-coin-text">
+                {nuggetPrice.toLocaleString()}
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Desktop layout */}
+            {rank <= 3 ? (
+              <img
+                className="leader-rank-element-rank-image"
+                src={rank == 1 ? rank_1 : rank == 2 ? rank_2 : rank_3}
+                alt={`Rank ${rank}`}
+              />
+            ) : (
+              <p
+                className="leader-rank-element-rank-text"
+                style={{
+                  fontSize: rankFontSize,
+                  ...getTextShadowStyle(rankFontSize / 15),
+                }}
+              >
+                {rank}
+              </p>
+            )}
+            <img
+              className="leader-rank-element-avatar-image"
+              src={getNuggetImage(nuggetLevel)}
+              alt={`Nugget Level ${nuggetLevel}`}
+            />
+            <p
+              className="leader-rank-element-attributes-text"
+              style={{
+                fontSize: coinFontSize,
+                ...getTextShadowStyle(coinFontSize / 15),
+              }}
+            >
+              {nuggetAttributeString.join(" ")}
+            </p>
+            <p
+              className="leader-rank-element-coin-text"
+              style={{
+                fontSize: coinFontSize,
+                ...getTextShadowStyle(coinFontSize / 15),
+              }}
+            >
+              {nuggetPrice}
+            </p>
+            <div className="leader-rank-element-coin-image" />
+          </>
+        )}
       </div>
     </div>
   );

@@ -9,6 +9,8 @@ import midClickImage from "../../images/buttons/tab_button/mid_click.png";
 import rightClickImage from "../../images/buttons/tab_button/right_click.png";
 import AdjustableImageTextButton from "../common/AdjustableImageTextButton";
 import { getTextShadowStyle } from "../common/Utility";
+import { useViewport } from "../../../app/hooks";
+import "./ResponsiveTabButton.css";
 
 interface Props {
   id?: number;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
+  const viewport = useViewport();
   const leftRatio = 26 / 45;
   const rightRatio = 26 / 45;
   const fontSizeRatio = 1.2;
@@ -25,6 +28,21 @@ const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
   const isBold = true;
   const color = "white";
 
+  // Mobile CSS button implementation
+  if (viewport.isMobile) {
+    return (
+      <button
+        className={`responsive-tab-button tab-button ${isDisabled ? 'disabled' : ''}`}
+        onClick={isDisabled ? undefined : onClick}
+        disabled={isDisabled}
+        data-tab={text}
+      >
+        <span className="tab-button-text">{text}</span>
+      </button>
+    );
+  }
+
+  // Desktop image-based button (original implementation)
   const getText = (fontBaseSize: number) => {
     const fontSize = fontBaseSize * fontSizeRatio;
     return (

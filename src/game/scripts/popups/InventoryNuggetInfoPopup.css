@@ -7,3 +7,11 @@
   transform: translate(-50%, -50%);
   z-index: 20;
 }
+
+/* Mobile popup optimizations */
+@media (max-width: 768px) {
+  .base-nugget-info-popup-main-container {
+    height: 22% !important;
+    max-width: 85vw !important;
+  }
+}

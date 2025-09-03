@@ -109,3 +109,48 @@ input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .deposit-popup-main-container {
+    width: 90%;
+    height: 40%;
+    max-width: 400px;
+    min-height: 300px;
+  }
+  
+  .deposit-popup-title-text {
+    font-size: 18px;
+    width: 80%;
+  }
+  
+  .deposit-popup-amount-input {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  .deposit-popup-close-button {
+    width: 40px;
+    height: 40px;
+    top: 8%;
+    left: 85%;
+  }
+  
+  .deposit-popup-confirm-button {
+    height: 50px;
+    width: 80%;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .deposit-popup-main-container {
+    width: 95%;
+    height: 45%;
+  }
+  
+  .deposit-popup-title-text {
+    font-size: 16px;
+    width: 90%;
+  }
+}

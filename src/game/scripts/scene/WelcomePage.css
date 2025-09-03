@@ -6,16 +6,15 @@
   left: 50%;
   transform: translateX(-50%);
   user-select: none;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 .welcome-page-background {
   position: absolute;
-  width: auto;
-  height: calc(max(100%, 100vw * 700 / 1280));
-  aspect-ratio: 1280 / 700;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   background-image: url("../../images/scene/welcome_page/welcome_bg.png");
   background-size: cover;
   background-position: center;
@@ -53,4 +52,52 @@
   height: 5%;
   aspect-ratio: 152 / 45;
   transform: translate(-50%, -50%);
+}
+
+/* Mobile optimizations - prevent scrolling and zooming */
+@media (max-width: 768px) {
+  .welcome-page-container {
+    position: fixed; /* Use fixed instead of absolute */
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    /* Prevent zooming and scrolling */
+    touch-action: none;
+  }
+  
+  .welcome-page-background {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    /* Ensure background covers entire screen */
+    min-width: 100%;
+    min-height: 100%;
+  }
+  
+  .welcome-page-disclaimer-popup-container {
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .welcome-page-panel-connect-wallet-button,
+  .welcome-page-panel-play-button {
+    width: 200px;
+    height: 50px;
+    top: 85%;
+    /* Use fixed pixel values for mobile */
+  }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 480px) {
+  .welcome-page-disclaimer-popup-container {
+    width: 95%;
+  }
+  
+  .welcome-page-panel-connect-wallet-button,
+  .welcome-page-panel-play-button {
+    width: 180px;
+    height: 45px;
+    top: 80%;
+  }
 }

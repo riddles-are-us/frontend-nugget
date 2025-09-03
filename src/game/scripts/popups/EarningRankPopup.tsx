@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector, useViewport } from "../../../app/hooks";
 import "./EarningRankPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
@@ -27,6 +27,7 @@ import { AnyAction } from '@reduxjs/toolkit';
 
 const EarningRankPopup = () => {
   const dispatch = useAppDispatch();
+  const { isMobile } = useViewport();
   const containerRef = useRef<HTMLParagraphElement>(null) ;
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
@@ -56,10 +57,16 @@ const EarningRankPopup = () => {
 
     if (gridContainerRef.current) {
       const width = gridContainerRef.current.offsetWidth / columnCount;
-      const height = width / elementRatio + 5;
+      let height = width / elementRatio + 5;
+      
+      // Set specific row height for mobile to fit exactly 8 items
+      if (isMobile) {
+        height = 45; // Fixed 45px height for mobile
+      }
+      
       setElementWidth(width);
       setElementHeight(height);
-      setRowCount(Math.floor(gridContainerRef.current.offsetHeight / height));
+      setRowCount(isMobile ? 8 : Math.floor(gridContainerRef.current.offsetHeight / height));
     }
   };
 

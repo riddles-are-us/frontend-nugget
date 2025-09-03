@@ -29,9 +29,59 @@
 .nugget-grid-page-reload-button {
   position: absolute;
   width: auto;
-  height: 5%;
+  height: 4.5%;
   aspect-ratio: 3/1;
-  left: 10%;
+  left: 12%;
   top: 95%;
   transform: translate(-50%, -50%);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .nugget-grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .nugget-grid-grid-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    left: 0;
+    top: 0;
+    transform: none;
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  .mobile-bottom-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    order: 2;
+    padding: 0 16px;
+  }
+  
+  .nugget-grid-page-selector-container {
+    position: relative;
+    width: 200px;
+    height: 60px;
+    left: 0;
+    transform: none;
+    bottom: 0;
+    flex: 0 0 auto;
+  }
+  
+  .nugget-grid-page-reload-button {
+    position: relative;
+    height: 40px;
+    left: 0;
+    top: 0;
+    transform: none;
+    width: 120px;
+    flex: 0 0 auto;
+  }
 }

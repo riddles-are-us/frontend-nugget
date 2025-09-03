@@ -7,7 +7,8 @@ import {
   PICK_NUGGET_COST,
 } from "../../common/Utility";
 import { useWalletContext, sendTransaction } from "zkwasm-minirollup-browser";
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { useAppDispatch, useAppSelector, useViewport } from "../../../../app/hooks";
+import MobilePlayerInfo from "./MobilePlayerInfo";
 import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
 import { getCreateNuggetTransactionCommandArray } from "../../request";
@@ -27,21 +28,17 @@ import EarningRankButton from "../../buttons/EarningRankButton";
 import { AnyAction } from "@reduxjs/toolkit";
 
 const PlayerInfo = () => {
+  // All hooks must be called before any conditional returns
+  const viewport = useViewport();
   const dispatch = useAppDispatch();
   const { l2Account } = useWalletContext();
-  const playerId = addressAbbreviation("0x" + l2Account!.pubkey, 5);
   const userState = useAppSelector(selectUserState);
-  const coin = userState.player!.data.balance;
-  const treasure = userState.state!.treasure;
-  const cash = userState.state!.cash;
-  const available = treasure - cash;
+  const isLoading = useAppSelector(selectIsLoading);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
   const [treasureFontSize, setTreasureFontSize] = useState<number>(0);
-  const [pickNuggetCoinFontSize, setPickNuggetCoinFontSize] =
-    useState<number>(0);
-  const isLoading = useAppSelector(selectIsLoading);
+  const [pickNuggetCoinFontSize, setPickNuggetCoinFontSize] = useState<number>(0);
 
   const adjustSize = () => {
     if (containerRef.current) {
@@ -60,6 +57,18 @@ const PlayerInfo = () => {
       window.removeEventListener("resize", adjustSize);
     };
   }, []);
+  
+  // Use mobile-optimized component on mobile devices
+  if (viewport.isMobile) {
+    return <MobilePlayerInfo />;
+  }
+
+  // Desktop implementation (original)
+  const playerId = addressAbbreviation("0x" + l2Account!.pubkey, 5);
+  const coin = userState.player!.data.balance;
+  const treasure = userState.state!.treasure;
+  const cash = userState.state!.cash;
+  const available = treasure - cash;
 
   const onClickDeposit = () => {
     dispatch(setUIState({ type: UIStateType.DepositPopup }));

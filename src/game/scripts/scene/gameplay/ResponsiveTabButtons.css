@@ -1,0 +1,166 @@
+/* Responsive Tab Buttons Styles */
+
+/* Mobile Tab Layout */
+.responsive-tab-buttons-mobile-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 var(--spacing-sm);
+  gap: var(--spacing-xs);
+}
+
+.responsive-tab-button-mobile {
+  flex: 1;
+  height: 80%;
+  max-width: 120px;
+  min-height: var(--touch-target-comfortable);
+  border-radius: var(--theme-border-radius);
+  overflow: hidden;
+}
+
+/* Desktop Tab Layout - Preserve Original */
+.responsive-tab-buttons-desktop-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Desktop maintains original absolute positioning */
+.responsive-tab-buttons-desktop-container .tab-buttons-inventory-button,
+.responsive-tab-buttons-desktop-container .tab-buttons-selling-button,
+.responsive-tab-buttons-desktop-container .tab-buttons-auction-button,
+.responsive-tab-buttons-desktop-container .tab-buttons-lot-button {
+  position: absolute;
+  width: 18%;
+  height: 80%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.responsive-tab-buttons-desktop-container .tab-buttons-inventory-button {
+  left: 11%;
+}
+
+.responsive-tab-buttons-desktop-container .tab-buttons-selling-button {
+  left: 32%;
+}
+
+.responsive-tab-buttons-desktop-container .tab-buttons-auction-button {
+  left: 53%;
+}
+
+.responsive-tab-buttons-desktop-container .tab-buttons-lot-button {
+  left: 74%;
+}
+
+/* Mobile-specific tab button styling - Golden Game Theme */
+@media (max-width: 768px) {
+  .responsive-tab-button-mobile .tab-button {
+    border-radius: 8px;
+    background: linear-gradient(145deg, 
+      rgba(60, 60, 70, 0.8) 0%, 
+      rgba(45, 45, 55, 0.9) 100%);
+    border: 1px solid rgba(184, 134, 11, 0.4);
+    transition: all 0.2s ease;
+    min-height: var(--touch-target-comfortable);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Golden highlight on active/selected tabs */
+  .responsive-tab-button-mobile .tab-button:not(.disabled):hover {
+    background: linear-gradient(145deg, 
+      rgba(184, 134, 11, 0.3) 0%, 
+      rgba(139, 69, 19, 0.4) 100%);
+    border-color: rgba(245, 213, 71, 0.6);
+    transform: translateY(-1px);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 3px 6px rgba(0, 0, 0, 0.4),
+      0 0 8px rgba(245, 213, 71, 0.3);
+  }
+  
+  .responsive-tab-button-mobile .tab-button:not(.disabled):active {
+    background: linear-gradient(145deg, 
+      rgba(245, 213, 71, 0.4) 0%, 
+      rgba(184, 134, 11, 0.5) 100%);
+    transform: translateY(0);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Selected/active state styling */
+  .responsive-tab-button-mobile .tab-button.disabled {
+    background: linear-gradient(145deg, 
+      rgba(245, 213, 71, 0.9) 0%, 
+      rgba(184, 134, 11, 1) 100%);
+    border-color: #F5D547;
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.4),
+      0 0 12px rgba(245, 213, 71, 0.5);
+  }
+  
+  .responsive-tab-button-mobile .tab-button.disabled .tab-button-text {
+    color: #2F1B14;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Mobile tab text styling */
+  .responsive-tab-button-mobile .tab-button-text {
+    font-family: "AdobeClean", sans-serif;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-align: center;
+    color: #F5D547;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 
+      0 1px 0 rgba(184, 134, 11, 0.8),
+      0 1px 3px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.3px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .responsive-tab-button-mobile {
+    max-width: 140px;
+  }
+  
+  .responsive-tab-button-mobile .tab-button-text {
+    font-size: var(--font-size-md);
+  }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 480px) {
+  .responsive-tab-buttons-mobile-container {
+    padding: 0 var(--spacing-xs);
+    gap: 2px;
+  }
+  
+  .responsive-tab-button-mobile {
+    min-width: 60px;
+  }
+  
+  .responsive-tab-button-mobile .tab-button-text {
+    font-size: var(--font-size-xs);
+  }
+  
+  /* Use shorter text on very small screens */
+  .responsive-tab-button-mobile[data-tab="Inventory"] .tab-button-text::after {
+    content: "Items";
+  }
+  .responsive-tab-button-mobile[data-tab="Inventory"] .tab-button-text {
+    font-size: 0;
+  }
+}

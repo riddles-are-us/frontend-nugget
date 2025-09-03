@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector, useViewport } from "../../../app/hooks";
 import "./LeaderRankPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
@@ -42,6 +42,7 @@ const LeaderRankPopup = () => {
   const isFirst = useRef(true);
   const dispatch = useAppDispatch();
   const { l2Account } = useWalletContext();
+  const { isMobile } = useViewport();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
@@ -70,10 +71,18 @@ const LeaderRankPopup = () => {
 
     if (gridContainerRef.current) {
       const width = gridContainerRef.current.offsetWidth / columnCount;
-      const height = width / elementRatio + 10;
+      let height = width / elementRatio + 10;
+      
+      // Set specific row height for mobile to fit exactly 10 items
+      if (isMobile) {
+        height = 45; // Fixed 45px height for mobile to fit exactly 10 items
+      }
+      
       setElementWidth(width);
       setElementHeight(height);
-      setRowCount(Math.floor(gridContainerRef.current.offsetHeight / height));
+      // Strict limit for mobile: exactly 10 items, no more
+      const calculatedRows = Math.floor(gridContainerRef.current.offsetHeight / height);
+      setRowCount(isMobile ? Math.min(10, calculatedRows) : calculatedRows);
     }
   };
 

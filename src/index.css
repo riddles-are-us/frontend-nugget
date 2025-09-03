@@ -1,3 +1,56 @@
+:root {
+  /* Responsive Design Variables */
+  --mobile-breakpoint: 768px;
+  --tablet-breakpoint: 1024px;
+  --desktop-breakpoint: 1280px;
+  
+  /* Spacing System */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  
+  /* Typography */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-xxl: 1.5rem;
+  
+  /* Game Layout Variables */
+  --gameplay-top-height: 30%;
+  --gameplay-main-height: 65.6%;
+  --gameplay-bottom-height: 4.4%;
+  
+  /* Mobile Layout Variables */
+  --mobile-header-height: 20%;
+  --mobile-content-height: 70%;
+  --mobile-navigation-height: 10%;
+  
+  /* Touch Target Sizes */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+  
+  /* Z-Index System */
+  --z-background: 0;
+  --z-content: 10;
+  --z-popup: 20;
+  --z-modal: 30;
+  --z-toast: 40;
+  
+  /* Colors */
+  --color-background: #1c1f24;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cccccc;
+  --color-accent: #61dafb;
+  
+  /* Theme System */
+  --theme-border-radius: 8px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -6,6 +59,37 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
+  
+  /* Mobile viewport optimization */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  touch-action: none; /* Prevent all touch gestures including zoom */
+  
+  /* Prevent mobile bouncing and overscroll */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+/* Additional mobile fixes */
+@media (max-width: 768px) {
+  html {
+    overflow: hidden;
+    touch-action: none;
+    -webkit-text-size-adjust: 100%;
+    /* Disable zoom on iOS */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  
+  body {
+    /* Prevent elastic scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+    /* Prevent pull-to-refresh */
+    overflow-anchor: none;
+  }
 }
 
 code {

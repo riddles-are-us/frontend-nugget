@@ -1,0 +1,336 @@
+/* Mobile Player Info Styles - Based on Game's Golden Theme */
+.mobile-player-info-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* First Row: Game Title + Player ID + Ranking Buttons */
+.mobile-first-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.mobile-game-title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mobile-game-name {
+  margin: 0;
+  font-family: "AdobeClean", sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #F5D547;
+  text-shadow: 
+    0 1px 0 rgba(184, 134, 11, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.8px;
+  text-align: left;
+}
+
+.mobile-player-id {
+  margin: 0;
+  font-family: "AdobeClean", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(245, 213, 71, 0.9);
+  text-shadow: 
+    0 1px 0 rgba(184, 134, 11, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.3px;
+  text-align: left;
+}
+
+.mobile-ranking-buttons {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.mobile-rank-icon-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 2px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.mobile-rank-icon-button:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.mobile-rank-icon-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Second Row: Avatar + Balance */
+.mobile-second-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.mobile-avatar-section {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+}
+
+.mobile-avatar-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #B8860B;
+  object-fit: cover;
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-balance-section {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Third Row: Other Three Stats */
+.mobile-third-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.mobile-third-row .mobile-stat-item {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Fourth Row: Action Buttons Container */
+.mobile-fourth-row {
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+/* Original game asset icons */
+.mobile-stat-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.mobile-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  background: linear-gradient(145deg, 
+    rgba(60, 60, 70, 0.6) 0%, 
+    rgba(45, 45, 55, 0.8) 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(184, 134, 11, 0.2);
+  min-height: 36px;
+}
+
+.mobile-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.mobile-stat-label {
+  font-family: "AdobeClean", sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  color: rgba(245, 213, 71, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-stat-value {
+  font-family: "AdobeClean", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* Action Buttons */
+.mobile-player-actions {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+}
+
+
+.mobile-action-button {
+  flex: 1;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  font-family: "AdobeClean", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-action-deposit {
+  background: linear-gradient(145deg, #8B4513 0%, #CD853F 100%);
+  color: #F5D547;
+  border: 1px solid #B8860B;
+}
+
+.mobile-action-deposit:active {
+  background: linear-gradient(145deg, #654321 0%, #8B4513 100%);
+  transform: translateY(1px);
+}
+
+.mobile-action-withdraw {
+  background: linear-gradient(145deg, #B8860B 0%, #F5D547 100%);
+  color: #2F1B14;
+  border: 1px solid #8B7355;
+}
+
+.mobile-action-withdraw:active {
+  background: linear-gradient(145deg, #A0750A 0%, #E6B800 100%);
+  transform: translateY(1px);
+}
+
+.mobile-action-pick {
+  background: linear-gradient(145deg, #6B8E23 0%, #9ACD32 100%);
+  color: white;
+  border: 1px solid #556B2F;
+}
+
+.mobile-action-pick:active {
+  background: linear-gradient(145deg, #556B2F 0%, #6B8E23 100%);
+  transform: translateY(1px);
+}
+
+/* Small mobile screen adjustments */
+@media (max-width: 480px) {
+  .mobile-player-info-container {
+    padding: 6px;
+    gap: 4px;
+  }
+  
+  .mobile-first-row {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  
+  .mobile-game-name {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  
+  .mobile-player-id {
+    font-size: 9px;
+  }
+  
+  .mobile-rank-icon-button {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .mobile-second-row {
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  
+  .mobile-avatar-section,
+  .mobile-avatar-image {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .mobile-third-row {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  
+  .mobile-stat-item {
+    padding: 4px 3px;
+    min-height: 32px;
+  }
+  
+  .mobile-stat-label {
+    font-size: 7px;
+    letter-spacing: 0.2px;
+  }
+  
+  .mobile-stat-value {
+    font-size: 9px;
+  }
+  
+  .mobile-action-button {
+    height: 30px;
+    font-size: 9px;
+  }
+  
+  .mobile-stat-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Landscape mobile adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobile-player-info-container {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+  
+  .mobile-player-stats {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+  }
+  
+  .mobile-stat-item {
+    padding: 4px;
+    min-height: 30px;
+  }
+  
+  .mobile-action-button {
+    height: 28px;
+    font-size: 10px;
+  }
+}

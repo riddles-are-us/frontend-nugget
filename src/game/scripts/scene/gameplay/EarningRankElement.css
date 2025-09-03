@@ -102,3 +102,175 @@
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .earning-rank-element-container {
+    margin: 0;
+  }
+  
+  .earning-rank-element-margin-container {
+    position: relative;
+    width: 100%;
+    height: 45px;
+    background: rgba(35, 35, 45, 0.7);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+  
+  /* Mobile layout */
+  .earning-rank-element-mobile-left {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 40px;
+  }
+  
+  .earning-rank-element-mobile-left .earning-rank-element-avatar-image {
+    position: relative !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 6px;
+    border: 1px solid #B8860B;
+    flex-shrink: 0;
+    left: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    aspect-ratio: unset !important;
+  }
+  
+  .earning-rank-element-mobile-middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    gap: 1px;
+    padding: 1px 3px;
+    min-width: 100px;
+  }
+  
+  .earning-rank-element-mobile-formula {
+    flex: 1;
+  }
+  
+  .earning-rank-element-mobile-middle .earning-rank-element-attributes-text {
+    position: relative !important;
+    font-size: 8px !important;
+    font-weight: 600;
+    color: #F5D547 !important;
+    margin: 0;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    left: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+  }
+  
+  .earning-rank-element-mobile-earning {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .earning-rank-element-mobile-middle .earning-rank-element-coin-image {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    background-image: url("../../../images/scene/gameplay/top_container/coin.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    left: 0;
+    top: 0;
+    transform: none;
+  }
+  
+  .earning-rank-element-mobile-middle .earning-rank-element-coin-text {
+    position: relative !important;
+    font-size: 12px !important;
+    font-weight: 700;
+    color: #F5D547 !important;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    margin: 0;
+    line-height: 1;
+    left: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+  }
+  
+  .earning-rank-element-mobile-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 60px;
+    height: 32px;
+    overflow: hidden;
+  }
+  
+  .earning-rank-element-mobile-right button,
+  .earning-rank-element-mobile-right > * {
+    width: 60px !important;
+    height: 32px !important;
+    max-width: 60px !important;
+    max-height: 32px !important;
+    min-width: 60px !important;
+    min-height: 32px !important;
+    font-size: 11px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Remove old mobile styles - these are conflicting */
+  
+  /* Hide desktop-only elements */
+  .earning-rank-element-miner-image,
+  .earning-rank-element-background,
+  .earning-rank-element-attributes-text {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .earning-rank-element-attributes-text {
+    font-size: 9px;
+    width: 22%;
+    left: 18%;
+  }
+  
+  .earning-rank-element-coin-title-text {
+    font-size: 7px;
+    width: 10%;
+    left: 62%;
+  }
+  
+  .earning-rank-element-coin-text {
+    font-size: 9px;
+    width: 10%;
+    left: 62%;
+  }
+  
+  .earning-rank-element-coin-image {
+    height: 18%;
+    left: 55%;
+  }
+  
+  .earning-rank-element-claim-button {
+    width: 20%;
+    left: 82%;
+  }
+}

@@ -4,7 +4,31 @@ const webpack = require('webpack');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 
 module.exports = function override(config, env) {
-  console.log(config);
+  // WSL optimization: Enable polling for file watching
+  if (env === 'development') {
+    config.watchOptions = {
+      poll: 1000,
+      aggregateTimeout: 300,
+      ignored: /node_modules/,
+    };
+    
+    // Add performance optimizations for WSL
+    config.cache = {
+      type: 'filesystem',
+      buildDependencies: {
+        config: [__filename]
+      }
+    };
+    
+    config.snapshot = {
+      managedPaths: [path.resolve(__dirname, '../node_modules')],
+      immutablePaths: [],
+      buildDependencies: {
+        hash: true,
+        timestamp: true,
+      },
+    };
+  }
 
   const fallback = config.resolve.fallback || {};
   Object.assign(fallback, {

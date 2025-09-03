@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/nugget_detail_frame.png";
 import self_own_tag from "../../images/scene/gameplay/nugget/tag_frame.png";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector, useViewport } from "../../../app/hooks";
 import "./BaseNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
 import {
@@ -62,6 +62,7 @@ const BaseNuggetInfoPopup = ({
   const [attributesFontSize, setAttributesFontSize] = useState<number>(0);
   const [tagFontSize, setTagFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
+  const { isMobile } = useViewport();
   const nuggetId = nuggetData.id;
   const nuggetPrice = nuggetData.sysprice;
   const nuggetLevel = 7 - nuggetData.feature;
@@ -291,7 +292,7 @@ const BaseNuggetInfoPopup = ({
         {onClickListNugget && (
           <div className="base-nugget-info-popup-list-button">
             <DefaultButton
-              text={"List Nugget"}
+              text={isMobile ? "List" : "List Nugget"}
               onClick={onClickListNugget}
               isDisabled={false}
             />
@@ -300,7 +301,7 @@ const BaseNuggetInfoPopup = ({
         {onClickRecycleNugget && (
           <div className="base-nugget-info-popup-recycle-button">
             <DefaultButton
-              text={"Recycle Nugget"}
+              text={isMobile ? "Recycle" : "Recycle Nugget"}
               onClick={onClickRecycleNugget}
               isDisabled={false}
             />

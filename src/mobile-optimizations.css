@@ -1,0 +1,184 @@
+/* Mobile UI Optimizations */
+
+/* Global Mobile Optimizations */
+@media (max-width: 768px) {
+  /* Disable hover effects on mobile */
+  .no-mobile-hover:hover {
+    transform: none !important;
+    background: inherit !important;
+    border-color: inherit !important;
+  }
+  
+  /* Optimize text rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  /* Remove desktop-specific backgrounds on mobile */
+  .mobile-hide-background {
+    background-image: none !important;
+    background: var(--color-background) !important;
+  }
+  
+  /* Mobile-friendly scrolling */
+  .mobile-scroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+  
+  .mobile-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .mobile-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .mobile-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+  
+  /* Touch-friendly buttons */
+  .mobile-button {
+    min-height: var(--touch-target-comfortable);
+    min-width: var(--touch-target-comfortable);
+    border-radius: var(--theme-border-radius);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text-primary);
+    font-family: "AdobeClean", sans-serif;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .mobile-button:not(:disabled):active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .mobile-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Mobile grid layouts */
+  .mobile-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--theme-grid-columns, 3), 1fr);
+    gap: var(--theme-grid-gap, var(--spacing-sm));
+    padding: var(--spacing-sm);
+  }
+  
+  .mobile-grid-item {
+    aspect-ratio: 1;
+    border-radius: var(--theme-border-radius);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .mobile-grid-item:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Portrait orientation specific adjustments */
+@media (max-width: 768px) and (orientation: portrait) {
+  .portrait-stack {
+    flex-direction: column !important;
+  }
+  
+  .portrait-full-width {
+    width: 100% !important;
+  }
+  
+  .portrait-center {
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .landscape-compact {
+    height: 90vh !important;
+  }
+  
+  .landscape-horizontal {
+    flex-direction: row !important;
+  }
+}
+
+/* High DPI mobile displays */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .high-dpi-text {
+    font-size: calc(var(--font-size-sm) * 0.9);
+  }
+}
+
+/* Small mobile screens (phones) */
+@media (max-width: 480px) {
+  :root {
+    --spacing-xs: 0.125rem;
+    --spacing-sm: 0.25rem;
+    --spacing-md: 0.5rem;
+    --font-size-xs: 0.625rem;
+    --font-size-sm: 0.75rem;
+    --font-size-md: 0.875rem;
+  }
+  
+  .small-mobile-compact {
+    padding: var(--spacing-xs) !important;
+    gap: var(--spacing-xs) !important;
+  }
+  
+  .small-mobile-text {
+    font-size: var(--font-size-xs) !important;
+  }
+}
+
+/* Utility classes for responsive behavior */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* Performance optimizations */
+.gpu-optimized {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+/* Disable animations on slower devices */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

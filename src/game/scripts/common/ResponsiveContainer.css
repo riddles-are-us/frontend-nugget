@@ -1,0 +1,74 @@
+/* Base responsive container styles */
+.responsive-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Device-specific global styles */
+.device-mobile {
+  --current-spacing: var(--spacing-sm);
+  --current-font-size: var(--font-size-sm);
+}
+
+.device-tablet {
+  --current-spacing: var(--spacing-md);
+  --current-font-size: var(--font-size-md);
+}
+
+.device-desktop {
+  --current-spacing: var(--spacing-lg);
+  --current-font-size: var(--font-size-lg);
+}
+
+/* Orientation-specific adjustments */
+.orientation-portrait {
+  --layout-direction: column;
+}
+
+.orientation-landscape {
+  --layout-direction: row;
+}
+
+/* Touch vs pointer device optimizations */
+.touch-device {
+  --interaction-padding: var(--touch-target-comfortable);
+  --hover-effects: none;
+}
+
+.pointer-device {
+  --interaction-padding: var(--spacing-sm);
+  --hover-effects: all 0.2s ease-in-out;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .device-mobile .absolute-positioned {
+    position: relative !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
+  }
+  
+  .device-mobile .three-column-layout {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .device-mobile .desktop-only {
+    display: none !important;
+  }
+  
+  .device-mobile .mobile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}
+
+/* Desktop fallback */
+@media (min-width: 1024px) {
+  .device-desktop .mobile-only {
+    display: none !important;
+  }
+}

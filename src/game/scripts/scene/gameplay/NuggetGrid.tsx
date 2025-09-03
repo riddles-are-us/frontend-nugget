@@ -69,7 +69,7 @@ const NuggetGrid = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [elementWidth, setElementWidth] = useState<number>(0);
   const [elementHeight, setElementHeight] = useState<number>(0);
-  const columnCount = 3;
+  const [columnCount, setColumnCount] = useState<number>(3);
   const [rowCount, setRowCount] = useState<number>(0);
 
   const tabState = useAppSelector(selectTabState);
@@ -87,7 +87,12 @@ const NuggetGrid = () => {
 
   const adjustSize = () => {
     if (containerRef.current) {
-      const width = containerRef.current.offsetWidth / columnCount;
+      // Responsive columnCount: 1 for mobile (max-width: 768px), 3 for desktop
+      const isMobile = window.innerWidth <= 768;
+      const currentColumnCount = isMobile ? 1 : 3;
+      setColumnCount(currentColumnCount);
+      
+      const width = containerRef.current.offsetWidth / currentColumnCount;
       const height = width / elementRatio + 10;
       setElementWidth(width);
       setElementHeight(height);
@@ -404,28 +409,31 @@ const NuggetGrid = () => {
           elements={elements}
         />
       </div>
-      <div className="nugget-grid-page-selector-container">
-        <PageSelector
-          currentPage={page}
-          totalPage={totalPage}
-          nextPageNormalImage={nextPageNormalImage}
-          nextPageHoverImage={nextPageHoverImage}
-          nextPageClickImage={nextPageClickImage}
-          prevPageNormalImage={prevPageNormalImage}
-          prevPageHoverImage={prevPageHoverImage}
-          prevPageClickImage={prevPageClickImage}
-          pageSelectorFrame={pageSelectorFrame}
-          onClickPrevPageButton={onClickPrevPageButton}
-          onClickNextPageButton={onClickNextPageButton}
-        />
-      </div>
-
-      <div className="nugget-grid-page-reload-button">
-        <DefaultButton
-          text={"Reload"}
-          onClick={reloadTabData}
-          isDisabled={false}
-        ></DefaultButton>
+      
+      <div className="mobile-bottom-controls">
+        <div className="nugget-grid-page-reload-button">
+          <DefaultButton
+            text={"Reload"}
+            onClick={reloadTabData}
+            isDisabled={false}
+          ></DefaultButton>
+        </div>
+        
+        <div className="nugget-grid-page-selector-container">
+          <PageSelector
+            currentPage={page}
+            totalPage={totalPage}
+            nextPageNormalImage={nextPageNormalImage}
+            nextPageHoverImage={nextPageHoverImage}
+            nextPageClickImage={nextPageClickImage}
+            prevPageNormalImage={prevPageNormalImage}
+            prevPageHoverImage={prevPageHoverImage}
+            prevPageClickImage={prevPageClickImage}
+            pageSelectorFrame={pageSelectorFrame}
+            onClickPrevPageButton={onClickPrevPageButton}
+            onClickNextPageButton={onClickNextPageButton}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,202 @@
+/* Responsive Popup Base Styles */
+.responsive-popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--z-popup);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.responsive-popup-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.responsive-popup-content {
+  position: relative;
+  z-index: 1;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  border-radius: var(--theme-border-radius);
+  transition: var(--theme-transition);
+}
+
+/* Desktop Popup Styles - Preserves Original Design */
+.device-desktop .responsive-popup-content {
+  width: var(--theme-popup-width, auto);
+  height: var(--theme-popup-height, 30%);
+  aspect-ratio: 726 / 273;
+  border-radius: 0;
+  background: transparent;
+  max-width: none;
+  max-height: none;
+}
+
+.responsive-popup-close-desktop {
+  position: absolute;
+  top: 3%;
+  right: 7%;
+  width: 6%;
+  height: 15%;
+  aspect-ratio: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  color: white;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.responsive-popup-close-desktop:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+/* Mobile Popup Styles */
+.device-mobile .responsive-popup-content {
+  width: var(--theme-popup-width, 95vw);
+  height: var(--theme-popup-height, 80vh);
+  background: var(--color-background);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.responsive-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.responsive-popup-title {
+  color: var(--color-text-primary);
+  font-family: "AdobeClean", sans-serif;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin: 0;
+}
+
+.responsive-popup-close-mobile {
+  width: var(--touch-target-comfortable);
+  height: var(--touch-target-comfortable);
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.responsive-popup-close-mobile:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.responsive-popup-close-mobile:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+}
+
+.responsive-popup-body {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Desktop body inherits original popup design */
+.device-desktop .responsive-popup-body {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Mobile body with proper scrolling */
+.device-mobile .responsive-popup-body {
+  padding: var(--spacing-md);
+  
+  /* Custom scrollbar for mobile */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.device-mobile .responsive-popup-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.device-mobile .responsive-popup-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.device-mobile .responsive-popup-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+/* Tablet specific adjustments */
+.device-tablet .responsive-popup-content {
+  width: var(--theme-popup-width, 80vw);
+  height: var(--theme-popup-height, 70vh);
+  border-radius: 8px;
+}
+
+/* Animation for popup entry/exit */
+@keyframes popup-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popup-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply appropriate animation based on device */
+.device-desktop .responsive-popup-content {
+  animation: popup-fade-in 0.2s ease-out;
+}
+
+.device-mobile .responsive-popup-content {
+  animation: popup-slide-up 0.3s ease-out;
+}
+
+/* Hide desktop-specific elements on mobile */
+.device-mobile .desktop-only {
+  display: none !important;
+}
+
+.device-desktop .mobile-only {
+  display: none !important;
+}

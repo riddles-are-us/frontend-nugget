@@ -2,12 +2,13 @@ import { useEffect, useState, useRef } from "react";
 import { useWalletContext, getConfig, sendTransaction, queryState, ConnectState } from "zkwasm-minirollup-browser";
 // scene/ConnectController.tsx
 import { createCommand } from "zkwasm-minirollup-rpc";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector, useViewport } from "../../../app/hooks";
 import { selectConnectState, setConnectState } from "../../../data/state";
 import LoadingPage from "./LoadingPage";
 import WelcomePage from "./WelcomePage";
 import { pushError } from "../../../data/errors";
 import { useConnectModal } from "zkwasm-minirollup-browser";
+import { useLazyImageLoading, filterAssetsForDevice, getConnectionSpeed } from "../common/ResourceManager";
 
 const CREATE_PLAYER = 1n;
 
@@ -24,6 +25,8 @@ export function ConnectController({
 }: Props) {
   const dispatch = useAppDispatch();
   const [progress, setProgress] = useState(0);
+  const viewport = useViewport();
+  const { preloadImages } = useLazyImageLoading();
   const {
     isConnected,
     isL2Connected,
@@ -64,29 +67,25 @@ export function ConnectController({
     prevIsConnected.current = isConnected;
   }, [isConnected, openConnectModal]);
 
-  async function preloadImages(imageUrls: string[]): Promise<void> {
-    let loadedCount = 0;
-    const loadImage = (url: string) => {
-      return new Promise<void>((resolve, reject) => {
-        const img = new Image();
-        img.src = url;
-        img.onload = () => {
-          loadedCount++;
-          setProgress(Math.ceil((loadedCount / imageUrls.length) * 8000) / 100);
-          resolve();
-        };
-        img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-      });
-    };
-
-    const promises = imageUrls.map((url) => loadImage(url));
-    await Promise.all(promises);
-  }
 
   const loadImages = async () => {
     try {
-      await preloadImages(imageUrls);
-      console.log(`${imageUrls.length} images loaded`);
+      // Filter images based on device capabilities
+      const filteredImageUrls = filterAssetsForDevice(imageUrls, viewport.device);
+      const connectionSpeed = getConnectionSpeed();
+      
+      // Adjust loading strategy based on connection speed
+      const imagesToLoad = connectionSpeed === 'slow' 
+        ? filteredImageUrls.slice(0, Math.floor(filteredImageUrls.length * 0.6))
+        : filteredImageUrls;
+      
+      console.log(`Loading ${imagesToLoad.length} images for ${viewport.device} device (${connectionSpeed} connection)`);
+      
+      await preloadImages(imagesToLoad, viewport.device, (loaded, total) => {
+        setProgress(Math.ceil((loaded / total) * 8000) / 100);
+      });
+      
+      console.log(`${imagesToLoad.length} images loaded successfully`);
     } catch (error) {
       const message = "Error loading images: " + error;
       dispatch(pushError(message));

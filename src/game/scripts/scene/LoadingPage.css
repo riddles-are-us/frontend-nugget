@@ -9,19 +9,30 @@
 }
 
 .loading-page-background {
-  position: absolute;
-  width: auto;
-  height: calc(max(100%, 100vw * 700 / 1280));
-  aspect-ratio: 1280 / 700;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-image: url("../../images/scene/welcome_page/welcome_bg.png");
+  /* Mobile-first: full-viewport background */
+  position: fixed;
+  inset: 0;                     /* top/right/bottom/left: 0 */
+  width: 100vw;
+  height: 100dvh;               /* handles mobile browser UI changes */
+  background-image: url("../../images/scene/welcome_page/welcome_bg_mobile.png");
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   pointer-events: none;
   user-select: none;
+}
+
+/* Tablets & up: keep your designed aspect ratio and center it */
+@media (min-width: 512px) {
+  .loading-page-background {
+    position: absolute;
+    background-image: url("../../images/scene/welcome_page/welcome_bg.png");
+    width: 100%;
+    aspect-ratio: 1280 / 700;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
 }
 
 .loading-page-message-text {

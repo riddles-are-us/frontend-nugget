@@ -132,3 +132,43 @@
   background-repeat: repeat-x;
   background-position: top;
 }
+
+@media (max-width: 768px) {
+  .gameplay-top-container {
+    position: fixed;
+    height: 182px;
+    left: 0;
+    top: 0;
+  }
+
+  .gameplay-bottom-container {
+    position: fixed;
+    height: 100px;
+    left: 0;
+    bottom: 0;
+  }
+
+  .gameplay-main-container {
+    position: fixed;
+    top: 182px;
+    bottom: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  
+  .gameplay-top-foreground-container {
+    display: none;
+  }
+
+  .gameplay-main-left-container {
+    width: 0;
+  }
+
+  .gameplay-main-right-container {
+    width: 0;
+  }
+  
+  .gameplay-main-middle-container {
+    flex: 1;
+  }
+}

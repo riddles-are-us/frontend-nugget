@@ -69,7 +69,7 @@ const NuggetGrid = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [elementWidth, setElementWidth] = useState<number>(0);
   const [elementHeight, setElementHeight] = useState<number>(0);
-  const columnCount = 3;
+  const [columnCount, setColumnCount] = useState<number>(3);
   const [rowCount, setRowCount] = useState<number>(0);
 
   const tabState = useAppSelector(selectTabState);
@@ -87,7 +87,12 @@ const NuggetGrid = () => {
 
   const adjustSize = () => {
     if (containerRef.current) {
-      const width = containerRef.current.offsetWidth / columnCount;
+      // Set column count based on window width
+      const windowWidth = window.innerWidth;
+      const newColumnCount = windowWidth <= 768 ? 1 : 3;
+      setColumnCount(newColumnCount);
+      console.log(containerRef.current.offsetWidth)
+      const width = containerRef.current.offsetWidth / newColumnCount;
       const height = width / elementRatio + 10;
       setElementWidth(width);
       setElementHeight(height);
@@ -103,6 +108,11 @@ const NuggetGrid = () => {
       window.removeEventListener("resize", adjustSize);
     };
   }, []);
+
+  // Update page when columnCount changes to avoid empty pages
+  useEffect(() => {
+    setPage(0);
+  }, [columnCount]);
 
   useEffect(() => {
     checkTabData();

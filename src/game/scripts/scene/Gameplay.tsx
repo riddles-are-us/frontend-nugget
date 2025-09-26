@@ -14,12 +14,32 @@ import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
 import { selectIsLoading } from "../../../data/errors";
 import LoadingHint from "./LoadingHint";
+import { useEffect, useRef } from "react";
 
 const Gameplay = () => {
+  const containerRef = useRef<HTMLParagraphElement>(null);
   const isLoading = useAppSelector(selectIsLoading);
 
+  const adjustSize = () => {
+    if (containerRef.current) {
+      let windowWidth = containerRef.current.offsetWidth;
+      if (typeof window !== "undefined") {
+        windowWidth = window.innerWidth;
+      }
+    }
+  };
+
+  useEffect(() => {
+    adjustSize();
+
+    window.addEventListener("resize", adjustSize);
+    return () => {
+      window.removeEventListener("resize", adjustSize);
+    };
+  }, [containerRef.current]);
+
   return (
-    <div className="gameplay-container">
+    <div ref={containerRef} className="gameplay-container">
       <Popups />
       {isLoading && <LoadingHint />}
       <div className="gameplay-top-container">
@@ -38,6 +58,9 @@ const Gameplay = () => {
           <div className="gameplay-top-tab-buttons-container">
             <TabButtons />
           </div>
+        </div>
+        <div className="gameplay-top-foreground-container-mobile">
+          
         </div>
       </div>
       <div className="gameplay-main-container">
@@ -65,7 +88,8 @@ const Gameplay = () => {
           <div className="gameplay-main-right-foreground" />
         </div>
       </div>
-      <div className="gameplay-bottom-container" />
+      <div className="gameplay-bottom-container">
+      </div>
     </div>
   );
 };

@@ -13,8 +13,21 @@ const DisclaimerPopup = () => {
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setTitleFontSize(containerRef.current.offsetHeight / 10);
-      setDescriptionFontSize(containerRef.current.offsetHeight / 20);
+      let windowWidth = containerRef.current.offsetWidth / 0.6;
+      if (typeof window !== "undefined") {
+        windowWidth = window.innerWidth;
+      }
+      console.log(windowWidth)
+      if (windowWidth >= 768) {
+        setTitleFontSize(containerRef.current.offsetHeight / 10);
+        setDescriptionFontSize(containerRef.current.offsetHeight / 20);
+      } else if (windowWidth >= 512) {
+        setTitleFontSize(containerRef.current.offsetWidth / 15);
+        setDescriptionFontSize(containerRef.current.offsetWidth / 30);
+      } else {
+        setTitleFontSize(containerRef.current.offsetWidth / 13);
+        setDescriptionFontSize(containerRef.current.offsetWidth / 26);
+      }
     }
   };
 

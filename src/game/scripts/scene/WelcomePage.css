@@ -8,17 +8,15 @@
   user-select: none;
 }
 
+/* Mobile-first: full-viewport cover */
 .welcome-page-background {
-  position: absolute;
-  width: auto;
-  height: calc(max(100%, 100vw * 700 / 1280));
-  aspect-ratio: 1280 / 700;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-image: url("../../images/scene/welcome_page/welcome_bg.png");
+  position: fixed;
+  inset: 0;                 /* top/right/bottom/left: 0 */
+  width: 100vw;
+  height: 100dvh;           /* better than 100vh on mobile browsers */
+  background-image: url("../../images/scene/welcome_page/welcome_bg_mobile.png");
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   pointer-events: none;
   user-select: none;
@@ -26,13 +24,49 @@
 
 .welcome-page-disclaimer-popup-container {
   position: absolute;
-  width: 60%;
+  width: 80%;
   height: auto;
   top: 50%;
   left: 50%;
-  aspect-ratio: 5 / 3;
-  transform: translate(-50%, -50%);
+  aspect-ratio: 5 / 5;
+  transform: translate(-50%, -30%);
   user-select: none;
+}
+
+/* Tablets & up: preserve your design aspect and anchor to bottom center */
+@media (min-width: 512px) {
+  .welcome-page-background {
+    position: absolute;
+    background-image: url("../../images/scene/welcome_page/welcome_bg.png");
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    aspect-ratio: 1280 / 700;
+    /* keep cover look when aspect forces letterboxing */
+    background-size: cover;
+    background-position: center bottom;
+  }
+
+  .welcome-page-disclaimer-popup-container {
+    transform: translate(-50%, -50%);
+    aspect-ratio: 5 / 4;
+  }
+}
+
+/* Tablets & up: preserve your design aspect and anchor to bottom center */
+@media (min-width: 768px) {
+  .welcome-page-disclaimer-popup-container {
+    width: 60%;
+    aspect-ratio: 5 / 3;
+  }
+}
+
+/* Very wide screens: allow stretching to viewport width while keeping bottom aligned */
+@media (min-width: 1280px) and (min-aspect-ratio: 16/9) {
+  .welcome-page-background {
+    width: 100vw;
+  }
 }
 
 .welcome-page-panel-connect-wallet-button {

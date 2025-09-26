@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import nugget_image_1 from "../../images/nuggets/1.png";
 import nugget_image_2 from "../../images/nuggets/2.png";
 import nugget_image_3 from "../../images/nuggets/3.png";

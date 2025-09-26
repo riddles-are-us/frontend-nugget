@@ -7,6 +7,7 @@ import rightHoverImage from "../../images/buttons/tab_button/right_hv.png";
 import leftClickImage from "../../images/buttons/tab_button/left_click.png";
 import leftClickMobileImage from "../../images/buttons/tab_button/left_click_mobile.png";
 import midClickImage from "../../images/buttons/tab_button/mid_click.png";
+import midMobileImage from "../../images/buttons/tab_button/mid_mobile.png";
 import rightClickImage from "../../images/buttons/tab_button/right_click.png";
 import rightClickMobileImage from "../../images/buttons/tab_button/right_click_mobile.png";
 import AdjustableImageTextButton from "../common/AdjustableImageTextButton";
@@ -17,7 +18,7 @@ interface Props {
   text: string;
   onClick: () => void;
   isDisabled: boolean;
-  isMobile: boolean;
+  isMobile?: boolean;
 }
 
 const TabButton = ({ id = 0, text, onClick, isDisabled, isMobile = false }: Props) => {
@@ -67,15 +68,15 @@ const TabButton = ({ id = 0, text, onClick, isDisabled, isMobile = false }: Prop
       leftNormalImage={leftNormalImage}
       midNormalImage={midNormalImage}
       rightNormalImage={rightNormalImage}
-      leftHoverImage={isMobile ? leftClickMobileImage : leftHoverImage}
+      leftHoverImage={leftHoverImage}
       midHoverImage={midHoverImage}
-      rightHoverImage={isMobile ? rightClickMobileImage : rightHoverImage}
-      leftClickImage={isMobile ? leftClickMobileImage : leftClickImage}
+      rightHoverImage={rightHoverImage}
+      leftClickImage={leftClickImage}
       midClickImage={midClickImage}
-      rightClickImage={isMobile ? rightClickMobileImage : rightClickImage}
-      leftDisabledImage={leftClickImage}
-      midDisabledImage={midClickImage}
-      rightDisabledImage={rightClickImage}
+      rightClickImage={rightClickImage}
+      leftDisabledImage={isMobile ? leftClickMobileImage : leftClickImage}
+      midDisabledImage={isMobile ? midMobileImage : midClickImage}
+      rightDisabledImage={isMobile ? rightClickMobileImage : rightClickImage}
       getText={getText}
       isMobile={isMobile}
     />

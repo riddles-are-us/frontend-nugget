@@ -27,8 +27,8 @@ const Gameplay = () => {
       let tempWindowWidth = containerRef.current.offsetWidth;
       if (typeof window !== "undefined") {
         tempWindowWidth = window.innerWidth;
-        setWindowWidth(tempWindowWidth);
       }
+      setWindowWidth(tempWindowWidth);
     }
   };
 
@@ -67,7 +67,7 @@ const Gameplay = () => {
 
           </div>
           <div className="gameplay-top-container-footer-mobile">
-            <TabButtons isMobile={windowWidth <= 768} />
+            <TabButtons />
           </div>
           <img src={decoBarImage} style={{ width: '100%', height: 'auto' }} />
         </div>

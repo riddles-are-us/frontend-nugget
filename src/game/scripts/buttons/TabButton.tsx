@@ -5,8 +5,10 @@ import leftHoverImage from "../../images/buttons/tab_button/left_hv.png";
 import midHoverImage from "../../images/buttons/tab_button/mid_hv.png";
 import rightHoverImage from "../../images/buttons/tab_button/right_hv.png";
 import leftClickImage from "../../images/buttons/tab_button/left_click.png";
+import leftClickMobileImage from "../../images/buttons/tab_button/left_click_mobile.png";
 import midClickImage from "../../images/buttons/tab_button/mid_click.png";
 import rightClickImage from "../../images/buttons/tab_button/right_click.png";
+import rightClickMobileImage from "../../images/buttons/tab_button/right_click_mobile.png";
 import AdjustableImageTextButton from "../common/AdjustableImageTextButton";
 import { getTextShadowStyle } from "../common/Utility";
 
@@ -15,12 +17,13 @@ interface Props {
   text: string;
   onClick: () => void;
   isDisabled: boolean;
+  isMobile: boolean;
 }
 
-const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
+const TabButton = ({ id = 0, text, onClick, isDisabled, isMobile = false }: Props) => {
   const leftRatio = 26 / 45;
   const rightRatio = 26 / 45;
-  const fontSizeRatio = 1.2;
+  const fontSizeRatio = isMobile ? 1 : 1.2;
   const fontFamily = "AdobeClean";
   const isBold = true;
   const color = "white";
@@ -64,16 +67,17 @@ const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
       leftNormalImage={leftNormalImage}
       midNormalImage={midNormalImage}
       rightNormalImage={rightNormalImage}
-      leftHoverImage={leftHoverImage}
+      leftHoverImage={isMobile ? leftClickMobileImage : leftHoverImage}
       midHoverImage={midHoverImage}
-      rightHoverImage={rightHoverImage}
-      leftClickImage={leftClickImage}
+      rightHoverImage={isMobile ? rightClickMobileImage : rightHoverImage}
+      leftClickImage={isMobile ? leftClickMobileImage : leftClickImage}
       midClickImage={midClickImage}
-      rightClickImage={rightClickImage}
+      rightClickImage={isMobile ? rightClickMobileImage : rightClickImage}
       leftDisabledImage={leftClickImage}
       midDisabledImage={midClickImage}
       rightDisabledImage={rightClickImage}
       getText={getText}
+      isMobile={isMobile}
     />
   );
 };

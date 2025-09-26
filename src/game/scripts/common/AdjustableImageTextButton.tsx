@@ -22,6 +22,7 @@ interface Props {
   midDisabledImage: string;
   rightDisabledImage: string;
   getText: (fontBaseSize: number) => JSX.Element;
+  isMobile?: boolean;
 }
 
 const AdjustableImageTextButton = ({
@@ -43,6 +44,7 @@ const AdjustableImageTextButton = ({
   midDisabledImage,
   rightDisabledImage,
   getText,
+  isMobile = false,
 }: Props) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [baseFontSize, setBaseFontSize] = useState<number>(0);
@@ -65,14 +67,16 @@ const AdjustableImageTextButton = ({
   const getElement = (
     leftImage: string,
     midImage: string,
-    rightImage: string
+    rightImage: string,
+    isMobile?: boolean,
+    _isActive?: boolean
   ) => {
     return (
       <>
         <HorizontalExtendableImage
           id={id}
-          leftRatio={leftRatio}
-          rightRatio={rightRatio}
+          leftRatio={_isActive && isMobile ? 1 / 2 : leftRatio}
+          rightRatio={_isActive && isMobile ? 1 / 2 : rightRatio}
           leftImage={leftImage}
           midImage={midImage}
           rightImage={rightImage}
@@ -89,22 +93,28 @@ const AdjustableImageTextButton = ({
         defaultElement={getElement(
           leftNormalImage,
           midNormalImage,
-          rightNormalImage
+          rightNormalImage,
+          isMobile
         )}
         hoverElement={getElement(
           leftHoverImage,
           midHoverImage,
-          rightHoverImage
+          rightHoverImage,    
+          isMobile,
+          true
         )}
         clickedElement={getElement(
           leftClickImage,
           midClickImage,
-          rightClickImage
+          rightClickImage,
+          isMobile,
+          true
         )}
         disabledElement={getElement(
           leftDisabledImage,
           midDisabledImage,
-          rightDisabledImage
+          rightDisabledImage,
+          isMobile
         )}
         onClick={onClick}
       />

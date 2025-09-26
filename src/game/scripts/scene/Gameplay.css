@@ -22,6 +22,18 @@
   bottom: 0;
 }
 
+.gameplay-top-container-mobile {
+  padding-top: 50px;
+  flex: 1;
+  display: none;
+}
+
+.gameplay-top-container-footer-mobile {
+  position: relative;
+  width: 100%;
+  height: 36px;
+}
+
 .gameplay-top-foreground-extend {
   position: absolute;
   width: 100%;
@@ -139,6 +151,7 @@
     height: 182px;
     left: 0;
     top: 0;
+    display: flex;
   }
 
   .gameplay-bottom-container {
@@ -169,6 +182,15 @@
   }
   
   .gameplay-main-middle-container {
+    flex: 1;
+  }
+
+  .gameplay-top-container-mobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gameplay-top-container-content-mobile {
     flex: 1;
   }
 }

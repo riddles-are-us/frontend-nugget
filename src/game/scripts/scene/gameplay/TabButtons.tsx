@@ -3,7 +3,7 @@ import { selectTabState, setTabState, TabState } from "../../../../data/ui";
 import TabButton from "../../buttons/TabButton";
 import "./TabButtons.css";
 
-const TabButtons = () => {
+const TabButtons = ({ isMobile = false }: { isMobile?: boolean }) => {
   const dispatch = useAppDispatch();
   const tabState = useAppSelector(selectTabState);
 
@@ -27,6 +27,7 @@ const TabButtons = () => {
           text={"Inventory"}
           onClick={onClickInventory}
           isDisabled={tabState == TabState.Inventory}
+          isMobile={isMobile}
         />
       </div>
       <div className="tab-buttons-selling-button">
@@ -34,6 +35,7 @@ const TabButtons = () => {
           text={"Selling"}
           onClick={onClickSelling}
           isDisabled={tabState == TabState.Selling}
+          isMobile={isMobile}
         />
       </div>
       <div className="tab-buttons-auction-button">
@@ -41,6 +43,7 @@ const TabButtons = () => {
           text={"Auction"}
           onClick={onClickAuction}
           isDisabled={tabState == TabState.Auction}
+          isMobile={isMobile}
         />
       </div>
       <div className="tab-buttons-lot-button">
@@ -48,6 +51,7 @@ const TabButtons = () => {
           text={"Lot"}
           onClick={onClickLot}
           isDisabled={tabState == TabState.Lot}
+          isMobile={isMobile}
         />
       </div>
     </>

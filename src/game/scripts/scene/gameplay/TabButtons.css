@@ -24,3 +24,45 @@
 .tab-buttons-lot-button {
   left: 74%;
 }
+
+
+@media (max-width: 768px) {
+  .tab-buttons-inventory-button{
+    position: absolute;
+    width: 30%;
+    height: 80%;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  .tab-buttons-selling-button,
+  .tab-buttons-auction-button {
+    position: absolute;
+    width: 25%;
+    height: 80%;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  .tab-buttons-lot-button {
+    position: absolute;
+    width: 20%;
+    height: 80%;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+
+  .tab-buttons-inventory-button {
+    left: 0;
+  }
+  
+  .tab-buttons-selling-button {
+    left: 30%;
+  }
+  
+  .tab-buttons-auction-button {
+    left: 55%;
+  }
+  
+  .tab-buttons-lot-button {
+    left: 80%;
+  }
+}

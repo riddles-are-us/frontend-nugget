@@ -4,6 +4,7 @@ import "./Gameplay.css";
 import VerticalExtendableImage from "../common/VerticalExtendableImage";
 import leftTopImage from "../../images/scene/gameplay/left_container/left_top.png";
 import leftMiddleImage from "../../images/scene/gameplay/left_container/left_middle.png";
+import decoBarImage from "../../images/scene/gameplay/top_container/deco_bar.png";
 import leftBottomImage from "../../images/scene/gameplay/left_container/left_bottom.png";
 import rightTopImage from "../../images/scene/gameplay/right_container/right_top.png";
 import rightMiddleImage from "../../images/scene/gameplay/right_container/right_middle.png";
@@ -14,17 +15,19 @@ import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
 import { selectIsLoading } from "../../../data/errors";
 import LoadingHint from "./LoadingHint";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Gameplay = () => {
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   const containerRef = useRef<HTMLParagraphElement>(null);
   const isLoading = useAppSelector(selectIsLoading);
 
   const adjustSize = () => {
     if (containerRef.current) {
-      let windowWidth = containerRef.current.offsetWidth;
+      let tempWindowWidth = containerRef.current.offsetWidth;
       if (typeof window !== "undefined") {
-        windowWidth = window.innerWidth;
+        tempWindowWidth = window.innerWidth;
+        setWindowWidth(tempWindowWidth);
       }
     }
   };
@@ -59,8 +62,14 @@ const Gameplay = () => {
             <TabButtons />
           </div>
         </div>
-        <div className="gameplay-top-foreground-container-mobile">
-          
+        <div className="gameplay-top-container-mobile">
+          <div className="gameplay-top-container-content-mobile">
+
+          </div>
+          <div className="gameplay-top-container-footer-mobile">
+            <TabButtons isMobile={windowWidth <= 768} />
+          </div>
+          <img src={decoBarImage} style={{ width: '100%', height: 'auto' }} />
         </div>
       </div>
       <div className="gameplay-main-container">

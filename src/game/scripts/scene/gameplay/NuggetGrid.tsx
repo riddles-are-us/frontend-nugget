@@ -52,6 +52,7 @@ import {
 } from "../../../../data/errors";
 import Nugget from "./Nugget";
 import DefaultButton from "../../buttons/DefaultButton";
+import { useIsMobile } from "../../../../app/isMobileContext";
 
 const ELEMENT_PER_REQUEST = 30;
 const NuggetGrid = () => {
@@ -64,6 +65,7 @@ const NuggetGrid = () => {
   const pids = l2Account?.pubkey
     ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
+  const { isMobile } = useIsMobile();
 
   const elementRatio = 432 / 159;
   const containerRef = useRef<HTMLParagraphElement>(null);
@@ -75,7 +77,7 @@ const NuggetGrid = () => {
   const tabState = useAppSelector(selectTabState);
   const [page, setPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
-  const pageSize = rowCount * columnCount;
+  const pageSize = isMobile ? 1000 : rowCount * columnCount;
 
   const isInventoryChanged = useAppSelector(selectIsInventoryChanged);
   const inventoryNuggetTab = useAppSelector(selectInventoryNuggetTab);
@@ -406,13 +408,29 @@ const NuggetGrid = () => {
   return (
     <div className="nugget-grid-container">
       <div ref={containerRef} className="nugget-grid-grid-container">
-        <Grid
-          elementWidth={elementWidth}
-          elementHeight={elementHeight}
-          columnCount={columnCount}
-          rowCount={rowCount}
-          elements={elements}
-        />
+        {isMobile && (
+          <div className="nugget-grid-page-reload-button-mobile">
+            <DefaultButton
+              text={"Reload"}
+              onClick={reloadTabData}
+              isDisabled={false}
+            ></DefaultButton>
+          </div>
+        )}
+        {isMobile ? (
+          <>
+            {elements.map((element) => element)}
+          </>
+        ) : (
+          <Grid
+            elementWidth={elementWidth}
+            elementHeight={elementHeight}
+            columnCount={columnCount}
+            rowCount={rowCount}
+            elements={elements}
+            isMobile={isMobile}
+          />
+        )}
       </div>
       <div className="nugget-grid-page-selector-container">
         <PageSelector
@@ -429,14 +447,15 @@ const NuggetGrid = () => {
           onClickNextPageButton={onClickNextPageButton}
         />
       </div>
-
-      <div className="nugget-grid-page-reload-button">
-        <DefaultButton
-          text={"Reload"}
-          onClick={reloadTabData}
-          isDisabled={false}
-        ></DefaultButton>
-      </div>
+      {!isMobile && (
+        <div className="nugget-grid-page-reload-button">
+          <DefaultButton
+            text={"Reload"}
+            onClick={reloadTabData}
+            isDisabled={false}
+          ></DefaultButton>
+        </div>
+      )}
     </div>
   );
 };

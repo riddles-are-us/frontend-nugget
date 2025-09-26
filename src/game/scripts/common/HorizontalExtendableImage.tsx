@@ -24,7 +24,6 @@ const HorizontalExtendableImage = ({
 
   const adjustSize = () => {
     if (containerRef.current) {
-      console.log(containerRef.current.offsetHeight)
       setContainerWidth(containerRef.current.offsetWidth);
       setContainerHeight(containerRef.current.offsetHeight);
     }

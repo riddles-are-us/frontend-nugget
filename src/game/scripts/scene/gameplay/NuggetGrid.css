@@ -5,6 +5,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  overflow: hidden;
 }
 
 .nugget-grid-grid-container {
@@ -24,6 +25,7 @@
   left: 50%;
   bottom: 0;
   transform: translate(-50%, 0);
+  display: block;
 }
 
 .nugget-grid-page-reload-button {
@@ -33,13 +35,27 @@
   aspect-ratio: 3/1;
   left: 10%;
   top: 95%;
+  right: unset;
   transform: translate(-50%, -50%);
 }
 
+.nugget-grid-page-reload-button-mobile {
+  position: relative;
+  margin-top: 16px;
+  margin-left: auto;
+  margin-right: 16px;
+  margin-bottom: 12px;
+  width: 20%;
+  aspect-ratio: 74 / 26;
+}
+
 @media (max-width: 768px) {
-  .nugget-grid-page-reload-button {
-    top: 20px;
-    right: 0;
-    left: unset;
+  .nugget-grid-grid-container {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .nugget-grid-page-selector-container {
+    display: none;
   }
 }

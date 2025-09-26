@@ -7,6 +7,8 @@ interface Props {
   columnCount: number;
   rowCount: number;
   elements: Array<JSX.Element>;
+  paddingTop?: string;
+  isMobile?: boolean;
 }
 
 const Grid = ({
@@ -15,6 +17,7 @@ const Grid = ({
   columnCount,
   rowCount,
   elements,
+  isMobile = false
 }: Props) => {
   return (
     <div
@@ -25,7 +28,7 @@ const Grid = ({
         height:
           elementHeight == null ? "100%" : `${elementHeight * rowCount}px`,
         gridTemplateColumns: `repeat(${columnCount}, 1fr)`,
-        gridTemplateRows: `repeat(${rowCount}, 1fr)`,
+        gridTemplateRows: `repeat(${rowCount}, 1fr)`
       }}
     >
       {elements.map((element) => element)}

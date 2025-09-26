@@ -172,3 +172,10 @@
   user-select: none;
   line-height: 1;
 }
+
+
+@media (max-width: 768px) {
+  .nugget-container {
+    aspect-ratio: 350 / 136;
+  }
+}

@@ -169,8 +169,8 @@
     position: fixed;
     top: 182px;
     bottom: 100px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    flex: 1;
+    height: unset;
   }
   
   .gameplay-top-foreground-container {
@@ -192,9 +192,5 @@
   .gameplay-top-container-mobile {
     display: flex;
     flex-direction: column;
-  }
-
-  .gameplay-top-container-content-mobile {
-    flex: 1;
   }
 }

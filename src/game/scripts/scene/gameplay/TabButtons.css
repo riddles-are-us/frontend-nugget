@@ -33,14 +33,17 @@
   .tab-buttons-inventory-button{
     position: relative;
     width: 30%;
+    height: 36px;
   }
   .tab-buttons-selling-button,
   .tab-buttons-auction-button {
     position: relative;
     width: 25%;
+    height: 24px;
   }
   .tab-buttons-lot-button {
     position: relative;
     width: 20%;
+    height: 24px;
   }
 }

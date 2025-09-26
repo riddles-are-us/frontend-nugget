@@ -12,16 +12,17 @@ import rightClickImage from "../../images/buttons/tab_button/right_click.png";
 import rightClickMobileImage from "../../images/buttons/tab_button/right_click_mobile.png";
 import AdjustableImageTextButton from "../common/AdjustableImageTextButton";
 import { getTextShadowStyle } from "../common/Utility";
+import { useIsMobile } from "../../../app/isMobileContext";
 
 interface Props {
   id?: number;
   text: string;
   onClick: () => void;
   isDisabled: boolean;
-  isMobile?: boolean;
 }
 
-const TabButton = ({ id = 0, text, onClick, isDisabled, isMobile = false }: Props) => {
+const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
+  const { isMobile } = useIsMobile();
   const leftRatio = 26 / 45;
   const rightRatio = 26 / 45;
   const fontSizeRatio = isMobile ? 1 : 1.2;

@@ -16,6 +16,7 @@ import NuggetGrid from "./gameplay/NuggetGrid";
 import { selectIsLoading } from "../../../data/errors";
 import LoadingHint from "./LoadingHint";
 import { useEffect, useRef, useState } from "react";
+import PlayerInfoMobile from "./gameplay/PlayerInfoMobile";
 
 const Gameplay = () => {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -63,9 +64,7 @@ const Gameplay = () => {
           </div>
         </div>
         <div className="gameplay-top-container-mobile">
-          <div className="gameplay-top-container-content-mobile">
-
-          </div>
+          <PlayerInfoMobile />
           <div className="gameplay-top-container-footer-mobile">
             <TabButtons />
           </div>

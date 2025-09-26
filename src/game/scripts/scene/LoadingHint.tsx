@@ -8,15 +8,17 @@ import listNuggetAnimation from "../../images/scene/gameplay/loading_animation/l
 import { getTextShadowStyle } from "../common/Utility";
 import { useAppSelector } from "../../../app/hooks";
 import { LoadingType, selectLoadingType } from "../../../data/errors";
+import { useIsMobile } from "../../../app/isMobileContext";
 
 const LoadingHint = () => {
   const containerRef = useRef<HTMLParagraphElement>(null);
+  const { isMobile } = useIsMobile();
   const [fontSize, setFontSize] = useState<number>(0);
   const loadingType = useAppSelector(selectLoadingType);
 
   const adjustSize = () => {
     if (containerRef.current) {
-      setFontSize(containerRef.current.offsetHeight / 30);
+      setFontSize(isMobile ? 16 : containerRef.current.offsetHeight / 30);
     }
   };
 

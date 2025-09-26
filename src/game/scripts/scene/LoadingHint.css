@@ -41,3 +41,15 @@
   top: 100%;
   transform: translate(-50%, -50%);
 }
+
+@media (max-width: 768px) {
+  .loading-hint-title-text {
+    right: 12px;
+    left: unset;
+    bottom: 100px;
+    width: unset;
+    height: unset;
+    top: unset;
+    transform: unset;
+  }
+}

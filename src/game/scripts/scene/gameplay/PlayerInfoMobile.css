@@ -1,0 +1,97 @@
+
+  .gameplay-top-container-content-mobile {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding-left: 15px;
+    padding-right: 15px;
+    align-items: center;
+  }
+
+  .gameplay-player-info-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .gameplay-player-id-container-mobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .gameplay-player-id-input-container-mobile {
+    position: relative;
+    height: 27px;
+    aspect-ratio: 138/27;
+    user-select: none;
+    background-image: url("../../../images/scene/gameplay/top_container/player_id.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    color: white;
+    font-size: 10px;
+    line-height: 124%;
+    display: flex;
+    align-items: center;
+  }
+
+  .gameplay-player-id-number-mobile {
+    margin-left: 31px;
+  }
+
+  .gameplay-player-balance-container-mobile {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .gameplay-player-balance-input-container-mobile {
+    position: relative;
+    height: 24px;
+    aspect-ratio: 103/24;
+    user-select: none;
+    background-image: url("../../../images/scene/gameplay/top_container/player_coin.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    color: white;
+    font-size: 10px;
+    line-height: 124%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gameplay-player-balance-input-number-mobile {
+    margin-left: 24px;
+  }
+
+  .gameplay-player-treasure-info-icon {
+    margin-left: 8px;
+    width: 29px;
+    height: 23px;
+  }
+
+  .deposit-btn-mobile {
+    aspect-ratio: 65 / 54;
+    width: 16%;
+    min-width: 65px;
+    background-image: url("../../../images/buttons/deposit_btn.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-left: auto;
+  }
+
+  .withdraw-btn-mobile {
+    aspect-ratio: 65 / 54;
+    width: 16%;
+    min-width: 65px;
+    background-image: url("../../../images/buttons/withdraw_btn.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-left: 10px;
+  }

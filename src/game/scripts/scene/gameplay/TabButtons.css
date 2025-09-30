@@ -31,19 +31,35 @@
 
 @media (max-width: 768px) {
   .tab-buttons-inventory-button{
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 12px;
     width: 30%;
-    height: 36px;
+    height: 24px;
   }
-  .tab-buttons-selling-button,
+  .tab-buttons-selling-button {
+    position: absolute;
+    left: 30%;
+    top: 12px;
+    width: 25%;
+    height: 24px;
+  }
   .tab-buttons-auction-button {
-    position: relative;
+    position: absolute;
+    left: 55%;
+    top: 12px;
     width: 25%;
     height: 24px;
   }
   .tab-buttons-lot-button {
-    position: relative;
+    position: absolute;
+    left: 80%;
+    top: 12px;
     width: 20%;
     height: 24px;
+  }
+  .tab-buttons-active {
+    height: 36px;
+    top: 0;
   }
 }

@@ -18,32 +18,19 @@ const ElementButton = ({
   disabledElement,
   onClick,
 }: Props) => {
-  const [isClicked, setIsClicked] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseDown = () => {
-    if (!isDisabled) {
-      setIsClicked(true);
-    }
-  };
+  const handleMouseDown = () => { if (!isDisabled) setIsClicked(true); };
+  const handleMouseUp   = () => { if (!isDisabled) setIsClicked(false); };
 
-  const handleMouseUp = () => {
+  const handleClick     = () => { if (!isDisabled) onClick(); };
+
+  const handleTouchStart = () => { if (!isDisabled) setIsClicked(true); };
+  const handleTouchEnd   = () => { 
     if (!isDisabled) {
       setIsClicked(false);
       onClick();
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!isDisabled) {
-      setIsClicked(false);
-      setIsHovered(false);
-    }
-  };
-
-  const handleMouseEnter = () => {
-    if (!isDisabled) {
-      setIsHovered(true);
     }
   };
 
@@ -59,16 +46,16 @@ const ElementButton = ({
       className={isDisabled ? "element-button-disabled" : "element-button"}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
+      onMouseLeave={() => { if (!isDisabled) { setIsClicked(false); setIsHovered(false); } }}
+      onMouseEnter={() => { if (!isDisabled) setIsHovered(true); }}
+      onClick={handleClick}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       disabled={isDisabled}
     >
-      {isDisabled
-        ? disabledElement
-        : isClicked
-        ? clickedElement
-        : isHovered
-        ? hoverElement
+      {isDisabled ? disabledElement
+        : isClicked ? clickedElement
+        : isHovered ? hoverElement
         : defaultElement}
     </button>
   );

@@ -133,101 +133,101 @@ const PlayerInfoMobile = () => {
     </div>
   );
 
-  return (
-    <div ref={containerRef} className="player-info-container">
-      <p
-        className="player-info-player-id-text"
-        style={{
-          fontSize: titleFontSize,
-          ...getTextShadowStyle(titleFontSize / 15),
-        }}
-      >
-        Player ID:
-      </p>
-      <p
-        className="player-info-player-id-value-text"
-        style={{
-          fontSize: titleFontSize,
-          ...getTextShadowStyle(titleFontSize / 15),
-        }}
-      >
-        {playerId}
-      </p>
-      <p
-        className="player-info-coin-text"
-        style={{
-          fontSize: moneyFontSize,
-          ...getTextShadowStyle(moneyFontSize / 15),
-        }}
-      >
-        {coin}
-      </p>
-      <div className="player-info-coin-image" />
-      <div className="player-info-rank-button">
-        <LeaderRankButton onClick={onClickLeaderRank} isDisabled={false} />
-      </div>
-      <div className="player-info-earning-button">
-        <EarningRankButton onClick={onClickEarningRank} isDisabled={false} />
-      </div>
+  // return (
+  //   <div ref={containerRef} className="player-info-container">
+  //     <p
+  //       className="player-info-player-id-text"
+  //       style={{
+  //         fontSize: titleFontSize,
+  //         ...getTextShadowStyle(titleFontSize / 15),
+  //       }}
+  //     >
+  //       Player ID:
+  //     </p>
+  //     <p
+  //       className="player-info-player-id-value-text"
+  //       style={{
+  //         fontSize: titleFontSize,
+  //         ...getTextShadowStyle(titleFontSize / 15),
+  //       }}
+  //     >
+  //       {playerId}
+  //     </p>
+  //     <p
+  //       className="player-info-coin-text"
+  //       style={{
+  //         fontSize: moneyFontSize,
+  //         ...getTextShadowStyle(moneyFontSize / 15),
+  //       }}
+  //     >
+  //       {coin}
+  //     </p>
+  //     <div className="player-info-coin-image" />
+  //     <div className="player-info-rank-button">
+  //       <LeaderRankButton onClick={onClickLeaderRank} isDisabled={false} />
+  //     </div>
+  //     <div className="player-info-earning-button">
+  //       <EarningRankButton onClick={onClickEarningRank} isDisabled={false} />
+  //     </div>
 
-      <div className="player-info-treasure-container">
-        <PlayerTreasureInfo
-          title={"Current Treasure:"}
-          value={treasure}
-          icon={treasure_image}
-          fontSize={treasureFontSize}
-        />
-      </div>
-      <div className="player-info-cash-container">
-        <PlayerTreasureInfo
-          title={"Current Cash:"}
-          value={cash}
-          icon={cash_image}
-          fontSize={treasureFontSize}
-        />
-      </div>
-      <div className="player-info-available-container">
-        <PlayerTreasureInfo
-          title={"Undestributed Treasure:"}
-          value={available}
-          icon={available_image}
-          fontSize={treasureFontSize}
-        />
-      </div>
+  //     <div className="player-info-treasure-container">
+  //       <PlayerTreasureInfo
+  //         title={"Current Treasure:"}
+  //         value={treasure}
+  //         icon={treasure_image}
+  //         fontSize={treasureFontSize}
+  //       />
+  //     </div>
+  //     <div className="player-info-cash-container">
+  //       <PlayerTreasureInfo
+  //         title={"Current Cash:"}
+  //         value={cash}
+  //         icon={cash_image}
+  //         fontSize={treasureFontSize}
+  //       />
+  //     </div>
+  //     <div className="player-info-available-container">
+  //       <PlayerTreasureInfo
+  //         title={"Undestributed Treasure:"}
+  //         value={available}
+  //         icon={available_image}
+  //         fontSize={treasureFontSize}
+  //       />
+  //     </div>
 
-      <div className="player-info-deposit-button">
-        <DefaultButton
-          text={"Deposit"}
-          onClick={onClickDeposit}
-          isDisabled={false}
-        />
-      </div>
-      <div className="player-info-withdraw-button">
-        <DefaultButton
-          text={"Withdraw"}
-          onClick={onClickWithdraw}
-          isDisabled={false}
-        />
-      </div>
-      <div className="player-info-pick-nugget-button">
-        <DefaultButton
-          text={"Pick Nugget              "}
-          onClick={onClickPickNugget}
-          isDisabled={coin < PICK_NUGGET_COST}
-        />
-        <p
-          className="player-info-pick-nugget-coin-text"
-          style={{
-            fontSize: pickNuggetCoinFontSize,
-            ...getTextShadowStyle(pickNuggetCoinFontSize / 15),
-          }}
-        >
-          {PICK_NUGGET_COST}
-        </p>
-        <div className="player-info-pick-nugget-coin-image" />
-      </div>
-    </div>
-  );
+  //     <div className="player-info-deposit-button">
+  //       <DefaultButton
+  //         text={"Deposit"}
+  //         onClick={onClickDeposit}
+  //         isDisabled={false}
+  //       />
+  //     </div>
+  //     <div className="player-info-withdraw-button">
+  //       <DefaultButton
+  //         text={"Withdraw"}
+  //         onClick={onClickWithdraw}
+  //         isDisabled={false}
+  //       />
+  //     </div>
+  //     <div className="player-info-pick-nugget-button">
+  //       <DefaultButton
+  //         text={"Pick Nugget              "}
+  //         onClick={onClickPickNugget}
+  //         isDisabled={coin < PICK_NUGGET_COST}
+  //       />
+  //       <p
+  //         className="player-info-pick-nugget-coin-text"
+  //         style={{
+  //           fontSize: pickNuggetCoinFontSize,
+  //           ...getTextShadowStyle(pickNuggetCoinFontSize / 15),
+  //         }}
+  //       >
+  //         {PICK_NUGGET_COST}
+  //       </p>
+  //       <div className="player-info-pick-nugget-coin-image" />
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default PlayerInfoMobile;

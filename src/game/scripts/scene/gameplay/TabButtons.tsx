@@ -26,28 +26,28 @@ const TabButtons = () => {
 
   return (
     <>
-      <div className="tab-buttons-inventory-button" style={isMobile ? { height: tabState == TabState.Inventory ? "36px" : "24px" } : {}}>
+      <div className={`tab-buttons-inventory-button ${tabState == TabState.Inventory ? 'tab-buttons-active' : ''}`}>
         <TabButton
           text={"Inventory"}
           onClick={onClickInventory}
           isDisabled={tabState == TabState.Inventory}
         />
       </div>
-      <div className="tab-buttons-selling-button" style={isMobile ? { height: tabState == TabState.Selling ? "36px" : "24px" } : {}}>
+      <div className={`tab-buttons-selling-button ${tabState == TabState.Selling ? 'tab-buttons-active' : ''}`}>
         <TabButton
           text={"Selling"}
           onClick={onClickSelling}
           isDisabled={tabState == TabState.Selling}
         />
       </div>
-      <div className="tab-buttons-auction-button" style={isMobile ? { height: tabState == TabState.Auction ? "36px" : "24px" } : {}}>
+      <div className={`tab-buttons-auction-button ${tabState == TabState.Auction ? 'tab-buttons-active' : ''}`}>
         <TabButton
           text={"Auction"}
           onClick={onClickAuction}
           isDisabled={tabState == TabState.Auction}
         />
       </div>
-      <div className="tab-buttons-lot-button" style={isMobile ? { height: tabState == TabState.Lot ? "36px" : "24px" } : {}}>
+      <div className={`tab-buttons-lot-button ${tabState == TabState.Lot ? 'tab-buttons-active' : ''}`}>
         <TabButton
           text={"Lot"}
           onClick={onClickLot}

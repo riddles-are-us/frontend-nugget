@@ -26,7 +26,6 @@ const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
   const leftRatio = 26 / 45;
   const rightRatio = 26 / 45;
   const fontSizeRatio = isMobile ? 1 : 1.2;
-  const fontFamily = "AdobeClean";
   const isBold = true;
   const color = "white";
 
@@ -47,7 +46,7 @@ const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
           userSelect: "none",
           lineHeight: 1,
           color: color,
-          fontFamily: fontFamily,
+          fontFamily: "AdobeClean",
           fontSize: `${fontSize}px`,
           whiteSpace: "pre",
           ...(isBold ? { fontWeight: "bold" } : {}),
@@ -62,6 +61,7 @@ const TabButton = ({ id = 0, text, onClick, isDisabled }: Props) => {
   return (
     <AdjustableImageTextButton
       id={id}
+      key={isDisabled ? 'disabled' : 'enabled'}
       onClick={onClick}
       isDisabled={isDisabled}
       leftRatio={leftRatio}

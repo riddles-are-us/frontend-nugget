@@ -49,20 +49,17 @@ const AdjustableImageTextButton = ({
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [baseFontSize, setBaseFontSize] = useState<number>(0);
 
-  const adjustSize = () => {
-    if (containerRef.current) {
-      setBaseFontSize(containerRef.current.offsetHeight / 2);
-    }
-  };
-
   useEffect(() => {
-    adjustSize();
-
-    window.addEventListener("resize", adjustSize);
-    return () => {
-      window.removeEventListener("resize", adjustSize);
+    const handle = () => {
+      if (containerRef.current) {
+        setBaseFontSize(containerRef.current.offsetHeight / 2);
+      }
     };
-  }, [containerRef.current, id]);
+    handle();
+    window.addEventListener("resize", handle);
+    return () => window.removeEventListener("resize", handle);
+    // depend on `id` if different sizes per id
+  }, [id]);
 
   const getElement = (
     leftImage: string,

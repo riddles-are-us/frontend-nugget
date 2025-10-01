@@ -1,20 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./LeaderRankPage.css";
 import rank_1 from "../../images/scene/gameplay/leader_rank/rank_1.png";
 import rank_2 from "../../images/scene/gameplay/leader_rank/rank_2.png";
 import rank_3 from "../../images/scene/gameplay/leader_rank/rank_3.png";
 import DefaultButton from "../buttons/DefaultButton";
-import { getAttributeList } from "../common/Utility";
 import { useWalletContext } from "zkwasm-minirollup-browser";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
 } from "../../../data/errors";
-import RankElement from "../scene/gameplay/LeaderRankElement";
-import Grid from "../common/Grid";
 import {
   addRankNuggetTab,
   resetRankNuggetTab,
@@ -23,36 +19,22 @@ import {
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
 import { getRankNuggetsAsync } from "../express";
-import PageSelector from "../common/PageSelector";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 
 const ELEMENT_PER_REQUEST = 9999;
 const LeaderRankPage = () => {
-  const isFirst = useRef(true);
   const dispatch = useAppDispatch();
   const { l2Account } = useWalletContext();
-  const containerRef = useRef<HTMLParagraphElement>(null);
   const isLoading = useAppSelector(selectIsLoading);
 
-  const gridContainerRef = useRef<HTMLParagraphElement>(null);
-  const [elementWidth, setElementWidth] = useState<number>(0);
-  const [elementHeight, setElementHeight] = useState<number>(0);
-  const columnCount = 1;
-  const [rowCount, setRowCount] = useState<number>(0);
-
-  const [page, setPage] = useState<number>(0);
-  const [totalPage, setTotalPage] = useState<number>(0);
-  const pageSize = rowCount * columnCount;
   const rankNuggetTab = useAppSelector(selectRankNuggetTab);
   const nuggetsForceUpdate = useAppSelector(selectNuggetsForceUpdate);
-  const [elements, setElements] = useState<JSX.Element[]>([]);
   const pids = l2Account?.pubkey
     ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
     : ["", "", "", ""];
 
   useEffect(() => {
-    setPage(0);
     reloadTabData();
   }, []);
 

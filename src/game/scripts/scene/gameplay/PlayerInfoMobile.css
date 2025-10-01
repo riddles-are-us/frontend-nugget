@@ -78,6 +78,7 @@
     aspect-ratio: 65 / 54;
     width: 16%;
     min-width: 65px;
+    max-height: 70px;
     background-image: url("../../../images/buttons/deposit_btn.png");
     background-repeat: no-repeat;
     background-position: center;
@@ -89,6 +90,7 @@
     aspect-ratio: 65 / 54;
     width: 16%;
     min-width: 65px;
+    max-height: 70px;
     background-image: url("../../../images/buttons/withdraw_btn.png");
     background-repeat: no-repeat;
     background-position: center;

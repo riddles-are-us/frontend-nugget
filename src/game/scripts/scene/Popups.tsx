@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "../../../app/hooks";
 import DepositPopup from "../popups/DepositPopup";
-import { selectUIState, UIStateType } from "../../../data/ui";
+import { BottomTabState, selectBottomTabState, selectUIState, UIStateType } from "../../../data/ui";
 import InventoryNuggetInfoPopup from "../popups/InventoryNuggetInfoPopup";
 import WithdrawPopup from "../popups/WithdrawPopup";
 import LotNuggetInfoPopup from "../popups/LotNuggetInfoPopup";
@@ -15,6 +15,7 @@ import EarningRankPopup from "../popups/EarningRankPopup";
 
 const Popups = () => {
   const uIState = useAppSelector(selectUIState);
+  const bottomTabState = useAppSelector(selectBottomTabState);
   const error = useAppSelector(selectError);
 
   return (

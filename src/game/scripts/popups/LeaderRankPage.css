@@ -1,0 +1,163 @@
+.leader-rank-page-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+.leader-rank-page-grid-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 0);
+  overflow-y: scroll;
+}
+
+.leader-rank-page-reload-button-mobile {
+  position: relative;
+  margin-top: 16px;
+  margin-left: auto;
+  margin-right: 16px;
+  margin-bottom: 12px;
+  width: 20%;
+  aspect-ratio: 74 / 26;
+}
+
+.leader-rank-page-title-text,
+.leader-rank-page-rank-text,
+.leader-rank-page-bidder-value-text-container,
+.leader-rank-page-coin-text {
+  text-shadow:
+    1px 0 0 #3D3C3B, -1px 0 0 #3D3C3B,
+    0 1px 0 #3D3C3B,  0 -1px 0 #3D3C3B,
+    1px 1px 0 #3D3C3B, -1px 1px 0 #3D3C3B,
+    1px -1px 0 #3D3C3B, -1px -1px 0 #3D3C3B;
+}
+
+.leader-rank-page-title-text {
+  position: absolute;
+  top: 0;
+  height: 7vw;
+  left: 0;
+  right: 0;
+  margin-top: 16px;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-bottom: 12px;
+  color: white;
+  pointer-events: none;
+  user-select: none;
+  font-family: "October Tamil";
+  font-weight: 700;
+  font-size: max(24px, 6vw);
+  line-height: 124%;
+  letter-spacing: 8%;
+  text-align: center;
+}
+
+.leader-rank-page-main-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: 55%;
+  aspect-ratio: 7 / 5;
+}
+
+.leader-rank-page-nugget-container {
+  width: calc(100% - 60px);
+  height: 31px;
+  background: #67768D99;
+  border-radius: 10px;
+  margin: 8px 30px;
+  position: relative;
+}
+
+.leader-rank-page-rank-image {
+  position: absolute;
+  width: auto;
+  height: 110%;
+  aspect-ratio: 41 / 34;
+  left: 20px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.leader-rank-page-rank-text {
+  color: white;
+  font-weight: bold;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 125%;
+  position: absolute;
+  width: 41px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leader-rank-page-bidder-value-text-container {
+  color: white;
+  font-weight: bold;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  position: absolute;
+  height: 100%;
+  left: 52px;
+  right: calc(20% + 56px);
+  top: 0;
+  margin: 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;     /* keep to one line */
+  overflow: hidden;
+}
+
+.leader-rank-page-bidder-value-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.leader-rank-page-coin-text {
+  color: white;
+  font-weight: bold;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  position: absolute;
+  width: 20%;
+  height: 100%;
+  right: 16px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.leader-rank-page-coin-image {
+  position: absolute;
+  top: 7px;
+  width: 18px;
+  height: 17px;
+  right: calc(20% + 22px);
+  background-image: url("../../images/scene/gameplay/top_container/coin.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}

@@ -52,15 +52,23 @@ export enum TabState {
   Lot,
 }
 
+export enum BottomTabState {
+  EarningBoard,
+  LeaderBoard,
+  Home
+}
+
 export interface PropertiesUIState {
   uiState: UIState;
   tabState: TabState;
+  bottomTabState: BottomTabState;
   lastError: RequestError | null;
 }
 
 const initialState: PropertiesUIState = {
   uiState: { type: UIStateType.WelcomePage },
   tabState: TabState.Inventory,
+  bottomTabState: BottomTabState.Home,
   lastError: null,
 };
 
@@ -74,10 +82,14 @@ const uiSlice = createSlice({
     setTabState: (state, d: PayloadAction<TabState>) => {
       state.tabState = d.payload;
     },
+    setBottomTabState: (state, d: PayloadAction<BottomTabState>) => {
+      state.bottomTabState = d.payload;
+    },
   },
 });
 
 export const selectUIState = (state: RootState) => state.ui.uiState;
 export const selectTabState = (state: RootState) => state.ui.tabState;
-export const { setUIState, setTabState } = uiSlice.actions;
+export const selectBottomTabState = (state: RootState) => state.ui.bottomTabState;
+export const { setUIState, setTabState, setBottomTabState } = uiSlice.actions;
 export default uiSlice.reducer;

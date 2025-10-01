@@ -145,6 +145,10 @@
   background-position: top;
 }
 
+.gameplay-bottom-container-mobile {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .gameplay-top-container {
     position: fixed;
@@ -156,15 +160,78 @@
 
   .gameplay-bottom-container {
     position: fixed;
-    height: 100px;
+    height: min(25vw, 100px);
     left: 0;
     bottom: 0;
+    background-image: url("../../images/scene/gameplay/bottom_container/bottom_tab_bg.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: top;
+    display: flex;
+  }
+
+  .gameplay-bottom-container-mobile {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+
+  .gameplay-bottom-container-tab {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 25px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-top: min(5px, 1vw);
+  }
+
+  .gameplay-bottom-container-tab-image-container {
+    flex: 1;
+    display: flex;
+    position: relative;
+  }
+
+  .gameplay-bottom-container-tab-image {
+    transform: translate(0, -10px);
+    margin-left: auto;
+    margin-right: auto;
+    height: min(100%, max-content); /* natural width unless container is smaller */
+    width: auto;
+    max-width: 70%;
+  }
+
+  .gameplay-bottom-container-tab-title {
+    font-family: 'October Tamil';
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 124%;
+    letter-spacing: 8%;
+    text-align: center;
+    color: #FFFFFF;
+    text-shadow:
+      1px 0 0 #3D3C3B, -1px 0 0 #3D3C3B,
+      0 1px 0 #3D3C3B,  0 -1px 0 #3D3C3B,
+      1px 1px 0 #3D3C3B, -1px 1px 0 #3D3C3B,
+      1px -1px 0 #3D3C3B, -1px -1px 0 #3D3C3B;
+    margin: 0;
+  }
+
+  .gameplay-bottom-container-pick-btn {
+    flex: 2;
+    position: relative;
+    margin-bottom: 25px;
+    background-image: url("../../images/buttons/pick_nugget.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .gameplay-main-container {
     position: fixed;
     top: 182px;
-    bottom: 100px;
+    bottom: min(25vw, 100px);
     flex: 1;
     height: unset;
   }

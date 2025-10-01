@@ -93,7 +93,6 @@ const NuggetGrid = () => {
       const windowWidth = window.innerWidth;
       const newColumnCount = windowWidth <= 768 ? 1 : 3;
       setColumnCount(newColumnCount);
-      console.log(containerRef.current.offsetWidth)
       const width = containerRef.current.offsetWidth / newColumnCount;
       const height = width / elementRatio + 10;
       setElementWidth(width);

@@ -16,6 +16,7 @@ export enum UIStateType {
   LotNuggetInfoPopup,
   LeaderRankPopup,
   EarningRankPopup,
+  TreasureInfoPopup,
 }
 
 export type UIState =
@@ -26,6 +27,7 @@ export type UIState =
   | { type: UIStateType.DepositPopup }
   | { type: UIStateType.ConfirmPopup; title: string; description: string }
   | { type: UIStateType.ErrorPopup }
+  | { type: UIStateType.TreasureInfoPopup }
   | {
       type: UIStateType.InventoryNuggetInfoPopup;
       nuggetIndex: number;
@@ -55,7 +57,7 @@ export enum TabState {
 export enum BottomTabState {
   EarningBoard,
   LeaderBoard,
-  Home
+  Home,
 }
 
 export interface PropertiesUIState {
@@ -90,6 +92,7 @@ const uiSlice = createSlice({
 
 export const selectUIState = (state: RootState) => state.ui.uiState;
 export const selectTabState = (state: RootState) => state.ui.tabState;
-export const selectBottomTabState = (state: RootState) => state.ui.bottomTabState;
+export const selectBottomTabState = (state: RootState) =>
+  state.ui.bottomTabState;
 export const { setUIState, setTabState, setBottomTabState } = uiSlice.actions;
 export default uiSlice.reducer;

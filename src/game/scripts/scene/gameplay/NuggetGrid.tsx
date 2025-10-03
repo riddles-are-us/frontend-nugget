@@ -417,9 +417,7 @@ const NuggetGrid = () => {
           </div>
         )}
         {isMobile ? (
-          <>
-            {elements.map((element) => element)}
-          </>
+          <>{elements.map((element) => element)}</>
         ) : (
           <Grid
             elementWidth={elementWidth}

@@ -17,7 +17,6 @@ const DisclaimerPopup = () => {
       if (typeof window !== "undefined") {
         windowWidth = window.innerWidth;
       }
-      console.log(windowWidth)
       if (windowWidth >= 768) {
         setTitleFontSize(containerRef.current.offsetHeight / 10);
         setDescriptionFontSize(containerRef.current.offsetHeight / 20);

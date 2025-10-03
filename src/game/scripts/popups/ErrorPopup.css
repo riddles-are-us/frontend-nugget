@@ -25,6 +25,13 @@
   aspect-ratio: 5 / 3;
 }
 
+@media (max-width: 768px) {
+  .error-popup-main-container {
+    width: 90%;
+    height: auto;
+  }
+}
+
 .error-popup-main-background {
   position: absolute;
   width: 100%;

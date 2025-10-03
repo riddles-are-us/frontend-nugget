@@ -1,34 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import DefaultButton from "../../buttons/DefaultButton";
 import "./PlayerInfoMobile.css";
-import {
-  addressAbbreviation,
-  getTextShadowStyle,
-  PICK_NUGGET_COST,
-} from "../../common/Utility";
-import { useWalletContext, sendTransaction } from "zkwasm-minirollup-browser";
+import { addressAbbreviation } from "../../common/Utility";
+import { useWalletContext } from "zkwasm-minirollup-browser";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { selectUserState } from "../../../../data/state";
 import { setUIState, UIStateType } from "../../../../data/ui";
-import { getCreateNuggetTransactionCommandArray } from "../../request";
-import treasure_image from "../../../images/scene/gameplay/top_container/treasure.png";
-import cash_image from "../../../images/scene/gameplay/top_container/cash.png";
 import available_image from "../../../images/scene/gameplay/top_container/available.png";
-import leftInputBackground from "../../../images/popups/default/left_input.png";
-import midInputBackground from "../../../images/popups/default/mid_input.png";
-import rightInputBackground from "../../../images/popups/default/right_input.png";
-import {
-  LoadingType,
-  pushError,
-  selectIsLoading,
-  setLoadingType,
-} from "../../../../data/errors";
-import { setNuggetsForceUpdate } from "../../../../data/nuggets";
-import LeaderRankButton from "../../buttons/LeaderRankButton";
-import PlayerTreasureInfo from "./PlayerTreasureInfo";
-import EarningRankButton from "../../buttons/EarningRankButton";
-import { AnyAction } from "@reduxjs/toolkit";
-import HorizontalExtendableImage from "../../common/HorizontalExtendableImage";
 
 const PlayerInfoMobile = () => {
   const dispatch = useAppDispatch();
@@ -36,34 +12,6 @@ const PlayerInfoMobile = () => {
   const playerId = addressAbbreviation("0x" + l2Account!.pubkey, 5);
   const userState = useAppSelector(selectUserState);
   const coin = userState.player!.data.balance;
-  const treasure = userState.state!.treasure;
-  const cash = userState.state!.cash;
-  const available = treasure - cash;
-  const containerRef = useRef<HTMLParagraphElement>(null);
-  const [titleFontSize, setTitleFontSize] = useState<number>(0);
-  const [moneyFontSize, setMoneyFontSize] = useState<number>(0);
-  const [treasureFontSize, setTreasureFontSize] = useState<number>(0);
-  const [pickNuggetCoinFontSize, setPickNuggetCoinFontSize] =
-    useState<number>(0);
-  const isLoading = useAppSelector(selectIsLoading);
-
-  const adjustSize = () => {
-    if (containerRef.current) {
-      setTitleFontSize(containerRef.current.offsetHeight / 6);
-      setMoneyFontSize(containerRef.current.offsetHeight / 8);
-      setTreasureFontSize(containerRef.current.offsetHeight / 13);
-      setPickNuggetCoinFontSize(containerRef.current.offsetHeight / 12);
-    }
-  };
-
-  useEffect(() => {
-    adjustSize();
-
-    window.addEventListener("resize", adjustSize);
-    return () => {
-      window.removeEventListener("resize", adjustSize);
-    };
-  }, []);
 
   const onClickDeposit = () => {
     dispatch(setUIState({ type: UIStateType.DepositPopup }));
@@ -72,35 +20,8 @@ const PlayerInfoMobile = () => {
     dispatch(setUIState({ type: UIStateType.WithdrawPopup }));
   };
 
-  const onClickPickNugget = () => {
-    if (!isLoading) {
-      dispatch(setLoadingType(LoadingType.PickNugget));
-      dispatch(
-        sendTransaction({
-          cmd: getCreateNuggetTransactionCommandArray(userState!.player!.nonce),
-          prikey: l2Account!.getPrivateKey(),
-        })
-      ).then(async (action: AnyAction) => {
-        if (sendTransaction.fulfilled.match(action)) {
-          console.log("pick nugget successed");
-          dispatch(setNuggetsForceUpdate(true));
-          dispatch(setLoadingType(LoadingType.None));
-        } else if (sendTransaction.rejected.match(action)) {
-          const message = "pick nugget Error: " + action.payload;
-          dispatch(pushError(message));
-          console.error(message);
-          dispatch(setLoadingType(LoadingType.None));
-        }
-      });
-    }
-  };
-
-  const onClickLeaderRank = () => {
-    dispatch(setUIState({ type: UIStateType.LeaderRankPopup }));
-  };
-
-  const onClickEarningRank = () => {
-    dispatch(setUIState({ type: UIStateType.EarningRankPopup }));
+  const onClickTreasureInfo = () => {
+    dispatch(setUIState({ type: UIStateType.TreasureInfoPopup }));
   };
 
   return (
@@ -108,9 +29,7 @@ const PlayerInfoMobile = () => {
       <div className="gameplay-player-info-mobile">
         <div className="gameplay-player-id-container-mobile">
           <div className="gameplay-player-id-input-container-mobile">
-            <p className="gameplay-player-id-number-mobile">
-              {playerId}
-            </p>
+            <p className="gameplay-player-id-number-mobile">{playerId}</p>
           </div>
         </div>
         <div className="gameplay-player-balance-container-mobile">
@@ -119,17 +38,15 @@ const PlayerInfoMobile = () => {
               {coin}
             </p>
           </div>
-          <img className="gameplay-player-treasure-info-icon" src={available_image} />
+          <img
+            className="gameplay-player-treasure-info-icon"
+            onClick={onClickTreasureInfo}
+            src={available_image}
+          />
         </div>
       </div>
-      <div
-        className="deposit-btn-mobile"
-        onClick={onClickDeposit}
-      />
-      <div
-        className="withdraw-btn-mobile"
-        onClick={onClickWithdraw}
-      />
+      <div className="deposit-btn-mobile" onClick={onClickDeposit} />
+      <div className="withdraw-btn-mobile" onClick={onClickWithdraw} />
     </div>
   );
 

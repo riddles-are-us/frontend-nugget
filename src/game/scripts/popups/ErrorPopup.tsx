@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch } from "../../../app/hooks";
+import { useIsMobile } from "../../../app/isMobileContext";
 import "./ErrorPopup.css";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const ErrorPopup = ({ message }: Props) => {
+  const { isMobile } = useIsMobile();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
@@ -41,7 +43,10 @@ const ErrorPopup = ({ message }: Props) => {
 
   return (
     <div className="error-popup-container">
-      <div onClick={onClickCancel} className="error-popup-mask" />
+      <div
+        onClick={isMobile ? undefined : onClickCancel}
+        className="error-popup-mask"
+      />
       <div ref={containerRef} className="error-popup-main-container">
         <div className="error-popup-main-background">
           <HorizontalExtendableImage

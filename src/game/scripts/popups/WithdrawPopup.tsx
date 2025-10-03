@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useIsMobile } from "../../../app/isMobileContext";
 import "./WithdrawPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
@@ -23,6 +24,7 @@ import {
 } from "../../../data/errors";
 
 const WithdrawPopup = () => {
+  const { isMobile } = useIsMobile();
   const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
   const userState = useAppSelector(selectUserState);
@@ -89,7 +91,10 @@ const WithdrawPopup = () => {
 
   return (
     <div className="withdraw-popup-container">
-      <div onClick={onClickCancel} className="withdraw-popup-mask" />
+      <div
+        onClick={isMobile ? undefined : onClickCancel}
+        className="withdraw-popup-mask"
+      />
       <div ref={containerRef} className="withdraw-popup-main-container">
         <div className="withdraw-popup-main-background">
           <HorizontalExtendableImage

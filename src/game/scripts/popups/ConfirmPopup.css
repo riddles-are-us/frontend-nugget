@@ -32,6 +32,13 @@
   user-select: none;
 }
 
+@media (max-width: 768px) {
+  .confirm-popup-main-container {
+    width: 90%;
+    height: auto;
+  }
+}
+
 .confirm-popup-close-button {
   position: absolute;
   top: 3%;

@@ -1,7 +1,12 @@
 import React from "react";
 import { useAppSelector } from "../../../app/hooks";
 import DepositPopup from "../popups/DepositPopup";
-import { BottomTabState, selectBottomTabState, selectUIState, UIStateType } from "../../../data/ui";
+import {
+  BottomTabState,
+  selectBottomTabState,
+  selectUIState,
+  UIStateType,
+} from "../../../data/ui";
 import InventoryNuggetInfoPopup from "../popups/InventoryNuggetInfoPopup";
 import WithdrawPopup from "../popups/WithdrawPopup";
 import LotNuggetInfoPopup from "../popups/LotNuggetInfoPopup";
@@ -12,6 +17,7 @@ import SellingNuggetInfoPopup from "../popups/SellingNuggetInfoPopup";
 import ConfirmPopup from "../popups/ConfirmPopup";
 import LeaderRankPopup from "../popups/LeaderRankPopup";
 import EarningRankPopup from "../popups/EarningRankPopup";
+import TreasureInfoPopup from "../popups/TreasureInfoPopup";
 
 const Popups = () => {
   const uIState = useAppSelector(selectUIState);
@@ -46,6 +52,7 @@ const Popups = () => {
           isShowingBidAmountPopup={uIState.isShowingBidAmountPopup}
         />
       )}
+      {uIState.type == UIStateType.TreasureInfoPopup && <TreasureInfoPopup />}
       {uIState.type == UIStateType.LeaderRankPopup && <LeaderRankPopup />}
       {uIState.type == UIStateType.EarningRankPopup && <EarningRankPopup />}
       {error && <ErrorPopup message={error} />}

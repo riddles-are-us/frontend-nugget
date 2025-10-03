@@ -2,8 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import background from "../../images/popups/nugget_detail_frame.png";
 import self_own_tag from "../../images/scene/gameplay/nugget/tag_frame.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useIsMobile } from "../../../app/isMobileContext";
 import "./BaseNuggetInfoPopup.css";
-import { setUIState, TabState, UIStateType } from "../../../data/ui";
+import { setUIState, UIStateType } from "../../../data/ui";
 import {
   formatTimeOneDigit,
   getAttributeList,
@@ -56,6 +57,7 @@ const BaseNuggetInfoPopup = ({
   onClickSettle,
 }: Props) => {
   const dispatch = useAppDispatch();
+  const { isMobile } = useIsMobile();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -119,7 +121,10 @@ const BaseNuggetInfoPopup = ({
 
   return (
     <div className="base-nugget-info-popup-container">
-      <div onClick={onClickCancel} className="base-nugget-info-popup-mask" />
+      <div
+        onClick={isMobile ? undefined : onClickCancel}
+        className="base-nugget-info-popup-mask"
+      />
       <div ref={containerRef} className="base-nugget-info-popup-main-container">
         <img
           src={getNuggetImage(nuggetLevel)}

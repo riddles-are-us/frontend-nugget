@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useIsMobile } from "../../../app/isMobileContext";
 import "./DepositPopup.css";
 import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
@@ -23,6 +24,7 @@ import {
 const DepositPopup = () => {
   const dispatch = useAppDispatch();
   const uIState = useAppSelector(selectUIState);
+  const { isMobile } = useIsMobile();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [amountString, setAmountString] = useState<string>("");
@@ -50,22 +52,24 @@ const DepositPopup = () => {
       deposit({
         tokenIndex: 0,
         amount: Number(BigInt(amountString)),
-      }).then((result) => {
-        dispatch(setLoadingType(LoadingType.None));
-        console.log("Deposit Success: " + result.hash);
-        dispatch(
-          setUIState({
-            type: UIStateType.ConfirmPopup,
-            title: "Deposit Success",
-            description: "",
-          })
-        );
-      }).catch((error) => {
-        const message = `Deposit Failed: ${error.message || "Unknown error"}`;
-        dispatch(pushError(message));
-        console.error(message);
-        dispatch(setLoadingType(LoadingType.None));
-      });
+      })
+        .then((result) => {
+          dispatch(setLoadingType(LoadingType.None));
+          console.log("Deposit Success: " + result.hash);
+          dispatch(
+            setUIState({
+              type: UIStateType.ConfirmPopup,
+              title: "Deposit Success",
+              description: "",
+            })
+          );
+        })
+        .catch((error) => {
+          const message = `Deposit Failed: ${error.message || "Unknown error"}`;
+          dispatch(pushError(message));
+          console.error(message);
+          dispatch(setLoadingType(LoadingType.None));
+        });
     }
   };
 
@@ -77,7 +81,10 @@ const DepositPopup = () => {
 
   return (
     <div className="deposit-popup-container">
-      <div onClick={onClickCancel} className="deposit-popup-mask" />
+      <div
+        onClick={isMobile ? undefined : onClickCancel}
+        className="deposit-popup-mask"
+      />
       <div ref={containerRef} className="deposit-popup-main-container">
         <div className="deposit-popup-main-background">
           <HorizontalExtendableImage

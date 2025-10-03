@@ -1,0 +1,89 @@
+.treasure-info-popup-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+.treasure-info-popup-mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.treasure-info-popup-main-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: 30%;
+  aspect-ratio: 5 / 3;
+}
+
+.treasure-info-popup-main-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.treasure-info-popup-close-button {
+  position: absolute;
+  top: 3%;
+  left: 87%;
+  height: 15%;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+}
+
+.treasure-info-popup-confirm-button {
+  position: absolute;
+  top: 82%;
+  left: 50%;
+  height: 15%;
+  width: auto;
+  aspect-ratio: 5 / 2;
+  transform: translate(-50%, -50%);
+}
+
+.treasure-info-player-info-treasure-container {
+  position: absolute;
+  width: 80%;
+  height: 20%;
+  left: 10%;
+  top: 15%;
+}
+
+.treasure-info-player-info-cash-container {
+  position: absolute;
+  width: 80%;
+  height: 20%;
+  left: 10%;
+  top: 40%;
+}
+
+.treasure-info-player-info-available-container {
+  position: absolute;
+  width: 80%;
+  height: 20%;
+  left: 10%;
+  top: 65%;
+}
+
+@media (max-width: 768px) {
+  .treasure-info-popup-main-container {
+    width: 90%;
+    height: auto;
+  }
+
+  .treasure-info-popup-confirm-button {
+    left: unset;
+    right: 0;
+  }
+}

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useIsMobile } from "../../../app/isMobileContext";
 import "./EarningRankPopup.css";
-import { selectUIState, setUIState, UIStateType } from "../../../data/ui";
+import { setUIState, UIStateType } from "../../../data/ui";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
 import midBackground from "../../images/popups/default/mid.png";
@@ -23,11 +24,12 @@ import {
 } from "../request";
 import { selectUserState } from "../../../data/state";
 import { useWalletContext } from "zkwasm-minirollup-browser";
-import { AnyAction } from '@reduxjs/toolkit';
+import { AnyAction } from "@reduxjs/toolkit";
 
 const EarningRankPopup = () => {
   const dispatch = useAppDispatch();
-  const containerRef = useRef<HTMLParagraphElement>(null) ;
+  const { isMobile } = useIsMobile();
+  const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const isLoading = useAppSelector(selectIsLoading);
   const userState = useAppSelector(selectUserState);
@@ -106,7 +108,10 @@ const EarningRankPopup = () => {
 
   return (
     <div className="earning-rank-popup-container">
-      <div onClick={onClickCancel} className="earning-rank-popup-mask" />
+      <div
+        onClick={isMobile ? undefined : onClickCancel}
+        className="earning-rank-popup-mask"
+      />
       <div ref={containerRef} className="earning-rank-popup-main-container">
         <div className="earning-rank-popup-main-background">
           <HorizontalExtendableImage

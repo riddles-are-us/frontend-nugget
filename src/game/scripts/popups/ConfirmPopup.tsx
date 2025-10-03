@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch } from "../../../app/hooks";
+import { useIsMobile } from "../../../app/isMobileContext";
 import "./ConfirmPopup.css";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
@@ -16,6 +17,7 @@ interface Props {
 
 const ConfirmPopup = ({ title, description }: Props) => {
   const dispatch = useAppDispatch();
+  const { isMobile } = useIsMobile();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [descriptionFontSize, setDescriptionFontSize] = useState<number>(0);
@@ -42,7 +44,10 @@ const ConfirmPopup = ({ title, description }: Props) => {
 
   return (
     <div className="confirm-popup-container">
-      <div onClick={onClickCancel} className="confirm-popup-mask" />
+      <div
+        onClick={isMobile ? undefined : onClickCancel}
+        className="confirm-popup-mask"
+      />
       <div ref={containerRef} className="confirm-popup-main-container">
         <div className="confirm-popup-main-background">
           <HorizontalExtendableImage

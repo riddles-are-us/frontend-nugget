@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "../../../app/hooks";
 import "./PriceInputPopup.css";
 import HorizontalExtendableImage from "../common/HorizontalExtendableImage";
 import leftBackground from "../../images/popups/default/left.png";
@@ -11,6 +10,7 @@ import rightInputBackground from "../../images/popups/default/right_input.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
+import { useIsMobile } from "../../../app/isMobileContext";
 
 interface Props {
   title: string;
@@ -31,6 +31,7 @@ const PriceInputPopup = ({
   onCancel,
   cost = 0,
 }: Props) => {
+  const { isMobile } = useIsMobile();
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [titleFontSize, setTitleFontSize] = useState<number>(0);
   const [buttonFontSize, setButtonFontSize] = useState<number>(0);
@@ -87,7 +88,10 @@ const PriceInputPopup = ({
 
   return (
     <div className="price-input-popup-container">
-      <div onClick={onCancel} className="price-input-popup-mask" />
+      <div
+        onClick={isMobile ? undefined : onCancel}
+        className="price-input-popup-mask"
+      />
       <div ref={containerRef} className="price-input-popup-main-container">
         <div className="price-input-popup-main-background">
           <HorizontalExtendableImage

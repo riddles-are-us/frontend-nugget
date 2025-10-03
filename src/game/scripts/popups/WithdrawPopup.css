@@ -52,6 +52,18 @@
   transform: translate(-50%, -50%);
 }
 
+@media (max-width: 768px) {
+  .withdraw-popup-main-container {
+    width: 90%;
+    height: auto;
+  }
+
+  .withdraw-popup-confirm-button {
+    left: unset;
+    right: 0;
+  }
+}
+
 .withdraw-popup-title-text {
   margin: 0px;
   color: white;

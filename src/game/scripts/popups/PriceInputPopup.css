@@ -52,6 +52,18 @@
   transform: translate(-50%, -50%);
 }
 
+@media (max-width: 768px) {
+  .price-input-popup-main-container {
+    width: 90%;
+    height: auto;
+  }
+
+  .price-input-popup-confirm-button {
+    left: unset;
+    right: 0;
+  }
+}
+
 .price-input-popup-title-text {
   margin: 0px;
   color: white;

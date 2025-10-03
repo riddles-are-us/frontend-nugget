@@ -25,7 +25,6 @@
   aspect-ratio: 726 / 273;
 }
 
-
 @media (max-width: 768px) {
   .base-nugget-info-popup-container {
     overflow: hidden;
@@ -78,6 +77,23 @@
   pointer-events: none;
   user-select: none;
   line-height: 1;
+}
+
+.base-nugget-info-popup-bidder-text {
+  position: absolute;
+  width: 30%;
+  height: 20%;
+  left: 5%;
+  top: 73%;
+  text-align: left;
+  margin: 0px;
+  color: white;
+  font-family: "AdobeClean";
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .base-nugget-info-popup-title-text {

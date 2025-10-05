@@ -1,11 +1,8 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { L1AccountInfo } from "zkwasm-minirollup-browser";
-import {
-  createCommand,
-  createWithdrawCommand,
-  ZKWasmAppRpc,
-} from "zkwasm-minirollup-rpc";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import type { L1AccountInfo } from 'zkwasm-minirollup-browser';
+import { createCommand, createWithdrawCommand,  ZKWasmAppRpc } from 'zkwasm-minirollup-rpc';
 import { getRpcUrl, setRpcUrl } from "zkwasm-minirollup-browser";
+
 
 setRpcUrl();
 export const fullUrl = getRpcUrl();

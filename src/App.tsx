@@ -1,13 +1,15 @@
 import "./App.css";
 
-import { LoadingController } from "./game/scripts/scene/LoadingController";
 import "./fonts/fonts.css";
 import { IsMobileProvider } from "./app/isMobileContext";
+import { InitController } from "./game/scripts/scene/InitController";
 
 function App() {
-  return <IsMobileProvider breakpointPx={768}>
-    <LoadingController />
-  </IsMobileProvider>;
+  return (
+    <IsMobileProvider breakpointPx={768}>
+      <InitController />
+    </IsMobileProvider>
+  );
 }
 
 export default App;

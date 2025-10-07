@@ -7,12 +7,12 @@ import {
   selectNugget,
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 import {
   getBidNuggetTransactionCommandArray,
   getSellNuggetTransactionCommandArray,

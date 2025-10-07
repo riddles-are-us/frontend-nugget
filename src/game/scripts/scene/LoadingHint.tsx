@@ -7,7 +7,7 @@ import settleNuggetAnimation from "../../images/scene/gameplay/loading_animation
 import listNuggetAnimation from "../../images/scene/gameplay/loading_animation/list_nugget.gif";
 import { getTextShadowStyle } from "../common/Utility";
 import { useAppSelector } from "../../../app/hooks";
-import { LoadingType, selectLoadingType } from "../../../data/errors";
+import { LoadingType, selectLoadingType } from "../../../data/loading";
 import { useIsMobile } from "../../../app/isMobileContext";
 
 const LoadingHint = () => {

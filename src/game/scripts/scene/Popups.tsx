@@ -12,7 +12,7 @@ import WithdrawPopup from "../popups/WithdrawPopup";
 import LotNuggetInfoPopup from "../popups/LotNuggetInfoPopup";
 import AuctionNuggetInfoPopup from "../popups/AuctionNuggetInfoPopup";
 import ErrorPopup from "../popups/ErrorPopup";
-import { selectError } from "../../../data/errors";
+import { selectError } from "../../../data/error";
 import SellingNuggetInfoPopup from "../popups/SellingNuggetInfoPopup";
 import ConfirmPopup from "../popups/ConfirmPopup";
 import LeaderRankPopup from "../popups/LeaderRankPopup";

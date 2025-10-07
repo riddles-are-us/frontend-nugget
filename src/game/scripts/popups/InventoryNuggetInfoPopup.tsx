@@ -18,12 +18,12 @@ import {
   setNugget,
   setNuggetsForceUpdate,
 } from "../../../data/nuggets";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 import { updateNuggetAsync } from "../express";
 import { LeHexBN } from "zkwasm-minirollup-rpc";
 import { bnToHexLe } from "delphinus-curves/src/altjubjub";

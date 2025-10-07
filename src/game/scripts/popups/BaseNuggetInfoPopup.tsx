@@ -16,7 +16,7 @@ import {
 import NuggetLevel from "../scene/gameplay/NuggetLevel";
 import DefaultButton from "../buttons/DefaultButton";
 import PopupCloseButton from "../buttons/PopupCloseButton";
-import { selectIsLoading } from "../../../data/errors";
+import { selectIsLoading } from "../../../data/loading";
 import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import { LeHexBN } from "zkwasm-minirollup-rpc";

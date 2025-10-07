@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./TreasureInfoPopup.css";
 import { setUIState, UIStateType } from "../../../data/ui";
-import { selectIsLoading } from "../../../data/errors";
+import { selectIsLoading } from "../../../data/loading";
 import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import treasure_image from "../../images/scene/gameplay/top_container/treasure.png";

@@ -49,7 +49,7 @@ import {
   LoadingType,
   selectIsLoading,
   setLoadingType,
-} from "../../../../data/errors";
+} from "../../../../data/loading";
 import Nugget from "./Nugget";
 import DefaultButton from "../../buttons/DefaultButton";
 import { useIsMobile } from "../../../../app/isMobileContext";

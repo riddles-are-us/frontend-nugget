@@ -13,7 +13,7 @@ import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import NuggetLevel from "./NuggetLevel";
 import background from "../../../images/scene/gameplay/earning_rank/background.png";
 import DefaultButton from "../../buttons/DefaultButton";
-import { selectIsLoading } from "../../../../data/errors";
+import { selectIsLoading } from "../../../../data/loading";
 import { selectUserState } from "../../../../data/state";
 
 interface Props {

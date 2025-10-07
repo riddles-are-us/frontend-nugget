@@ -6,11 +6,19 @@ import DisclaimerPopup from "../popups/DisclaimerPopup";
 
 interface Props {
   isLogin: boolean;
-  onLogin: () => void;
-  onStartGame: () => void;
+  disabledLoginButton: boolean;
+  disabledPlayButton: boolean;
+  onClickConnectWallet: () => void;
+  onClickPlay: () => void;
 }
 
-const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
+const WelcomePage = ({
+  isLogin,
+  disabledLoginButton,
+  disabledPlayButton,
+  onClickConnectWallet,
+  onClickPlay,
+}: Props) => {
   const textRef = useRef<HTMLParagraphElement>(null);
   const [fontSize, setFontSize] = useState<number>(0);
 
@@ -30,14 +38,6 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
     };
   }, []);
 
-  const onClickConnectWallet = () => {
-    onLogin();
-  };
-
-  const onClickPlay = () => {
-    onStartGame();
-  };
-
   return (
     <div className="welcome-page-container">
       <div className="welcome-page-background" />
@@ -50,7 +50,7 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
             id={1}
             text={"Play"}
             onClick={onClickPlay}
-            isDisabled={false}
+            isDisabled={disabledPlayButton}
           />
         </div>
       ) : (
@@ -59,7 +59,7 @@ const WelcomePage = ({ isLogin, onLogin, onStartGame }: Props) => {
             id={2}
             text={"Connect Wallet"}
             onClick={onClickConnectWallet}
-            isDisabled={false}
+            isDisabled={disabledLoginButton}
           />
         </div>
       )}

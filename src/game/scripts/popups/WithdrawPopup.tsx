@@ -16,12 +16,12 @@ import { getTextShadowStyle } from "../common/Utility";
 import { useWalletContext, sendTransaction } from "zkwasm-minirollup-browser";
 import { getWithdrawTransactionCommandArray } from "../request";
 import { selectUserState } from "../../../data/state";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 
 const WithdrawPopup = () => {
   const { isMobile } = useIsMobile();

@@ -14,12 +14,12 @@ import { getCreateNuggetTransactionCommandArray } from "../../request";
 import treasure_image from "../../../images/scene/gameplay/top_container/treasure.png";
 import cash_image from "../../../images/scene/gameplay/top_container/cash.png";
 import available_image from "../../../images/scene/gameplay/top_container/available.png";
+import { pushError } from "../../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../../data/errors";
+} from "../../../../data/loading";
 import { setNuggetsForceUpdate } from "../../../../data/nuggets";
 import LeaderRankButton from "../../buttons/LeaderRankButton";
 import PlayerTreasureInfo from "./PlayerTreasureInfo";

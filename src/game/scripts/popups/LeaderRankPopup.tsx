@@ -21,7 +21,7 @@ import {
   LoadingType,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 import RankElement from "../scene/gameplay/LeaderRankElement";
 import Grid from "../common/Grid";
 import {

@@ -1,15 +1,17 @@
-import { ThunkAction, Action } from '@reduxjs/toolkit';
+import { ThunkAction, Action } from "@reduxjs/toolkit";
 import stateReducer from "../data/state";
 import uiReducer from "../data/ui";
 import nuggetsReducer from "../data/nuggets";
-import errorsReducer from "../data/errors";
-import { createDelphinusStore } from 'zkwasm-minirollup-browser';
+import errorReducer from "../data/error";
+import loadingReducer from "../data/loading";
+import { createDelphinusStore } from "zkwasm-minirollup-browser";
 
 export const store = createDelphinusStore({
   state: stateReducer,
   ui: uiReducer,
   nuggets: nuggetsReducer,
-  errors: errorsReducer,
+  error: errorReducer,
+  loading: loadingReducer,
 });
 
 export type AppDispatch = typeof store.dispatch;

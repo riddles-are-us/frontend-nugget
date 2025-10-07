@@ -10,7 +10,7 @@ import {
   LoadingType,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 import {
   addRankNuggetTab,
   resetRankNuggetTab,
@@ -87,19 +87,12 @@ const LeaderRankPage = () => {
             isDisabled={false}
           ></DefaultButton>
         </div>
-        <p
-          className="leader-rank-page-title-text"
-        >
-          Leader Board
-        </p>
+        <p className="leader-rank-page-title-text">Leader Board</p>
         {rankNuggetTab.nuggets.map((nuggetData, rank) => {
           const nuggetPrice = nuggetData.sysprice;
           const ownerId = nuggetData.owner[0] ?? "";
           return (
-            <div
-              key={rank}
-              className="leader-rank-page-nugget-container"
-            >
+            <div key={rank} className="leader-rank-page-nugget-container">
               {rank <= 2 ? (
                 <img
                   className="leader-rank-page-rank-image"
@@ -107,26 +100,18 @@ const LeaderRankPage = () => {
                 />
               ) : (
                 <div className="leader-rank-page-rank-text">
-                  <p>
-                    {rank + 1}
-                  </p>
+                  <p>{rank + 1}</p>
                 </div>
               )}
-              <div
-                className="leader-rank-page-bidder-value-text-container"
-              >
+              <div className="leader-rank-page-bidder-value-text-container">
                 <div className="leader-rank-page-bidder-value-text">
-                {`Bidder ID ${ownerId}`}
+                  {`Bidder ID ${ownerId}`}
                 </div>
               </div>
-              <p
-                className="leader-rank-page-coin-text"
-              >
-                {nuggetPrice}
-              </p>
-              <div className="leader-rank-page-coin-image" /> 
+              <p className="leader-rank-page-coin-text">{nuggetPrice}</p>
+              <div className="leader-rank-page-coin-image" />
             </div>
-          )
+          );
         })}
       </div>
     </div>

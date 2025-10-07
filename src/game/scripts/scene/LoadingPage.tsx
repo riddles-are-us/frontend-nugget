@@ -12,7 +12,6 @@ interface Props {
 }
 
 const LoadingPage = ({ message, progress }: Props) => {
-  message = "Loading...";
   const containerRef = useRef<HTMLParagraphElement>(null);
   const contentContainerRef = useRef<HTMLParagraphElement>(null);
   const [messageFontSize, setMessageFontSize] = useState<number>(0);

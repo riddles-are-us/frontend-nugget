@@ -7,15 +7,18 @@ import { bnToHexLe } from "delphinus-curves/src/altjubjub";
 import {
   getAttributeList,
   getNuggetImage,
-  getTextShadowStyle
+  getTextShadowStyle,
 } from "../common/Utility";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
-import { selectEarningRankNuggets, setNuggetsForceUpdate } from "../../../data/nuggets";
+} from "../../../data/loading";
+import {
+  selectEarningRankNuggets,
+  setNuggetsForceUpdate,
+} from "../../../data/nuggets";
 import background from "../../images/scene/gameplay/earning_rank/earning_board.png";
 import {
   getClaimRewardTransactionCommandArray,
@@ -24,7 +27,7 @@ import {
 } from "../request";
 import { selectUserState } from "../../../data/state";
 import { useWalletContext } from "zkwasm-minirollup-browser";
-import { AnyAction } from '@reduxjs/toolkit';
+import { AnyAction } from "@reduxjs/toolkit";
 import DefaultButton from "../buttons/DefaultButton";
 
 const EarningRankPage = () => {
@@ -80,13 +83,10 @@ const EarningRankPage = () => {
             isDisabled={false}
           ></DefaultButton>
         </div>
-        <p
-          className="earning-rank-page-title-text"
-        >
-          Earning board
-        </p>
+        <p className="earning-rank-page-title-text">Earning board</p>
         {nuggets.map((nuggetData, index) => {
-          const earningAmount = userState.state.counter - nuggetData.earningStart;
+          const earningAmount =
+            userState.state.counter - nuggetData.earningStart;
           const nuggetLevel = 7 - nuggetData.feature;
           const pids = l2Account?.pubkey
             ? new LeHexBN(bnToHexLe(l2Account?.pubkey)).toU64Array()
@@ -94,33 +94,22 @@ const EarningRankPage = () => {
           const selfOwned =
             nuggetData.owner[0] == Number(pids[1]) &&
             nuggetData.owner[1] == Number(pids[2]);
-        
+
           const nuggetAttributeString = getAttributeList(
             nuggetData.attributes,
             nuggetData.feature
           );
           return (
-            <div
-              key={index}
-              className="earning-rank-page-nugget-container"
-            >
+            <div key={index} className="earning-rank-page-nugget-container">
               <img
                 className="earning-rank-page-avatar-image"
                 src={getNuggetImage(nuggetLevel)}
               />
               <img className="earning-rank-page-background" src={background} />
-              <div
-                className="earning-rank-page-attributes-text"
-              >
-                <p>
-                  {nuggetAttributeString.join(" ")}
-                </p>
+              <div className="earning-rank-page-attributes-text">
+                <p>{nuggetAttributeString.join(" ")}</p>
               </div>
-              <p
-                className="earning-rank-page-coin-text"
-              >
-                {earningAmount}
-              </p>
+              <p className="earning-rank-page-coin-text">{earningAmount}</p>
               <div className="earning-rank-page-coin-image" />
               <div className="earning-rank-page-claim-button">
                 <DefaultButton
@@ -130,7 +119,7 @@ const EarningRankPage = () => {
                 />
               </div>
             </div>
-          )
+          );
         })}
       </div>
     </div>

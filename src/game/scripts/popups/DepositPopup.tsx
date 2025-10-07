@@ -14,12 +14,12 @@ import PopupCloseButton from "../buttons/PopupCloseButton";
 import DefaultButton from "../buttons/DefaultButton";
 import { getTextShadowStyle } from "../common/Utility";
 import { useWalletContext } from "zkwasm-minirollup-browser";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 
 const DepositPopup = () => {
   const dispatch = useAppDispatch();

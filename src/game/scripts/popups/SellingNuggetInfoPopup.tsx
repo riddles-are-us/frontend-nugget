@@ -10,12 +10,12 @@ import {
   getSellNuggetTransactionCommandArray,
   sendTransaction,
 } from "../request";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 import { useWalletContext } from "zkwasm-minirollup-browser";
 import { selectUserState } from "../../../data/state";
 import BaseNuggetInfoPopup from "./BaseNuggetInfoPopup";

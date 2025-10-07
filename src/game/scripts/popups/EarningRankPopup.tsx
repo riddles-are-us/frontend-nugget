@@ -9,12 +9,12 @@ import midBackground from "../../images/popups/default/mid.png";
 import rightBackground from "../../images/popups/default/right.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import { getTextShadowStyle } from "../common/Utility";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 import Grid from "../common/Grid";
 import { selectEarningRankNuggets } from "../../../data/nuggets";
 import EarningRankElement from "../scene/gameplay/EarningRankElement";

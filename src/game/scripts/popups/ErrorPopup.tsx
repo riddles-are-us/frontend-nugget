@@ -8,7 +8,7 @@ import midBackground from "../../images/popups/default/mid.png";
 import rightBackground from "../../images/popups/default/right.png";
 import PopupCloseButton from "../buttons/PopupCloseButton";
 import { getTextShadowStyle } from "../common/Utility";
-import { popError } from "../../../data/errors";
+import { popError } from "../../../data/error";
 
 interface Props {
   message: string;

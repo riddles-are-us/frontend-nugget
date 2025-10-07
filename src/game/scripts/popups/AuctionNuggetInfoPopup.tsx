@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import "./AuctionNuggetInfoPopup.css";
 import { setUIState, TabState, UIStateType } from "../../../data/ui";
+import { pushError } from "../../../data/error";
 import {
   LoadingType,
-  pushError,
   selectIsLoading,
   setLoadingType,
-} from "../../../data/errors";
+} from "../../../data/loading";
 import PriceInputPopup from "./PriceInputPopup";
 import {
   getBidNuggetTransactionCommandArray,

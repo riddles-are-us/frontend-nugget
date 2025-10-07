@@ -16,11 +16,20 @@ import PlayerInfo from "./gameplay/PlayerInfo";
 import avatarImage from "../../images/avatars/avatar_1.png";
 import TabButtons from "./gameplay/TabButtons";
 import NuggetGrid from "./gameplay/NuggetGrid";
-import { LoadingType, pushError, selectIsLoading, setLoadingType } from "../../../data/errors";
+import { pushError } from "../../../data/error";
+import {
+  LoadingType,
+  selectIsLoading,
+  setLoadingType,
+} from "../../../data/loading";
 import LoadingHint from "./LoadingHint";
 import { useRef } from "react";
 import PlayerInfoMobile from "./gameplay/PlayerInfoMobile";
-import { BottomTabState, selectBottomTabState, setBottomTabState } from "../../../data/ui";
+import {
+  BottomTabState,
+  selectBottomTabState,
+  setBottomTabState,
+} from "../../../data/ui";
 import { sendTransaction, useWalletContext } from "zkwasm-minirollup-browser";
 import { getCreateNuggetTransactionCommandArray } from "../request";
 import { selectUserState } from "../../../data/state";
@@ -62,30 +71,30 @@ const Gameplay = () => {
     }
   };
 
-  const bottomButtonRenderer = (btnType: BottomTabState, btnImage: string, btnTitle: string) => {
+  const bottomButtonRenderer = (
+    btnType: BottomTabState,
+    btnImage: string,
+    btnTitle: string
+  ) => {
     const active = btnType == bottomTabState;
     return (
       <div
         className="gameplay-bottom-container-tab"
         style={{
-          borderTopLeftRadius: btnTitle === "Earning board" && active ? '12px' : 0,
-          boxShadow: active ? '0px 4px 4px 9px #07060640' : 'unset',
-          backgroundColor: active ? '#7ABFCE4D' : 'transparent'
+          borderTopLeftRadius:
+            btnTitle === "Earning board" && active ? "12px" : 0,
+          boxShadow: active ? "0px 4px 4px 9px #07060640" : "unset",
+          backgroundColor: active ? "#7ABFCE4D" : "transparent",
         }}
         onClick={() => dispatch(setBottomTabState(btnType))}
       >
         <div className="gameplay-bottom-container-tab-image-container">
-          <img
-            src={btnImage}
-            className="gameplay-bottom-container-tab-image"
-          />
+          <img src={btnImage} className="gameplay-bottom-container-tab-image" />
         </div>
-        <p className="gameplay-bottom-container-tab-title">
-          {btnTitle}
-        </p>
+        <p className="gameplay-bottom-container-tab-title">{btnTitle}</p>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div ref={containerRef} className="gameplay-container">
@@ -93,7 +102,14 @@ const Gameplay = () => {
       {isLoading && <LoadingHint />}
       <div
         className="gameplay-top-container"
-        style={isMobile ? { height: bottomTabState == BottomTabState.Home ? '182px' : '146px' } : {}}
+        style={
+          isMobile
+            ? {
+                height:
+                  bottomTabState == BottomTabState.Home ? "182px" : "146px",
+              }
+            : {}
+        }
       >
         <div className="gameplay-top-foreground-container">
           <div className="gameplay-top-player-info-container">
@@ -114,18 +130,23 @@ const Gameplay = () => {
         <div className="gameplay-top-container-mobile">
           <PlayerInfoMobile />
           {bottomTabState == BottomTabState.Home && (
-            <div
-              className="gameplay-top-container-footer-mobile"
-            >
+            <div className="gameplay-top-container-footer-mobile">
               <TabButtons />
             </div>
           )}
-          <img src={decoBarImage} style={{ width: '100%', height: 'auto', maxHeight: '24px' }} />
+          <img
+            src={decoBarImage}
+            style={{ width: "100%", height: "auto", maxHeight: "24px" }}
+          />
         </div>
       </div>
       <div
         className="gameplay-main-container"
-        style={isMobile ? { top: bottomTabState == BottomTabState.Home ? '182px' : '146px' } : {}}
+        style={
+          isMobile
+            ? { top: bottomTabState == BottomTabState.Home ? "182px" : "146px" }
+            : {}
+        }
       >
         <div className="gameplay-main-left-container">
           <VerticalExtendableImage
@@ -138,9 +159,14 @@ const Gameplay = () => {
           <div className="gameplay-main-left-foreground" />
         </div>
         <div className="gameplay-main-middle-container">
-          {!isMobile || bottomTabState == BottomTabState.Home && (<NuggetGrid />)}
-          {isMobile && bottomTabState == BottomTabState.LeaderBoard && (<LeaderRankPage />)}
-          {isMobile && bottomTabState == BottomTabState.EarningBoard && (<EarningRankPage />)}
+          {!isMobile ||
+            (bottomTabState == BottomTabState.Home && <NuggetGrid />)}
+          {isMobile && bottomTabState == BottomTabState.LeaderBoard && (
+            <LeaderRankPage />
+          )}
+          {isMobile && bottomTabState == BottomTabState.EarningBoard && (
+            <EarningRankPage />
+          )}
         </div>
         <div className="gameplay-main-right-container">
           <VerticalExtendableImage
@@ -155,9 +181,21 @@ const Gameplay = () => {
       </div>
       <div className="gameplay-bottom-container">
         <div className="gameplay-bottom-container-mobile">
-          {bottomButtonRenderer(BottomTabState.EarningBoard, earningBottomTabImage, 'Earning board')}
-          {bottomButtonRenderer(BottomTabState.LeaderBoard, rankingBottomTabImage, 'Leader board')}
-          {bottomButtonRenderer(BottomTabState.Home, homeBottomTabImage, 'Home')}
+          {bottomButtonRenderer(
+            BottomTabState.EarningBoard,
+            earningBottomTabImage,
+            "Earning board"
+          )}
+          {bottomButtonRenderer(
+            BottomTabState.LeaderBoard,
+            rankingBottomTabImage,
+            "Leader board"
+          )}
+          {bottomButtonRenderer(
+            BottomTabState.Home,
+            homeBottomTabImage,
+            "Home"
+          )}
           <div
             className="gameplay-bottom-container-pick-btn"
             onClick={onClickPickNugget}

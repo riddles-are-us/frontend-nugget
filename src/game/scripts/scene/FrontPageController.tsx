@@ -46,6 +46,7 @@ export function FrontPageController({
   } = useWalletContext();
   const connectState = useAppSelector(selectConnectState);
   const [queryingLogin, setQueryingLogin] = useState(false);
+  const [queryingL2Login, setQueryingL2Login] = useState(false);
   const [isServerNoResponse, setIsServerNoResponse] = useState(false);
   const [autoLogin, setAutoLogin] = useState(false);
   // RainbowKit connect modal hook
@@ -89,7 +90,7 @@ export function FrontPageController({
   };
 
   useEffect(() => {
-    if (connectModalOpen == false) {
+    if (connectModalOpen == false && queryingLogin) {
       setQueryingLogin(false);
     }
   }, [connectModalOpen]);
@@ -108,16 +109,21 @@ export function FrontPageController({
 
   const onClickConnectWallet = async () => {
     if (!queryingLogin && openConnectModal) {
-      openConnectModal();
       setQueryingLogin(true);
+
+      setTimeout(() => {
+        openConnectModal();
+      }, 50); // 50ms delay usually enough for mobile WebView
     }
   };
 
   const onClickPlay = async () => {
     try {
+      setQueryingL2Login(true);
       await connectL2();
     } catch (e) {
       console.error("connectL2 error", e);
+      setQueryingL2Login(false);
       setAutoLogin(false);
       disconnect();
     }
@@ -182,9 +188,9 @@ export function FrontPageController({
   ) {
     return (
       <WelcomePage
-        isLogin={l1Account != null}
+        isLogin={l1Account != null || queryingL2Login}
         disabledLoginButton={autoLogin || queryingLogin}
-        disabledPlayButton={false}
+        disabledPlayButton={queryingL2Login}
         onClickConnectWallet={onClickConnectWallet}
         onClickPlay={onClickPlay}
       />

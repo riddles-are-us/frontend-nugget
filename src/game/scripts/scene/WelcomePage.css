@@ -1,6 +1,6 @@
 .welcome-page-container {
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   position: absolute;
   top: 0;
   left: 50%;
@@ -11,9 +11,9 @@
 /* Mobile-first: full-viewport cover */
 .welcome-page-background {
   position: fixed;
-  inset: 0;                 /* top/right/bottom/left: 0 */
-  width: 100vw;
-  height: 100dvh;           /* better than 100vh on mobile browsers */
+  inset: 0;
+  width: 100dvw;
+  height: 100dvh;
   background-image: url("../../images/scene/welcome_page/welcome_bg_mobile.png");
   background-size: cover;
   background-position: center top;
@@ -65,7 +65,7 @@
 /* Very wide screens: allow stretching to viewport width while keeping bottom aligned */
 @media (min-width: 1280px) and (min-aspect-ratio: 16/9) {
   .welcome-page-background {
-    width: 100vw;
+    width: 100dvw;
   }
 }
 

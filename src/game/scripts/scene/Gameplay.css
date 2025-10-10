@@ -1,7 +1,7 @@
 .gameplay-container {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   user-select: none;
 }
 
@@ -160,7 +160,7 @@
 
   .gameplay-bottom-container {
     position: fixed;
-    height: min(25vw, 100px);
+    height: min(25dvw, 100px);
     left: 0;
     bottom: 0;
     background-image: url("../../images/scene/gameplay/bottom_container/bottom_tab_bg.png");
@@ -184,7 +184,7 @@
     padding-bottom: 25px;
     padding-left: 12px;
     padding-right: 12px;
-    margin-top: min(5px, 1vw);
+    margin-top: min(5px, 1dvw);
   }
 
   .gameplay-bottom-container-tab-image-container {
@@ -197,24 +197,25 @@
     transform: translate(0, -10px);
     margin-left: auto;
     margin-right: auto;
-    height: min(100%, max-content); /* natural width unless container is smaller */
+    height: min(
+      100%,
+      max-content
+    ); /* natural width unless container is smaller */
     width: auto;
     max-width: 70%;
   }
 
   .gameplay-bottom-container-tab-title {
-    font-family: 'October Tamil';
+    font-family: "October Tamil";
     font-weight: 700;
     font-size: 12px;
     line-height: 124%;
     letter-spacing: 8%;
     text-align: center;
-    color: #FFFFFF;
-    text-shadow:
-      1px 0 0 #3D3C3B, -1px 0 0 #3D3C3B,
-      0 1px 0 #3D3C3B,  0 -1px 0 #3D3C3B,
-      1px 1px 0 #3D3C3B, -1px 1px 0 #3D3C3B,
-      1px -1px 0 #3D3C3B, -1px -1px 0 #3D3C3B;
+    color: #ffffff;
+    text-shadow: 1px 0 0 #3d3c3b, -1px 0 0 #3d3c3b, 0 1px 0 #3d3c3b,
+      0 -1px 0 #3d3c3b, 1px 1px 0 #3d3c3b, -1px 1px 0 #3d3c3b,
+      1px -1px 0 #3d3c3b, -1px -1px 0 #3d3c3b;
     margin: 0;
   }
 
@@ -231,11 +232,11 @@
   .gameplay-main-container {
     position: fixed;
     top: 182px;
-    bottom: min(25vw, 100px);
+    bottom: min(25dvw, 100px);
     flex: 1;
     height: unset;
   }
-  
+
   .gameplay-top-foreground-container {
     display: none;
   }
@@ -247,7 +248,7 @@
   .gameplay-main-right-container {
     width: 0;
   }
-  
+
   .gameplay-main-middle-container {
     flex: 1;
   }

@@ -1,6 +1,6 @@
 .loading-page-container {
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   position: absolute;
   top: 0;
   left: 50%;
@@ -11,9 +11,9 @@
 .loading-page-background {
   /* Mobile-first: full-viewport background */
   position: fixed;
-  inset: 0;                     /* top/right/bottom/left: 0 */
-  width: 100vw;
-  height: 100dvh;               /* handles mobile browser UI changes */
+  inset: 0;
+  width: 100dvw;
+  height: 100dvh;
   background-image: url("../../images/scene/welcome_page/welcome_bg_mobile.png");
   background-size: cover;
   background-position: center top;
@@ -54,7 +54,7 @@
 
 .loading-page-progress-bar-container {
   position: absolute;
-  width: 97vw;
+  width: 97dvw;
   height: 5%;
   top: 96.5%;
   left: 50%;

@@ -32,17 +32,15 @@
 .leader-rank-page-rank-text,
 .leader-rank-page-bidder-value-text-container,
 .leader-rank-page-coin-text {
-  text-shadow:
-    1px 0 0 #3D3C3B, -1px 0 0 #3D3C3B,
-    0 1px 0 #3D3C3B,  0 -1px 0 #3D3C3B,
-    1px 1px 0 #3D3C3B, -1px 1px 0 #3D3C3B,
-    1px -1px 0 #3D3C3B, -1px -1px 0 #3D3C3B;
+  text-shadow: 1px 0 0 #3d3c3b, -1px 0 0 #3d3c3b, 0 1px 0 #3d3c3b,
+    0 -1px 0 #3d3c3b, 1px 1px 0 #3d3c3b, -1px 1px 0 #3d3c3b, 1px -1px 0 #3d3c3b,
+    -1px -1px 0 #3d3c3b;
 }
 
 .leader-rank-page-title-text {
   position: absolute;
   top: 0;
-  height: 7vw;
+  height: 7dvw;
   left: 0;
   right: 0;
   margin-top: 16px;
@@ -54,7 +52,7 @@
   user-select: none;
   font-family: "October Tamil";
   font-weight: 700;
-  font-size: max(24px, 6vw);
+  font-size: max(24px, 6dvw);
   line-height: 124%;
   letter-spacing: 8%;
   text-align: center;

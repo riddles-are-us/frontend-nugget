@@ -31,7 +31,7 @@
 .earning-rank-page-title-text {
   position: absolute;
   top: 0;
-  height: 7vw;
+  height: 7dvw;
   left: 0;
   right: 0;
   margin-top: 16px;
@@ -43,15 +43,13 @@
   user-select: none;
   font-family: "October Tamil";
   font-weight: 700;
-  font-size: max(24px, 6vw);
+  font-size: max(24px, 6dvw);
   line-height: 124%;
   letter-spacing: 8%;
   text-align: center;
-  text-shadow:
-    1px 0 0 #3D3C3B, -1px 0 0 #3D3C3B,
-    0 1px 0 #3D3C3B,  0 -1px 0 #3D3C3B,
-    1px 1px 0 #3D3C3B, -1px 1px 0 #3D3C3B,
-    1px -1px 0 #3D3C3B, -1px -1px 0 #3D3C3B;
+  text-shadow: 1px 0 0 #3d3c3b, -1px 0 0 #3d3c3b, 0 1px 0 #3d3c3b,
+    0 -1px 0 #3d3c3b, 1px 1px 0 #3d3c3b, -1px 1px 0 #3d3c3b, 1px -1px 0 #3d3c3b,
+    -1px -1px 0 #3d3c3b;
 }
 
 .earning-rank-page-nugget-container {
@@ -95,20 +93,18 @@
   pointer-events: none;
   user-select: none;
   line-height: 1;
-  font-size: max(10px, 2.2vw);
+  font-size: max(10px, 2.2dvw);
   display: flex;
   align-items: center;
-  text-shadow:
-    1px 0 0 #3D3C3B, -1px 0 0 #3D3C3B,
-    0 1px 0 #3D3C3B,  0 -1px 0 #3D3C3B,
-    1px 1px 0 #3D3C3B, -1px 1px 0 #3D3C3B,
-    1px -1px 0 #3D3C3B, -1px -1px 0 #3D3C3B;
+  text-shadow: 1px 0 0 #3d3c3b, -1px 0 0 #3d3c3b, 0 1px 0 #3d3c3b,
+    0 -1px 0 #3d3c3b, 1px 1px 0 #3d3c3b, -1px 1px 0 #3d3c3b, 1px -1px 0 #3d3c3b,
+    -1px -1px 0 #3d3c3b;
 }
 
 .earning-rank-page-coin-text {
   width: 20%;
   left: 80%;
-  font-size: max(9px, 2vw);
+  font-size: max(9px, 2dvw);
 }
 
 .earning-rank-page-coin-image {

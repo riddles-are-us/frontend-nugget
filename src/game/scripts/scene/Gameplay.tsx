@@ -159,8 +159,9 @@ const Gameplay = () => {
           <div className="gameplay-main-left-foreground" />
         </div>
         <div className="gameplay-main-middle-container">
-          {!isMobile ||
-            (bottomTabState == BottomTabState.Home && <NuggetGrid />)}
+          {(!isMobile || bottomTabState == BottomTabState.Home) && (
+            <NuggetGrid />
+          )}
           {isMobile && bottomTabState == BottomTabState.LeaderBoard && (
             <LeaderRankPage />
           )}
